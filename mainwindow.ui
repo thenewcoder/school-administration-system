@@ -28,7 +28,7 @@
 	color: white;
 	background-color: #27a9e3;
 	border-width: 0px;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 
 #loginForm QPushButton::hover
@@ -96,11 +96,14 @@
            </property>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
+             <property name="spacing">
+              <number>6</number>
+             </property>
              <item>
               <widget class="QLabel" name="usernameLabel">
                <property name="font">
                 <font>
-                 <pointsize>9</pointsize>
+                 <pointsize>11</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -116,6 +119,11 @@
                  <height>25</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
               </widget>
              </item>
             </layout>
@@ -126,7 +134,7 @@
               <widget class="QLabel" name="passwordLabel">
                <property name="font">
                 <font>
-                 <pointsize>9</pointsize>
+                 <pointsize>11</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -141,6 +149,11 @@
                  <width>0</width>
                  <height>25</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="echoMode">
                 <enum>QLineEdit::Password</enum>
@@ -160,7 +173,7 @@
              <property name="sizeHint" stdset="0">
               <size>
                <width>17</width>
-               <height>13</height>
+               <height>10</height>
               </size>
              </property>
             </spacer>
@@ -170,8 +183,15 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>25</height>
+               <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
              </property>
              <property name="text">
               <string>Login</string>
@@ -194,7 +214,7 @@
      <x>0</x>
      <y>0</y>
      <width>1052</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>
