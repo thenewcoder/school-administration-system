@@ -2,4 +2,7 @@
     <qresource prefix="/">
         <file>images/login_bg.png</file>
     </qresource>
+    <qresource prefix="/sql">
+        <file>sql/databaseCreationScript.sql</file>
+    </qresource>
 </RCC>
