@@ -25,12 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    databasemanager.cpp
+    databasemanager.cpp \
+    adminmenuform.cpp
 
 HEADERS  += mainwindow.h \
-    databasemanager.h
+    databasemanager.h \
+    adminmenuform.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    adminmenuform.ui
 
 RESOURCES += \
     resources.qrc
