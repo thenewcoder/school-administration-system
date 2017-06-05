@@ -206,7 +206,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="userPage"/>
+      <widget class="QWidget" name="memberPage">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QVBoxLayout" name="memberBoxLayout"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
