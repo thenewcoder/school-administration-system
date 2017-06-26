@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     databasemanager.cpp \
-    adminmenuform.cpp
+    adminmenuform.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
-    adminmenuform.h
+    adminmenuform.h \
+    settings.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui
