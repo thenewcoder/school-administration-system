@@ -1,4 +1,4 @@
-#include "adminmenuform.h"
+﻿#include "adminmenuform.h"
 #include "ui_adminmenuform.h"
 
 AdminMenuForm::AdminMenuForm(QWidget *parent) :
@@ -6,6 +6,9 @@ AdminMenuForm::AdminMenuForm(QWidget *parent) :
     ui(new Ui::AdminMenuForm)
 {
     ui->setupUi(this);
+
+    // make the home button selected by default
+    ui->menuListWidget->setCurrentRow(MenuItems::HOME);
 }
 
 AdminMenuForm::~AdminMenuForm()

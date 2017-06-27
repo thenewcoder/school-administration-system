@@ -1,4 +1,4 @@
-#ifndef ADMINMENUFORM_H
+﻿#ifndef ADMINMENUFORM_H
 #define ADMINMENUFORM_H
 
 #include <QWidget>
@@ -10,6 +10,13 @@ class AdminMenuForm;
 class AdminMenuForm : public QWidget
 {
     Q_OBJECT
+
+public:
+    enum MenuItems
+    {
+        HOME,
+        SETTINGS
+    };
 
 public:
     explicit AdminMenuForm(QWidget *parent = 0);
