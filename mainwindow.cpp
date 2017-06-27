@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include "adminmenuform.h"
+#include "login.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,9 +15,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mainToolBar->setVisible(false);
 
     ui->memberBoxLayout->addWidget(new AdminMenuForm);
+
+    setupConnections();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::setupConnections()
+{
+    connect(ui->loginButton, &QPushButton::clicked, [this] () {
+        if (Login::validLogin(ui->usernameEdit->text(), ui->passwordEdit->text()))
+        {
+            ui->stackedWidget->setCurrentWidget(ui->memberPage);
+        }
+    });
 }

@@ -27,12 +27,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     databasemanager.cpp \
     adminmenuform.cpp \
-    settings.cpp
+    settings.cpp \
+    login.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
     adminmenuform.h \
-    settings.h
+    settings.h \
+    login.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui
