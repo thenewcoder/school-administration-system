@@ -15,12 +15,17 @@ public:
     enum MenuItems
     {
         HOME,
-        SETTINGS
+        SETTINGS,
+        TEACHERS,
+        STUDENTS
     };
 
 public:
     explicit AdminMenuForm(QWidget *parent = 0);
     ~AdminMenuForm();
+
+private:
+    void setupConnections();
 
 private:
     Ui::AdminMenuForm *ui;

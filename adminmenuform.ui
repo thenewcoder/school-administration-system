@@ -43,6 +43,16 @@
        <string>Settings</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Teachers</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Students</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item>
@@ -53,8 +63,34 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <widget class="QWidget" name="page"/>
-     <widget class="QWidget" name="page_2"/>
+     <widget class="QWidget" name="pageHome">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="loHome"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageSettings">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="loSettings"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageTeachers">
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="loTeachers"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageStudents">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <layout class="QHBoxLayout" name="loStudents"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

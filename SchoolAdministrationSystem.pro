@@ -28,16 +28,28 @@ SOURCES += main.cpp\
     databasemanager.cpp \
     adminmenuform.cpp \
     settings.cpp \
-    login.cpp
+    login.cpp \
+    pagehomeform.cpp \
+    pagesettingsform.cpp \
+    pageteachersform.cpp \
+    pagestudentsform.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
     adminmenuform.h \
     settings.h \
-    login.h
+    login.h \
+    pagehomeform.h \
+    pagesettingsform.h \
+    pageteachersform.h \
+    pagestudentsform.h
 
 FORMS    += mainwindow.ui \
-    adminmenuform.ui
+    adminmenuform.ui \
+    pagehomeform.ui \
+    pagesettingsform.ui \
+    pageteachersform.ui \
+    pagestudentsform.ui
 
 RESOURCES += \
     resources.qrc
