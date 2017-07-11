@@ -31,7 +31,13 @@ AdminMenuForm::~AdminMenuForm()
 
 void AdminMenuForm::setupConnections()
 {
+    // list widget
     connect(ui->menuListWidget, &QListWidget::currentRowChanged, [this] (int currentRow) {
         ui->menuPagesStackedWidget->setCurrentIndex(currentRow);
+    });
+
+    // user pressing logout button
+    connect(ui->btnLogout, &QPushButton::clicked, [this] () {
+       emit notifyLoggingOut();
     });
 }

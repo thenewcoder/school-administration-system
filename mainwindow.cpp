@@ -6,7 +6,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    adminMenuForm(new AdminMenuForm(this))
 {
     ui->setupUi(this);
 
@@ -14,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->setVisible(false);
     ui->mainToolBar->setVisible(false);
 
-    ui->memberBoxLayout->addWidget(new AdminMenuForm);
+    ui->memberBoxLayout->addWidget(adminMenuForm);
 
     setupConnections();
 }
@@ -31,5 +32,14 @@ void MainWindow::setupConnections()
         {
             ui->stackedWidget->setCurrentWidget(ui->memberPage);
         }
+    });
+
+    // log out user
+    connect(adminMenuForm, &AdminMenuForm::notifyLoggingOut, [this] () {
+        ui->stackedWidget->setCurrentIndex(0);
+
+        // delete the previous login information
+        ui->passwordEdit->setText("");
+        ui->usernameEdit->setText("");
     });
 }

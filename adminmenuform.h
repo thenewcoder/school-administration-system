@@ -27,6 +27,9 @@ public:
 private:
     void setupConnections();
 
+signals:
+    void notifyLoggingOut();
+
 private:
     Ui::AdminMenuForm *ui;
 };

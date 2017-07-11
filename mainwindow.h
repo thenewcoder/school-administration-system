@@ -7,6 +7,8 @@ namespace Ui {
 class MainWindow;
 }
 
+class AdminMenuForm;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -20,6 +22,8 @@ private:
 
 private:
     Ui::MainWindow *ui;
+
+    AdminMenuForm *adminMenuForm;
 };
 
 #endif // MAINWINDOW_H
