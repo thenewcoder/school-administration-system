@@ -27,6 +27,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupConnections()
 {
+    // log in user
     connect(ui->loginButton, &QPushButton::clicked, [this] () {
         if (Login::validLogin(ui->usernameEdit->text(), ui->passwordEdit->text()))
         {
@@ -36,7 +37,7 @@ void MainWindow::setupConnections()
 
     // log out user
     connect(adminMenuForm, &AdminMenuForm::notifyLoggingOut, [this] () {
-        ui->stackedWidget->setCurrentIndex(0);
+        ui->stackedWidget->setCurrentWidget(ui->loginPage);
 
         // delete the previous login information
         ui->passwordEdit->setText("");

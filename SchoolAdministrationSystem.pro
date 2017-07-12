@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     pagehomeform.cpp \
     pagesettingsform.cpp \
     pageteachersform.cpp \
-    pagestudentsform.cpp
+    pagestudentsform.cpp \
+    pageclassesform.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
@@ -42,14 +43,16 @@ HEADERS  += mainwindow.h \
     pagehomeform.h \
     pagesettingsform.h \
     pageteachersform.h \
-    pagestudentsform.h
+    pagestudentsform.h \
+    pageclassesform.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \
     pagehomeform.ui \
     pagesettingsform.ui \
     pageteachersform.ui \
-    pagestudentsform.ui
+    pagestudentsform.ui \
+    pageclassesform.ui
 
 RESOURCES += \
     resources.qrc

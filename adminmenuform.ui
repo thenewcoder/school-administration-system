@@ -127,6 +127,11 @@
          <string>Students</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Classes</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -225,7 +230,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="pageHome">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -237,7 +242,7 @@
        <widget class="QWidget" name="pageSettings">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <layout class="QHBoxLayout" name="loSettings" stretch="">
+          <layout class="QHBoxLayout" name="loSettings">
            <property name="sizeConstraint">
             <enum>QLayout::SetMaximumSize</enum>
            </property>
@@ -256,6 +261,13 @@
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <layout class="QHBoxLayout" name="loStudents"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pageClasses">
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <layout class="QHBoxLayout" name="loClasses"/>
          </item>
         </layout>
        </widget>
