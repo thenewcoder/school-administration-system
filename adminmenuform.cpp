@@ -32,6 +32,11 @@ AdminMenuForm::~AdminMenuForm()
     delete ui;
 }
 
+void AdminMenuForm::setUsername(const QString &username)
+{
+    ui->lblWelcomeText->setText("Welcome, " + username);
+}
+
 void AdminMenuForm::setupConnections()
 {
     // list widget

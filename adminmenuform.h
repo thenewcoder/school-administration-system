@@ -24,6 +24,8 @@ public:
     explicit AdminMenuForm(QWidget *parent = 0);
     ~AdminMenuForm();
 
+    void setUsername(const QString &username);
+
 private:
     void setupConnections();
 

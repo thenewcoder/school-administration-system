@@ -29,8 +29,9 @@ void MainWindow::setupConnections()
 {
     // log in user
     connect(ui->loginButton, &QPushButton::clicked, [this] () {
-        if (Login::validLogin(ui->usernameEdit->text(), ui->passwordEdit->text()))
+        if (Login::validLogin(username(), password()))
         {
+            adminMenuForm->setUsername(username());
             ui->stackedWidget->setCurrentWidget(ui->memberPage);
         }
     });
@@ -42,5 +43,16 @@ void MainWindow::setupConnections()
         // delete the previous login information
         ui->passwordEdit->setText("");
         ui->usernameEdit->setText("");
+        ui->usernameEdit->setFocus();
     });
+}
+
+QString MainWindow::username() const
+{
+    return ui->usernameEdit->text();
+}
+
+QString MainWindow::password() const
+{
+    return ui->passwordEdit->text();
 }

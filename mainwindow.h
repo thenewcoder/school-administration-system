@@ -20,6 +20,9 @@ public:
 private:
     void setupConnections();
 
+    QString username() const;
+    QString password() const;
+
 private:
     Ui::MainWindow *ui;
 
