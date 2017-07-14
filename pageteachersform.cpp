@@ -1,11 +1,16 @@
-#include "pageteachersform.h"
+﻿#include "pageteachersform.h"
 #include "ui_pageteachersform.h"
+
+#include <QFileDialog>
+#include <QStandardPaths>
 
 PageTeachersForm::PageTeachersForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PageTeachersForm)
 {
     ui->setupUi(this);
+
+    setupConnections();
 }
 
 PageTeachersForm::~PageTeachersForm()
@@ -61,4 +66,21 @@ QString PageTeachersForm::phoneNumber() const
 void PageTeachersForm::setPhoneNumber(const QString &phoneNumber)
 {
     ui->lePhone->setText(phoneNumber);
+}
+
+void PageTeachersForm::setupConnections()
+{
+    connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
+        QString filename = QFileDialog::getOpenFileName(this,
+                                                        tr("Choose an image"),
+                                                        QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+                                                        tr("Images (*.png *.bmp *.jpg)"));
+
+        if (!filename.isEmpty())
+        {
+            QImage img(filename);
+            QImage photo = img.scaledToHeight(150);
+            ui->lblPhoto->setPixmap(QPixmap::fromImage(photo));
+        }
+    });
 }

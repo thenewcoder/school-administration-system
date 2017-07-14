@@ -1,4 +1,4 @@
-#ifndef PAGETEACHERSFORM_H
+﻿#ifndef PAGETEACHERSFORM_H
 #define PAGETEACHERSFORM_H
 
 #include <QWidget>
@@ -29,6 +29,9 @@ public:
 
     QString phoneNumber() const;
     void setPhoneNumber(const QString &phoneNumber);
+
+private:
+    void setupConnections();
 
 private:
     Ui::PageTeachersForm *ui;

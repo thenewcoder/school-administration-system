@@ -52,6 +52,9 @@ public:
     void setParentEmail(const QString &email);
 
 private:
+    void setupConnections();
+
+private:
     Ui::PageStudentsForm *ui;
 };
 

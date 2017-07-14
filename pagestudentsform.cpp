@@ -1,11 +1,16 @@
 ﻿#include "pagestudentsform.h"
 #include "ui_pagestudentsform.h"
 
+#include <QFileDialog>
+#include <QStandardPaths>
+
 PageStudentsForm::PageStudentsForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PageStudentsForm)
 {
     ui->setupUi(this);
+
+    setupConnections();
 }
 
 PageStudentsForm::~PageStudentsForm()
@@ -131,4 +136,20 @@ QString PageStudentsForm::parentEmail() const
 void PageStudentsForm::setParentEmail(const QString &email)
 {
     ui->leParentEmail->setText(email);
+}
+
+void PageStudentsForm::setupConnections()
+{
+    connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
+        QString filename = QFileDialog::getOpenFileName(this,
+                                                        tr("Choose an image"),
+                                                        QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+                                                        tr("Images (*.png *.bmp *.jpg)"));
+        if (!filename.isEmpty())
+        {
+            QImage img(filename);
+            QImage photo = img.scaledToWidth(150);
+            ui->lblStudentPhoto->setPixmap(QPixmap::fromImage(photo));
+        }
+    });
 }
