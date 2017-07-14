@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>images/login_bg.png</file>
         <file>images/user_profile.png</file>
+        <file>images/your_logo_here.png</file>
     </qresource>
     <qresource prefix="/sql">
         <file>sql/databaseCreationScript.sql</file>
