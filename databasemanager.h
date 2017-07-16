@@ -1,4 +1,4 @@
-#ifndef DATABASEMANAGER_H
+﻿#ifndef DATABASEMANAGER_H
 #define DATABASEMANAGER_H
 
 #include <QString>
@@ -16,6 +16,10 @@ class DatabaseManager
 public:
     static DatabaseManager& instance();
     ~DatabaseManager();
+
+    int numClasses() const;
+    int numTeachers() const;
+    int numStudents() const;
 
 protected:
     DatabaseManager(const QString& path = DATABASE_FILENAME);
