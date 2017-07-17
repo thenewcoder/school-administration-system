@@ -3,6 +3,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QVariant>
+#include <QFile>
+#include <QTextStream>
 
 DatabaseManager &DatabaseManager::instance()
 {
@@ -17,7 +19,7 @@ DatabaseManager::~DatabaseManager()
 
 int DatabaseManager::numClasses() const
 {
-    QSqlQuery query(mDatabase->database());
+    QSqlQuery query;
     query.prepare("SELECT COUNT(classId) FROM class");
     if (query.exec())
     {
@@ -29,7 +31,7 @@ int DatabaseManager::numClasses() const
 
 int DatabaseManager::numTeachers() const
 {
-    QSqlQuery query(mDatabase->database());
+    QSqlQuery query;
     query.prepare("SELECT COUNT(teacherId) FROM teacher");
     if (query.exec())
     {
@@ -41,7 +43,7 @@ int DatabaseManager::numTeachers() const
 
 int DatabaseManager::numStudents() const
 {
-    QSqlQuery query(mDatabase->database());
+    QSqlQuery query;
     query.prepare("SELECT COUNT(studentId) FROM student");
     if (query.exec())
     {
@@ -58,4 +60,27 @@ DatabaseManager::DatabaseManager(const QString &path)
 
     // add error checking later
     mDatabase->open();
+
+    // create new tables if none exist
+    if (mDatabase->tables().count() < 1)
+        createDatabase();
+}
+
+void DatabaseManager::createDatabase()
+{
+    QFile file(":/sql/sql/databaseCreationScript.sql");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    QString sql = in.readAll();
+
+    for (const QString &statement : sql.split(";", QString::SkipEmptyParts))
+    {
+        if (statement.trimmed() != "")
+        {
+            QSqlQuery query;
+            query.exec(statement);
+        }
+    }
 }

@@ -26,6 +26,9 @@ protected:
     DatabaseManager& operator=(const DatabaseManager& rhs);
 
 private:
+    void createDatabase();
+
+private:
     std::unique_ptr<QSqlDatabase> mDatabase;
 };
 
