@@ -64,6 +64,10 @@ DatabaseManager::DatabaseManager(const QString &path)
     // create new tables if none exist
     if (mDatabase->tables().count() < 1)
         createDatabase();
+
+    // turn on foreign key support
+    QSqlQuery query;
+    query.exec("PRAGMA foreign_keys=ON");
 }
 
 void DatabaseManager::createDatabase()
