@@ -1,14 +1,33 @@
 ﻿#include "pageteachersform.h"
 #include "ui_pageteachersform.h"
 
-#include <QFileDialog>
-#include <QStandardPaths>
+#include "editteacherdialog.h"
+
+#include <QSqlRelationalTableModel>
+#include <QDebug>
+
 
 PageTeachersForm::PageTeachersForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PageTeachersForm)
+    ui(new Ui::PageTeachersForm),
+    mModel(new QSqlRelationalTableModel(this))
 {
     ui->setupUi(this);
+
+    mModel->setTable("teacher");
+    mModel->setRelation(2, QSqlRelation("gender", "genderId", "type"));
+    mModel->setRelation(3, QSqlRelation("nationality", "nationalityId", "country"));
+    mModel->select();
+
+    mModel->setHeaderData(1, Qt::Horizontal, "Name");
+    mModel->setHeaderData(2, Qt::Horizontal, "Gender");
+    mModel->setHeaderData(3, Qt::Horizontal, "Nationality");
+    mModel->setHeaderData(4, Qt::Horizontal, "Address");
+    mModel->setHeaderData(5, Qt::Horizontal, "Phone Number");
+
+    ui->tvTeachers->setModel(mModel);
+    ui->tvTeachers->hideColumn(0); // hide id
+    ui->tvTeachers->hideColumn(6); // hide photoid
 
     setupConnections();
 }
@@ -18,69 +37,16 @@ PageTeachersForm::~PageTeachersForm()
     delete ui;
 }
 
-QString PageTeachersForm::name() const
+void PageTeachersForm::editTeacher()
 {
-    return ui->leName->text();
-}
-
-void PageTeachersForm::setName(const QString &name)
-{
-    ui->leName->setText(name);
-}
-
-QString PageTeachersForm::gender() const
-{
-    return ui->cbGender->currentText();
-}
-
-void PageTeachersForm::setGender(const QString &gender)
-{
-    ui->cbGender->setCurrentText(gender);
-}
-
-QString PageTeachersForm::nationality() const
-{
-    return ui->cbNationality->currentText();
-}
-
-void PageTeachersForm::setNationality(const QString &nationality)
-{
-    ui->cbNationality->setCurrentText(nationality);
-}
-
-QString PageTeachersForm::address() const
-{
-    return ui->teAddress->toPlainText();
-}
-
-void PageTeachersForm::setAddress(const QString &address)
-{
-    ui->teAddress->setPlainText(address);
-}
-
-QString PageTeachersForm::phoneNumber() const
-{
-    return ui->lePhone->text();
-}
-
-void PageTeachersForm::setPhoneNumber(const QString &phoneNumber)
-{
-    ui->lePhone->setText(phoneNumber);
+    EditTeacherDialog edit(this);
+    if (edit.exec() == QDialog::Accepted)
+    {
+        qDebug() << "Saving new values to teacher";
+    }
 }
 
 void PageTeachersForm::setupConnections()
 {
-    connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
-        QString filename = QFileDialog::getOpenFileName(this,
-                                                        tr("Choose an image"),
-                                                        QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
-                                                        tr("Images (*.png *.bmp *.jpg)"));
-
-        if (!filename.isEmpty())
-        {
-            QImage img(filename);
-            QImage photo = img.scaledToHeight(150);
-            ui->lblPhoto->setPixmap(QPixmap::fromImage(photo));
-        }
-    });
+    connect(ui->btnEdit, &QPushButton::clicked, this, &PageTeachersForm::editTeacher);
 }

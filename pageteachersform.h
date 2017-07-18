@@ -7,6 +7,8 @@ namespace Ui {
 class PageTeachersForm;
 }
 
+class QSqlRelationalTableModel;
+
 class PageTeachersForm : public QWidget
 {
     Q_OBJECT
@@ -15,26 +17,16 @@ public:
     explicit PageTeachersForm(QWidget *parent = 0);
     ~PageTeachersForm();
 
-    QString name() const;
-    void setName(const QString &name);
-
-    QString gender() const;
-    void setGender(const QString &gender);
-
-    QString nationality() const;
-    void setNationality(const QString &nationality);
-
-    QString address() const;
-    void setAddress(const QString &address);
-
-    QString phoneNumber() const;
-    void setPhoneNumber(const QString &phoneNumber);
+private slots:
+    void editTeacher();
 
 private:
     void setupConnections();
 
 private:
     Ui::PageTeachersForm *ui;
+
+    QSqlRelationalTableModel *mModel;
 
 };
 
