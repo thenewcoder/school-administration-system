@@ -28,6 +28,8 @@ PageTeachersForm::PageTeachersForm(QWidget *parent) :
     ui->tvTeachers->setModel(mModel);
     ui->tvTeachers->hideColumn(0); // hide id
     ui->tvTeachers->hideColumn(6); // hide photoid
+    ui->tvTeachers->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tvTeachers->setSelectionMode(QAbstractItemView::SingleSelection);
 
     setupConnections();
 }
@@ -46,7 +48,17 @@ void PageTeachersForm::editTeacher()
     }
 }
 
+void PageTeachersForm::addTeacher()
+{
+    EditTeacherDialog add(this);
+    if (add.exec() == QDialog::Accepted)
+    {
+        qDebug() << "Add new teacher to the database";
+    }
+}
+
 void PageTeachersForm::setupConnections()
 {
     connect(ui->btnEdit, &QPushButton::clicked, this, &PageTeachersForm::editTeacher);
+    connect(ui->btnAdd, &QPushButton::clicked, this, &PageTeachersForm::addTeacher);
 }

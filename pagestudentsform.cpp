@@ -20,6 +20,8 @@ PageStudentsForm::PageStudentsForm(QWidget *parent) :
     mModel->select();
 
     ui->tvStudents->setModel(mModel);
+    ui->tvStudents->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tvStudents->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tvStudents->hideColumn(0); // hide id
 
     setupConnections();

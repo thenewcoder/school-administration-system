@@ -19,6 +19,7 @@ public:
 
 private slots:
     void editTeacher();
+    void addTeacher();
 
 private:
     void setupConnections();
