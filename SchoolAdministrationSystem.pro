@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     pagestudentsform.cpp \
     pageclassesform.cpp \
     editteacherdialog.cpp \
-    editstudentdialog.cpp
+    editstudentdialog.cpp \
+    teacher.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
@@ -48,7 +49,8 @@ HEADERS  += mainwindow.h \
     pagestudentsform.h \
     pageclassesform.h \
     editteacherdialog.h \
-    editstudentdialog.h
+    editstudentdialog.h \
+    teacher.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \
