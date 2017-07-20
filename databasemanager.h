@@ -4,9 +4,12 @@
 #include <QString>
 
 #include <memory>
+#include <QStringList>
 
 class QSqlQuery;
 class QSqlDatabase;
+class Teacher;
+class Student;
 
 // temporary name
 const QString DATABASE_FILENAME = "database.db";
@@ -20,6 +23,10 @@ public:
     int numClasses() const;
     int numTeachers() const;
     int numStudents() const;
+    QStringList nationalities() const;
+
+    void addTeacher(const Teacher &teacher) const;
+    void addStudent(const Student &student) const;
 
 protected:
     DatabaseManager(const QString& path = DATABASE_FILENAME);

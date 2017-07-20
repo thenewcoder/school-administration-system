@@ -1,14 +1,19 @@
 ﻿#include "editteacherdialog.h"
 #include "ui_editteacherdialog.h"
 
+#include "databasemanager.h"
+
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QStringListModel>
 
 EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditTeacherDialog)
 {
     ui->setupUi(this);
+
+    ui->cbNationality->setModel(new QStringListModel(DatabaseManager::instance().nationalities()));
 
     setupConnections();
 }

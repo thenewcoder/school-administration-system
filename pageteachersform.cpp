@@ -1,7 +1,9 @@
 ﻿#include "pageteachersform.h"
 #include "ui_pageteachersform.h"
 
+#include "databasemanager.h"
 #include "editteacherdialog.h"
+#include "teacher.h"
 
 #include <QSqlRelationalTableModel>
 #include <QDebug>
@@ -54,6 +56,17 @@ void PageTeachersForm::addTeacher()
     if (add.exec() == QDialog::Accepted)
     {
         qDebug() << "Add new teacher to the database";
+
+        Teacher teacher;
+        teacher.setName(add.name());
+        teacher.setGender(add.gender());
+        teacher.setNationality(add.nationality());
+        teacher.setAddress(add.address());
+        teacher.setPhoneNumber(add.phoneNumber());
+        // TODO: set photo
+
+        // add teacher to the database
+        DatabaseManager::instance().addTeacher(teacher);
     }
 }
 

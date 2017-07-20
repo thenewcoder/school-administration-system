@@ -9,7 +9,7 @@ Teacher::Teacher()
 }
 
 Teacher::Teacher(const QString &name, const QString &gender, const QString &nationality, const QString &address, const QString &phoneNumber, const QByteArray &photo)
-    : mName(name), mGender(nationality)
+    : mName(name), mGender(gender)
     , mNationality(nationality), mAddress(address)
     , mPhoneNumber(phoneNumber), mPhoto(photo)
 {

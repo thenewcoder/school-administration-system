@@ -113,9 +113,12 @@
       <pointsize>10</pointsize>
      </font>
     </property>
+    <property name="currentText">
+     <string>Choose...</string>
+    </property>
     <item>
      <property name="text">
-      <string>Choose Nationality...</string>
+      <string>Choose...</string>
      </property>
     </item>
    </widget>

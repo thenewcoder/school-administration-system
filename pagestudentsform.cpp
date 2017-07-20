@@ -2,6 +2,8 @@
 #include "ui_pagestudentsform.h"
 
 #include "editstudentdialog.h"
+#include "databasemanager.h"
+#include "student.h"
 
 #include <QSqlRelationalTableModel>
 #include <QDebug>
@@ -54,6 +56,23 @@ void PageStudentsForm::addStudent()
     if (add.exec() == QDialog::Accepted)
     {
         qDebug() << "add new student";
+
+        Student student;
+        student.setName(add.name());
+        // TODO: fix date of birth type missmatch
+        //student.setDateOfBirth(add.dateOfBirth());
+        student.setGender(add.gender());
+        student.setNationality(add.nationality());
+        student.setPassportNumber(add.passportNumber());
+        student.setIDNumber(add.idNumber());
+        student.setAddress(add.address());
+        student.setStudentPhoneNumber(add.studentPhoneNumber());
+        student.setStudentEmail(add.studentEmail());
+        student.setFathersPhoneNumber(add.fathersPhoneNumber());
+        student.setMothersPhoneNumber(add.mothersPhoneNumber());
+        student.setParentsEmail(add.parentEmail());
+
+        DatabaseManager::instance().addStudent(student);
     }
 }
 
