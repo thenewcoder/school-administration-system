@@ -137,9 +137,9 @@ Teacher DatabaseManager::getTeacher(const QString teacherId)
     Teacher teacher;
 
     QSqlQuery query;
-    query.prepare(QString("SELECT name, type, country, address, phoneNumber FROM teacher as T "
-                          "JOIN gender as G ON T.genderId = G.genderId "
-                          "JOIN nationality as N ON T.nationalityId = N.nationalityId "
+    query.prepare(QString("SELECT name, type, country, address, phoneNumber FROM teacher AS T "
+                          "JOIN gender AS G ON T.genderId = G.genderId "
+                          "JOIN nationality AS N ON T.nationalityId = N.nationalityId "
                           "WHERE teacherId = %1").arg(teacherId));
 
     if (query.exec())
@@ -160,6 +160,36 @@ Teacher DatabaseManager::getTeacher(const QString teacherId)
 Student DatabaseManager::getStudent(const QString studentId)
 {
     Student student;
+
+    QSqlQuery query;
+    query.prepare(QString("SELECT name, dateOfBirth, type, country, passportNumber, "
+                          "IDNumber, address, studentPhoneNumber, studentEmail, "
+                          "fathersPhoneNumber, mothersPhoneNumber, parentEmail FROM student AS S "
+                          "JOIN gender AS G ON S.genderId = G.genderId "
+                          "JOIN nationality AS N ON S.nationalityId = N.nationalityId "
+                          "WHERE studentId = %1").arg(studentId));
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            student.setName(query.value("name").toString());
+            student.setDateOfBirth(query.value("dateOfBirth").toString());
+            student.setGender(query.value("type").toString());
+            student.setNationality(query.value("country").toString());
+            student.setPassportNumber(query.value("passportNumber").toString());
+            student.setIDNumber(query.value("IDNumber").toString());
+            student.setAddress(query.value("address").toString());
+            student.setStudentPhoneNumber(query.value("studentPhoneNumber").toString());
+            student.setStudentEmail(query.value("studentEmail").toString());
+            student.setFathersPhoneNumber(query.value("fathersPhoneNumber").toString());
+            student.setMothersPhoneNumber(query.value("mothersPhoneNumber").toString());
+            student.setParentsEmail(query.value("parentEmail").toString());
+        }
+    }
+    else
+    {
+        qDebug() << query.lastError().text();
+    }
 
     return student;
 }
@@ -182,6 +212,38 @@ void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &tea
     if (!query.exec())
     {
         qDebug() << "Unable to update teacher data";
+    }
+}
+
+void DatabaseManager::saveStudentData(const Student &student, const QString &studentId)
+{
+    QSqlQuery query;
+    query.prepare(QString("UPDATE student SET "
+                          "name = :name, dateOfBirth = :dateOfBirth, "
+                          "genderId = (SELECT genderId FROM gender WHERE type = :gender), "
+                          "nationalityId = (SELECT nationalityId FROM nationality WHERE country = :nationality), "
+                          "passportNumber = :passportNumber, IDNumber = :IDNumber, "
+                          "address = :address, studentPhoneNumber = :studentPhoneNumber, "
+                          "studentEmail = :studentEmail, fathersPhoneNumber = :fathersPhoneNumber, "
+                          "mothersPhoneNumber = :mothersPhoneNumber, parentEmail = :parentEmail "
+                          "WHERE studentId = :studentId"));
+    query.bindValue(":name", student.name());
+    query.bindValue(":dateOfBirth", student.dateOfBirth());
+    query.bindValue(":gender", student.gender());
+    query.bindValue(":nationality", student.nationality());
+    query.bindValue(":passportNumber", student.passportNumber());
+    query.bindValue(":IDNumber", student.iDNumber());
+    query.bindValue(":address", student.address());
+    query.bindValue(":studentPhoneNumber", student.studentPhoneNumber());
+    query.bindValue(":studentEmail", student.studentEmail());
+    query.bindValue(":fathersPhoneNumber", student.fathersPhoneNumber());
+    query.bindValue(":mothersPhoneNumber", student.mothersPhoneNumber());
+    query.bindValue(":parentEmail", student.parentsEmail());
+    query.bindValue(":studentId", studentId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update student data";
     }
 }
 
