@@ -2,6 +2,7 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QVariant>
 #include <QFile>
 #include <QTextStream>
@@ -109,13 +110,14 @@ void DatabaseManager::addStudent(const Student &student) const
                           "(SELECT genderId FROM gender WHERE type = :gender), "
                           "(SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           ":passportNumber, :IDNumber, :address, :studentPhoneNumber, :studentEmail, "
-                          ":fathersPhoneNumber, :mothersPhoneNumber, :parentEmail"));
+                          ":fathersPhoneNumber, :mothersPhoneNumber, :parentEmail)"));
+
     query.bindValue(":name", student.name());
     query.bindValue(":dateOfBirth", student.dateOfBirth());
-    query.bindValue(":genderId", student.gender());
-    query.bindValue(":nationalityId", student.nationality());
+    query.bindValue(":gender", student.gender());
+    query.bindValue(":nationality", student.nationality());
     query.bindValue(":passportNumber", student.passportNumber());
-    query.bindValue("IDNumber", student.iDNumber());
+    query.bindValue(":IDNumber", student.iDNumber());
     query.bindValue(":address", student.address());
     query.bindValue(":studentPhoneNumber", student.studentPhoneNumber());
     query.bindValue(":studentEmail", student.studentEmail());
@@ -126,6 +128,7 @@ void DatabaseManager::addStudent(const Student &student) const
     if (!query.exec())
     {
         qDebug() << "Unable to add a new student";
+        qDebug() << query.lastError().text();
     }
 }
 
