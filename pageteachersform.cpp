@@ -43,10 +43,37 @@ PageTeachersForm::~PageTeachersForm()
 
 void PageTeachersForm::editTeacher()
 {
-    EditTeacherDialog edit(this);
-    if (edit.exec() == QDialog::Accepted)
+    // check if the list view index is valid
+    QModelIndex index = ui->tvTeachers->currentIndex();
+    if (index.isValid())
     {
-        qDebug() << "Saving new values to teacher";
+        EditTeacherDialog edit(this);
+
+        // fetch teacher data from the database
+        QString teacherId = mModel->data(mModel->index(index.row(), 0)).toString();
+        Teacher teacher = DatabaseManager::instance().getTeacher(teacherId);
+
+        // set the dialog data
+        edit.setName(teacher.name());
+        edit.setGender(teacher.gender());
+        edit.setNationality(teacher.nationality());
+        edit.setAddress(teacher.address());
+        edit.setPhoneNumber(teacher.phoneNumber());
+
+        if (edit.exec() == QDialog::Accepted)
+        {
+            qDebug() << "Saving new values to teacher";
+
+            // get the new values from the dialog
+            teacher.setName(edit.name());
+            teacher.setGender(edit.gender());
+            teacher.setNationality(edit.nationality());
+            teacher.setAddress(edit.address());
+            teacher.setPhoneNumber(edit.phoneNumber());
+
+            DatabaseManager::instance().saveTeacherData(teacher, teacherId);
+        }
+
     }
 }
 

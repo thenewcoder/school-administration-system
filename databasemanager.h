@@ -28,6 +28,12 @@ public:
     void addTeacher(const Teacher &teacher) const;
     void addStudent(const Student &student) const;
 
+    Teacher getTeacher(const QString teacherId);
+    Student getStudent(const QString studentId);
+
+    void saveTeacherData(const Teacher &teacher, const QString &teacherId);
+    void saveStudentData(const Student &student, const QString &studentId);
+
 protected:
     DatabaseManager(const QString& path = DATABASE_FILENAME);
     DatabaseManager& operator=(const DatabaseManager& rhs);

@@ -132,6 +132,59 @@ void DatabaseManager::addStudent(const Student &student) const
     }
 }
 
+Teacher DatabaseManager::getTeacher(const QString teacherId)
+{
+    Teacher teacher;
+
+    QSqlQuery query;
+    query.prepare(QString("SELECT name, type, country, address, phoneNumber FROM teacher as T "
+                          "JOIN gender as G ON T.genderId = G.genderId "
+                          "JOIN nationality as N ON T.nationalityId = N.nationalityId "
+                          "WHERE teacherId = %1").arg(teacherId));
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            teacher.setName(query.value("name").toString());
+            teacher.setGender(query.value("type").toString());
+            teacher.setNationality(query.value("country").toString());
+            teacher.setAddress(query.value("address").toString());
+            teacher.setPhoneNumber(query.value("phoneNumber").toString());
+        }
+    }
+
+    return teacher;
+}
+
+Student DatabaseManager::getStudent(const QString studentId)
+{
+    Student student;
+
+    return student;
+}
+
+void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &teacherId)
+{
+    QSqlQuery query;
+    query.prepare(QString("UPDATE teacher SET "
+                          "name = :name, genderId = (SELECT genderId FROM gender WHERE type = :gender), "
+                          "nationalityId = (SELECT nationalityId FROM nationality WHERE country = :nationality), "
+                          "address = :address, phoneNumber = :phoneNumber "
+                          "WHERE teacherId = :teacherId"));
+    query.bindValue(":name", teacher.name());
+    query.bindValue(":gender", teacher.gender());
+    query.bindValue(":nationality", teacher.nationality());
+    query.bindValue(":address", teacher.address());
+    query.bindValue(":phoneNumber", teacher.phoneNumber());
+    query.bindValue(":teacherId", teacherId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update teacher data";
+    }
+}
+
 DatabaseManager::DatabaseManager(const QString &path)
     : mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")))
 {
