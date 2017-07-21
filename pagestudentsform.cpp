@@ -6,6 +6,7 @@
 #include "student.h"
 
 #include <QSqlRelationalTableModel>
+#include <QMessageBox>
 #include <QDebug>
 
 PageStudentsForm::PageStudentsForm(QWidget *parent) :
@@ -39,6 +40,8 @@ void PageStudentsForm::setupConnections()
     connect(ui->btnEdit, &QPushButton::clicked, this, &PageStudentsForm::editStudent);
 
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageStudentsForm::addStudent);
+
+    connect(ui->btnDelete, &QPushButton::clicked, this, &PageStudentsForm::deleteStudent);
 }
 
 void PageStudentsForm::editStudent()
@@ -67,10 +70,10 @@ void PageStudentsForm::editStudent()
 
             // refresh the students table
             mModel->select();
+
+            emit notifyStudentChanged();
         }
     }
-
-
 }
 
 void PageStudentsForm::addStudent()
@@ -86,6 +89,34 @@ void PageStudentsForm::addStudent()
 
         // refresh the students table
         mModel->select();
+
+        emit notifyStudentChanged();
+    }
+}
+
+void PageStudentsForm::deleteStudent()
+{
+    // get index of selected row
+    QModelIndex index = ui->tvStudents->currentIndex();
+    if (index.isValid())
+    {
+        // warn the user about destructive action
+        int reply = QMessageBox::warning(this, tr("Delete Student"),
+                             tr("Are you sure you want to delete?\nThis cannot be undone!"),
+                             QMessageBox::Ok, QMessageBox::Cancel);
+
+        if (reply == QMessageBox::Ok)
+        {
+            QString studentId = mModel->data(mModel->index(index.row(), 0)).toString();
+
+            // remove the student
+            DatabaseManager::instance().removeStudent(studentId);
+
+            // refresh the student table
+            mModel->select();
+
+            emit notifyStudentChanged();
+        }
     }
 }
 

@@ -16,6 +16,14 @@ public:
     ~PageHomeForm();
 
 private:
+    void setupConnections();
+
+public slots:
+    void initClasses();
+    void initStudents();
+    void initTeachers();
+
+private:
     Ui::PageHomeForm *ui;
 };
 

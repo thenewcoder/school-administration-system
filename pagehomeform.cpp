@@ -2,6 +2,8 @@
 #include "ui_pagehomeform.h"
 
 #include "databasemanager.h"
+#include "teacher.h"
+#include "student.h"
 
 PageHomeForm::PageHomeForm(QWidget *parent) :
     QWidget(parent),
@@ -10,12 +12,27 @@ PageHomeForm::PageHomeForm(QWidget *parent) :
     ui->setupUi(this);
 
     // set up the statistics values
-    ui->lblTotalClasses->setText(QString::number(DatabaseManager::instance().numClasses()));
-    ui->lblTotalTeachers->setText(QString::number(DatabaseManager::instance().numTeachers()));
-    ui->lblTotalStudents->setText(QString::number(DatabaseManager::instance().numStudents()));
+    initClasses();
+    initStudents();
+    initTeachers();
 }
 
 PageHomeForm::~PageHomeForm()
 {
     delete ui;
+}
+
+void PageHomeForm::initClasses()
+{
+    ui->lblTotalClasses->setText(QString::number(DatabaseManager::instance().numClasses()));
+}
+
+void PageHomeForm::initStudents()
+{
+    ui->lblTotalStudents->setText(QString::number(DatabaseManager::instance().numStudents()));
+}
+
+void PageHomeForm::initTeachers()
+{
+    ui->lblTotalTeachers->setText(QString::number(DatabaseManager::instance().numTeachers()));
 }

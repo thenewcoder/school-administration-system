@@ -34,6 +34,9 @@ public:
     void saveTeacherData(const Teacher &teacher, const QString &teacherId);
     void saveStudentData(const Student &student, const QString &studentId);
 
+    void removeStudent(const QString &studentId);
+    void removeTeacher(const QString &teacherId);
+
 protected:
     DatabaseManager(const QString& path = DATABASE_FILENAME);
     DatabaseManager& operator=(const DatabaseManager& rhs);

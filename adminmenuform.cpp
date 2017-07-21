@@ -9,7 +9,10 @@
 
 AdminMenuForm::AdminMenuForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AdminMenuForm)
+    ui(new Ui::AdminMenuForm),
+    mPageHomeForm(new PageHomeForm(this)),
+    mPageStudentsForm(new PageStudentsForm(this)),
+    mPageTeachersForm(new PageTeachersForm(this))
 {
     ui->setupUi(this);
 
@@ -18,11 +21,11 @@ AdminMenuForm::AdminMenuForm(QWidget *parent) :
     ui->menuPagesStackedWidget->setCurrentIndex(MenuItems::HOME);
 
     // add the menu items
-    ui->loHome->addWidget(new PageHomeForm(this));
+    ui->loHome->addWidget(mPageHomeForm);
     ui->loSettings->addWidget(new PageSettingsForm(this));
     ui->loTeachers->addWidget(new PageTeachersForm(this));
-    ui->loStudents->addWidget(new PageStudentsForm(this));
-    ui->loClasses->addWidget(new PageClassesForm(this));
+    ui->loStudents->addWidget(mPageStudentsForm);
+    ui->loClasses->addWidget(mPageTeachersForm);
 
     setupConnections();
 }
@@ -48,4 +51,8 @@ void AdminMenuForm::setupConnections()
     connect(ui->btnLogout, &QPushButton::clicked, [this] () {
        emit notifyLoggingOut();
     });
+
+    // page home tab slots with teacher and student slots
+    connect(mPageStudentsForm, &PageStudentsForm::notifyStudentChanged, mPageHomeForm, &PageHomeForm::initStudents);
+    connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, mPageHomeForm, &PageHomeForm::initTeachers);
 }

@@ -6,6 +6,7 @@
 #include "teacher.h"
 
 #include <QSqlRelationalTableModel>
+#include <QMessageBox>
 #include <QDebug>
 
 
@@ -67,6 +68,8 @@ void PageTeachersForm::editTeacher()
 
             // refresh the teachers table
             mModel->select();
+
+            emit notifyTeacherChanged();
         }
 
     }
@@ -87,6 +90,34 @@ void PageTeachersForm::addTeacher()
 
         // update the teachers table
         mModel->select();
+
+        emit notifyTeacherChanged();
+    }
+}
+
+void PageTeachersForm::deleteTeacher()
+{
+    // get index of selected row
+    QModelIndex index = ui->tvTeachers->currentIndex();
+    if (index.isValid())
+    {
+        // warn the user about destructive action
+        int reply = QMessageBox::warning(this, tr("Delete Teacher"),
+                             tr("Are you sure you want to delete?\nThis cannot be undone!"),
+                             QMessageBox::Ok, QMessageBox::Cancel);
+
+        if (reply == QMessageBox::Ok)
+        {
+            QString teacherId = mModel->data(mModel->index(index.row(), 0)).toString();
+
+            // remove the teacher
+            DatabaseManager::instance().removeTeacher(teacherId);
+
+            // refresh the teacher table
+            mModel->select();
+
+            emit notifyTeacherChanged();
+        }
     }
 }
 
@@ -94,4 +125,5 @@ void PageTeachersForm::setupConnections()
 {
     connect(ui->btnEdit, &QPushButton::clicked, this, &PageTeachersForm::editTeacher);
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageTeachersForm::addTeacher);
+    connect(ui->btnDelete, &QPushButton::clicked, this, &PageTeachersForm::deleteTeacher);
 }

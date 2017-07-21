@@ -7,6 +7,10 @@ namespace Ui {
 class AdminMenuForm;
 }
 
+class PageHomeForm;
+class PageStudentsForm;
+class PageTeachersForm;
+
 class AdminMenuForm : public QWidget
 {
     Q_OBJECT
@@ -34,6 +38,10 @@ signals:
 
 private:
     Ui::AdminMenuForm *ui;
+
+    PageHomeForm *mPageHomeForm;
+    PageStudentsForm *mPageStudentsForm;
+    PageTeachersForm *mPageTeachersForm;
 };
 
 #endif // ADMINMENUFORM_H

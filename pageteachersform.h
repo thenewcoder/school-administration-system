@@ -17,9 +17,13 @@ public:
     explicit PageTeachersForm(QWidget *parent = 0);
     ~PageTeachersForm();
 
+signals:
+    void notifyTeacherChanged();
+
 private slots:
     void editTeacher();
     void addTeacher();
+    void deleteTeacher();
 
 private:
     void setupConnections();

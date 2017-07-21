@@ -247,6 +247,28 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
     }
 }
 
+void DatabaseManager::removeStudent(const QString &studentId)
+{
+    QSqlQuery query;
+    query.prepare(QString("DELETE FROM student WHERE studentId = %1").arg(studentId));
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete student: " << query.lastError().text();
+    }
+}
+
+void DatabaseManager::removeTeacher(const QString &teacherId)
+{
+    QSqlQuery query;
+    query.prepare(QString("DELETE FROM teacher WHERE teacherId = %1").arg(teacherId));
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete teacher: " << query.lastError().text();
+    }
+}
+
 DatabaseManager::DatabaseManager(const QString &path)
     : mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")))
 {
