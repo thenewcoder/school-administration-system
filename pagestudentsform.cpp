@@ -64,6 +64,9 @@ void PageStudentsForm::editStudent()
 
             // send the new data to the database manager
             DatabaseManager::instance().saveStudentData(student, studentId);
+
+            // refresh the students table
+            mModel->select();
         }
     }
 
@@ -80,6 +83,9 @@ void PageStudentsForm::addStudent()
         Student student = add.getStudent();
 
         DatabaseManager::instance().addStudent(student);
+
+        // refresh the students table
+        mModel->select();
     }
 }
 

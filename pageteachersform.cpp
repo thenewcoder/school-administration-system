@@ -64,6 +64,9 @@ void PageTeachersForm::editTeacher()
             teacher = edit.getTeacher();
 
             DatabaseManager::instance().saveTeacherData(teacher, teacherId);
+
+            // refresh the teachers table
+            mModel->select();
         }
 
     }
@@ -81,6 +84,9 @@ void PageTeachersForm::addTeacher()
 
         // add teacher to the database
         DatabaseManager::instance().addTeacher(teacher);
+
+        // update the teachers table
+        mModel->select();
     }
 }
 
