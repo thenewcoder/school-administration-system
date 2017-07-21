@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QStringListModel>
+#include <QLocale>
 
 EditStudentDialog::EditStudentDialog(QWidget *parent) :
     QDialog(parent),
@@ -27,7 +28,7 @@ EditStudentDialog::~EditStudentDialog()
 void EditStudentDialog::setStudent(const Student &student)
 {
     setName(student.name());
-    //setDateOfBirth(student.dateOfBirth());
+    setDateOfBirth(student.dateOfBirth());
     setGender(student.gender());
     setNationality(student.nationality());
     setPassportNumber(student.passportNumber());
@@ -44,7 +45,7 @@ Student EditStudentDialog::getStudent() const
 {
     Student student;
     student.setName(name());
-    //student.setDateOfBirth(dateOfBirth());
+    student.setDateOfBirth(dateOfBirth());
     student.setGender(gender());
     student.setNationality(nationality());
     student.setPassportNumber(passportNumber());
@@ -79,14 +80,15 @@ void EditStudentDialog::setName(const QString &name)
     ui->leName->setText(name);
 }
 
-QDate EditStudentDialog::dateOfBirth() const
+QString EditStudentDialog::dateOfBirth() const
 {
-    return ui->deBirthDate->date();
+    return QLocale("en_US").toString(ui->deBirthDate->date(), "MMM d, yyyy");
 }
 
-void EditStudentDialog::setDateOfBirth(const QDate &date)
+void EditStudentDialog::setDateOfBirth(const QString &date)
 {
-    ui->deBirthDate->setDate(date);
+    QDate d = QLocale("en_US").toDate(date, "MMM d, yyyy");
+    ui->deBirthDate->setDate(d);
 }
 
 QString EditStudentDialog::gender() const

@@ -23,8 +23,8 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-    QDate dateOfBirth() const;
-    void setDateOfBirth(const QDate &date);
+    QString dateOfBirth() const;
+    void setDateOfBirth(const QString &date);
 
     QString gender() const;
     void setGender(const QString &gender);

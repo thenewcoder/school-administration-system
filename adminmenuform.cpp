@@ -23,9 +23,9 @@ AdminMenuForm::AdminMenuForm(QWidget *parent) :
     // add the menu items
     ui->loHome->addWidget(mPageHomeForm);
     ui->loSettings->addWidget(new PageSettingsForm(this));
-    ui->loTeachers->addWidget(new PageTeachersForm(this));
+    ui->loTeachers->addWidget(mPageTeachersForm);
     ui->loStudents->addWidget(mPageStudentsForm);
-    ui->loClasses->addWidget(mPageTeachersForm);
+    ui->loClasses->addWidget(new PageClassesForm(this));
 
     setupConnections();
 }
