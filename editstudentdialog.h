@@ -7,6 +7,8 @@ namespace Ui {
 class EditStudentDialog;
 }
 
+class Student;
+
 class EditStudentDialog : public QDialog
 {
     Q_OBJECT
@@ -14,6 +16,9 @@ class EditStudentDialog : public QDialog
 public:
     explicit EditStudentDialog(QWidget *parent = 0);
     ~EditStudentDialog();
+
+    void setStudent(const Student &student);
+    Student getStudent() const;
 
     QString name() const;
     void setName(const QString &name);

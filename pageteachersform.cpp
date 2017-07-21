@@ -54,22 +54,14 @@ void PageTeachersForm::editTeacher()
         Teacher teacher = DatabaseManager::instance().getTeacher(teacherId);
 
         // set the dialog data
-        edit.setName(teacher.name());
-        edit.setGender(teacher.gender());
-        edit.setNationality(teacher.nationality());
-        edit.setAddress(teacher.address());
-        edit.setPhoneNumber(teacher.phoneNumber());
+        edit.setTeacher(teacher);
 
         if (edit.exec() == QDialog::Accepted)
         {
             qDebug() << "Saving new values to teacher";
 
             // get the new values from the dialog
-            teacher.setName(edit.name());
-            teacher.setGender(edit.gender());
-            teacher.setNationality(edit.nationality());
-            teacher.setAddress(edit.address());
-            teacher.setPhoneNumber(edit.phoneNumber());
+            teacher = edit.getTeacher();
 
             DatabaseManager::instance().saveTeacherData(teacher, teacherId);
         }
@@ -84,12 +76,7 @@ void PageTeachersForm::addTeacher()
     {
         qDebug() << "Add new teacher to the database";
 
-        Teacher teacher;
-        teacher.setName(add.name());
-        teacher.setGender(add.gender());
-        teacher.setNationality(add.nationality());
-        teacher.setAddress(add.address());
-        teacher.setPhoneNumber(add.phoneNumber());
+        Teacher teacher = add.getTeacher();
         // TODO: set photo
 
         // add teacher to the database

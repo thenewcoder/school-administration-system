@@ -2,6 +2,7 @@
 #include "ui_editstudentdialog.h"
 
 #include "databasemanager.h"
+#include "student.h"
 
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -21,6 +22,41 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
 EditStudentDialog::~EditStudentDialog()
 {
     delete ui;
+}
+
+void EditStudentDialog::setStudent(const Student &student)
+{
+    setName(student.name());
+    //setDateOfBirth(student.dateOfBirth());
+    setGender(student.gender());
+    setNationality(student.nationality());
+    setPassportNumber(student.passportNumber());
+    setIdNumber(student.iDNumber());
+    setAddress(student.address());
+    setStudentPhoneNumber(student.studentPhoneNumber());
+    setStudentEmail(student.studentEmail());
+    setFathersPhoneNumber(student.fathersPhoneNumber());
+    setMothersPhoneNumber(student.mothersPhoneNumber());
+    setParentEmail(student.parentsEmail());
+}
+
+Student EditStudentDialog::getStudent() const
+{
+    Student student;
+    student.setName(name());
+    //student.setDateOfBirth(dateOfBirth());
+    student.setGender(gender());
+    student.setNationality(nationality());
+    student.setPassportNumber(passportNumber());
+    student.setIDNumber(idNumber());
+    student.setAddress(address());
+    student.setStudentPhoneNumber(studentPhoneNumber());
+    student.setStudentEmail(studentEmail());
+    student.setFathersPhoneNumber(fathersPhoneNumber());
+    student.setMothersPhoneNumber(mothersPhoneNumber());
+    student.setParentsEmail(parentEmail());
+
+    return student;
 }
 
 void EditStudentDialog::on_buttonBox_accepted()

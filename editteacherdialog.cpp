@@ -2,6 +2,7 @@
 #include "ui_editteacherdialog.h"
 
 #include "databasemanager.h"
+#include "teacher.h"
 
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -21,6 +22,27 @@ EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
 EditTeacherDialog::~EditTeacherDialog()
 {
     delete ui;
+}
+
+void EditTeacherDialog::setTeacher(const Teacher &teacher)
+{
+    setName(teacher.name());
+    setGender(teacher.gender());
+    setNationality(teacher.nationality());
+    setAddress(teacher.address());
+    setPhoneNumber(teacher.phoneNumber());
+}
+
+Teacher EditTeacherDialog::getTeacher() const
+{
+    Teacher teacher;
+    teacher.setName(name());
+    teacher.setGender(gender());
+    teacher.setNationality(nationality());
+    teacher.setAddress(address());
+    teacher.setPhoneNumber(phoneNumber());
+
+    return teacher;
 }
 
 QString EditTeacherDialog::name() const
