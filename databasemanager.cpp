@@ -80,17 +80,18 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
     // TODO: add photo later
     QSqlQuery query;
     query.prepare(QString("INSERT INTO teacher "
-                          "('name', genderId, nationalityId, 'address', 'phoneNumber') "
+                          "('name', genderId, nationalityId, 'address', 'phoneNumber', 'photo') "
                           "VALUES(:name, "
                           "(SELECT genderId FROM gender WHERE type = :gender), "
                           "(SELECT nationalityId FROM nationality WHERE country = :nationality), "
-                          ":address, :phoneNumber)"));
+                          ":address, :phoneNumber, :photo)"));
 
     query.bindValue(":name", teacher.name());
     query.bindValue(":gender", teacher.gender());
     query.bindValue(":nationality", teacher.nationality());
     query.bindValue(":address", teacher.address());
     query.bindValue(":phoneNumber", teacher.phoneNumber());
+    query.bindValue(":photo", teacher.photo());
 
     if (!query.exec())
     {
@@ -137,7 +138,7 @@ Teacher DatabaseManager::getTeacher(const QString teacherId)
     Teacher teacher;
 
     QSqlQuery query;
-    query.prepare(QString("SELECT name, type, country, address, phoneNumber FROM teacher AS T "
+    query.prepare(QString("SELECT name, type, country, address, phoneNumber, photo FROM teacher AS T "
                           "JOIN gender AS G ON T.genderId = G.genderId "
                           "JOIN nationality AS N ON T.nationalityId = N.nationalityId "
                           "WHERE teacherId = %1").arg(teacherId));
@@ -151,6 +152,7 @@ Teacher DatabaseManager::getTeacher(const QString teacherId)
             teacher.setNationality(query.value("country").toString());
             teacher.setAddress(query.value("address").toString());
             teacher.setPhoneNumber(query.value("phoneNumber").toString());
+            teacher.setPhoto(query.value("photo").toByteArray());
         }
     }
 

@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QStringListModel>
+#include <QBuffer>
 
 EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
     QDialog(parent),
@@ -31,6 +32,7 @@ void EditTeacherDialog::setTeacher(const Teacher &teacher)
     setNationality(teacher.nationality());
     setAddress(teacher.address());
     setPhoneNumber(teacher.phoneNumber());
+    setPhoto(teacher.photo());
 }
 
 Teacher EditTeacherDialog::getTeacher() const
@@ -41,7 +43,7 @@ Teacher EditTeacherDialog::getTeacher() const
     teacher.setNationality(nationality());
     teacher.setAddress(address());
     teacher.setPhoneNumber(phoneNumber());
-
+    teacher.setPhoto(photo());
     return teacher;
 }
 
@@ -93,6 +95,22 @@ QString EditTeacherDialog::phoneNumber() const
 void EditTeacherDialog::setPhoneNumber(const QString &phoneNumber)
 {
     ui->lePhone->setText(phoneNumber);
+}
+
+QByteArray EditTeacherDialog::photo() const
+{
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    buffer.open(QIODevice::WriteOnly);
+    ui->lblPhoto->pixmap()->save(&buffer, "PNG");
+    return bytes;
+}
+
+void EditTeacherDialog::setPhoto(const QByteArray &photo)
+{
+    QPixmap p;
+    p.loadFromData(photo);
+    ui->lblPhoto->setPixmap(p);
 }
 
 void EditTeacherDialog::setupConnections()

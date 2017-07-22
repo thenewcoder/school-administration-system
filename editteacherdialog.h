@@ -35,6 +35,9 @@ public:
     QString phoneNumber() const;
     void setPhoneNumber(const QString &phoneNumber);
 
+    QByteArray photo() const;
+    void setPhoto(const QByteArray &photo);
+
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
