@@ -106,12 +106,12 @@ void DatabaseManager::addStudent(const Student &student) const
                           "('name', 'dateOfBirth', genderId, nationalityId, "
                           "'passportNumber', 'IDNumber', 'address', "
                           "'studentPhoneNumber', 'studentEmail', 'fathersPhoneNumber', "
-                          "'mothersPhoneNumber', 'parentEmail') "
+                          "'mothersPhoneNumber', 'parentEmail', 'photo') "
                           "VALUES(:name, :dateOfBirth, "
                           "(SELECT genderId FROM gender WHERE type = :gender), "
                           "(SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           ":passportNumber, :IDNumber, :address, :studentPhoneNumber, :studentEmail, "
-                          ":fathersPhoneNumber, :mothersPhoneNumber, :parentEmail)"));
+                          ":fathersPhoneNumber, :mothersPhoneNumber, :parentEmail, :photo)"));
 
     query.bindValue(":name", student.name());
     query.bindValue(":dateOfBirth", student.dateOfBirth());
@@ -125,6 +125,7 @@ void DatabaseManager::addStudent(const Student &student) const
     query.bindValue(":fathersPhoneNumber", student.fathersPhoneNumber());
     query.bindValue(":mothersPhoneNumber", student.mothersPhoneNumber());
     query.bindValue(":parentEmail", student.parentsEmail());
+    query.bindValue(":photo", student.photo());
 
     if (!query.exec())
     {
@@ -166,7 +167,7 @@ Student DatabaseManager::getStudent(const QString studentId)
     QSqlQuery query;
     query.prepare(QString("SELECT name, dateOfBirth, type, country, passportNumber, "
                           "IDNumber, address, studentPhoneNumber, studentEmail, "
-                          "fathersPhoneNumber, mothersPhoneNumber, parentEmail FROM student AS S "
+                          "fathersPhoneNumber, mothersPhoneNumber, parentEmail, photo FROM student AS S "
                           "JOIN gender AS G ON S.genderId = G.genderId "
                           "JOIN nationality AS N ON S.nationalityId = N.nationalityId "
                           "WHERE studentId = %1").arg(studentId));
@@ -186,6 +187,7 @@ Student DatabaseManager::getStudent(const QString studentId)
             student.setFathersPhoneNumber(query.value("fathersPhoneNumber").toString());
             student.setMothersPhoneNumber(query.value("mothersPhoneNumber").toString());
             student.setParentsEmail(query.value("parentEmail").toString());
+            student.setPhoto(query.value("photo").toByteArray());
         }
     }
     else
@@ -202,13 +204,14 @@ void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &tea
     query.prepare(QString("UPDATE teacher SET "
                           "name = :name, genderId = (SELECT genderId FROM gender WHERE type = :gender), "
                           "nationalityId = (SELECT nationalityId FROM nationality WHERE country = :nationality), "
-                          "address = :address, phoneNumber = :phoneNumber "
+                          "address = :address, phoneNumber = :phoneNumber, photo = :photo "
                           "WHERE teacherId = :teacherId"));
     query.bindValue(":name", teacher.name());
     query.bindValue(":gender", teacher.gender());
     query.bindValue(":nationality", teacher.nationality());
     query.bindValue(":address", teacher.address());
     query.bindValue(":phoneNumber", teacher.phoneNumber());
+    query.bindValue(":photo", teacher.photo());
     query.bindValue(":teacherId", teacherId);
 
     if (!query.exec())
@@ -227,7 +230,7 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
                           "passportNumber = :passportNumber, IDNumber = :IDNumber, "
                           "address = :address, studentPhoneNumber = :studentPhoneNumber, "
                           "studentEmail = :studentEmail, fathersPhoneNumber = :fathersPhoneNumber, "
-                          "mothersPhoneNumber = :mothersPhoneNumber, parentEmail = :parentEmail "
+                          "mothersPhoneNumber = :mothersPhoneNumber, parentEmail = :parentEmail, photo = :photo "
                           "WHERE studentId = :studentId"));
     query.bindValue(":name", student.name());
     query.bindValue(":dateOfBirth", student.dateOfBirth());
@@ -242,6 +245,7 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
     query.bindValue(":mothersPhoneNumber", student.mothersPhoneNumber());
     query.bindValue(":parentEmail", student.parentsEmail());
     query.bindValue(":studentId", studentId);
+    query.bindValue(":photo", student.photo());
 
     if (!query.exec())
     {

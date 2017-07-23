@@ -8,6 +8,7 @@
 #include <QStandardPaths>
 #include <QStringListModel>
 #include <QLocale>
+#include <QBuffer>
 
 EditStudentDialog::EditStudentDialog(QWidget *parent) :
     QDialog(parent),
@@ -39,6 +40,7 @@ void EditStudentDialog::setStudent(const Student &student)
     setFathersPhoneNumber(student.fathersPhoneNumber());
     setMothersPhoneNumber(student.mothersPhoneNumber());
     setParentEmail(student.parentsEmail());
+    setPhoto(student.photo());
 }
 
 Student EditStudentDialog::getStudent() const
@@ -56,7 +58,7 @@ Student EditStudentDialog::getStudent() const
     student.setFathersPhoneNumber(fathersPhoneNumber());
     student.setMothersPhoneNumber(mothersPhoneNumber());
     student.setParentsEmail(parentEmail());
-
+    student.setPhoto(photo());
     return student;
 }
 
@@ -189,6 +191,22 @@ QString EditStudentDialog::parentEmail() const
 void EditStudentDialog::setParentEmail(const QString &email)
 {
     ui->leParentEmail->setText(email);
+}
+
+QByteArray EditStudentDialog::photo() const
+{
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    buffer.open(QIODevice::WriteOnly);
+    ui->lblStudentPhoto->pixmap()->save(&buffer, "PNG");
+    return bytes;
+}
+
+void EditStudentDialog::setPhoto(const QByteArray &photo)
+{
+    QPixmap p;
+    p.loadFromData(photo);
+    ui->lblStudentPhoto->setPixmap(p);
 }
 
 void EditStudentDialog::setupConnections()

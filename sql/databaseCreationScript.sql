@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `gender` (
+﻿CREATE TABLE IF NOT EXISTS `gender` (
 	`genderId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`type`	TEXT NOT NULL UNIQUE
 );
@@ -58,11 +58,6 @@ CREATE TABLE IF NOT EXISTS `nationality` (
 	`country`	TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS `photo` (
-	`photoId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`photo`	BLOB NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS `teacher` (
 	`teacherId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`name`	TEXT,
@@ -70,10 +65,9 @@ CREATE TABLE IF NOT EXISTS `teacher` (
 	`nationalityId`	INTEGER,
 	`address`	TEXT,
 	`phoneNumber`	TEXT,
-	`photoId`	INTEGER,
+        `photo`         BLOB,
 	FOREIGN KEY(`genderId`) REFERENCES gender(genderId),
-	FOREIGN KEY(`nationalityId`) REFERENCES nationality(nationalityId),
-	FOREIGN KEY(`photoId`) REFERENCES photo(photoId)
+        FOREIGN KEY(`nationalityId`) REFERENCES nationality(nationalityId)
 );
 
 CREATE TABLE IF NOT EXISTS `class` (
@@ -120,14 +114,13 @@ CREATE TABLE IF NOT EXISTS `student` (
 	`mothersPhoneNumber`	TEXT,
 	`parentEmail`	TEXT,
 	`gradeId`	INTEGER,
-	`photoId`	INTEGER,
+        `photo`         BLOB,
 	`dormitoryId`	INTEGER,
 	`enrollmentId`	INTEGER,
 	`busstopId`	INTEGER,
 	FOREIGN KEY(`genderId`) REFERENCES gender(genderId),
 	FOREIGN KEY(`nationalityId`) REFERENCES nationality(nationalityId),
 	FOREIGN KEY(`gradeId`) REFERENCES grade(gradeId),
-	FOREIGN KEY(`photoId`) REFERENCES photo(photoId),
 	FOREIGN KEY(`dormitoryId`) REFERENCES dormitory(dormitoryId),
 	FOREIGN KEY(`enrollmentId`) REFERENCES enrollment(enrollmentId),
 	FOREIGN KEY(`busstopId`) REFERENCES bus_stop(busstopId)

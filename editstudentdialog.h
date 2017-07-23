@@ -56,6 +56,9 @@ public:
     QString parentEmail() const;
     void setParentEmail(const QString &email);
 
+    QByteArray photo() const;
+    void setPhoto(const QByteArray &photo);
+
 private:
     void setupConnections();
 
