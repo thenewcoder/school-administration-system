@@ -15,6 +15,9 @@ public:
     explicit SchoolSettingsForm(QWidget *parent = 0);
     ~SchoolSettingsForm();
 
+signals:
+    void notifySchoolLogoUpdate(const QPixmap &logo);
+
 private:
     void setupConnections();
 

@@ -56,3 +56,8 @@ void AdminMenuForm::setupConnections()
     connect(mPageStudentsForm, &PageStudentsForm::notifyStudentChanged, mPageHomeForm, &PageHomeForm::initStudents);
     connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, mPageHomeForm, &PageHomeForm::initTeachers);
 }
+
+void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)
+{
+    ui->lblSchoolLogo->setPixmap(logo);
+}

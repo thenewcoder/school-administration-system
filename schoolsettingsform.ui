@@ -127,7 +127,7 @@
    <property name="geometry">
     <rect>
      <x>500</x>
-     <y>50</y>
+     <y>100</y>
      <width>200</width>
      <height>150</height>
     </rect>
@@ -145,30 +145,43 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnAddPhoto">
+  <widget class="QPushButton" name="btnAddLogo">
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>220</y>
+     <y>270</y>
      <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Add Photo</string>
+    <string>Add Logo</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnRemovePhoto">
+  <widget class="QPushButton" name="btnRemoveLogo">
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>260</y>
+     <y>310</y>
      <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
     <string>Remove</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>70</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Logo Preview:</string>
    </property>
   </widget>
  </widget>

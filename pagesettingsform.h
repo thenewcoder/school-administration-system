@@ -7,6 +7,8 @@ namespace Ui {
 class PageSettingsForm;
 }
 
+class SchoolSettingsForm;
+
 class PageSettingsForm : public QWidget
 {
     Q_OBJECT
@@ -16,7 +18,12 @@ public:
     ~PageSettingsForm();
 
 private:
+    void setupConnections();
+
+private:
     Ui::PageSettingsForm *ui;
+
+    SchoolSettingsForm *mSchoolSettingsForm;
 };
 
 #endif // PAGESETTINGSFORM_H

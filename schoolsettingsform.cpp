@@ -19,7 +19,7 @@ SchoolSettingsForm::~SchoolSettingsForm()
 
 void SchoolSettingsForm::setupConnections()
 {
-    connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddLogo, &QPushButton::clicked, [this] () {
         QString filename = QFileDialog::getOpenFileName(this,
                                                         tr("Choose a picture"),
                                                         "",
@@ -27,12 +27,15 @@ void SchoolSettingsForm::setupConnections()
         if (!filename.isEmpty())
         {
             QPixmap p(filename);
-            QPixmap photo = p.scaledToWidth(200);
-            ui->lblSchoolLogo->setPixmap(photo);
+            QPixmap logo = p.scaledToWidth(200);
+            ui->lblSchoolLogo->setPixmap(logo);
+            emit notifySchoolLogoUpdate(logo);
         }
     });
 
-    connect(ui->btnRemovePhoto, &QPushButton::clicked, [this] () {
-        ui->lblSchoolLogo->setPixmap(QPixmap(":/images/your_logo_here.png"));
+    connect(ui->btnRemoveLogo, &QPushButton::clicked, [this] () {
+        QPixmap p(":/images/your_logo_here.png");
+        ui->lblSchoolLogo->setPixmap(p);
+        emit notifySchoolLogoUpdate(p);
     });
 }

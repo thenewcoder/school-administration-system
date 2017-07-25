@@ -36,6 +36,9 @@ private:
 signals:
     void notifyLoggingOut();
 
+public slots:
+    void updateSchoolLogo(const QPixmap &logo);
+
 private:
     Ui::AdminMenuForm *ui;
 
