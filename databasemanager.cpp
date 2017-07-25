@@ -10,6 +10,7 @@
 
 #include "teacher.h"
 #include "student.h"
+#include "school.h"
 
 DatabaseManager &DatabaseManager::instance()
 {
@@ -77,7 +78,6 @@ QStringList DatabaseManager::nationalities() const
 
 void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
-    // TODO: add photo later
     QSqlQuery query;
     query.prepare(QString("INSERT INTO teacher "
                           "('name', genderId, nationalityId, 'address', 'phoneNumber', 'photo') "
@@ -132,6 +132,30 @@ void DatabaseManager::addStudent(const Student &student) const
         qDebug() << "Unable to add a new student";
         qDebug() << query.lastError().text();
     }
+}
+
+School DatabaseManager::getSchoolInfo() const
+{
+    School school;
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM school");
+    if (query.exec())
+    {
+        query.next();
+
+        school.setSchoolName(query.value("name").toString());
+        school.setSchoolAddress(query.value("address").toString());
+        school.setSchoolPhone(query.value("phone").toString());
+        school.setSchoolEmail(query.value("email").toString());
+        school.setSchoolLogo(query.value("logo").toByteArray());
+
+        return school;
+    }
+
+    qDebug() << query.lastError().text();
+
+    return school;
 }
 
 Teacher DatabaseManager::getTeacher(const QString teacherId)
@@ -206,6 +230,7 @@ void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &tea
                           "nationalityId = (SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           "address = :address, phoneNumber = :phoneNumber, photo = :photo "
                           "WHERE teacherId = :teacherId"));
+
     query.bindValue(":name", teacher.name());
     query.bindValue(":gender", teacher.gender());
     query.bindValue(":nationality", teacher.nationality());
@@ -232,6 +257,7 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
                           "studentEmail = :studentEmail, fathersPhoneNumber = :fathersPhoneNumber, "
                           "mothersPhoneNumber = :mothersPhoneNumber, parentEmail = :parentEmail, photo = :photo "
                           "WHERE studentId = :studentId"));
+
     query.bindValue(":name", student.name());
     query.bindValue(":dateOfBirth", student.dateOfBirth());
     query.bindValue(":gender", student.gender());
@@ -250,6 +276,25 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
     if (!query.exec())
     {
         qDebug() << "Unable to update student data";
+    }
+}
+
+void DatabaseManager::saveSchoolData(const School &school)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE school SET "
+                  "name = :name, address = :address, phone = :phone "
+                  "email = :email, logo = :logo");
+
+    query.bindValue(":name", school.schoolName());
+    query.bindValue(":address", school.schoolAddress());
+    query.bindValue(":phone", school.schoolPhone());
+    query.bindValue(":email", school.schoolEmail());
+    query.bindValue(":logo", school.schoolLogo());
+
+    if (!query.exec())
+    {
+        qDebug() << query.lastError().text();
     }
 }
 

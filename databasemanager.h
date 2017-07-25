@@ -10,6 +10,7 @@ class QSqlQuery;
 class QSqlDatabase;
 class Teacher;
 class Student;
+class School;
 
 // temporary name
 const QString DATABASE_FILENAME = "database.db";
@@ -28,11 +29,13 @@ public:
     void addTeacher(const Teacher &teacher) const;
     void addStudent(const Student &student) const;
 
+    School getSchoolInfo() const;
     Teacher getTeacher(const QString teacherId);
     Student getStudent(const QString studentId);
 
     void saveTeacherData(const Teacher &teacher, const QString &teacherId);
     void saveStudentData(const Student &student, const QString &studentId);
+    void saveSchoolData(const School &school);
 
     void removeStudent(const QString &studentId);
     void removeTeacher(const QString &teacherId);
