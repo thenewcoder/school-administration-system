@@ -1,4 +1,4 @@
-#include "schoolsettingsform.h"
+﻿#include "schoolsettingsform.h"
 #include "ui_schoolsettingsform.h"
 
 #include <QFileDialog>
@@ -12,9 +12,9 @@ SchoolSettingsForm::SchoolSettingsForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    loadDatabaseSettings();
-
     setupConnections();
+
+    loadDatabaseSettings();
 }
 
 SchoolSettingsForm::~SchoolSettingsForm()

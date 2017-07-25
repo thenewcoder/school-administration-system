@@ -1,4 +1,4 @@
-#include "pagesettingsform.h"
+﻿#include "pagesettingsform.h"
 #include "ui_pagesettingsform.h"
 
 #include "schoolsettingsform.h"
@@ -17,6 +17,8 @@ PageSettingsForm::PageSettingsForm(QWidget *parent) :
     ui->twSettingsPages->addTab(new PersonalProfileForm(), "Personal Info");
 
     setupConnections();
+
+    mSchoolSettingsForm->loadDatabaseSettings();
 }
 
 PageSettingsForm::~PageSettingsForm()

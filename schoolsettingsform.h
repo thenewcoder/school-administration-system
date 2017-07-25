@@ -1,4 +1,4 @@
-#ifndef SCHOOLSETTINGSFORM_H
+﻿#ifndef SCHOOLSETTINGSFORM_H
 #define SCHOOLSETTINGSFORM_H
 
 #include <QWidget>
@@ -15,13 +15,13 @@ public:
     explicit SchoolSettingsForm(QWidget *parent = 0);
     ~SchoolSettingsForm();
 
+    void loadDatabaseSettings();
+
 signals:
     void notifySchoolLogoUpdate(const QPixmap &logo);
 
 private:
     void setupConnections();
-
-    void loadDatabaseSettings();
 
 private:
     Ui::SchoolSettingsForm *ui;
