@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     teacher.cpp \
     student.cpp \
     schoolsettingsform.cpp \
-    personalprofileform.cpp
+    personalprofileform.cpp \
+    school.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
@@ -56,7 +57,8 @@ HEADERS  += mainwindow.h \
     teacher.h \
     student.h \
     schoolsettingsform.h \
-    personalprofileform.h
+    personalprofileform.h \
+    school.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \
