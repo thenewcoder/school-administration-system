@@ -1,9 +1,12 @@
 #include "school.h"
 
+#include <QBuffer>
+
 School::School()
     : mSchoolName(""), mSchoolAddress("")
     , mSchoolPhone(""), mSchoolEmail("")
     , mSchoolLogo()
+    , mSchoolLogoPixmap()
 {
 
 }
@@ -12,6 +15,7 @@ School::School(const QString &name, const QString &address, const QString &phone
     : mSchoolName(name), mSchoolAddress(address)
     , mSchoolPhone(phone), mSchoolEmail(email)
     , mSchoolLogo(logo)
+    , mSchoolLogoPixmap()
 {
 
 }
@@ -64,4 +68,22 @@ QByteArray School::schoolLogo() const
 void School::setSchoolLogo(const QByteArray &schoolLogo)
 {
     mSchoolLogo = schoolLogo;
+
+    // also set the pixmap
+    mSchoolLogoPixmap.loadFromData(schoolLogo);
+}
+
+QPixmap School::schoolLogoPixmap() const
+{
+    return mSchoolLogoPixmap;
+}
+
+void School::setSchoolLogoPixmap(const QPixmap &schoolLogoPixmap)
+{
+    mSchoolLogoPixmap = schoolLogoPixmap;
+
+    // also set the byte array
+    QBuffer buffer(&mSchoolLogo);
+    buffer.open(QIODevice::WriteOnly);
+    schoolLogoPixmap.save(&buffer, "PNG");
 }

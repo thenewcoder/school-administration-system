@@ -21,6 +21,8 @@ signals:
 private:
     void setupConnections();
 
+    void loadDatabaseSettings();
+
 private:
     Ui::SchoolSettingsForm *ui;
 };

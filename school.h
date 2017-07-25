@@ -2,13 +2,14 @@
 #define SCHOOL_H
 
 #include <QString>
+#include <QPixmap>
 
 class School
 {
 public:
     School();
     School(const QString &name, const QString &address, const QString &phone,
-           const QString &email, const QByteArray &logo);
+           const QString &email, const QByteArray &logo = QByteArray());
 
     QString schoolName() const;
     void setSchoolName(const QString &schoolName);
@@ -25,6 +26,9 @@ public:
     QByteArray schoolLogo() const;
     void setSchoolLogo(const QByteArray &schoolLogo);
 
+    QPixmap schoolLogoPixmap() const;
+    void setSchoolLogoPixmap(const QPixmap &schoolLogoPixmap);
+
 private:
     QString mSchoolName;
     QString mSchoolAddress;
@@ -32,6 +36,7 @@ private:
     QString mSchoolEmail;
 
     QByteArray mSchoolLogo;
+    QPixmap mSchoolLogoPixmap;
 
 };
 

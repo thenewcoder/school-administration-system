@@ -153,6 +153,7 @@ School DatabaseManager::getSchoolInfo() const
         return school;
     }
 
+    qDebug() << "Unable to get school Info";
     qDebug() << query.lastError().text();
 
     return school;
@@ -283,7 +284,7 @@ void DatabaseManager::saveSchoolData(const School &school)
 {
     QSqlQuery query;
     query.prepare("UPDATE school SET "
-                  "name = :name, address = :address, phone = :phone "
+                  "name = :name, address = :address, phone = :phone, "
                   "email = :email, logo = :logo");
 
     query.bindValue(":name", school.schoolName());
@@ -294,6 +295,7 @@ void DatabaseManager::saveSchoolData(const School &school)
 
     if (!query.exec())
     {
+        qDebug() << "Unable to save school data";
         qDebug() << query.lastError().text();
     }
 }
