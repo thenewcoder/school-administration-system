@@ -47,6 +47,8 @@ private:
 
 private:
     Ui::EditTeacherDialog *ui;
+
+    bool mDefaultPhoto;
 };
 
 #endif // EDITTEACHERDIALOG_H

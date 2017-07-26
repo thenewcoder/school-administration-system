@@ -11,7 +11,8 @@
 
 EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::EditTeacherDialog)
+    ui(new Ui::EditTeacherDialog),
+    mDefaultPhoto(true)
 {
     ui->setupUi(this);
 
@@ -32,7 +33,15 @@ void EditTeacherDialog::setTeacher(const Teacher &teacher)
     setNationality(teacher.nationality());
     setAddress(teacher.address());
     setPhoneNumber(teacher.phoneNumber());
-    setPhoto(teacher.photo());
+
+    // check whether to display default profile photo or saved photo
+    if (!teacher.photo().isEmpty())
+    {
+        setPhoto(teacher.photo());
+        mDefaultPhoto = false;
+    }
+    else
+        mDefaultPhoto = true;
 }
 
 Teacher EditTeacherDialog::getTeacher() const
@@ -43,7 +52,10 @@ Teacher EditTeacherDialog::getTeacher() const
     teacher.setNationality(nationality());
     teacher.setAddress(address());
     teacher.setPhoneNumber(phoneNumber());
-    teacher.setPhoto(photo());
+
+    if (!mDefaultPhoto)
+        teacher.setPhoto(photo());
+
     return teacher;
 }
 
@@ -126,11 +138,13 @@ void EditTeacherDialog::setupConnections()
             QImage img(filename);
             QImage photo = img.scaled(150, 150, Qt::KeepAspectRatio);
             ui->lblPhoto->setPixmap(QPixmap::fromImage(photo));
+            mDefaultPhoto = false;
         }
     });
 
     connect(ui->btnRemove, &QPushButton::clicked, [this] () {
        ui->lblPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
+       mDefaultPhoto = true;
     });
 
 }

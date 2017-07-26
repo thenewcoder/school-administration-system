@@ -68,6 +68,8 @@ private slots:
 
 private:
     Ui::EditStudentDialog *ui;
+
+    bool mDefaultPhoto;
 };
 
 #endif // EDITSTUDENTDIALOG_H
