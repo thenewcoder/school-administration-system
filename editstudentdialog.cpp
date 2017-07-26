@@ -219,7 +219,7 @@ void EditStudentDialog::setupConnections()
         if (!filename.isEmpty())
         {
             QImage img(filename);
-            QImage photo = img.scaledToWidth(150);
+            QImage photo = img.scaled(150, 150, Qt::KeepAspectRatio);
             ui->lblStudentPhoto->setPixmap(QPixmap::fromImage(photo));
         }
     });

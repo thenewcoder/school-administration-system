@@ -124,7 +124,7 @@ void EditTeacherDialog::setupConnections()
         if (!filename.isEmpty())
         {
             QImage img(filename);
-            QImage photo = img.scaledToHeight(150);
+            QImage photo = img.scaled(150, 150, Qt::KeepAspectRatio);
             ui->lblPhoto->setPixmap(QPixmap::fromImage(photo));
         }
     });

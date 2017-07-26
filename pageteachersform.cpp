@@ -83,7 +83,6 @@ void PageTeachersForm::addTeacher()
         qDebug() << "Add new teacher to the database";
 
         Teacher teacher = add.getTeacher();
-        // TODO: set photo
 
         // add teacher to the database
         DatabaseManager::instance().addTeacher(teacher);
