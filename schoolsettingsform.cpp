@@ -32,7 +32,7 @@ void SchoolSettingsForm::setupConnections()
         if (!filename.isEmpty())
         {
             QPixmap p(filename);
-            QPixmap logo = p.scaledToWidth(200).scaledToHeight(150);
+            QPixmap logo = p.scaled(200, 150, Qt::KeepAspectRatio);
             ui->lblSchoolLogo->setPixmap(logo);
         }
     });
