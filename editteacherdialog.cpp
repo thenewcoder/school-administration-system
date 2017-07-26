@@ -129,6 +129,9 @@ void EditTeacherDialog::setupConnections()
         }
     });
 
+    connect(ui->btnRemove, &QPushButton::clicked, [this] () {
+       ui->lblPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
+    });
 
 }
 

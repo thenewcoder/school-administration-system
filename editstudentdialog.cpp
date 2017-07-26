@@ -223,5 +223,9 @@ void EditStudentDialog::setupConnections()
             ui->lblStudentPhoto->setPixmap(QPixmap::fromImage(photo));
         }
     });
+
+    connect(ui->btnRemove, &QPushButton::clicked, [this] () {
+       ui->lblStudentPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
+    });
 }
 
