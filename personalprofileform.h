@@ -16,6 +16,9 @@ public:
     ~PersonalProfileForm();
 
 private:
+    void setupConnections();
+
+private:
     Ui::PersonalProfileForm *ui;
 };
 
