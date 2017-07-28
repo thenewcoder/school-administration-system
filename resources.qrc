@@ -7,4 +7,7 @@
     <qresource prefix="/sql">
         <file>sql/databaseCreationScript.sql</file>
     </qresource>
+    <qresource prefix="/documents">
+        <file>assets/countries.txt</file>
+    </qresource>
 </RCC>
