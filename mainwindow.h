@@ -23,6 +23,9 @@ private:
     QString username() const;
     QString password() const;
 
+signals:
+    void notifyUserLogin();
+
 private:
     Ui::MainWindow *ui;
 

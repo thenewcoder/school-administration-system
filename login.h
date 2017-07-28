@@ -2,15 +2,26 @@
 #define LOGIN_H
 
 #include <QString>
-
-class User;
+#include "user.h"
 
 class Login
 {
 public:
+    static Login& instance();
+    ~Login() {}
 
-    static bool validLogin(const QString &username, const QString &password);
-    static User getUserData(const QString &username);
+    QString username() const;
+    QString password() const;
+    QString fullname() const;
+
+    bool validLogin(const QString &username, const QString &password);
+    User getUserData(const QString &username);
+
+private:
+    Login();
+
+private:
+    User mUser;
 };
 
 #endif // LOGIN_H

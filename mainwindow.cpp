@@ -3,7 +3,6 @@
 
 #include "adminmenuform.h"
 #include "login.h"
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,11 +27,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupConnections()
 {
+    connect(this, &MainWindow::notifyUserLogin, adminMenuForm, &AdminMenuForm::handleUserLogin);
+
     // log in user
     connect(ui->loginButton, &QPushButton::clicked, [this] () {
-        if (Login::validLogin(username(), password()))
+        if (Login::instance().validLogin(username(), password()))
         {
-            adminMenuForm->setUser(Login::getUserData(username()));
+            emit notifyUserLogin();
             ui->stackedWidget->setCurrentWidget(ui->memberPage);
         }
     });

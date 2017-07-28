@@ -35,6 +35,5 @@ void PageSettingsForm::setupConnections()
             qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::updateSchoolLogo);
 
     connect(qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::notifyUserLogon,
-            mPersonalProfileForm, &PersonalProfileForm::setUser);
-
+            mPersonalProfileForm, &PersonalProfileForm::setupUser);
 }

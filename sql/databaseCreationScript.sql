@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 	`userId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         `username`	TEXT NOT NULL UNIQUE,
         `password`	TEXT NOT NULL,
+        `fullname`      TEXT,
 	`userTypeId`	INTEGER NOT NULL DEFAULT 1,
 	FOREIGN KEY(`userTypeId`) REFERENCES `user_type`(`userTypeId`)
 );

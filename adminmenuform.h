@@ -3,8 +3,6 @@
 
 #include <QWidget>
 
-#include "user.h"
-
 namespace Ui {
 class AdminMenuForm;
 }
@@ -30,17 +28,16 @@ public:
     explicit AdminMenuForm(QWidget *parent = 0);
     ~AdminMenuForm();
 
-    void setUser(const User &user);
-
 private:
     void setupConnections();
 
 signals:
     void notifyLoggingOut();
-    void notifyUserLogon(const User &user);
+    void notifyUserLogon();
 
 public slots:
     void updateSchoolLogo(const QPixmap &logo);
+    void handleUserLogin();
 
 private:
     Ui::AdminMenuForm *ui;

@@ -6,6 +6,7 @@
 #include "pageteachersform.h"
 #include "pagestudentsform.h"
 #include "pageclassesform.h"
+#include "login.h"
 
 AdminMenuForm::AdminMenuForm(QWidget *parent) :
     QWidget(parent),
@@ -35,12 +36,6 @@ AdminMenuForm::~AdminMenuForm()
     delete ui;
 }
 
-void AdminMenuForm::setUser(const User &user)
-{
-    ui->lblWelcomeText->setText("Welcome, " + user.fullName());
-    emit notifyUserLogon(user);
-}
-
 void AdminMenuForm::setupConnections()
 {
     // list widget
@@ -61,4 +56,11 @@ void AdminMenuForm::setupConnections()
 void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)
 {
     ui->lblSchoolLogo->setPixmap(logo);
+}
+
+void AdminMenuForm::handleUserLogin()
+{
+    QString name = !Login::instance().fullname().isEmpty() ? Login::instance().fullname() : Login::instance().username();
+    ui->lblWelcomeText->setText("Welcome, " + name);
+    emit notifyUserLogon();
 }

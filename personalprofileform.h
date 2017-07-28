@@ -1,8 +1,7 @@
-#ifndef PERSONALPROFILEFORM_H
+﻿#ifndef PERSONALPROFILEFORM_H
 #define PERSONALPROFILEFORM_H
 
 #include <QWidget>
-#include "user.h"
 
 namespace Ui {
 class PersonalProfileForm;
@@ -17,8 +16,7 @@ public:
     ~PersonalProfileForm();
 
 public slots:
-    void setUser(const User &user);
-
+    void setupUser();
 
 private:
     void setupConnections();

@@ -1,7 +1,7 @@
-#include "personalprofileform.h"
+﻿#include "personalprofileform.h"
 #include "ui_personalprofileform.h"
 
-#include "user.h"
+#include "login.h"
 
 PersonalProfileForm::PersonalProfileForm(QWidget *parent) :
     QWidget(parent),
@@ -17,11 +17,11 @@ PersonalProfileForm::~PersonalProfileForm()
     delete ui;
 }
 
-void PersonalProfileForm::setUser(const User &user)
+void PersonalProfileForm::setupUser()
 {
-    ui->leUsername->setText(user.username());
-    ui->leFullName->setText(user.fullName());
-    ui->lePassword->setText(user.password());
+    ui->leUsername->setText(Login::instance().username());
+    ui->leFullName->setText(Login::instance().fullname());
+    ui->lePassword->setText(Login::instance().password());
 }
 
 void PersonalProfileForm::setupConnections()
