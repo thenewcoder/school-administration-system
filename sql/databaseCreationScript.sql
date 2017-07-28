@@ -22,8 +22,8 @@ INSERT INTO `user_type` (
 	
 CREATE TABLE IF NOT EXISTS `user` (
 	`userId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`userName`	TEXT NOT NULL UNIQUE,
-	`userPassword`	TEXT NOT NULL,
+        `username`	TEXT NOT NULL UNIQUE,
+        `password`	TEXT NOT NULL,
 	`userTypeId`	INTEGER NOT NULL DEFAULT 1,
 	FOREIGN KEY(`userTypeId`) REFERENCES `user_type`(`userTypeId`)
 );

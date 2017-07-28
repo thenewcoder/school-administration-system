@@ -35,9 +35,10 @@ AdminMenuForm::~AdminMenuForm()
     delete ui;
 }
 
-void AdminMenuForm::setUsername(const QString &username)
+void AdminMenuForm::setUser(const User &user)
 {
-    ui->lblWelcomeText->setText("Welcome, " + username);
+    ui->lblWelcomeText->setText("Welcome, " + user.fullName());
+    emit notifyUserLogon(user);
 }
 
 void AdminMenuForm::setupConnections()

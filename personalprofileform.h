@@ -2,6 +2,7 @@
 #define PERSONALPROFILEFORM_H
 
 #include <QWidget>
+#include "user.h"
 
 namespace Ui {
 class PersonalProfileForm;
@@ -14,6 +15,10 @@ class PersonalProfileForm : public QWidget
 public:
     explicit PersonalProfileForm(QWidget *parent = 0);
     ~PersonalProfileForm();
+
+public slots:
+    void setUser(const User &user);
+
 
 private:
     void setupConnections();

@@ -8,6 +8,7 @@ class PageSettingsForm;
 }
 
 class SchoolSettingsForm;
+class PersonalProfileForm;
 
 class PageSettingsForm : public QWidget
 {
@@ -24,6 +25,7 @@ private:
     Ui::PageSettingsForm *ui;
 
     SchoolSettingsForm *mSchoolSettingsForm;
+    PersonalProfileForm *mPersonalProfileForm;
 };
 
 #endif // PAGESETTINGSFORM_H

@@ -11,6 +11,7 @@ class QSqlDatabase;
 class Teacher;
 class Student;
 class School;
+class User;
 
 // temporary name
 const QString DATABASE_FILENAME = "database.db";
@@ -21,6 +22,8 @@ public:
     static DatabaseManager& instance();
     ~DatabaseManager();
 
+    bool validateLogin(const QString &username, const QString &password);
+
     int numClasses() const;
     int numTeachers() const;
     int numStudents() const;
@@ -29,9 +32,10 @@ public:
     void addTeacher(const Teacher &teacher) const;
     void addStudent(const Student &student) const;
 
+    User getUser(const QString &username);
     School getSchoolInfo() const;
-    Teacher getTeacher(const QString teacherId);
-    Student getStudent(const QString studentId);
+    Teacher getTeacher(const QString &teacherId);
+    Student getStudent(const QString &studentId);
 
     void saveTeacherData(const Teacher &teacher, const QString &teacherId);
     void saveStudentData(const Student &student, const QString &studentId);

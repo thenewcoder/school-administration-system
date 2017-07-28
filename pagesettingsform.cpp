@@ -4,17 +4,19 @@
 #include "schoolsettingsform.h"
 #include "personalprofileform.h"
 #include "adminmenuform.h"
+#include "personalprofileform.h"
 
 PageSettingsForm::PageSettingsForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PageSettingsForm),
-    mSchoolSettingsForm(new SchoolSettingsForm(this))
+    mSchoolSettingsForm(new SchoolSettingsForm(this)),
+    mPersonalProfileForm(new PersonalProfileForm(this))
 {
     ui->setupUi(this);
 
     // Add tabs to the settings tab widget
     ui->twSettingsPages->addTab(mSchoolSettingsForm, "School Settings");
-    ui->twSettingsPages->addTab(new PersonalProfileForm(), "Personal Info");
+    ui->twSettingsPages->addTab(mPersonalProfileForm, "Personal Info");
 
     setupConnections();
 
@@ -31,5 +33,8 @@ void PageSettingsForm::setupConnections()
     // update the school logo when the settings logo has been changed
     connect(mSchoolSettingsForm, &SchoolSettingsForm::notifySchoolLogoUpdate,
             qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::updateSchoolLogo);
+
+    connect(qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::notifyUserLogon,
+            mPersonalProfileForm, &PersonalProfileForm::setUser);
 
 }

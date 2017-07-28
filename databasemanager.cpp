@@ -11,6 +11,7 @@
 #include "teacher.h"
 #include "student.h"
 #include "school.h"
+#include "user.h"
 
 DatabaseManager &DatabaseManager::instance()
 {
@@ -21,6 +22,24 @@ DatabaseManager &DatabaseManager::instance()
 DatabaseManager::~DatabaseManager()
 {
     mDatabase->close();
+}
+
+bool DatabaseManager::validateLogin(const QString &username, const QString &password)
+{
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(*) FROM user WHERE username = :username AND password = :password");
+    query.bindValue(":username", username);
+    query.bindValue(":password", password);
+
+    if (!query.exec() || !query.first())
+    {
+        return false;
+    }
+    else if (query.value(0).toInt() == 0)
+    {
+        return false;
+    }
+    return true;
 }
 
 int DatabaseManager::numClasses() const
@@ -134,6 +153,23 @@ void DatabaseManager::addStudent(const Student &student) const
     }
 }
 
+User DatabaseManager::getUser(const QString &username)
+{
+    QSqlQuery query;
+    query.prepare("SELECT password, fullname FROM user WHERE username = :username");
+    query.bindValue(":username", username);
+
+    if (query.exec())
+    {
+        query.next();
+        return User(username,
+                    query.value("password").toString(),
+                    query.value("fullname").toString());
+    }
+    qDebug() << "Unable to get the user data";
+    return User();
+}
+
 School DatabaseManager::getSchoolInfo() const
 {
     School school;
@@ -159,7 +195,7 @@ School DatabaseManager::getSchoolInfo() const
     return school;
 }
 
-Teacher DatabaseManager::getTeacher(const QString teacherId)
+Teacher DatabaseManager::getTeacher(const QString &teacherId)
 {
     Teacher teacher;
 
@@ -185,7 +221,7 @@ Teacher DatabaseManager::getTeacher(const QString teacherId)
     return teacher;
 }
 
-Student DatabaseManager::getStudent(const QString studentId)
+Student DatabaseManager::getStudent(const QString &studentId)
 {
     Student student;
 
