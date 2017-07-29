@@ -7,7 +7,7 @@ class User
 {
 public:
     User();
-    User(const QString &username, const QString &password, const QString &fullname);
+    User(const QString &userid, const QString &username, const QString &password, const QString &fullname);
 
     QString username() const;
     void setUsername(const QString &username);
@@ -18,7 +18,11 @@ public:
     QString fullName() const;
     void setFullName(const QString &fullName);
 
+    QString userId() const;
+    void setUserId(const QString &userId);
+
 private:
+    QString mUserId;
     QString mUsername;
     QString mPassword;
     QString mFullName;

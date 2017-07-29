@@ -41,6 +41,8 @@ public:
     void saveStudentData(const Student &student, const QString &studentId);
     void saveSchoolData(const School &school);
 
+    bool updateUserData(const User &user);
+
     void removeStudent(const QString &studentId);
     void removeTeacher(const QString &teacherId);
 

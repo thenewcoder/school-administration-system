@@ -34,8 +34,40 @@ bool Login::validLogin(const QString &username, const QString &password)
     return false;
 }
 
+User Login::getUserData()
+{
+    return mUser;
+}
+
+bool Login::updateUserData(const User &user)
+{
+    if (DatabaseManager::instance().updateUserData(user))
+    {
+        setUsername(user.username());
+        setPassword(user.password());
+        setFullname(user.fullName());
+        return true;
+    }
+    return false;
+}
+
 Login::Login()
     : mUser()
 {
 
+}
+
+void Login::setUsername(const QString &username)
+{
+    mUser.setUsername(username);
+}
+
+void Login::setPassword(const QString &password)
+{
+    mUser.setPassword(password);
+}
+
+void Login::setFullname(const QString &fullname)
+{
+    mUser.setFullName(fullname);
 }

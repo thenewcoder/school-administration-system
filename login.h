@@ -15,7 +15,13 @@ public:
     QString fullname() const;
 
     bool validLogin(const QString &username, const QString &password);
-    User getUserData(const QString &username);
+    User getUserData();
+
+    bool updateUserData(const User &user);
+
+    void setUsername(const QString &username);
+    void setPassword(const QString &password);
+    void setFullname(const QString &fullname);
 
 private:
     Login();

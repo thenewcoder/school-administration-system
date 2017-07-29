@@ -156,13 +156,14 @@ void DatabaseManager::addStudent(const Student &student) const
 User DatabaseManager::getUser(const QString &username)
 {
     QSqlQuery query;
-    query.prepare("SELECT password, fullname FROM user WHERE username = :username");
+    query.prepare("SELECT userId, password, fullname FROM user WHERE username = :username");
     query.bindValue(":username", username);
 
     if (query.exec())
     {
         query.next();
-        return User(username,
+        return User(query.value("userId").toString(),
+                    username,
                     query.value("password").toString(),
                     query.value("fullname").toString());
     }
@@ -334,6 +335,28 @@ void DatabaseManager::saveSchoolData(const School &school)
         qDebug() << "Unable to save school data";
         qDebug() << query.lastError().text();
     }
+}
+
+bool DatabaseManager::updateUserData(const User &user)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE user SET "
+                  "username = :username,"
+                  "password = :password,"
+                  "fullname = :fullname "
+                  "WHERE userId = :userid");
+    query.bindValue(":username", user.username());
+    query.bindValue(":password", user.password());
+    query.bindValue(":fullname", user.fullName());
+    query.bindValue(":userid", user.userId());
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to udpate the user data";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
 }
 
 void DatabaseManager::removeStudent(const QString &studentId)
