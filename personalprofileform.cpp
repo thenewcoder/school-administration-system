@@ -28,7 +28,10 @@ void PersonalProfileForm::setupUser()
 void PersonalProfileForm::setupConnections()
 {
     connect(ui->btnSave, &QPushButton::clicked, [this] () {
-
+        User user = Login::instance().getUserData();
+        user.setUsername(ui->leUsername->text());
+        user.setFullName(ui->leFullName->text());
+        Login::instance().updateUserData(user);
     });
 
     connect(ui->btnChangePassword, &QPushButton::clicked, [this] () {
