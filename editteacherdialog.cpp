@@ -16,7 +16,10 @@ EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->cbNationality->setModel(new QStringListModel(DatabaseManager::instance().nationalities()));
+    QStringList countries("Select one");
+    countries << DatabaseManager::instance().nationalities();
+    countries.removeAt(1);
+    ui->cbNationality->setModel(new QStringListModel(countries));
 
     setupConnections();
 }
