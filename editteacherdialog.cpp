@@ -8,6 +8,7 @@
 #include <QStandardPaths>
 #include <QStringListModel>
 #include <QBuffer>
+#include <QDebug>
 
 EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
     QDialog(parent),
@@ -18,7 +19,6 @@ EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
 
     QStringList countries("Select one");
     countries << DatabaseManager::instance().nationalities();
-    countries.removeAt(1);
     ui->cbNationality->setModel(new QStringListModel(countries));
 
     setupConnections();
@@ -84,12 +84,16 @@ void EditTeacherDialog::setGender(const QString &gender)
 
 QString EditTeacherDialog::nationality() const
 {
-    return ui->cbNationality->currentText();
+    QString text = ui->cbNationality->currentText();
+    if (text.isEmpty() || ui->cbNationality->currentIndex() == 0)
+        return "";
+    return text;
 }
 
 void EditTeacherDialog::setNationality(const QString &nationality)
 {
-    ui->cbNationality->setCurrentText(nationality);
+    QString text = !nationality.isEmpty() ? nationality : "Select one";
+    ui->cbNationality->setCurrentText(text);
 }
 
 QString EditTeacherDialog::address() const

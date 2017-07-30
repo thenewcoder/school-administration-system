@@ -19,7 +19,6 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
 
     QStringList countries("Select one");
     countries << DatabaseManager::instance().nationalities();
-    countries.removeAt(1);
     ui->cbNationality->setModel(new QStringListModel(countries));
 
     setupConnections();
@@ -121,13 +120,14 @@ void EditStudentDialog::setGender(const QString &gender)
 QString EditStudentDialog::nationality() const
 {
     QString text = ui->cbNationality->currentText();
-    QString country = !text.isEmpty() ? text : "";
-    return country;
+    if (text.isEmpty() || ui->cbNationality->currentIndex() == 0)
+        return "";
+    return text;
 }
 
 void EditStudentDialog::setNationality(const QString &nationality)
 {
-    QString text = !nationality.isEmpty() ? nationality : "Select One";
+    QString text = !nationality.isEmpty() ? nationality : "Select one";
     ui->cbNationality->setCurrentText(text);
 }
 
