@@ -5,7 +5,7 @@ Student::Student()
     , mNationality(""), mPassportNumber(""), mIDNumber("")
     , mAddress(""), mStudentPhoneNumber(""), mStudentEmail("")
     , mFathersPhoneNumber(""), mMothersPhoneNumber(""), mParentsEmail("")
-    , mPhoto()
+    , mPhoto(), mDormitory(""), mBusstop("")
 {
 
 }
@@ -13,12 +13,13 @@ Student::Student()
 Student::Student(const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
                  const QString &passportNumber, const QString &iDNumber, const QString &address,
                  const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
-                 const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo)
+                 const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
+                 const QString &dormitory, const QString &busstop)
     : mName(name), mDateOfBirth(dateOfBirth), mGender(gender)
     , mNationality(nationality), mPassportNumber(passportNumber), mIDNumber(iDNumber)
     , mAddress(address), mStudentPhoneNumber(studentPhoneNumber), mStudentEmail(studentEmail)
     , mFathersPhoneNumber(fathersPhoneNumber), mMothersPhoneNumber(mothersPhoneNumber)
-    , mParentsEmail(parentsEmail), mPhoto(photo)
+    , mParentsEmail(parentsEmail), mPhoto(photo), mDormitory(dormitory), mBusstop(busstop)
 {
 
 }
@@ -151,4 +152,24 @@ QByteArray Student::photo() const
 void Student::setPhoto(const QByteArray &photo)
 {
     mPhoto = photo;
+}
+
+QString Student::dormitory() const
+{
+    return mDormitory;
+}
+
+void Student::setDormitory(const QString &dormitory)
+{
+    mDormitory = dormitory;
+}
+
+QString Student::busstop() const
+{
+    return mBusstop;
+}
+
+void Student::setBusstop(const QString &busstop)
+{
+    mBusstop = busstop;
 }

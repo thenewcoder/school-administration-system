@@ -10,7 +10,8 @@ public:
     Student(const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
             const QString &passportNumber, const QString &iDNumber, const QString &address,
             const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
-            const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo);
+            const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
+            const QString &dormitory, const QString &busstop);
 
     QString name() const;
     void setName(const QString &name);
@@ -51,6 +52,12 @@ public:
     QByteArray photo() const;
     void setPhoto(const QByteArray &photo);
 
+    QString dormitory() const;
+    void setDormitory(const QString &dormitory);
+
+    QString busstop() const;
+    void setBusstop(const QString &busstop);
+
 private:
     QString mName;
     QString mDateOfBirth;
@@ -66,6 +73,9 @@ private:
     QString mParentsEmail;
 
     QByteArray mPhoto;
+
+    QString mDormitory;
+    QString mBusstop;
 };
 
 #endif // STUDENT_H

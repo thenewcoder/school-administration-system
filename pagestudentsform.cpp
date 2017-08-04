@@ -5,27 +5,32 @@
 #include "databasemanager.h"
 #include "student.h"
 
-#include <QSqlRelationalTableModel>
+#include <QSqlTableModel>
 #include <QMessageBox>
 #include <QDebug>
 
 PageStudentsForm::PageStudentsForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PageStudentsForm),
-    mModel(new QSqlRelationalTableModel(this))
+    mModel(new QSqlTableModel(this))
 {
     ui->setupUi(this);
 
-    mModel->setTable("student");
-    mModel->setRelation(3, QSqlRelation("gender", "genderId", "type"));
-    mModel->setRelation(4, QSqlRelation("nationality", "nationalityId", "country"));
-
+    mModel->setTable("student_summary");
     mModel->select();
+
+    mModel->setHeaderData(1, Qt::Horizontal, "Name");
+    mModel->setHeaderData(2, Qt::Horizontal, "Gender");
+    mModel->setHeaderData(3, Qt::Horizontal, "Nationality");
+    mModel->setHeaderData(4, Qt::Horizontal, "ID Number");
+    mModel->setHeaderData(5, Qt::Horizontal, "Phone Number");
+    mModel->setHeaderData(6, Qt::Horizontal, "Dormitory");
 
     ui->tvStudents->setModel(mModel);
     ui->tvStudents->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvStudents->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tvStudents->hideColumn(0); // hide id
+    ui->tvStudents->resizeRowsToContents();
 
     setupConnections();
 }

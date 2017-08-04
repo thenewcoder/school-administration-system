@@ -7,7 +7,7 @@ namespace Ui {
 class PageStudentsForm;
 }
 
-class QSqlRelationalTableModel;
+class QSqlTableModel;
 
 class PageStudentsForm : public QWidget
 {
@@ -31,7 +31,7 @@ private slots:
 private:
     Ui::PageStudentsForm *ui;
 
-    QSqlRelationalTableModel *mModel;
+    QSqlTableModel *mModel;
 };
 
 #endif // PAGESTUDENTSFORM_H

@@ -90,7 +90,38 @@ QStringList DatabaseManager::nationalities() const
         {
             list << query.value(0).toString();
         }
-        return list;
+    }
+    return list;
+}
+
+QStringList DatabaseManager::dormitories() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT name FROM dormitory ORDER BY name");
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    return list;
+}
+
+QStringList DatabaseManager::busstops() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT busstopName FROM bus_stop ORDER BY busstopName");
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
     }
     return list;
 }
@@ -227,15 +258,18 @@ Student DatabaseManager::getStudent(const QString &studentId)
     Student student;
 
     QSqlQuery query;
-    query.prepare(QString("SELECT name, dateOfBirth, type, country, passportNumber, "
+    query.prepare(QString("SELECT S.name, dateOfBirth, type, country, passportNumber, "
                           "IDNumber, address, studentPhoneNumber, studentEmail, "
-                          "fathersPhoneNumber, mothersPhoneNumber, parentEmail, photo FROM student AS S "
-                          "JOIN gender AS G ON S.genderId = G.genderId "
-                          "JOIN nationality AS N ON S.nationalityId = N.nationalityId "
+                          "fathersPhoneNumber, mothersPhoneNumber, parentEmail, photo, D.name AS dorm, B.busstopName AS busstop "
+                          "FROM student AS S "
+                          "LEFT OUTER JOIN gender AS G ON S.genderId = G.genderId "
+                          "LEFT OUTER JOIN nationality AS N ON S.nationalityId = N.nationalityId "
+                          "LEFT OUTER JOIN dormitory AS D ON D.dormitoryId = S.dormitoryId "
+                          "LEFT OUTER JOIN bus_stop AS B ON B.busstopId = S.busstopId "
                           "WHERE studentId = %1").arg(studentId));
     if (query.exec())
     {
-        while (query.next())
+        if (query.next())
         {
             student.setName(query.value("name").toString());
             student.setDateOfBirth(query.value("dateOfBirth").toString());
@@ -250,6 +284,8 @@ Student DatabaseManager::getStudent(const QString &studentId)
             student.setMothersPhoneNumber(query.value("mothersPhoneNumber").toString());
             student.setParentsEmail(query.value("parentEmail").toString());
             student.setPhoto(query.value("photo").toByteArray());
+            student.setDormitory(query.value("dorm").toString());
+            student.setBusstop(query.value("busstop").toString());
         }
     }
     else
@@ -293,7 +329,9 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
                           "passportNumber = :passportNumber, IDNumber = :IDNumber, "
                           "address = :address, studentPhoneNumber = :studentPhoneNumber, "
                           "studentEmail = :studentEmail, fathersPhoneNumber = :fathersPhoneNumber, "
-                          "mothersPhoneNumber = :mothersPhoneNumber, parentEmail = :parentEmail, photo = :photo "
+                          "mothersPhoneNumber = :mothersPhoneNumber, parentEmail = :parentEmail, photo = :photo, "
+                          "dormitoryId = (SELECT dormitoryId FROM dormitory WHERE name = :dormitory), "
+                          "busstopId = (SELECT busstopId FROM bus_stop WHERE busstopName = :busstopName) "
                           "WHERE studentId = :studentId"));
 
     query.bindValue(":name", student.name());
@@ -310,10 +348,13 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
     query.bindValue(":parentEmail", student.parentsEmail());
     query.bindValue(":studentId", studentId);
     query.bindValue(":photo", student.photo());
+    query.bindValue(":dormitory", student.dormitory());
+    query.bindValue(":busstopName", student.busstop());
 
     if (!query.exec())
     {
         qDebug() << "Unable to update student data";
+        qDebug() << query.lastError().text();
     }
 }
 

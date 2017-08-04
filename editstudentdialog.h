@@ -59,6 +59,12 @@ public:
     QByteArray photo() const;
     void setPhoto(const QByteArray &photo);
 
+    QString dormitory() const;
+    void setDormitory(const QString &dormitory);
+
+    QString busstop() const;
+    void setBusstop(const QString &busstop);
+
 private:
     void setupConnections();
 
