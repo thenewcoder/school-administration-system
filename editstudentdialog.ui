@@ -184,6 +184,16 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="timeSpec">
+     <enum>Qt::LocalTime</enum>
+    </property>
+    <property name="date">
+     <date>
+      <year>1900</year>
+      <month>1</month>
+      <day>1</day>
+     </date>
+    </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
@@ -328,7 +338,7 @@
      <rect>
       <x>180</x>
       <y>330</y>
-      <width>101</width>
+      <width>171</width>
       <height>22</height>
      </rect>
     </property>
@@ -343,7 +353,7 @@
      <rect>
       <x>180</x>
       <y>370</y>
-      <width>101</width>
+      <width>171</width>
       <height>22</height>
      </rect>
     </property>

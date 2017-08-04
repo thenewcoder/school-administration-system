@@ -27,7 +27,10 @@ public:
     int numClasses() const;
     int numTeachers() const;
     int numStudents() const;
+
     QStringList nationalities() const;
+    QStringList dormitories() const;
+    QStringList busstops() const;
 
     void addTeacher(const Teacher &teacher) const;
     void addStudent(const Student &student) const;

@@ -5,21 +5,18 @@
 #include "editteacherdialog.h"
 #include "teacher.h"
 
-#include <QSqlRelationalTableModel>
+#include <QSqlTableModel>
 #include <QMessageBox>
 #include <QDebug>
-
 
 PageTeachersForm::PageTeachersForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PageTeachersForm),
-    mModel(new QSqlRelationalTableModel(this))
+    mModel(new QSqlTableModel(this))
 {
     ui->setupUi(this);
 
-    mModel->setTable("teacher");
-    mModel->setRelation(2, QSqlRelation("gender", "genderId", "type"));
-    mModel->setRelation(3, QSqlRelation("nationality", "nationalityId", "country"));
+    mModel->setTable("teacher_summary2"); // maybe temporary
     mModel->select();
 
     mModel->setHeaderData(1, Qt::Horizontal, "Name");
@@ -27,12 +24,13 @@ PageTeachersForm::PageTeachersForm(QWidget *parent) :
     mModel->setHeaderData(3, Qt::Horizontal, "Nationality");
     mModel->setHeaderData(4, Qt::Horizontal, "Address");
     mModel->setHeaderData(5, Qt::Horizontal, "Phone Number");
+    mModel->setHeaderData(6, Qt::Horizontal, "Classes");  // maybe temporary
 
     ui->tvTeachers->setModel(mModel);
     ui->tvTeachers->hideColumn(0); // hide id
-    ui->tvTeachers->hideColumn(6); // hide photoid
     ui->tvTeachers->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvTeachers->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tvTeachers->resizeRowsToContents();
 
     setupConnections();
 }

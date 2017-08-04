@@ -17,9 +17,20 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QStringList countries("Select one");
+    // prepare the nationalities combo box
+    QStringList countries(tr("Select one"));
     countries << DatabaseManager::instance().nationalities();
     ui->cbNationality->setModel(new QStringListModel(countries));
+
+    // prepare the dormitory combo box
+    QStringList dormitories(tr("Select one"));
+    dormitories << DatabaseManager::instance().dormitories();
+    ui->cbDormitory->setModel(new QStringListModel(dormitories));
+
+    // prepare the busstop combo box
+    QStringList busstops(tr("Select one"));
+    busstops << DatabaseManager::instance().busstops();
+    ui->cbBusStop->setModel(new QStringListModel(busstops));
 
     setupConnections();
 }
@@ -52,6 +63,9 @@ void EditStudentDialog::setStudent(const Student &student)
     }
     else
         mDefaultPhoto = true;
+
+    setDormitory(student.dormitory());
+    setBusstop(student.busstop());
 }
 
 Student EditStudentDialog::getStudent() const
@@ -72,6 +86,9 @@ Student EditStudentDialog::getStudent() const
 
     if (!mDefaultPhoto)
         student.setPhoto(photo());
+
+    student.setDormitory(dormitory());
+    student.setBusstop(busstop());
 
     return student;
 }
@@ -225,6 +242,36 @@ void EditStudentDialog::setPhoto(const QByteArray &photo)
     QPixmap p;
     p.loadFromData(photo);
     ui->lblStudentPhoto->setPixmap(p);
+}
+
+QString EditStudentDialog::dormitory() const
+{
+    if (ui->cbDormitory->currentIndex() == 0)
+        return QString("");
+    return ui->cbDormitory->currentText();
+}
+
+void EditStudentDialog::setDormitory(const QString &dormitory)
+{
+    if (dormitory.isEmpty())
+        ui->cbDormitory->setCurrentIndex(0);
+    else
+        ui->cbDormitory->setCurrentText(dormitory);
+}
+
+QString EditStudentDialog::busstop() const
+{
+    if (ui->cbBusStop->currentIndex() == 0)
+        return QString("");
+    return ui->cbBusStop->currentText();
+}
+
+void EditStudentDialog::setBusstop(const QString &busstop)
+{
+    if (busstop.isEmpty())
+        ui->cbBusStop->setCurrentIndex(0);
+    else
+        ui->cbBusStop->setCurrentText(busstop);
 }
 
 void EditStudentDialog::setupConnections()
