@@ -1,7 +1,7 @@
 ﻿#include "student.h"
 
 Student::Student()
-    : mName(""), mDateOfBirth(""), mGender("")
+    : mId(""), mName(""), mDateOfBirth(""), mGender("")
     , mNationality(""), mPassportNumber(""), mIDNumber("")
     , mAddress(""), mStudentPhoneNumber(""), mStudentEmail("")
     , mFathersPhoneNumber(""), mMothersPhoneNumber(""), mParentsEmail("")
@@ -10,12 +10,12 @@ Student::Student()
 
 }
 
-Student::Student(const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
+Student::Student(const QString &id, const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
                  const QString &passportNumber, const QString &iDNumber, const QString &address,
                  const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
                  const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
                  const QString &dormitory, const QString &busstop)
-    : mName(name), mDateOfBirth(dateOfBirth), mGender(gender)
+    : mId(id), mName(name), mDateOfBirth(dateOfBirth), mGender(gender)
     , mNationality(nationality), mPassportNumber(passportNumber), mIDNumber(iDNumber)
     , mAddress(address), mStudentPhoneNumber(studentPhoneNumber), mStudentEmail(studentEmail)
     , mFathersPhoneNumber(fathersPhoneNumber), mMothersPhoneNumber(mothersPhoneNumber)
@@ -172,4 +172,14 @@ QString Student::busstop() const
 void Student::setBusstop(const QString &busstop)
 {
     mBusstop = busstop;
+}
+
+QString Student::getId() const
+{
+    return mId;
+}
+
+void Student::setId(const QString &id)
+{
+    mId = id;
 }

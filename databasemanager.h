@@ -49,6 +49,8 @@ public:
     void removeStudent(const QString &studentId);
     void removeTeacher(const QString &teacherId);
 
+    QStringList classesTaken(const QString &id);
+
 protected:
     DatabaseManager(const QString& path = DATABASE_FILENAME);
     DatabaseManager& operator=(const DatabaseManager& rhs);

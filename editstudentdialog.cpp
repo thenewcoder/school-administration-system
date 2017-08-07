@@ -66,6 +66,10 @@ void EditStudentDialog::setStudent(const Student &student)
 
     setDormitory(student.dormitory());
     setBusstop(student.busstop());
+
+    // prepare the classes list view
+    QStringList classesTaken = DatabaseManager::instance().classesTaken(student.getId());
+    ui->lvClassesTaken->setModel(new QStringListModel(classesTaken));
 }
 
 Student EditStudentDialog::getStudent() const

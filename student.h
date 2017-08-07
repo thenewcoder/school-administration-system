@@ -7,11 +7,15 @@ class Student
 {
 public:
     Student();
-    Student(const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
+    Student(const QString &id, const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
             const QString &passportNumber, const QString &iDNumber, const QString &address,
             const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
             const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
             const QString &dormitory, const QString &busstop);
+
+
+    QString getId() const;
+    void setId(const QString &id);
 
     QString name() const;
     void setName(const QString &name);
@@ -58,7 +62,9 @@ public:
     QString busstop() const;
     void setBusstop(const QString &busstop);
 
+
 private:
+    QString mId;
     QString mName;
     QString mDateOfBirth;
     QString mGender;

@@ -275,6 +275,7 @@ Student DatabaseManager::getStudent(const QString &studentId)
     {
         if (query.next())
         {
+            student.setId(studentId);
             student.setName(query.value("name").toString());
             student.setDateOfBirth(query.value("dateOfBirth").toString());
             student.setGender(query.value("type").toString());
@@ -424,6 +425,31 @@ void DatabaseManager::removeTeacher(const QString &teacherId)
     {
         qDebug() << "Unable to delete teacher: " << query.lastError().text();
     }
+}
+
+QStringList DatabaseManager::classesTaken(const QString &id)
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT subjectName FROM class_student CS "
+                  "JOIN class C ON C.classId = CS.classId "
+                  "JOIN subject SJ ON C.subjectId = SJ.subjectId "
+                  "WHERE studentId = :studentId");
+    query.bindValue(":studentId", id);
+
+    if (query.exec())
+    {
+        while (query.next())
+            list << query.value("subjectName").toString();
+    }
+    else
+    {
+        qDebug() << "Unable to get the classes";
+        qDebug() << query.lastError().text();
+    }
+
+    return list;
 }
 
 DatabaseManager::DatabaseManager(const QString &path)
