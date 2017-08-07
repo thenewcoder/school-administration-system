@@ -7,6 +7,8 @@ namespace Ui {
 class PageClassesForm;
 }
 
+class QSqlTableModel;
+
 class PageClassesForm : public QWidget
 {
     Q_OBJECT
@@ -16,7 +18,12 @@ public:
     ~PageClassesForm();
 
 private:
+    void setupConnections();
+
+private:
     Ui::PageClassesForm *ui;
+
+    QSqlTableModel *mModel;
 };
 
 #endif // PAGECLASSESFORM_H

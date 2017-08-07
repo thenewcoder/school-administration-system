@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     schoolsettingsform.cpp \
     personalprofileform.cpp \
     school.cpp \
-    user.cpp
+    user.cpp \
+    editclassdialog.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
@@ -60,7 +61,8 @@ HEADERS  += mainwindow.h \
     schoolsettingsform.h \
     personalprofileform.h \
     school.h \
-    user.h
+    user.h \
+    editclassdialog.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \
@@ -72,7 +74,8 @@ FORMS    += mainwindow.ui \
     editteacherdialog.ui \
     editstudentdialog.ui \
     schoolsettingsform.ui \
-    personalprofileform.ui
+    personalprofileform.ui \
+    editclassdialog.ui
 
 RESOURCES += \
     resources.qrc
