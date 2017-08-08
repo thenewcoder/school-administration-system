@@ -1,4 +1,4 @@
-#include "pageclassesform.h"
+﻿#include "pageclassesform.h"
 #include "ui_pageclassesform.h"
 
 #include <QSqlTableModel>
@@ -41,10 +41,9 @@ void PageClassesForm::setupConnections()
 
         if (add.exec() == QDialog::Accepted)
         {
-            qDebug() << "clicked ok";
-
             // insert the new class into the database
             DatabaseManager::instance().addClass(add.getClass());
+            mModel->select(); // update the table view
         }
 
     });
@@ -62,10 +61,31 @@ void PageClassesForm::setupConnections()
 
             if (edit.exec() == QDialog::Accepted)
             {
-                qDebug() << "Clicked ok";
+                // get the class info from the dialog and set the class Id
+                Class c = edit.getClass();
+                c.setClassId(id);
 
                 // update the database with the new class information
+                DatabaseManager::instance().saveClassData(c);
+                mModel->select(); // update the table view
+            }
+        }
+    });
 
+    connect(ui->btnDeleteClass, &QPushButton::clicked, [this] () {
+        QModelIndex index = ui->tvClasses->currentIndex();
+        if (index.isValid())
+        {
+            int result = QMessageBox::warning(this, "Delete Class",
+                                              "Are you sure you want to delete the selected class?\n"
+                                              "This action cannot be undone!",
+                                              QMessageBox::Ok, QMessageBox::Cancel);
+            if (result == QMessageBox::Ok)
+            {
+                // get the selected id and delete the class
+                QString id = mModel->data(mModel->index(index.row(), 0)).toString();
+                DatabaseManager::instance().removeClass(id);
+                mModel->select(); // update the table view
             }
         }
     });
