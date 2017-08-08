@@ -12,6 +12,7 @@
 #include "student.h"
 #include "school.h"
 #include "user.h"
+#include "class.h"
 
 DatabaseManager &DatabaseManager::instance()
 {
@@ -126,6 +127,50 @@ QStringList DatabaseManager::busstops() const
     return list;
 }
 
+QStringList DatabaseManager::subjects() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT subjectName FROM subject ORDER BY subjectName DESC");
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get the subjects";
+    }
+
+    return list;
+}
+
+QStringList DatabaseManager::classrooms() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT classroomName FROM classroom ORDER BY classroomName DESC");
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get the classoom names";
+    }
+
+    return list;
+}
+
 void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
     QSqlQuery query;
@@ -186,6 +231,62 @@ void DatabaseManager::addStudent(const Student &student) const
         qDebug() << "Unable to add a new student";
         qDebug() << query.lastError().text();
     }
+}
+
+void DatabaseManager::addClass(const Class &c) const
+{
+    QSqlQuery query;
+
+    // insert the class
+    query.prepare("INSERT INTO class(className, subjectId, classroomId) VALUES("
+                  ":className, "
+                  "(SELECT subjectId FROM subject WHERE subjectName = :subjectName) "
+                  "(SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");
+                  /*"WHERE EXISTS (SELECT subjectId FROM subject WHERE subjectName = :subjectName) "
+                  "AND (SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");*/
+
+    query.bindValue(":className", c.className());
+    query.bindValue(":subjectName", c.subject());
+    query.bindValue(":classroomName", c.classRoom());
+    if (!query.exec())
+    {
+        qDebug() << "Unable to insert class";
+        return;
+    }
+
+    // get the new class id
+    QString classId = query.lastInsertId().toString();
+
+    // insert the teachers - class connections
+    for (auto &t : c.teachers())
+    {
+        query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
+                        ":classId,"
+                        "(SELECT teacherId FROM teacher WHERE name = :name))");
+        query.bindValue(":classId", classId);
+        query.bindValue(":name", t);
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to insert teacher in the teacher-class table";
+        }
+    }
+
+    // insert the students - class connections
+    for (auto &s : c.students())
+    {
+        query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
+                      ":classId,"
+                      "(SELECT studentId FROM student WHERE name = :name))");
+        query.bindValue(":classId", classId);
+        query.bindValue(":name", s);
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to insert student into the class_student table";
+        }
+    }
+
 }
 
 User DatabaseManager::getUser(const QString &username)
@@ -301,6 +402,50 @@ Student DatabaseManager::getStudent(const QString &studentId)
     return student;
 }
 
+Class DatabaseManager::getClass(const QString &classId)
+{
+    Class c;
+    c.setClassId(classId);
+
+    QSqlQuery query;
+    query.prepare("SELECT subjectName, classroomName, Teachers "
+                  "FROM class_summary WHERE classId = :classId");
+
+    query.bindValue(":classId", classId);
+
+    if (query.exec())
+    {
+        if (query.next())
+        {
+            c.setClassname(query.value("subjectName").toString());
+            c.setClassroom(query.value("classroomName").toString());
+            c.setTeachers(query.value("Teachers").toString().split(","));
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get class data";
+    }
+
+    query.prepare("SELECT group_concat(S.name, ', ') AS Students FROM class_student CS "
+                  "JOIN student S ON S.studentId = CS.studentId "
+                  "WHERE classId = :classId");
+
+    query.bindValue(":classId", classId);
+    if (query.exec())
+    {
+        query.next();
+        c.setStudents(query.value("Students").toString().split(", "));
+    }
+    else
+    {
+        qDebug() << "Unable to get students for class data";
+        qDebug() << query.lastError().text();
+    }
+
+    return c;
+}
+
 void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &teacherId)
 {
     QSqlQuery query;
@@ -383,6 +528,77 @@ void DatabaseManager::saveSchoolData(const School &school)
     }
 }
 
+void DatabaseManager::saveClassData(const Class &c)
+{
+    QSqlQuery query;
+
+    // first update the class table
+    query.prepare("UPDATE class SET "
+                  "className = :className,"
+                  "subjectId = (SELECT subjectId FROM subject WHERE subjectName = :subjectName),"
+                  "classroomId = (SELECT classroomId FROM classroom WHERE classroomName = :classroomName) "
+                  "WHERE classId = :classId");
+    query.bindValue(":className", c.className());
+    query.bindValue(":subjectName", c.subject());
+    query.bindValue(":classroomName", c.classRoom());
+    query.bindValue(":classId", c.classId());
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update the class table";
+        return;
+    }
+
+    // update the teacher-class table
+    // first delete all teachers with the classId (is there a better way??)
+    query.prepare("DELETE FROM teacher_class WHERE classId = :classId");
+    query.bindValue(":classId", c.classId());
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete teachers";
+    }
+
+    // then insert all the teachers
+    for (auto &t : c.teachers())
+    {
+        query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES( "
+                      ":classId,"
+                      "(SELECT teacherId FROM teacher WHERE name = :teacherName))");
+        query.bindValue(":classId", c.classId());
+        query.bindValue(":teacherName", t);
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to insert teacher into teacher_class table";
+        }
+    }
+
+    // update all the students
+    //first delete all the students with the classId (any better way??)
+    query.prepare("DELETE FROM class_student WHERE classId = :classId");
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete students";
+    }
+
+    // insert the students
+    for (auto &s : c.students())
+    {
+        query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
+                      ":classId,"
+                      "(SELECT studentId FROM student WHERE name = :studentName))");
+        query.bindValue(":classId", c.classId());
+        query.bindValue(":studentName", s);
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to insert student into class_student table";
+        }
+    }
+}
+
 bool DatabaseManager::updateUserData(const User &user)
 {
     QSqlQuery query;
@@ -425,6 +641,11 @@ void DatabaseManager::removeTeacher(const QString &teacherId)
     {
         qDebug() << "Unable to delete teacher: " << query.lastError().text();
     }
+}
+
+void DatabaseManager::removeClass(const QString &classId)
+{
+
 }
 
 QStringList DatabaseManager::classesTaken(const QString &id)

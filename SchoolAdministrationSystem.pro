@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     personalprofileform.cpp \
     school.cpp \
     user.cpp \
-    editclassdialog.cpp
+    editclassdialog.cpp \
+    class.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
@@ -62,7 +63,8 @@ HEADERS  += mainwindow.h \
     personalprofileform.h \
     school.h \
     user.h \
-    editclassdialog.h
+    editclassdialog.h \
+    class.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \

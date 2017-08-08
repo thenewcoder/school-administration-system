@@ -12,6 +12,7 @@ class Teacher;
 class Student;
 class School;
 class User;
+class Class;
 
 // temporary name
 const QString DATABASE_FILENAME = "database.db";
@@ -31,23 +32,29 @@ public:
     QStringList nationalities() const;
     QStringList dormitories() const;
     QStringList busstops() const;
+    QStringList subjects() const;
+    QStringList classrooms() const;
 
     void addTeacher(const Teacher &teacher) const;
     void addStudent(const Student &student) const;
+    void addClass(const Class &c) const;
 
     User getUser(const QString &username);
     School getSchoolInfo() const;
     Teacher getTeacher(const QString &teacherId);
     Student getStudent(const QString &studentId);
+    Class getClass(const QString &classId);
 
     void saveTeacherData(const Teacher &teacher, const QString &teacherId);
     void saveStudentData(const Student &student, const QString &studentId);
     void saveSchoolData(const School &school);
+    void saveClassData(const Class &c);
 
     bool updateUserData(const User &user);
 
     void removeStudent(const QString &studentId);
     void removeTeacher(const QString &teacherId);
+    void removeClass(const QString &classId);
 
     QStringList classesTaken(const QString &id);
 
