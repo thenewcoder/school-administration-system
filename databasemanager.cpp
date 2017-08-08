@@ -645,7 +645,34 @@ void DatabaseManager::removeTeacher(const QString &teacherId)
 
 void DatabaseManager::removeClass(const QString &classId)
 {
+    QSqlQuery query;
 
+    // first remove record from class table
+    query.prepare("DELETE FROM class WHERE classId = :classId");
+    query.bindValue(":classId", classId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete from class table";
+    }
+
+    // remove record from teacher_class table
+    query.prepare("DELETE FROM teacher_class WHERE classId = :classId");
+    query.bindValue(":classId", classId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete class reference from teacher_class table";
+    }
+
+    // remove record from class_student table
+    query.prepare("DELETE FROM class_student WHERE classId = :classId");
+    query.bindValue(":classId", classId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete class reference from class_student table";
+    }
 }
 
 QStringList DatabaseManager::classesTaken(const QString &id)
