@@ -15,6 +15,9 @@ public:
     QString className() const;
     void setClassname(const QString &name);
 
+    QString subject() const;
+    void setSubject(const QString &subject);
+
     QString classRoom() const;
     void setClassroom(const QString &room);
 
@@ -24,11 +27,7 @@ public:
     QStringList students() const;
     void setStudents(const QStringList &students);
 
-    QString subject() const;
-    void setSubject(const QString &subject);
-
 private:
-
     QString mClassId;
     QString mClassname;
     QString mSubject;

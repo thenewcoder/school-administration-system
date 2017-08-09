@@ -5,6 +5,8 @@
 #include "class.h"
 #include "databasemanager.h"
 
+#include <QDebug>
+
 EditClassDialog::EditClassDialog(const QString &title, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditClassDialog),
@@ -90,6 +92,7 @@ void EditClassDialog::setStudents(const QStringList &students)
 void EditClassDialog::setClass(const Class &c)
 {
     setClassname(c.className());
+    setSubject(c.subject());
     setClassroom(c.classRoom());
     setTeachers(c.teachers());
     setStudents(c.students());
@@ -99,6 +102,7 @@ Class EditClassDialog::getClass() const
 {
     Class c;
     c.setClassname(className());
+    c.setSubject(subject());
     c.setClassroom(classroom());
     c.setTeachers(teachers());
     c.setStudents(students());

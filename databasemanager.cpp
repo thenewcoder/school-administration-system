@@ -408,7 +408,7 @@ Class DatabaseManager::getClass(const QString &classId)
     c.setClassId(classId);
 
     QSqlQuery query;
-    query.prepare("SELECT subjectName, classroomName, Teachers "
+    query.prepare("SELECT className, subjectName, classroomName, Teachers "
                   "FROM class_summary WHERE classId = :classId");
 
     query.bindValue(":classId", classId);
@@ -417,7 +417,8 @@ Class DatabaseManager::getClass(const QString &classId)
     {
         if (query.next())
         {
-            c.setClassname(query.value("subjectName").toString());
+            c.setClassname(query.value("className").toString());
+            c.setSubject(query.value("subjectName").toString());
             c.setClassroom(query.value("classroomName").toString());
             c.setTeachers(query.value("Teachers").toString().split(","));
         }
@@ -546,6 +547,7 @@ void DatabaseManager::saveClassData(const Class &c)
     if (!query.exec())
     {
         qDebug() << "Unable to update the class table";
+        qDebug() << query.lastError().text();
         return;
     }
 
@@ -577,6 +579,7 @@ void DatabaseManager::saveClassData(const Class &c)
     // update all the students
     //first delete all the students with the classId (any better way??)
     query.prepare("DELETE FROM class_student WHERE classId = :classId");
+    query.bindValue(":classId", c.classId());
 
     if (!query.exec())
     {
@@ -595,6 +598,7 @@ void DatabaseManager::saveClassData(const Class &c)
         if (!query.exec())
         {
             qDebug() << "Unable to insert student into class_student table";
+            qDebug() << query.lastError().text();
         }
     }
 }
