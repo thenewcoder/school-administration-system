@@ -1,4 +1,4 @@
-#ifndef EDITCLASSDIALOG_H
+﻿#ifndef EDITCLASSDIALOG_H
 #define EDITCLASSDIALOG_H
 
 #include <QDialog>
@@ -35,6 +35,9 @@ public:
 
     void setClass(const Class &c);
     Class getClass() const;
+
+private:
+    void setupConnections();
 
 private:
     Ui::EditClassDialog *ui;

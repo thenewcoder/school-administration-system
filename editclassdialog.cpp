@@ -1,9 +1,10 @@
-#include "editclassdialog.h"
+﻿#include "editclassdialog.h"
 #include "ui_editclassdialog.h"
 
 #include <QStringListModel>
 #include "class.h"
 #include "databasemanager.h"
+#include "selectordialog.h"
 
 #include <QDebug>
 
@@ -25,10 +26,13 @@ EditClassDialog::EditClassDialog(const QString &title, QWidget *parent) :
     // set up the subjects combo box
     QStringList subs = DatabaseManager::instance().subjects();
     ui->cbSubject->setModel(new QStringListModel(subs));
+    ui->cbSubject->model()->sort(0);
 
     // set up the classrooms combo box
     QStringList rooms = DatabaseManager::instance().classrooms();
     ui->cbClassroom->setModel(new QStringListModel(rooms));
+
+    setupConnections();
 }
 
 EditClassDialog::~EditClassDialog()
@@ -77,7 +81,6 @@ void EditClassDialog::setTeachers(const QStringList &teachers)
     mModelTeachers->sort(0);
 }
 
-
 QStringList EditClassDialog::students() const
 {
     return mModelStudents->stringList();
@@ -107,4 +110,31 @@ Class EditClassDialog::getClass() const
     c.setTeachers(teachers());
     c.setStudents(students());
     return c;
+}
+
+void EditClassDialog::setupConnections()
+{
+    connect(ui->btnEditTeachers, &QPushButton::clicked, [this] () {
+        SelectorDialog edit("Edit Teachers",
+                            DatabaseManager::instance().teachers(),
+                            teachers(), this);
+
+        if (edit.exec() == QDialog::Accepted)
+        {
+            // set the new teachers string list
+            setTeachers(edit.getItems());
+        }
+    });
+
+    connect(ui->btnEditStudents, &QPushButton::clicked, [this] () {
+        SelectorDialog edit("Edit Students",
+                            DatabaseManager::instance().students(),
+                            students(), this);
+
+        if (edit.exec() == QDialog::Accepted)
+        {
+            // set the new students string list
+            setStudents(edit.getItems());
+        }
+    });
 }

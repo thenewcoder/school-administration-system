@@ -171,6 +171,48 @@ QStringList DatabaseManager::classrooms() const
     return list;
 }
 
+QStringList DatabaseManager::teachers() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT name FROM teacher");
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get all the teachers";
+    }
+    return list;
+}
+
+QStringList DatabaseManager::students() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT name FROM student");
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get all the students";
+    }
+    return list;
+}
+
 void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
     QSqlQuery query;
@@ -738,4 +780,5 @@ void DatabaseManager::createDatabase()
             query.exec(statement);
         }
     }
+    file.close();
 }
