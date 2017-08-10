@@ -99,4 +99,7 @@ void PageClassesForm::setupConnections()
             }
         }
     });
+
+    // refresh the table
+    connect(ui->btnRefresh, &QPushButton::clicked, mModel, &QSqlTableModel::select);
 }

@@ -123,4 +123,5 @@ void PageTeachersForm::setupConnections()
     connect(ui->btnEdit, &QPushButton::clicked, this, &PageTeachersForm::editTeacher);
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageTeachersForm::addTeacher);
     connect(ui->btnDelete, &QPushButton::clicked, this, &PageTeachersForm::deleteTeacher);
+    connect(ui->btnRefresh, &QPushButton::clicked, mModel, &QSqlTableModel::select);
 }

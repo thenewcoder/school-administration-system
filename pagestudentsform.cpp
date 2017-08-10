@@ -43,10 +43,9 @@ PageStudentsForm::~PageStudentsForm()
 void PageStudentsForm::setupConnections()
 {
     connect(ui->btnEdit, &QPushButton::clicked, this, &PageStudentsForm::editStudent);
-
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageStudentsForm::addStudent);
-
     connect(ui->btnDelete, &QPushButton::clicked, this, &PageStudentsForm::deleteStudent);
+    connect(ui->btnRefresh, &QPushButton::clicked, mModel, &QSqlTableModel::select);
 }
 
 void PageStudentsForm::editStudent()
