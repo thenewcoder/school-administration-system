@@ -46,13 +46,12 @@ void PageTeachersForm::editTeacher()
     QModelIndex index = ui->tvTeachers->currentIndex();
     if (index.isValid())
     {
-        EditTeacherDialog edit(this);
-
         // fetch teacher data from the database
         QString teacherId = mModel->data(mModel->index(index.row(), 0)).toString();
         Teacher teacher = DatabaseManager::instance().getTeacher(teacherId);
 
         // set the dialog data
+        EditTeacherDialog edit(this, teacherId);
         edit.setTeacher(teacher);
 
         if (edit.exec() == QDialog::Accepted)
@@ -69,12 +68,11 @@ void PageTeachersForm::editTeacher()
 
             emit notifyTeacherChanged();
         }
-
     }
 }
 
 void PageTeachersForm::addTeacher()
-{
+{   
     EditTeacherDialog add(this);
     if (add.exec() == QDialog::Accepted)
     {

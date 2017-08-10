@@ -25,6 +25,9 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
     ui->tvClasses->setModel(mModel);
     ui->tvClasses->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvClasses->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tvClasses->hideColumn(0); // hide id column
+
+    // sort on the Class name
     mModel->sort(1, Qt::AscendingOrder);
 
     setupConnections();

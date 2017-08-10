@@ -36,6 +36,7 @@ public:
     QStringList classrooms() const;
     QStringList teachers() const;
     QStringList students() const;
+    QStringList classes() const;
 
     void addTeacher(const Teacher &teacher) const;
     void addStudent(const Student &student) const;
@@ -59,6 +60,7 @@ public:
     void removeClass(const QString &classId);
 
     QStringList classesTaken(const QString &id);
+    QStringList classesTaught(const QString &id);
 
 protected:
     DatabaseManager(const QString& path = DATABASE_FILENAME);

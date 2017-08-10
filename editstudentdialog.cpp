@@ -17,6 +17,9 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // set window title
+    setWindowTitle("Student Information");
+
     // prepare the nationalities combo box
     QStringList countries(tr("Select one"));
     countries << DatabaseManager::instance().nationalities();

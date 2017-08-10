@@ -213,6 +213,28 @@ QStringList DatabaseManager::students() const
     return list;
 }
 
+// returns all classes in the database
+QStringList DatabaseManager::classes() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT className from class");
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get all the classes";
+    }
+    return list;
+}
+
 void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
     QSqlQuery query;
@@ -730,7 +752,7 @@ QStringList DatabaseManager::classesTaken(const QString &id)
     QStringList list;
 
     QSqlQuery query;
-    query.prepare("SELECT subjectName FROM class_student CS "
+    query.prepare("SELECT className FROM class_student CS "
                   "JOIN class C ON C.classId = CS.classId "
                   "JOIN subject SJ ON C.subjectId = SJ.subjectId "
                   "WHERE studentId = :studentId");
@@ -739,7 +761,7 @@ QStringList DatabaseManager::classesTaken(const QString &id)
     if (query.exec())
     {
         while (query.next())
-            list << query.value("subjectName").toString();
+            list << query.value("className").toString();
     }
     else
     {
@@ -747,6 +769,31 @@ QStringList DatabaseManager::classesTaken(const QString &id)
         qDebug() << query.lastError().text();
     }
 
+    return list;
+}
+
+QStringList DatabaseManager::classesTaught(const QString &id)
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT className FROM teacher_class TC "
+                  "JOIN class C ON C.classId = TC.classId "
+                  "JOIN subject SJ ON C.subjectId = SJ.subjectId "
+                  "WHERE teacherId = :teacherId");
+    query.bindValue(":teacherId", id);
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get all the classes taught by teacher";
+    }
     return list;
 }
 

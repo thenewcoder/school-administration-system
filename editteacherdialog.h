@@ -8,13 +8,14 @@ class EditTeacherDialog;
 }
 
 class Teacher;
+class QStringListModel;
 
 class EditTeacherDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit EditTeacherDialog(QWidget *parent = 0);
+    explicit EditTeacherDialog(QWidget *parent, const QString &teacherId = QString());
     ~EditTeacherDialog();
 
     void setTeacher(const Teacher &teacher);
@@ -48,6 +49,9 @@ private:
 private:
     Ui::EditTeacherDialog *ui;
 
+    QStringListModel *mModelClasses;
+
+    QString mTeacherId;
     bool mDefaultPhoto;
 };
 

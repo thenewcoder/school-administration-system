@@ -3,6 +3,7 @@
 
 #include "databasemanager.h"
 #include "teacher.h"
+#include "selectordialog.h"
 
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -10,16 +11,25 @@
 #include <QBuffer>
 #include <QDebug>
 
-EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
+EditTeacherDialog::EditTeacherDialog(QWidget *parent, const QString &teacherId) :
     QDialog(parent),
     ui(new Ui::EditTeacherDialog),
-    mDefaultPhoto(true)
+    mDefaultPhoto(true),
+    mTeacherId(teacherId),
+    mModelClasses(new QStringListModel(this))
 {
     ui->setupUi(this);
 
+    // set dialog window title
+    setWindowTitle("Teacher Information");
+
+    // prepare the nationality combo box
     QStringList countries("Select one");
     countries << DatabaseManager::instance().nationalities();
     ui->cbNationality->setModel(new QStringListModel(countries));
+
+    // prepare the list view classes model
+    ui->lvClasses->setModel(mModelClasses);
 
     setupConnections();
 }
@@ -152,6 +162,19 @@ void EditTeacherDialog::setupConnections()
     connect(ui->btnRemove, &QPushButton::clicked, [this] () {
        ui->lblPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
        mDefaultPhoto = true;
+    });
+
+    connect(ui->btnEditClasses, &QPushButton::clicked, [this] () {
+        SelectorDialog edit("Edit Teacher Classes",
+                            DatabaseManager::instance().classes(),
+                            DatabaseManager::instance().classesTaught(mTeacherId),
+                            this);
+
+        if (edit.exec() == QDialog::Accepted)
+        {
+            // add the classes to list view
+            mModelClasses->setStringList(edit.getItems());
+        }
     });
 
 }
