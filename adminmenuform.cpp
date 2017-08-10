@@ -13,7 +13,8 @@ AdminMenuForm::AdminMenuForm(QWidget *parent) :
     ui(new Ui::AdminMenuForm),
     mPageHomeForm(new PageHomeForm(this)),
     mPageStudentsForm(new PageStudentsForm(this)),
-    mPageTeachersForm(new PageTeachersForm(this))
+    mPageTeachersForm(new PageTeachersForm(this)),
+    mPageClassesForm(new PageClassesForm(this))
 {
     ui->setupUi(this);
 
@@ -26,7 +27,7 @@ AdminMenuForm::AdminMenuForm(QWidget *parent) :
     ui->loSettings->addWidget(new PageSettingsForm(this));
     ui->loTeachers->addWidget(mPageTeachersForm);
     ui->loStudents->addWidget(mPageStudentsForm);
-    ui->loClasses->addWidget(new PageClassesForm(this));
+    ui->loClasses->addWidget(mPageClassesForm);
 
     setupConnections();
 }
@@ -51,6 +52,7 @@ void AdminMenuForm::setupConnections()
     // page home tab slots with teacher and student slots
     connect(mPageStudentsForm, &PageStudentsForm::notifyStudentChanged, mPageHomeForm, &PageHomeForm::initStudents);
     connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, mPageHomeForm, &PageHomeForm::initTeachers);
+    connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageHomeForm, &PageHomeForm::initClasses);
 }
 
 void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)

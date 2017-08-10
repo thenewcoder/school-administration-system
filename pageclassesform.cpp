@@ -25,6 +25,7 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
     ui->tvClasses->setModel(mModel);
     ui->tvClasses->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvClasses->setSelectionMode(QAbstractItemView::SingleSelection);
+    mModel->sort(1, Qt::AscendingOrder);
 
     setupConnections();
 }
@@ -36,6 +37,7 @@ PageClassesForm::~PageClassesForm()
 
 void PageClassesForm::setupConnections()
 {
+    // Add a new class
     connect(ui->btnAddClass, &QPushButton::clicked, [this] () {
         EditClassDialog add("Add New Class", this);
 
@@ -44,10 +46,14 @@ void PageClassesForm::setupConnections()
             // insert the new class into the database
             DatabaseManager::instance().addClass(add.getClass());
             mModel->select(); // update the table view
+
+            // Let connected slots know class table has changed
+            emit notifyClassesChanged();
         }
 
     });
 
+    // Edit an existing class
     connect(ui->btnEditClass, &QPushButton::clicked, [this] () {
         // get index and id for the selected row
         QModelIndex index = ui->tvClasses->currentIndex();
@@ -72,6 +78,7 @@ void PageClassesForm::setupConnections()
         }
     });
 
+    // Delete a class
     connect(ui->btnDeleteClass, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->tvClasses->currentIndex();
         if (index.isValid())
@@ -86,6 +93,9 @@ void PageClassesForm::setupConnections()
                 QString id = mModel->data(mModel->index(index.row(), 0)).toString();
                 DatabaseManager::instance().removeClass(id);
                 mModel->select(); // update the table view
+
+                // Let connected slots know class table has changed
+                emit notifyClassesChanged();
             }
         }
     });

@@ -1,4 +1,4 @@
-#ifndef PAGECLASSESFORM_H
+﻿#ifndef PAGECLASSESFORM_H
 #define PAGECLASSESFORM_H
 
 #include <QWidget>
@@ -16,6 +16,9 @@ class PageClassesForm : public QWidget
 public:
     explicit PageClassesForm(QWidget *parent = 0);
     ~PageClassesForm();
+
+signals:
+    void notifyClassesChanged();
 
 private:
     void setupConnections();

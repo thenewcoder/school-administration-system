@@ -282,7 +282,7 @@ void DatabaseManager::addClass(const Class &c) const
     // insert the class
     query.prepare("INSERT INTO class(className, subjectId, classroomId) VALUES("
                   ":className, "
-                  "(SELECT subjectId FROM subject WHERE subjectName = :subjectName) "
+                  "(SELECT subjectId FROM subject WHERE subjectName = :subjectName), "
                   "(SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");
                   /*"WHERE EXISTS (SELECT subjectId FROM subject WHERE subjectName = :subjectName) "
                   "AND (SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");*/
@@ -293,6 +293,7 @@ void DatabaseManager::addClass(const Class &c) const
     if (!query.exec())
     {
         qDebug() << "Unable to insert class";
+        qDebug() << query.lastError().text();
         return;
     }
 
@@ -693,15 +694,6 @@ void DatabaseManager::removeClass(const QString &classId)
 {
     QSqlQuery query;
 
-    // first remove record from class table
-    query.prepare("DELETE FROM class WHERE classId = :classId");
-    query.bindValue(":classId", classId);
-
-    if (!query.exec())
-    {
-        qDebug() << "Unable to delete from class table";
-    }
-
     // remove record from teacher_class table
     query.prepare("DELETE FROM teacher_class WHERE classId = :classId");
     query.bindValue(":classId", classId);
@@ -718,6 +710,18 @@ void DatabaseManager::removeClass(const QString &classId)
     if (!query.exec())
     {
         qDebug() << "Unable to delete class reference from class_student table";
+    }
+
+    // finally remove record from class table
+    query.prepare("DELETE FROM class WHERE classId = :classId");
+    query.bindValue(":classId", classId);
+
+    if (!query.exec())
+    {
+        qDebug() << "classId to delete:" << classId;
+        qDebug() << "Unable to delete from class table";
+        qDebug() << query.lastError().text();
+        return;
     }
 }
 
