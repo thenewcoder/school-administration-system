@@ -14,8 +14,8 @@ class SelectorDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SelectorDialog(const QString &title, QStringList &listAll = QStringList(),
-                            const QStringList &listChosen = QStringList(), QWidget *parent = 0);
+    explicit SelectorDialog(const QString &title, QStringList &listAll,
+                            const QStringList &listChosen, QWidget *parent = 0);
     ~SelectorDialog();
 
     QStringList getItems() const;

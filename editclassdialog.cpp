@@ -115,8 +115,9 @@ Class EditClassDialog::getClass() const
 void EditClassDialog::setupConnections()
 {
     connect(ui->btnEditTeachers, &QPushButton::clicked, [this] () {
+        QStringList all = DatabaseManager::instance().teachers();
         SelectorDialog edit("Edit Teachers",
-                            DatabaseManager::instance().teachers(),
+                            all,
                             teachers(), this);
 
         if (edit.exec() == QDialog::Accepted)
@@ -127,8 +128,9 @@ void EditClassDialog::setupConnections()
     });
 
     connect(ui->btnEditStudents, &QPushButton::clicked, [this] () {
+        QStringList all = DatabaseManager::instance().students();
         SelectorDialog edit("Edit Students",
-                            DatabaseManager::instance().students(),
+                            all,
                             students(), this);
 
         if (edit.exec() == QDialog::Accepted)

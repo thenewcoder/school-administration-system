@@ -14,9 +14,9 @@
 EditTeacherDialog::EditTeacherDialog(QWidget *parent, const QString &teacherId) :
     QDialog(parent),
     ui(new Ui::EditTeacherDialog),
-    mDefaultPhoto(true),
+    mModelClasses(new QStringListModel(this)),
     mTeacherId(teacherId),
-    mModelClasses(new QStringListModel(this))
+    mDefaultPhoto(true)
 {
     ui->setupUi(this);
 
@@ -165,8 +165,9 @@ void EditTeacherDialog::setupConnections()
     });
 
     connect(ui->btnEditClasses, &QPushButton::clicked, [this] () {
+        QStringList all = DatabaseManager::instance().classes();
         SelectorDialog edit("Edit Teacher Classes",
-                            DatabaseManager::instance().classes(),
+                            all,
                             DatabaseManager::instance().classesTaught(mTeacherId),
                             this);
 
