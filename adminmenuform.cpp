@@ -49,10 +49,11 @@ void AdminMenuForm::setupConnections()
        emit notifyLoggingOut();
     });
 
-    // page home tab slots with teacher and student slots
+    // connect signals and slots from the different pages
     connect(mPageStudentsForm, &PageStudentsForm::notifyStudentChanged, mPageHomeForm, &PageHomeForm::initStudents);
     connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, mPageHomeForm, &PageHomeForm::initTeachers);
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageHomeForm, &PageHomeForm::initClasses);
+    connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageTeachersForm, &PageTeachersForm::updateTeacherTable);
 }
 
 void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)

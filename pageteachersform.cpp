@@ -66,7 +66,7 @@ void PageTeachersForm::editTeacher()
             DatabaseManager::instance().saveTeacherData(teacher, teacherId);
 
             // refresh the teachers table
-            mModel->select();
+            updateTeacherTable();
 
             emit notifyTeacherChanged();
         }
@@ -86,7 +86,7 @@ void PageTeachersForm::addTeacher()
         DatabaseManager::instance().addTeacher(teacher);
 
         // update the teachers table
-        mModel->select();
+        updateTeacherTable();
 
         emit notifyTeacherChanged();
     }
@@ -111,11 +111,16 @@ void PageTeachersForm::deleteTeacher()
             DatabaseManager::instance().removeTeacher(teacherId);
 
             // refresh the teacher table
-            mModel->select();
+            updateTeacherTable();
 
             emit notifyTeacherChanged();
         }
     }
+}
+
+void PageTeachersForm::updateTeacherTable()
+{
+    mModel->select();
 }
 
 void PageTeachersForm::setupConnections()

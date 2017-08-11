@@ -77,6 +77,9 @@ void PageClassesForm::setupConnections()
                 // update the database with the new class information
                 DatabaseManager::instance().saveClassData(c);
                 mModel->select(); // update the table view
+
+                // Let connected slots know class table has changed
+                emit notifyClassesChanged();
             }
         }
     });

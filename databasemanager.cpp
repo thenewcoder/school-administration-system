@@ -761,6 +761,13 @@ bool DatabaseManager::updateUserData(const User &user)
 
 void DatabaseManager::removeStudent(const QString &studentId)
 {
+    // remove the student from the class_student table
+    if (!removeTableRows("class_student", "studentId", studentId))
+    {
+        qDebug() << "Unable to delete student's class_student connection";
+    }
+
+    // remove the student entry
     if (!removeTableRows("student", "studentId", studentId))
     {
         qDebug() << "Unable to delete student";
@@ -769,6 +776,13 @@ void DatabaseManager::removeStudent(const QString &studentId)
 
 void DatabaseManager::removeTeacher(const QString &teacherId)
 {
+    // remove teacher from teacher_class connection
+    if (!removeTableRows("teacher_class", "teacherId", teacherId))
+    {
+        qDebug() << "Unable to delete teacher's teacher_class connection";
+    }
+
+    // remove teacher entry
     if (!removeTableRows("teacher", "teacherId", teacherId))
     {
         qDebug() << "Unable to delete teacher";

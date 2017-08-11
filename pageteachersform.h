@@ -20,6 +20,9 @@ public:
 signals:
     void notifyTeacherChanged();
 
+public slots:
+    void updateTeacherTable();
+
 private slots:
     void editTeacher();
     void addTeacher();
