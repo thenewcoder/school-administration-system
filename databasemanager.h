@@ -58,6 +58,7 @@ public:
     void removeStudent(const QString &studentId);
     void removeTeacher(const QString &teacherId);
     void removeClass(const QString &classId);
+    bool removeTableRows(const QString &table, const QString &col, const QString &id);
 
     QStringList classesTaken(const QString &id);
     QStringList classesTaught(const QString &id);

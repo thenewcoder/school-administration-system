@@ -566,12 +566,9 @@ void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &tea
 
     // Update the class teacher connection
     // first delete the old connections
-    query.prepare("DELETE FROM teacher_class WHERE teacherId = :teacherId");
-    query.bindValue(":teacherId", teacherId);
-
-    if (!query.exec())
+    if (!removeTableRows("teacher_class", "teacherId", teacherId))
     {
-        qDebug() << "Unable to delete teacher taught classes";
+        qDebug() << "Unable to delete teacher class connection";
     }
 
     // add the new connections
@@ -630,12 +627,10 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
 
     // update the student class connection
     // start by remove all and start from scratch
-    query.prepare("DELETE FROM class_student WHERE studentId = :studentId");
-    query.bindValue(":studentId", studentId);
-
-    if (!query.exec())
+    if (!removeTableRows("class_student", "studentId", studentId))
     {
-        qDebug() << "Unable to remove student class rows";
+        qDebug() << "Unable to remove class connection in saveStudentData";
+        qDebug() << "studentId" << studentId;
     }
 
     // update with the new connections
@@ -698,10 +693,7 @@ void DatabaseManager::saveClassData(const Class &c)
 
     // update the teacher-class table
     // first delete all teachers with the classId (is there a better way??)
-    query.prepare("DELETE FROM teacher_class WHERE classId = :classId");
-    query.bindValue(":classId", c.classId());
-
-    if (!query.exec())
+    if (!removeTableRows("teacher_class", "classId", c.classId()))
     {
         qDebug() << "Unable to delete teachers";
     }
@@ -723,10 +715,7 @@ void DatabaseManager::saveClassData(const Class &c)
 
     // update all the students
     //first delete all the students with the classId (any better way??)
-    query.prepare("DELETE FROM class_student WHERE classId = :classId");
-    query.bindValue(":classId", c.classId());
-
-    if (!query.exec())
+    if (!removeTableRows("class_student", "classId", c.classId()))
     {
         qDebug() << "Unable to delete students";
     }
@@ -772,59 +761,55 @@ bool DatabaseManager::updateUserData(const User &user)
 
 void DatabaseManager::removeStudent(const QString &studentId)
 {
-    QSqlQuery query;
-    query.prepare(QString("DELETE FROM student WHERE studentId = %1").arg(studentId));
-
-    if (!query.exec())
+    if (!removeTableRows("student", "studentId", studentId))
     {
-        qDebug() << "Unable to delete student: " << query.lastError().text();
+        qDebug() << "Unable to delete student";
     }
 }
 
 void DatabaseManager::removeTeacher(const QString &teacherId)
 {
-    QSqlQuery query;
-    query.prepare(QString("DELETE FROM teacher WHERE teacherId = %1").arg(teacherId));
-
-    if (!query.exec())
+    if (!removeTableRows("teacher", "teacherId", teacherId))
     {
-        qDebug() << "Unable to delete teacher: " << query.lastError().text();
+        qDebug() << "Unable to delete teacher";
     }
 }
 
 void DatabaseManager::removeClass(const QString &classId)
 {
-    QSqlQuery query;
-
     // remove record from teacher_class table
-    query.prepare("DELETE FROM teacher_class WHERE classId = :classId");
-    query.bindValue(":classId", classId);
-
-    if (!query.exec())
+    if (!removeTableRows("teacher_class", "classId", classId))
     {
         qDebug() << "Unable to delete class reference from teacher_class table";
     }
 
     // remove record from class_student table
-    query.prepare("DELETE FROM class_student WHERE classId = :classId");
-    query.bindValue(":classId", classId);
-
-    if (!query.exec())
+    if (!removeTableRows("class_student", "classId", classId))
     {
         qDebug() << "Unable to delete class reference from class_student table";
     }
 
     // finally remove record from class table
-    query.prepare("DELETE FROM class WHERE classId = :classId");
-    query.bindValue(":classId", classId);
-
-    if (!query.exec())
+    if (!removeTableRows("class", "classId", classId))
     {
         qDebug() << "classId to delete:" << classId;
         qDebug() << "Unable to delete from class table";
-        qDebug() << query.lastError().text();
         return;
     }
+}
+
+bool DatabaseManager::removeTableRows(const QString &table, const QString &col, const QString &id)
+{
+    QSqlQuery query;
+    query.prepare(QString("DELETE FROM %1 WHERE %2 = %3").arg(table, col, id));
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to remove from" << table;
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
 }
 
 QStringList DatabaseManager::classesTaken(const QString &id)
