@@ -49,9 +49,11 @@ void PageTeachersForm::editTeacher()
         // fetch teacher data from the database
         QString teacherId = mModel->data(mModel->index(index.row(), 0)).toString();
         Teacher teacher = DatabaseManager::instance().getTeacher(teacherId);
+        teacher.setId(teacherId);
 
         // set the dialog data
-        EditTeacherDialog edit(this, teacherId);
+        EditTeacherDialog edit(this);
+        edit.setId(teacherId);
         edit.setTeacher(teacher);
 
         if (edit.exec() == QDialog::Accepted)

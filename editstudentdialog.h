@@ -8,6 +8,7 @@ class EditStudentDialog;
 }
 
 class Student;
+class QStringListModel;
 
 class EditStudentDialog : public QDialog
 {
@@ -19,6 +20,9 @@ public:
 
     void setStudent(const Student &student);
     Student getStudent() const;
+
+    QString getId() const;
+    void setId(const QString &id);
 
     QString name() const;
     void setName(const QString &name);
@@ -75,7 +79,10 @@ private slots:
 private:
     Ui::EditStudentDialog *ui;
 
+    QString mStudentId;
     bool mDefaultPhoto;
+
+    QStringListModel *mModelClasses;
 };
 
 #endif // EDITSTUDENTDIALOG_H

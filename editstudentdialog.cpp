@@ -3,6 +3,7 @@
 
 #include "databasemanager.h"
 #include "student.h"
+#include "selectordialog.h"
 
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -13,7 +14,9 @@
 EditStudentDialog::EditStudentDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditStudentDialog),
-    mDefaultPhoto(true)
+    mStudentId(),
+    mDefaultPhoto(true),
+    mModelClasses(new QStringListModel(this))
 {
     ui->setupUi(this);
 
@@ -34,6 +37,9 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
     QStringList busstops(tr("Select one"));
     busstops << DatabaseManager::instance().busstops();
     ui->cbBusStop->setModel(new QStringListModel(busstops));
+
+    // set up the model for the list view of classes
+    ui->lvClassesTaken->setModel(mModelClasses);
 
     setupConnections();
 }
@@ -71,8 +77,8 @@ void EditStudentDialog::setStudent(const Student &student)
     setBusstop(student.busstop());
 
     // prepare the classes list view
-    QStringList classesTaken = DatabaseManager::instance().classesTaken(student.getId());
-    ui->lvClassesTaken->setModel(new QStringListModel(classesTaken));
+    QStringList classesTaken = DatabaseManager::instance().classesTaken(getId());
+    mModelClasses->setStringList(classesTaken);
 }
 
 Student EditStudentDialog::getStudent() const
@@ -97,7 +103,20 @@ Student EditStudentDialog::getStudent() const
     student.setDormitory(dormitory());
     student.setBusstop(busstop());
 
+    // get classes from the list view
+    student.setClassesTaken(mModelClasses->stringList());
+
     return student;
+}
+
+QString EditStudentDialog::getId() const
+{
+    return mStudentId;
+}
+
+void EditStudentDialog::setId(const QString &id)
+{
+    mStudentId = id;
 }
 
 void EditStudentDialog::on_buttonBox_accepted()
@@ -300,6 +319,20 @@ void EditStudentDialog::setupConnections()
     connect(ui->btnRemove, &QPushButton::clicked, [this] () {
        ui->lblStudentPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
        mDefaultPhoto = true;
+    });
+
+    connect(ui->btnEditClasses, &QPushButton::clicked, [this] () {
+        QStringList all = DatabaseManager::instance().classes();
+        SelectorDialog edit("Edit Student Classes",
+                            all,
+                            DatabaseManager::instance().classesTaken(mStudentId),
+                            this);
+
+        if (edit.exec() == QDialog::Accepted)
+        {
+            // add classes to the list view of classes
+            mModelClasses->setStringList(edit.getItems());
+        }
     });
 }
 

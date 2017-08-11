@@ -15,11 +15,14 @@ class EditTeacherDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditTeacherDialog(QWidget *parent, const QString &teacherId = QString());
+    explicit EditTeacherDialog(QWidget *parent);
     ~EditTeacherDialog();
 
     void setTeacher(const Teacher &teacher);
     Teacher getTeacher() const;
+
+    QString getId() const;
+    void setId(const QString &id);
 
     QString name() const;
     void setName(const QString &name);
@@ -38,6 +41,9 @@ public:
 
     QByteArray photo() const;
     void setPhoto(const QByteArray &photo);
+
+    QStringList classesTaught() const;
+    void setClassesTaught(const QStringList &classes);
 
 private slots:
     void on_buttonBox_accepted();

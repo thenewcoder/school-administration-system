@@ -57,8 +57,10 @@ void PageStudentsForm::editStudent()
         // get the data of the selected student
         QString studentId = mModel->data(mModel->index(index.row(), 0)).toString();
         Student student = DatabaseManager::instance().getStudent(studentId);
+        student.setId(studentId); // temporary idea
 
         EditStudentDialog edit(this);
+        edit.setId(studentId);
 
         // set the values of the dialog
         edit.setStudent(student);

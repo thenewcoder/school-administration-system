@@ -11,11 +11,11 @@
 #include <QBuffer>
 #include <QDebug>
 
-EditTeacherDialog::EditTeacherDialog(QWidget *parent, const QString &teacherId) :
+EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditTeacherDialog),
     mModelClasses(new QStringListModel(this)),
-    mTeacherId(teacherId),
+    mTeacherId(),
     mDefaultPhoto(true)
 {
     ui->setupUi(this);
@@ -55,6 +55,10 @@ void EditTeacherDialog::setTeacher(const Teacher &teacher)
     }
     else
         mDefaultPhoto = true;
+
+    // prepare the list view of classes taught
+    QStringList classes = DatabaseManager::instance().classesTaught(getId());
+    setClassesTaught(classes);
 }
 
 Teacher EditTeacherDialog::getTeacher() const
@@ -69,7 +73,20 @@ Teacher EditTeacherDialog::getTeacher() const
     if (!mDefaultPhoto)
         teacher.setPhoto(photo());
 
+    // set the classes taught
+    teacher.setClassesTaught(classesTaught());
+
     return teacher;
+}
+
+QString EditTeacherDialog::getId() const
+{
+    return mTeacherId;
+}
+
+void EditTeacherDialog::setId(const QString &id)
+{
+    mTeacherId = id;
 }
 
 QString EditTeacherDialog::name() const
@@ -142,6 +159,16 @@ void EditTeacherDialog::setPhoto(const QByteArray &photo)
     ui->lblPhoto->setPixmap(p);
 }
 
+QStringList EditTeacherDialog::classesTaught() const
+{
+    return mModelClasses->stringList();
+}
+
+void EditTeacherDialog::setClassesTaught(const QStringList &classes)
+{
+    mModelClasses->setStringList(classes);
+}
+
 void EditTeacherDialog::setupConnections()
 {
     connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
@@ -168,7 +195,7 @@ void EditTeacherDialog::setupConnections()
         QStringList all = DatabaseManager::instance().classes();
         SelectorDialog edit("Edit Teacher Classes",
                             all,
-                            DatabaseManager::instance().classesTaught(mTeacherId),
+                            DatabaseManager::instance().classesTaught(getId()),
                             this);
 
         if (edit.exec() == QDialog::Accepted)

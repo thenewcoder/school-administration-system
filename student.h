@@ -2,6 +2,7 @@
 #define STUDENT_H
 
 #include <QString>
+#include <QStringList>
 
 class Student
 {
@@ -62,6 +63,8 @@ public:
     QString busstop() const;
     void setBusstop(const QString &busstop);
 
+    QStringList getClassesTaken() const;
+    void setClassesTaken(const QStringList &classesTaken);
 
 private:
     QString mId;
@@ -82,6 +85,8 @@ private:
 
     QString mDormitory;
     QString mBusstop;
+
+    QStringList mClassesTaken;
 };
 
 #endif // STUDENT_H

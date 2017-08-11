@@ -2,13 +2,17 @@
 #define TEACHER_H
 
 #include <QString>
+#include <QStringList>
 
 class Teacher
 {
 public:
     Teacher();
-    Teacher(const QString &name, const QString &gender, const QString &nationality,
+    Teacher(const QString &id, const QString &name, const QString &gender, const QString &nationality,
             const QString &address, const QString &phoneNumber, const QByteArray &photo);
+
+    QString id() const;
+    void setId(const QString &id);
 
     QString name() const;
     void setName(const QString &name);
@@ -28,7 +32,11 @@ public:
     QByteArray photo() const;
     void setPhoto(const QByteArray &photo);
 
+    QStringList classesTaught() const;
+    void setClassesTaught(const QStringList &classes);
+
 private:
+    QString mId;
     QString mName;
     QString mGender;
     QString mNationality;
@@ -36,6 +44,8 @@ private:
     QString mPhoneNumber;
 
     QByteArray mPhoto;
+
+    QStringList mClassesTaught;
 };
 
 #endif // TEACHER_H

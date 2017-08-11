@@ -8,8 +8,8 @@ Teacher::Teacher()
 
 }
 
-Teacher::Teacher(const QString &name, const QString &gender, const QString &nationality, const QString &address, const QString &phoneNumber, const QByteArray &photo)
-    : mName(name), mGender(gender)
+Teacher::Teacher(const QString &id, const QString &name, const QString &gender, const QString &nationality, const QString &address, const QString &phoneNumber, const QByteArray &photo)
+    : mId(id), mName(name), mGender(gender)
     , mNationality(nationality), mAddress(address)
     , mPhoneNumber(phoneNumber), mPhoto(photo)
 {
@@ -74,4 +74,24 @@ QByteArray Teacher::photo() const
 void Teacher::setPhoto(const QByteArray &photo)
 {
     mPhoto = photo;
+}
+
+QStringList Teacher::classesTaught() const
+{
+    return mClassesTaught;
+}
+
+void Teacher::setClassesTaught(const QStringList &classes)
+{
+    mClassesTaught = classes;
+}
+
+QString Teacher::id() const
+{
+    return mId;
+}
+
+void Teacher::setId(const QString &id)
+{
+    mId = id;
 }

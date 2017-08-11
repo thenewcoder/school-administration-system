@@ -256,6 +256,21 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
     {
         qDebug() << "Unable to add a teacher to the database";
     }
+
+    // add teacher class connection
+    for (auto &c : teacher.classesTaught())
+    {
+        query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
+                      "(SELECT classId FROM class WHERE className = :className),"
+                      ":teacherId)");
+        query.bindValue(":className", c);
+        query.bindValue(":teacherId", teacher.id());
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to insert class teacher connection";
+        }
+    }
 }
 
 void DatabaseManager::addStudent(const Student &student) const
@@ -295,6 +310,21 @@ void DatabaseManager::addStudent(const Student &student) const
         qDebug() << "Unable to add a new student";
         qDebug() << query.lastError().text();
     }
+
+    // add student class connection
+    for (auto &c : student.getClassesTaken())
+    {
+        query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
+                      "(SELECT classId FROM class WHERE className = :className),"
+                      ":studentId)");
+        query.bindValue(":className", c);
+        query.bindValue(":studentId", student.getId());
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to add student class connection";
+        }
+    }
 }
 
 void DatabaseManager::addClass(const Class &c) const
@@ -306,7 +336,7 @@ void DatabaseManager::addClass(const Class &c) const
                   ":className, "
                   "(SELECT subjectId FROM subject WHERE subjectName = :subjectName), "
                   "(SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");
-                  /*"WHERE EXISTS (SELECT subjectId FROM subject WHERE subjectName = :subjectName) "
+    /*"WHERE EXISTS (SELECT subjectId FROM subject WHERE subjectName = :subjectName) "
                   "AND (SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");*/
 
     query.bindValue(":className", c.className());
@@ -326,8 +356,8 @@ void DatabaseManager::addClass(const Class &c) const
     for (auto &t : c.teachers())
     {
         query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
-                        ":classId,"
-                        "(SELECT teacherId FROM teacher WHERE name = :name))");
+                      ":classId,"
+                      "(SELECT teacherId FROM teacher WHERE name = :name))");
         query.bindValue(":classId", classId);
         query.bindValue(":name", t);
 
@@ -533,6 +563,31 @@ void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &tea
     {
         qDebug() << "Unable to update teacher data";
     }
+
+    // Update the class teacher connection
+    // first delete the old connections
+    query.prepare("DELETE FROM teacher_class WHERE teacherId = :teacherId");
+    query.bindValue(":teacherId", teacherId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete teacher taught classes";
+    }
+
+    // add the new connections
+    for (auto &c : teacher.classesTaught())
+    {
+        query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
+                      "(SELECT classId FROM class WHERE className = :className),"
+                      ":teacherId)");
+        query.bindValue(":className", c);
+        query.bindValue(":teacherId", teacherId);
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to insert the new teacher class connections";
+        }
+    }
 }
 
 void DatabaseManager::saveStudentData(const Student &student, const QString &studentId)
@@ -571,6 +626,31 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
     {
         qDebug() << "Unable to update student data";
         qDebug() << query.lastError().text();
+    }
+
+    // update the student class connection
+    // start by remove all and start from scratch
+    query.prepare("DELETE FROM class_student WHERE studentId = :studentId");
+    query.bindValue(":studentId", studentId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to remove student class rows";
+    }
+
+    // update with the new connections
+    for (auto &c : student.getClassesTaken())
+    {
+        query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
+                      "(SELECT classId FROM class WHERE className = :className),"
+                      ":studentId)");
+        query.bindValue(":className", c);
+        query.bindValue(":studentId", studentId);
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to insert the new class values";
+        }
     }
 }
 

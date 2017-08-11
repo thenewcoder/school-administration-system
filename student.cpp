@@ -174,6 +174,16 @@ void Student::setBusstop(const QString &busstop)
     mBusstop = busstop;
 }
 
+QStringList Student::getClassesTaken() const
+{
+    return mClassesTaken;
+}
+
+void Student::setClassesTaken(const QStringList &classesTaken)
+{
+    mClassesTaken = classesTaken;
+}
+
 QString Student::getId() const
 {
     return mId;
