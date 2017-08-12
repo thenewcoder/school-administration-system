@@ -235,6 +235,27 @@ QStringList DatabaseManager::classes() const
     return list;
 }
 
+QStringList DatabaseManager::grades() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT name FROM grade");
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get all the grades";
+    }
+    return list;
+}
+
 void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
     QSqlQuery query;
@@ -280,12 +301,14 @@ void DatabaseManager::addStudent(const Student &student) const
                           "('name', 'dateOfBirth', genderId, nationalityId, "
                           "'passportNumber', 'IDNumber', 'address', "
                           "'studentPhoneNumber', 'studentEmail', 'fathersPhoneNumber', "
-                          "'mothersPhoneNumber', 'parentEmail', 'photo', dormitoryId, busstopId) "
+                          "'mothersPhoneNumber', 'parentEmail', gradeId, 'photo', dormitoryId, busstopId) "
                           "VALUES(:name, :dateOfBirth, "
                           "(SELECT genderId FROM gender WHERE type = :gender), "
                           "(SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           ":passportNumber, :IDNumber, :address, :studentPhoneNumber, :studentEmail, "
-                          ":fathersPhoneNumber, :mothersPhoneNumber, :parentEmail, :photo,"
+                          ":fathersPhoneNumber, :mothersPhoneNumber, :parentEmail, "
+                          "(SELECT gradeId from grade WHERE name = :gradeName), "
+                          ":photo,"
                           "(SELECT dormitoryId FROM dormitory WHERE name = :dormitory), "
                           "(SELECT busstopId FROM bus_stop WHERE busstopName = :busstop))"));
 
@@ -301,6 +324,7 @@ void DatabaseManager::addStudent(const Student &student) const
     query.bindValue(":fathersPhoneNumber", student.fathersPhoneNumber());
     query.bindValue(":mothersPhoneNumber", student.mothersPhoneNumber());
     query.bindValue(":parentEmail", student.parentsEmail());
+    query.bindValue(":gradeName", student.getGrade());
     query.bindValue(":photo", student.photo());
     query.bindValue(":dormitory", student.dormitory());
     query.bindValue(":busstop", student.busstop());
@@ -459,13 +483,14 @@ Student DatabaseManager::getStudent(const QString &studentId)
 
     QSqlQuery query;
     query.prepare(QString("SELECT S.name, dateOfBirth, type, country, passportNumber, "
-                          "IDNumber, address, studentPhoneNumber, studentEmail, "
+                          "GR.name AS Grade, IDNumber, address, studentPhoneNumber, studentEmail, "
                           "fathersPhoneNumber, mothersPhoneNumber, parentEmail, photo, D.name AS dorm, B.busstopName AS busstop "
                           "FROM student AS S "
                           "LEFT OUTER JOIN gender AS G ON S.genderId = G.genderId "
                           "LEFT OUTER JOIN nationality AS N ON S.nationalityId = N.nationalityId "
                           "LEFT OUTER JOIN dormitory AS D ON D.dormitoryId = S.dormitoryId "
                           "LEFT OUTER JOIN bus_stop AS B ON B.busstopId = S.busstopId "
+                          "LEFT OUTER JOIN grade AS GR ON GR.gradeId = S.gradeId "
                           "WHERE studentId = %1").arg(studentId));
     if (query.exec())
     {
@@ -476,6 +501,7 @@ Student DatabaseManager::getStudent(const QString &studentId)
             student.setDateOfBirth(query.value("dateOfBirth").toString());
             student.setGender(query.value("type").toString());
             student.setNationality(query.value("country").toString());
+            student.setGrade(query.value("Grade").toString());
             student.setPassportNumber(query.value("passportNumber").toString());
             student.setIDNumber(query.value("IDNumber").toString());
             student.setAddress(query.value("address").toString());
@@ -597,7 +623,9 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
                           "passportNumber = :passportNumber, IDNumber = :IDNumber, "
                           "address = :address, studentPhoneNumber = :studentPhoneNumber, "
                           "studentEmail = :studentEmail, fathersPhoneNumber = :fathersPhoneNumber, "
-                          "mothersPhoneNumber = :mothersPhoneNumber, parentEmail = :parentEmail, photo = :photo, "
+                          "mothersPhoneNumber = :mothersPhoneNumber, parentEmail = :parentEmail, "
+                          "gradeId = (SELECT gradeId FROM grade WHERE name = :gradeName), "
+                          "photo = :photo, "
                           "dormitoryId = (SELECT dormitoryId FROM dormitory WHERE name = :dormitory), "
                           "busstopId = (SELECT busstopId FROM bus_stop WHERE busstopName = :busstopName) "
                           "WHERE studentId = :studentId"));
@@ -614,6 +642,7 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
     query.bindValue(":fathersPhoneNumber", student.fathersPhoneNumber());
     query.bindValue(":mothersPhoneNumber", student.mothersPhoneNumber());
     query.bindValue(":parentEmail", student.parentsEmail());
+    query.bindValue(":gradeName", student.getGrade());
     query.bindValue(":studentId", studentId);
     query.bindValue(":photo", student.photo());
     query.bindValue(":dormitory", student.dormitory());

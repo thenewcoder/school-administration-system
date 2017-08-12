@@ -37,6 +37,7 @@ public:
     QStringList teachers() const;
     QStringList students() const;
     QStringList classes() const;
+    QStringList grades() const;
 
     void addTeacher(const Teacher &teacher) const;
     void addStudent(const Student &student) const;

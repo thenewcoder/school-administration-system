@@ -36,6 +36,9 @@ public:
     QString nationality() const;
     void setNationality(const QString &nationality);
 
+    QString grade() const;
+    void setGrade(const QString &grade);
+
     QString passportNumber() const;
     void setPassportNumber(const QString &number);
 

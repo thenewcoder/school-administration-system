@@ -110,6 +110,9 @@
      <height>151</height>
     </rect>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
   </widget>
   <widget class="QListView" name="lvStudents">
    <property name="geometry">
@@ -119,6 +122,9 @@
      <width>181</width>
      <height>181</height>
     </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
    </property>
   </widget>
   <widget class="QPushButton" name="btnEditTeachers">

@@ -9,7 +9,7 @@ class Student
 public:
     Student();
     Student(const QString &id, const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
-            const QString &passportNumber, const QString &iDNumber, const QString &address,
+            const QString &grade, const QString &passportNumber, const QString &iDNumber, const QString &address,
             const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
             const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
             const QString &dormitory, const QString &busstop);
@@ -66,12 +66,16 @@ public:
     QStringList getClassesTaken() const;
     void setClassesTaken(const QStringList &classesTaken);
 
+    QString getGrade() const;
+    void setGrade(const QString &grade);
+
 private:
     QString mId;
     QString mName;
     QString mDateOfBirth;
     QString mGender;
     QString mNationality;
+    QString mGrade;
     QString mPassportNumber;
     QString mIDNumber;
     QString mAddress;

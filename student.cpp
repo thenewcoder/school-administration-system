@@ -2,7 +2,7 @@
 
 Student::Student()
     : mId(""), mName(""), mDateOfBirth(""), mGender("")
-    , mNationality(""), mPassportNumber(""), mIDNumber("")
+    , mNationality(""), mGrade(""), mPassportNumber(""), mIDNumber("")
     , mAddress(""), mStudentPhoneNumber(""), mStudentEmail("")
     , mFathersPhoneNumber(""), mMothersPhoneNumber(""), mParentsEmail("")
     , mPhoto(), mDormitory(""), mBusstop("")
@@ -11,12 +11,12 @@ Student::Student()
 }
 
 Student::Student(const QString &id, const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
-                 const QString &passportNumber, const QString &iDNumber, const QString &address,
+                 const QString &grade, const QString &passportNumber, const QString &iDNumber, const QString &address,
                  const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
                  const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
                  const QString &dormitory, const QString &busstop)
     : mId(id), mName(name), mDateOfBirth(dateOfBirth), mGender(gender)
-    , mNationality(nationality), mPassportNumber(passportNumber), mIDNumber(iDNumber)
+    , mNationality(nationality), mGrade(grade), mPassportNumber(passportNumber), mIDNumber(iDNumber)
     , mAddress(address), mStudentPhoneNumber(studentPhoneNumber), mStudentEmail(studentEmail)
     , mFathersPhoneNumber(fathersPhoneNumber), mMothersPhoneNumber(mothersPhoneNumber)
     , mParentsEmail(parentsEmail), mPhoto(photo), mDormitory(dormitory), mBusstop(busstop)
@@ -182,6 +182,16 @@ QStringList Student::getClassesTaken() const
 void Student::setClassesTaken(const QStringList &classesTaken)
 {
     mClassesTaken = classesTaken;
+}
+
+QString Student::getGrade() const
+{
+    return mGrade;
+}
+
+void Student::setGrade(const QString &grade)
+{
+    mGrade = grade;
 }
 
 QString Student::getId() const

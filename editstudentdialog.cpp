@@ -28,6 +28,11 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
     countries << DatabaseManager::instance().nationalities();
     ui->cbNationality->setModel(new QStringListModel(countries));
 
+    // prepare the grade combo box
+    QStringList grades(tr("Select One"));
+    grades << DatabaseManager::instance().grades();
+    ui->cbGrade->setModel(new QStringListModel(grades));
+
     // prepare the dormitory combo box
     QStringList dormitories(tr("Select one"));
     dormitories << DatabaseManager::instance().dormitories();
@@ -55,6 +60,7 @@ void EditStudentDialog::setStudent(const Student &student)
     setDateOfBirth(student.dateOfBirth());
     setGender(student.gender());
     setNationality(student.nationality());
+    setGrade(student.getGrade());
     setPassportNumber(student.passportNumber());
     setIdNumber(student.iDNumber());
     setAddress(student.address());
@@ -88,6 +94,7 @@ Student EditStudentDialog::getStudent() const
     student.setDateOfBirth(dateOfBirth());
     student.setGender(gender());
     student.setNationality(nationality());
+    student.setGrade(grade());
     student.setPassportNumber(passportNumber());
     student.setIDNumber(idNumber());
     student.setAddress(address());
@@ -172,6 +179,19 @@ void EditStudentDialog::setNationality(const QString &nationality)
 {
     QString text = !nationality.isEmpty() ? nationality : tr("Select one");
     ui->cbNationality->setCurrentText(text);
+}
+
+QString EditStudentDialog::grade() const
+{
+    if (ui->cbGrade->currentIndex() == 0)
+        return QString();
+    return ui->cbGrade->currentText();
+}
+
+void EditStudentDialog::setGrade(const QString &grade)
+{
+    if (!grade.isEmpty())
+        ui->cbGrade->setCurrentText(grade);
 }
 
 QString EditStudentDialog::passportNumber() const
