@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `nationality` (
 INSERT INTO `nationality` (
         `country`)
         VALUES
+        (""),
         ("Afghanistan"),
         ("Albania"),
         ("Algeria"),
@@ -254,7 +255,7 @@ INSERT INTO `nationality` (
 
 CREATE TABLE IF NOT EXISTS `teacher` (
 	`teacherId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`name`	TEXT,
+        `name`	        TEXT,
 	`genderId`	INTEGER,
 	`nationalityId`	INTEGER,
 	`address`	TEXT,
@@ -266,6 +267,7 @@ CREATE TABLE IF NOT EXISTS `teacher` (
 
 CREATE TABLE IF NOT EXISTS `class` (
 	`classId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        `className`	TEXT,
 	`subjectId`	INTEGER,
 	`classroomId`	INTEGER,
 	FOREIGN KEY(`subjectId`) REFERENCES subject(subjectId),
@@ -275,6 +277,7 @@ CREATE TABLE IF NOT EXISTS `class` (
 CREATE TABLE IF NOT EXISTS `teacher_class` (
 	`classId`	INTEGER,
 	`teacherId`	INTEGER,
+        PRIMARY KEY(`classId`,`teacherId`),
 	FOREIGN KEY(`classId`) REFERENCES class(classId),
 	FOREIGN KEY(`teacherId`) REFERENCES teacher(teacherId)
 );
@@ -323,6 +326,7 @@ CREATE TABLE IF NOT EXISTS `student` (
 CREATE TABLE IF NOT EXISTS `class_student` (
 	`classId`	INTEGER,
 	`studentId`	INTEGER,
+        PRIMARY KEY(`classId`,`studentId`),
 	FOREIGN KEY(`classId`) REFERENCES class(classId),
 	FOREIGN KEY(`studentId`) REFERENCES student(studentId)
 );
@@ -343,3 +347,32 @@ CREATE TABLE IF NOT EXISTS `test_result` (
 	FOREIGN KEY(`testId`) REFERENCES `test`(`testId`),
 	FOREIGN KEY(`studentId`) REFERENCES `student`(`studentId`)
 );
+
+CREATE VIEW class_summary AS
+SELECT C.classId, C.className, S.subjectName, CR.classroomName, group_concat(DISTINCT T.name) AS 'Teachers', count( DISTINCT CS.studentId) AS 'Num Students'
+FROM class C
+LEFT OUTER JOIN class_student CS ON C.classId = CS.classId
+LEFT OUTER JOIN subject S ON S.subjectId = C.subjectId
+LEFT OUTER JOIN classroom CR ON CR.classroomId = C.classroomId
+LEFT OUTER JOIN teacher_class TC ON TC.classId = C.classId
+LEFT OUTER JOIN teacher T ON T.teacherId = TC.teacherId
+GROUP BY CS.classId
+ORDER BY S.SubjectName;
+
+CREATE VIEW student_summary AS
+SELECT studentId, S.name, GR.name, type, country, IDNumber, studentPhoneNumber, D.name
+FROM student S
+LEFT OUTER JOIN gender G on G.genderId = S.genderId
+LEFT OUTER JOIN nationality N on N.nationalityId = S.nationalityId
+LEFT OUTER JOIN dormitory D on D.dormitoryId = S.dormitoryId
+LEFT OUTER JOIN grade GR ON GR.gradeId = S.gradeId
+ORDER BY S.name;
+
+CREATE VIEW teacher_summary AS
+SELECT TS.teacherId, TS.name, TS.type, TS.country, TS.address, TS.phoneNumber, group_concat(S.subjectName, ', ') AS classes
+FROM teacher_summary TS
+LEFT OUTER JOIN teacher_class TC ON TC.teacherId = TS.teacherId
+LEFT OUTER JOIN class C ON C.classId = TC.classId
+LEFT OUTER JOIN subject S ON C.subjectId = S.subjectId
+GROUP BY TS.teacherId
+ORDER BY TS.name;
