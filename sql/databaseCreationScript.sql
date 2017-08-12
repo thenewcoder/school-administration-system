@@ -1,4 +1,12 @@
-﻿CREATE TABLE IF NOT EXISTS `gender` (
+﻿CREATE TABLE IF NOT EXISTS `school` (
+        `name`	TEXT DEFAULT "",
+        `address`	TEXT DEFAULT "",
+        `phone`	TEXT DEFAULT "",
+        `email`	TEXT DEFAULT "",
+        `logo`	BLOB
+);
+
+CREATE TABLE IF NOT EXISTS `gender` (
 	`genderId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`type`	TEXT NOT NULL UNIQUE
 );
@@ -360,7 +368,7 @@ GROUP BY CS.classId
 ORDER BY S.SubjectName;
 
 CREATE VIEW student_summary AS
-SELECT studentId, S.name, GR.name, type, country, IDNumber, studentPhoneNumber, D.name
+SELECT studentId, S.name, GR.name AS 'Grade', type, country, IDNumber, studentPhoneNumber, D.name AS 'Dorm'
 FROM student S
 LEFT OUTER JOIN gender G on G.genderId = S.genderId
 LEFT OUTER JOIN nationality N on N.nationalityId = S.nationalityId
@@ -369,6 +377,12 @@ LEFT OUTER JOIN grade GR ON GR.gradeId = S.gradeId
 ORDER BY S.name;
 
 CREATE VIEW teacher_summary AS
+SELECT teacherId, name, type, country, address, phoneNumber
+FROM teacher
+LEFT OUTER JOIN gender ON gender.genderId = teacher.genderId
+LEFT OUTER JOIN nationality ON nationality.nationalityId = teacher.nationalityId;
+
+CREATE VIEW teacher_summary2 AS
 SELECT TS.teacherId, TS.name, TS.type, TS.country, TS.address, TS.phoneNumber, group_concat(S.subjectName, ', ') AS classes
 FROM teacher_summary TS
 LEFT OUTER JOIN teacher_class TC ON TC.teacherId = TS.teacherId
