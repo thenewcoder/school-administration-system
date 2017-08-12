@@ -19,12 +19,12 @@ PageStudentsForm::PageStudentsForm(QWidget *parent) :
     mModel->setTable("student_summary");
     mModel->select();
 
-    mModel->setHeaderData(1, Qt::Horizontal, "Name");
-    mModel->setHeaderData(2, Qt::Horizontal, "Gender");
-    mModel->setHeaderData(3, Qt::Horizontal, "Nationality");
-    mModel->setHeaderData(4, Qt::Horizontal, "ID Number");
-    mModel->setHeaderData(5, Qt::Horizontal, "Phone Number");
-    mModel->setHeaderData(6, Qt::Horizontal, "Dormitory");
+    mModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(2, Qt::Horizontal, tr("Gender"));
+    mModel->setHeaderData(3, Qt::Horizontal, tr("Nationality"));
+    mModel->setHeaderData(4, Qt::Horizontal, tr("ID Number"));
+    mModel->setHeaderData(5, Qt::Horizontal, tr("Phone Number"));
+    mModel->setHeaderData(6, Qt::Horizontal, tr("Dormitory"));
 
     ui->tvStudents->setModel(mModel);
     ui->tvStudents->setSelectionBehavior(QAbstractItemView::SelectRows);

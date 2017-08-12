@@ -119,7 +119,7 @@ QString EditTeacherDialog::nationality() const
 
 void EditTeacherDialog::setNationality(const QString &nationality)
 {
-    QString text = !nationality.isEmpty() ? nationality : "Select one";
+    QString text = !nationality.isEmpty() ? nationality : tr("Select one");
     ui->cbNationality->setCurrentText(text);
 }
 
@@ -193,7 +193,7 @@ void EditTeacherDialog::setupConnections()
 
     connect(ui->btnEditClasses, &QPushButton::clicked, [this] () {
         QStringList all = DatabaseManager::instance().classes();
-        SelectorDialog edit("Edit Teacher Classes",
+        SelectorDialog edit(tr("Edit Teacher Classes"),
                             all,
                             DatabaseManager::instance().classesTaught(getId()),
                             this);

@@ -116,7 +116,7 @@ void EditClassDialog::setupConnections()
 {
     connect(ui->btnEditTeachers, &QPushButton::clicked, [this] () {
         QStringList all = DatabaseManager::instance().teachers();
-        SelectorDialog edit("Edit Teachers",
+        SelectorDialog edit(tr("Edit Teachers"),
                             all,
                             teachers(), this);
 
@@ -129,7 +129,7 @@ void EditClassDialog::setupConnections()
 
     connect(ui->btnEditStudents, &QPushButton::clicked, [this] () {
         QStringList all = DatabaseManager::instance().students();
-        SelectorDialog edit("Edit Students",
+        SelectorDialog edit(tr("Edit Students"),
                             all,
                             students(), this);
 

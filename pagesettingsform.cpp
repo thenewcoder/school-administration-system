@@ -15,8 +15,8 @@ PageSettingsForm::PageSettingsForm(QWidget *parent) :
     ui->setupUi(this);
 
     // Add tabs to the settings tab widget
-    ui->twSettingsPages->addTab(mSchoolSettingsForm, "School Settings");
-    ui->twSettingsPages->addTab(mPersonalProfileForm, "Personal Info");
+    ui->twSettingsPages->addTab(mSchoolSettingsForm, tr("School Settings"));
+    ui->twSettingsPages->addTab(mPersonalProfileForm, tr("Personal Info"));
 
     setupConnections();
 

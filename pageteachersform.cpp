@@ -19,12 +19,12 @@ PageTeachersForm::PageTeachersForm(QWidget *parent) :
     mModel->setTable("teacher_summary2"); // maybe temporary
     mModel->select();
 
-    mModel->setHeaderData(1, Qt::Horizontal, "Name");
-    mModel->setHeaderData(2, Qt::Horizontal, "Gender");
-    mModel->setHeaderData(3, Qt::Horizontal, "Nationality");
-    mModel->setHeaderData(4, Qt::Horizontal, "Address");
-    mModel->setHeaderData(5, Qt::Horizontal, "Phone Number");
-    mModel->setHeaderData(6, Qt::Horizontal, "Classes");  // maybe temporary
+    mModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(2, Qt::Horizontal, tr("Gender"));
+    mModel->setHeaderData(3, Qt::Horizontal, tr("Nationality"));
+    mModel->setHeaderData(4, Qt::Horizontal, tr("Address"));
+    mModel->setHeaderData(5, Qt::Horizontal, tr("Phone Number"));
+    mModel->setHeaderData(6, Qt::Horizontal, tr("Classes"));  // maybe temporary
 
     ui->tvTeachers->setModel(mModel);
     ui->tvTeachers->hideColumn(0); // hide id

@@ -20,6 +20,12 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
     mModel->setTable("class_summary");
     mModel->select();
 
+    // set header names
+    mModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(2, Qt::Horizontal, tr("Subject"));
+    mModel->setHeaderData(3, Qt::Horizontal, tr("Classroom"));
+    mModel->setHeaderData(4, Qt::Horizontal, tr("Teachers"));
+    mModel->setHeaderData(5, Qt::Horizontal, tr("Num Students"));
 
     // set up the view
     ui->tvClasses->setModel(mModel);
@@ -42,7 +48,7 @@ void PageClassesForm::setupConnections()
 {
     // Add a new class
     connect(ui->btnAddClass, &QPushButton::clicked, [this] () {
-        EditClassDialog add("Add New Class", this);
+        EditClassDialog add(tr("Add New Class"), this);
 
         if (add.exec() == QDialog::Accepted)
         {
@@ -65,7 +71,7 @@ void PageClassesForm::setupConnections()
         {
             QString id = mModel->data(mModel->index(index.row(), 0)).toString();
 
-            EditClassDialog edit("Edit Class", this);
+            EditClassDialog edit(tr("Edit Class"), this);
             edit.setClass(DatabaseManager::instance().getClass(id));
 
             if (edit.exec() == QDialog::Accepted)
@@ -89,9 +95,9 @@ void PageClassesForm::setupConnections()
         QModelIndex index = ui->tvClasses->currentIndex();
         if (index.isValid())
         {
-            int result = QMessageBox::warning(this, "Delete Class",
-                                              "Are you sure you want to delete the selected class?\n"
-                                              "This action cannot be undone!",
+            int result = QMessageBox::warning(this, tr("Delete Class"),
+                                              tr("Are you sure you want to delete the selected class?\n"
+                                              "This action cannot be undone!"),
                                               QMessageBox::Ok, QMessageBox::Cancel);
             if (result == QMessageBox::Ok)
             {

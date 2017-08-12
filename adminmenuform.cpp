@@ -64,6 +64,6 @@ void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)
 void AdminMenuForm::handleUserLogin()
 {
     QString name = !Login::instance().fullname().isEmpty() ? Login::instance().fullname() : Login::instance().username();
-    ui->lblWelcomeText->setText("Welcome, " + name);
+    ui->lblWelcomeText->setText(tr("Welcome, ") + name);
     emit notifyUserLogon();
 }
