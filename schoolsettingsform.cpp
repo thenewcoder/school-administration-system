@@ -69,7 +69,11 @@ void SchoolSettingsForm::loadDatabaseSettings()
     ui->teAddress->setPlainText(school.schoolAddress());
     ui->lePhoneNumber->setText(school.schoolPhone());
     ui->leEmail->setText(school.schoolEmail());
-    ui->lblSchoolLogo->setPixmap(school.schoolLogoPixmap());
 
-    emit notifySchoolLogoUpdate(school.schoolLogoPixmap());
+    QPixmap logo = school.schoolLogoPixmap();
+    if (!logo.isNull())
+    {
+        ui->lblSchoolLogo->setPixmap(school.schoolLogoPixmap());
+        emit notifySchoolLogoUpdate(school.schoolLogoPixmap());
+    }
 }

@@ -1,12 +1,12 @@
-#include "school.h"
+﻿#include "school.h"
 
 #include <QBuffer>
 
 School::School()
     : mSchoolName(""), mSchoolAddress("")
     , mSchoolPhone(""), mSchoolEmail("")
-    , mSchoolLogo()
-    , mSchoolLogoPixmap()
+    , mSchoolLogo(QByteArray())
+    , mSchoolLogoPixmap(QPixmap())
 {
 
 }
@@ -14,10 +14,8 @@ School::School()
 School::School(const QString &name, const QString &address, const QString &phone, const QString &email, const QByteArray &logo)
     : mSchoolName(name), mSchoolAddress(address)
     , mSchoolPhone(phone), mSchoolEmail(email)
-    , mSchoolLogo(logo)
-    , mSchoolLogoPixmap()
 {
-
+    setSchoolLogo(logo);
 }
 
 QString School::schoolName() const

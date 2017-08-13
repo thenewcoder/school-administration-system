@@ -696,6 +696,7 @@ void DatabaseManager::saveSchoolData(const School &school)
         qDebug() << "Unable to save school data";
         qDebug() << query.lastError().text();
     }
+    qDebug() << "Saved school data";
 }
 
 void DatabaseManager::saveClassData(const Class &c)

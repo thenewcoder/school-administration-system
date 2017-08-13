@@ -6,6 +6,10 @@
         `logo`	BLOB
 );
 
+INSERT INTO `school` (
+        `name`, `address`, `phone`, `email`, `logo`)
+        VALUES (NULL, NULL, NULL, NULL, NULL);
+
 CREATE TABLE IF NOT EXISTS `gender` (
 	`genderId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`type`	TEXT NOT NULL UNIQUE
