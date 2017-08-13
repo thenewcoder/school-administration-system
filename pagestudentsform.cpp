@@ -18,6 +18,7 @@ PageStudentsForm::PageStudentsForm(QWidget *parent) :
 
     mModel->setTable("student_summary");
     mModel->select();
+    mModel->sort(1, Qt::AscendingOrder); // sort on the name column
 
     mModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     mModel->setHeaderData(2, Qt::Horizontal, tr("Grade"));

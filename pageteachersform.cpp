@@ -18,6 +18,7 @@ PageTeachersForm::PageTeachersForm(QWidget *parent) :
 
     mModel->setTable("teacher_summary2"); // maybe temporary
     mModel->select();
+    mModel->sort(1, Qt::AscendingOrder); // sort by the name column
 
     mModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     mModel->setHeaderData(2, Qt::Horizontal, tr("Gender"));
@@ -121,6 +122,7 @@ void PageTeachersForm::deleteTeacher()
 void PageTeachersForm::updateTeacherTable()
 {
     mModel->select();
+    ui->tvTeachers->resizeRowsToContents(); // not sure if needed
 }
 
 void PageTeachersForm::setupConnections()
