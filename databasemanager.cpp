@@ -356,13 +356,15 @@ void DatabaseManager::addClass(const Class &c) const
     QSqlQuery query;
 
     // insert the class
-    query.prepare("INSERT INTO class(className, subjectId, classroomId) VALUES("
+    query.prepare("INSERT INTO class(gradeId, className, subjectId, classroomId) VALUES("
+                  "(SELECT gradeId FROM grade WHERE name = :gradeName), "
                   ":className, "
                   "(SELECT subjectId FROM subject WHERE subjectName = :subjectName), "
                   "(SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");
     /*"WHERE EXISTS (SELECT subjectId FROM subject WHERE subjectName = :subjectName) "
                   "AND (SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");*/
 
+    query.bindValue(":gradeName", c.getGrade());
     query.bindValue(":className", c.className());
     query.bindValue(":subjectName", c.subject());
     query.bindValue(":classroomName", c.classRoom());
@@ -529,8 +531,9 @@ Class DatabaseManager::getClass(const QString &classId)
     c.setClassId(classId);
 
     QSqlQuery query;
-    query.prepare("SELECT className, subjectName, classroomName, Teachers "
-                  "FROM class_summary WHERE classId = :classId");
+    query.prepare("SELECT grade, className, subjectName, classroomName, Teachers "
+                  "FROM class_summary "
+                  "WHERE classId = :classId");
 
     query.bindValue(":classId", classId);
 
@@ -538,6 +541,7 @@ Class DatabaseManager::getClass(const QString &classId)
     {
         if (query.next())
         {
+            c.setGrade(query.value("grade").toString());
             c.setClassname(query.value("className").toString());
             c.setSubject(query.value("subjectName").toString());
             c.setClassroom(query.value("classroomName").toString());
@@ -705,10 +709,12 @@ void DatabaseManager::saveClassData(const Class &c)
 
     // first update the class table
     query.prepare("UPDATE class SET "
+                  "gradeId = (SELECT gradeId FROM grade WHERE name = :gradeName),"
                   "className = :className,"
                   "subjectId = (SELECT subjectId FROM subject WHERE subjectName = :subjectName),"
                   "classroomId = (SELECT classroomId FROM classroom WHERE classroomName = :classroomName) "
                   "WHERE classId = :classId");
+    query.bindValue(":gradeName", c.getGrade());
     query.bindValue(":className", c.className());
     query.bindValue(":subjectName", c.subject());
     query.bindValue(":classroomName", c.classRoom());

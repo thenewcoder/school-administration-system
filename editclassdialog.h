@@ -18,6 +18,9 @@ public:
     explicit EditClassDialog(const QString &title, QWidget *parent = 0);
     ~EditClassDialog();
 
+    QString grade() const;
+    void setGrade(const QString &grade);
+
     QString className() const;
     void setClassname(const QString &name);
 

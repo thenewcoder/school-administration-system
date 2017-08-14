@@ -3,6 +3,7 @@
 
 Class::Class()
     : mClassId()
+    , mGrade()
     , mClassname()
     , mSubject()
     , mClassroom()
@@ -50,6 +51,16 @@ QStringList Class::students() const
 void Class::setStudents(const QStringList &students)
 {
     mStudents = students;
+}
+
+QString Class::getGrade() const
+{
+    return mGrade;
+}
+
+void Class::setGrade(const QString &value)
+{
+    mGrade = value;
 }
 
 QString Class::subject() const

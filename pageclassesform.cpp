@@ -21,11 +21,12 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
     mModel->select();
 
     // set header names
-    mModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    mModel->setHeaderData(2, Qt::Horizontal, tr("Subject"));
-    mModel->setHeaderData(3, Qt::Horizontal, tr("Classroom"));
-    mModel->setHeaderData(4, Qt::Horizontal, tr("Teachers"));
-    mModel->setHeaderData(5, Qt::Horizontal, tr("Num Students"));
+    mModel->setHeaderData(1, Qt::Horizontal, tr("Grade"));
+    mModel->setHeaderData(2, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(3, Qt::Horizontal, tr("Subject"));
+    mModel->setHeaderData(4, Qt::Horizontal, tr("Classroom"));
+    mModel->setHeaderData(5, Qt::Horizontal, tr("Teachers"));
+    mModel->setHeaderData(6, Qt::Horizontal, tr("Num Students"));
 
     // set up the view
     ui->tvClasses->setModel(mModel);
@@ -35,7 +36,6 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
 
     // sort on the Class name
     mModel->sort(1, Qt::AscendingOrder);
-
     setupConnections();
 }
 

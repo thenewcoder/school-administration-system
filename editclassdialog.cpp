@@ -23,6 +23,12 @@ EditClassDialog::EditClassDialog(const QString &title, QWidget *parent) :
     ui->lvTeachers->setModel(mModelTeachers);
     ui->lvStudents->setModel(mModelStudents);
 
+    // set up the grades combo box
+    QStringList grades;
+    grades << "" << DatabaseManager::instance().grades();
+    ui->cbGrades->setModel(new QStringListModel(grades));
+    ui->cbGrades->model()->sort(0);
+
     // set up the subjects combo box
     QStringList subs = DatabaseManager::instance().subjects();
     ui->cbSubject->setModel(new QStringListModel(subs));
@@ -39,6 +45,16 @@ EditClassDialog::EditClassDialog(const QString &title, QWidget *parent) :
 EditClassDialog::~EditClassDialog()
 {
     delete ui;
+}
+
+QString EditClassDialog::grade() const
+{
+    return ui->cbGrades->currentText();
+}
+
+void EditClassDialog::setGrade(const QString &grade)
+{
+    ui->cbGrades->setCurrentText(grade);
 }
 
 QString EditClassDialog::className() const
@@ -101,6 +117,7 @@ void EditClassDialog::setStudents(const QStringList &students)
 
 void EditClassDialog::setClass(const Class &c)
 {
+    setGrade(c.getGrade());
     setClassname(c.className());
     setSubject(c.subject());
     setClassroom(c.classRoom());
@@ -111,6 +128,7 @@ void EditClassDialog::setClass(const Class &c)
 Class EditClassDialog::getClass() const
 {
     Class c;
+    c.setGrade(grade());
     c.setClassname(className());
     c.setSubject(subject());
     c.setClassroom(classroom());

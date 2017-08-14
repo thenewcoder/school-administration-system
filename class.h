@@ -27,8 +27,12 @@ public:
     QStringList students() const;
     void setStudents(const QStringList &students);
 
+    QString getGrade() const;
+    void setGrade(const QString &value);
+
 private:
     QString mClassId;
+    QString mGrade;
     QString mClassname;
     QString mSubject;
     QString mClassroom;
