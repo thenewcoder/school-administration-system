@@ -20,6 +20,8 @@ public:
 private:
     void setupConnections();
 
+    void setupNewAdminForm();
+
     QString username() const;
     QString password() const;
 
