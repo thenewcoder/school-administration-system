@@ -6,15 +6,14 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    adminMenuForm(nullptr)
 {
     ui->setupUi(this);
 
     // set statusbar and main tool bar invisible for now while logging in
     ui->statusBar->setVisible(false);
     ui->mainToolBar->setVisible(false);
-
-    setupNewAdminForm();
 
     setupConnections();
 }
@@ -30,7 +29,7 @@ void MainWindow::setupConnections()
     connect(ui->loginButton, &QPushButton::clicked, [this] () {
         if (Login::instance().validLogin(username(), password()))
         {
-            ui->stackedWidget->setCurrentWidget(ui->memberPage);
+            setupNewAdminForm();
             emit notifyUserLogin();
         }
     });
@@ -44,6 +43,9 @@ void MainWindow::setupNewAdminForm()
     // add admin form widget to the stackedwidget
     ui->memberBoxLayout->addWidget(adminMenuForm);
 
+    // show logged in pages
+    ui->stackedWidget->setCurrentWidget(ui->memberPage);
+
     // set up the connections
     connect(this, &MainWindow::notifyUserLogin, adminMenuForm, &AdminMenuForm::handleUserLogin);
 
@@ -51,9 +53,9 @@ void MainWindow::setupNewAdminForm()
     connect(adminMenuForm, &AdminMenuForm::notifyLoggingOut, [this] () {
         ui->stackedWidget->setCurrentWidget(ui->loginPage);
 
-        // delete the adminMenuForm on logout and set up a new one - for now
+        // delete the adminMenuForm on logout
         delete adminMenuForm;
-        setupNewAdminForm();
+        adminMenuForm = nullptr;
 
         // delete the previous login information
         ui->passwordEdit->setText("");
