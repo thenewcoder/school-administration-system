@@ -34,8 +34,6 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
     ui->tvClasses->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tvClasses->hideColumn(FIELDS::ID); // hide id column
 
-    // sort on the Class name
-    mModel->sort(FIELDS::GRADE, Qt::AscendingOrder);
     setupConnections();
 }
 

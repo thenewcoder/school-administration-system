@@ -372,7 +372,7 @@ LEFT OUTER JOIN teacher_class TC ON TC.classId = C.classId
 LEFT OUTER JOIN teacher T ON T.teacherId = TC.teacherId
 LEFT OUTER JOIN grade G ON G.gradeId = C.gradeId
 GROUP BY CS.classId
-ORDER BY S.SubjectName;
+ORDER BY G.name, C.className;
 
 CREATE VIEW student_summary AS
 SELECT studentId, S.name, GR.name AS 'Grade', type, country, IDNumber, studentPhoneNumber, D.name AS 'Dorm'
