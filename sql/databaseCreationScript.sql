@@ -279,10 +279,12 @@ CREATE TABLE IF NOT EXISTS `teacher` (
 
 CREATE TABLE IF NOT EXISTS `class` (
 	`classId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        `gradeId`	INTEGER,
         `className`	TEXT,
 	`subjectId`	INTEGER,
 	`classroomId`	INTEGER,
 	FOREIGN KEY(`subjectId`) REFERENCES subject(subjectId),
+        FOREIGN KEY(`gradeId`) REFERENCES `grade`(`gradeId`),
 	FOREIGN KEY(`classroomId`) REFERENCES classroom(classroomId)
 );
 
@@ -361,13 +363,14 @@ CREATE TABLE IF NOT EXISTS `test_result` (
 );
 
 CREATE VIEW class_summary AS
-SELECT C.classId, C.className, S.subjectName, CR.classroomName, group_concat(DISTINCT T.name) AS 'Teachers', count( DISTINCT CS.studentId) AS 'Num Students'
+SELECT C.classId, G.name as 'grade', C.className, S.subjectName, CR.classroomName, group_concat(DISTINCT T.name) AS 'Teachers', count( DISTINCT CS.studentId) AS 'Num Students'
 FROM class C
 LEFT OUTER JOIN class_student CS ON C.classId = CS.classId
 LEFT OUTER JOIN subject S ON S.subjectId = C.subjectId
 LEFT OUTER JOIN classroom CR ON CR.classroomId = C.classroomId
 LEFT OUTER JOIN teacher_class TC ON TC.classId = C.classId
 LEFT OUTER JOIN teacher T ON T.teacherId = TC.teacherId
+LEFT OUTER JOIN grade G ON G.gradeId = C.gradeId
 GROUP BY CS.classId
 ORDER BY S.SubjectName;
 
