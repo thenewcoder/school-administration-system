@@ -14,6 +14,18 @@ class PageClassesForm : public QWidget
     Q_OBJECT
 
 public:
+    enum FIELDS
+    {
+        ID,
+        GRADE,
+        NAME,
+        SUBJECT,
+        ROOM,
+        TEACHERS,
+        ENROLLMENT
+    };
+
+public:
     explicit PageClassesForm(QWidget *parent = 0);
     ~PageClassesForm();
 

@@ -568,7 +568,7 @@
     <rect>
      <x>680</x>
      <y>120</y>
-     <width>71</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -578,7 +578,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Classes:</string>
+    <string>Enrolled Classes:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnEditClasses">

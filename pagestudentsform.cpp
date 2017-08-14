@@ -18,20 +18,20 @@ PageStudentsForm::PageStudentsForm(QWidget *parent) :
 
     mModel->setTable("student_summary");
     mModel->select();
-    mModel->sort(1, Qt::AscendingOrder); // sort on the name column
+    mModel->sort(FIELDS::NAME, Qt::AscendingOrder); // sort on the name column
 
-    mModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    mModel->setHeaderData(2, Qt::Horizontal, tr("Grade"));
-    mModel->setHeaderData(3, Qt::Horizontal, tr("Gender"));
-    mModel->setHeaderData(4, Qt::Horizontal, tr("Nationality"));
-    mModel->setHeaderData(5, Qt::Horizontal, tr("ID Number"));
-    mModel->setHeaderData(6, Qt::Horizontal, tr("Phone Number"));
-    mModel->setHeaderData(7, Qt::Horizontal, tr("Dormitory"));
+    mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(FIELDS::GRADE, Qt::Horizontal, tr("Grade"));
+    mModel->setHeaderData(FIELDS::GENDER, Qt::Horizontal, tr("Gender"));
+    mModel->setHeaderData(FIELDS::NATIONALITY, Qt::Horizontal, tr("Nationality"));
+    mModel->setHeaderData(FIELDS::IDNUMBER, Qt::Horizontal, tr("ID Number"));
+    mModel->setHeaderData(FIELDS::PHONE, Qt::Horizontal, tr("Phone Number"));
+    mModel->setHeaderData(DORM, Qt::Horizontal, tr("Dormitory"));
 
     ui->tvStudents->setModel(mModel);
     ui->tvStudents->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvStudents->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->tvStudents->hideColumn(0); // hide id
+    ui->tvStudents->hideColumn(FIELDS::ID); // hide id
     ui->tvStudents->resizeRowsToContents();
 
     setupConnections();
@@ -127,4 +127,3 @@ void PageStudentsForm::deleteStudent()
         }
     }
 }
-

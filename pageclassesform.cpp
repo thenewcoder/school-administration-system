@@ -21,21 +21,21 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
     mModel->select();
 
     // set header names
-    mModel->setHeaderData(1, Qt::Horizontal, tr("Grade"));
-    mModel->setHeaderData(2, Qt::Horizontal, tr("Name"));
-    mModel->setHeaderData(3, Qt::Horizontal, tr("Subject"));
-    mModel->setHeaderData(4, Qt::Horizontal, tr("Classroom"));
-    mModel->setHeaderData(5, Qt::Horizontal, tr("Teachers"));
-    mModel->setHeaderData(6, Qt::Horizontal, tr("Num Students"));
+    mModel->setHeaderData(FIELDS::GRADE, Qt::Horizontal, tr("Grade"));
+    mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(FIELDS::SUBJECT, Qt::Horizontal, tr("Subject"));
+    mModel->setHeaderData(FIELDS::ROOM, Qt::Horizontal, tr("Classroom"));
+    mModel->setHeaderData(FIELDS::TEACHERS, Qt::Horizontal, tr("Teachers"));
+    mModel->setHeaderData(FIELDS::ENROLLMENT, Qt::Horizontal, tr("Enrollment"));
 
     // set up the view
     ui->tvClasses->setModel(mModel);
     ui->tvClasses->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvClasses->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->tvClasses->hideColumn(0); // hide id column
+    ui->tvClasses->hideColumn(FIELDS::ID); // hide id column
 
     // sort on the Class name
-    mModel->sort(1, Qt::AscendingOrder);
+    mModel->sort(FIELDS::GRADE, Qt::AscendingOrder);
     setupConnections();
 }
 
