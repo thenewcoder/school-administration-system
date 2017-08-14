@@ -27,12 +27,18 @@ SelectorDialog::SelectorDialog(const QString &title, QStringList &listAll, const
     }
 
     // populate the mModelAll with the string list
-    mModelAll->setStringList(listAll);
-    mModelAll->sort(0);
+    if (listAll.count("") != 1)
+    {
+        mModelAll->setStringList(listAll);
+        mModelAll->sort(0);
+    }
 
     // populate the chosen list view
-    mModelChosen->setStringList(listChosen);
-    mModelChosen->sort(0);
+    if (listChosen.count("") != 1)
+    {
+        mModelChosen->setStringList(listChosen);
+        mModelChosen->sort(0);
+    }
 
     setupConnections();
 }

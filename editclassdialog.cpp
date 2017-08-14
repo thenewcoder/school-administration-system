@@ -29,7 +29,8 @@ EditClassDialog::EditClassDialog(const QString &title, QWidget *parent) :
     ui->cbSubject->model()->sort(0);
 
     // set up the classrooms combo box
-    QStringList rooms = DatabaseManager::instance().classrooms();
+    QStringList rooms;
+    rooms << "" << DatabaseManager::instance().classrooms();
     ui->cbClassroom->setModel(new QStringListModel(rooms));
 
     setupConnections();
@@ -77,8 +78,11 @@ QStringList EditClassDialog::teachers() const
 
 void EditClassDialog::setTeachers(const QStringList &teachers)
 {
-    mModelTeachers->setStringList(teachers);
-    mModelTeachers->sort(0);
+    if (teachers.count("") != 1)
+    {
+        mModelTeachers->setStringList(teachers);
+        mModelTeachers->sort(0);
+    }
 }
 
 QStringList EditClassDialog::students() const
@@ -88,8 +92,11 @@ QStringList EditClassDialog::students() const
 
 void EditClassDialog::setStudents(const QStringList &students)
 {
-    mModelStudents->setStringList(students);
-    mModelStudents->sort(0);
+    if (students.count("") != 1)
+    {
+        mModelStudents->setStringList(students);
+        mModelStudents->sort(0);
+    }
 }
 
 void EditClassDialog::setClass(const Class &c)
