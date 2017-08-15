@@ -42,6 +42,11 @@ public:
     void addTeacher(const Teacher &teacher) const;
     void addStudent(const Student &student) const;
     void addClass(const Class &c) const;
+    void addClassoom(const QString &name, const QString &comment);
+    void addDormitory(const QString &name, const QString &comment);
+    void addBusstop(const QString &name, const QString &comment);
+    void addGrade(const QString &name);
+    void addSubject(const QString &name);
 
     User getUser(const QString &username);
     School getSchoolInfo() const;
@@ -55,10 +60,17 @@ public:
     void saveClassData(const Class &c);
 
     bool updateUserData(const User &user);
+    bool updateClassroom(const QString &id, const QString &name, const QString &comment);
+    bool updateDormitory(const QString &id, const QString &name, const QString &comment);
+    bool updateBusstop(const QString &id, const QString &name, const QString &comment);
+    bool updateGrade(const QString &id, const QString &name);
+    bool updateSubject(const QString &id, const QString &name);
 
     void removeStudent(const QString &studentId);
     void removeTeacher(const QString &teacherId);
     void removeClass(const QString &classId);
+    void removeGrade(const QString &grade);
+    void removeSubject(const QString &subject);
     bool removeTableRows(const QString &table, const QString &col, const QString &id);
 
     QStringList classesTaken(const QString &id);

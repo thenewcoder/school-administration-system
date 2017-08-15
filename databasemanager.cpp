@@ -410,6 +410,79 @@ void DatabaseManager::addClass(const Class &c) const
 
 }
 
+void DatabaseManager::addClassoom(const QString &name, const QString &comment)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO classroom(classroomName, description) VALUES("
+                  ":name, :comment)");
+    query.bindValue(":name", name);
+    query.bindValue(":comment", comment);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to insert a new classroom";
+        qDebug() << query.lastError().text();
+    }
+}
+
+void DatabaseManager::addDormitory(const QString &name, const QString &comment)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO dormitory(name, description) VALUES("
+                  ":name, :comment)");
+    query.bindValue(":name", name);
+    query.bindValue(":comment", comment);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to insert a new dormitory";
+        qDebug() << query.lastError().text();
+    }
+}
+
+void DatabaseManager::addBusstop(const QString &name, const QString &comment)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO bus_stop(busstopName, description) VALUES("
+                  ":name, :comment)");
+    query.bindValue(":name", name);
+    query.bindValue(":comment", comment);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to insert a new bus stop";
+        qDebug() << query.lastError().text();
+    }
+}
+
+void DatabaseManager::addGrade(const QString &name)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO grade(name) VALUES("
+                  ":name)");
+    query.bindValue(":name", name);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to insert a new grade";
+        qDebug() << query.lastError().text();
+    }
+}
+
+void DatabaseManager::addSubject(const QString &name)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO subject(subjectName) VALUES("
+                  ":name)");
+    query.bindValue(":name", name);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to insert a new subject";
+        qDebug() << query.lastError().text();
+    }
+}
+
 User DatabaseManager::getUser(const QString &username)
 {
     QSqlQuery query;
@@ -795,6 +868,102 @@ bool DatabaseManager::updateUserData(const User &user)
     return true;
 }
 
+bool DatabaseManager::updateClassroom(const QString &id, const QString &name, const QString &comment)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE classroom SET "
+                  "classroomName = :name,"
+                  "description = :comment "
+                  "WHERE classroomId = :id");
+    query.bindValue(":name", name);
+    query.bindValue(":comment", comment);
+    query.bindValue(":id", id);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update classroom data";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::updateDormitory(const QString &id, const QString &name, const QString &comment)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE dormitory SET "
+                  "name = :name,"
+                  "description = :comment "
+                  "WHERE dormitoryId = :id");
+    query.bindValue(":name", name);
+    query.bindValue(":comment", comment);
+    query.bindValue(":id", id);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update dormitory data";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::updateBusstop(const QString &id, const QString &name, const QString &comment)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE bus_stop SET "
+                  "busstopName = :name,"
+                  "description = :comment "
+                  "WHERE busstopId = :id");
+    query.bindValue(":name", name);
+    query.bindValue(":comment", comment);
+    query.bindValue(":id", id);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update bus stop data";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::updateGrade(const QString &id, const QString &name)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE grade SET "
+                  "name = :name "
+                  "WHERE gradeId = :id");
+    query.bindValue(":name", name);
+    query.bindValue(":id", id);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update grade data";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::updateSubject(const QString &id, const QString &name)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE subject SET "
+                  "subjectName = :name "
+                  "WHERE subjectId = :id");
+    query.bindValue(":name", name);
+    query.bindValue(":id", id);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update subject data";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
 void DatabaseManager::removeStudent(const QString &studentId)
 {
     // remove the student from the class_student table
@@ -845,6 +1014,30 @@ void DatabaseManager::removeClass(const QString &classId)
         qDebug() << "classId to delete:" << classId;
         qDebug() << "Unable to delete from class table";
         return;
+    }
+}
+
+void DatabaseManager::removeGrade(const QString &grade)
+{
+    QSqlQuery query;
+    query.prepare(QString("DELETE FROM grade WHERE name = '%1'").arg(grade));
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete grade:" << grade;
+        qDebug() << query.lastError().text();
+    }
+}
+
+void DatabaseManager::removeSubject(const QString &subject)
+{
+    QSqlQuery query;
+    query.prepare(QString("DELETE FROM subject WHERE subjectName = '%1'").arg(subject));
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete subject:" << subject;
+        qDebug() << query.lastError().text();
     }
 }
 

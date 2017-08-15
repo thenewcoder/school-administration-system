@@ -138,6 +138,11 @@
          <string>Classes</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Other</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -236,7 +241,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>4</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="pageHome">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -274,6 +279,13 @@
         <layout class="QHBoxLayout" name="horizontalLayout_8">
          <item>
           <layout class="QHBoxLayout" name="loClasses"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pageOther">
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <layout class="QHBoxLayout" name="loOther"/>
          </item>
         </layout>
        </widget>
