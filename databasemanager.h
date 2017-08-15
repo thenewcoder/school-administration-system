@@ -63,8 +63,8 @@ public:
     bool updateClassroom(const QString &id, const QString &name, const QString &comment);
     bool updateDormitory(const QString &id, const QString &name, const QString &comment);
     bool updateBusstop(const QString &id, const QString &name, const QString &comment);
-    bool updateGrade(const QString &id, const QString &name);
-    bool updateSubject(const QString &id, const QString &name);
+    bool updateGrade(const QString &oldName, const QString &newName);
+    bool updateSubject(const QString &oldName, const QString &newName);
 
     void removeStudent(const QString &studentId);
     void removeTeacher(const QString &teacherId);

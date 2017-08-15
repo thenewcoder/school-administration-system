@@ -1,4 +1,4 @@
-#include "pageotherform.h"
+﻿#include "pageotherform.h"
 #include "ui_pageotherform.h"
 
 #include <QStringListModel>
@@ -19,6 +19,9 @@ PageOtherForm::PageOtherForm(QWidget *parent) :
     mModelSubjects(new QStringListModel(this))
 {
     ui->setupUi(this);
+
+    // set the first tab as active on startup
+    ui->tabWidget->setCurrentWidget(ui->tabRooms);
 
     setupViews();
 
@@ -181,13 +184,12 @@ void PageOtherForm::setupEditButtons()
         }
     });
 
-    // for grades  FIXME: not working
+    // for grades
     connect(ui->btnEditGrade, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->lvGrades->currentIndex();
         if (index.isValid())
         {
-            QModelIndex index = ui->lvGrades->currentIndex();
-            QString oldGrade = ui->lvGrades->model()->data(ui->lvGrades->model()->index(index.row(), 0)).toString();
+            QString oldGrade = mModelGrades->data(mModelGrades->index(index.row(), 0)).toString();
             bool ok;
             QString grade = QInputDialog::getText(this,
                                                   tr("Edit Grade"),
@@ -197,24 +199,21 @@ void PageOtherForm::setupEditButtons()
                                                   &ok);
             if (!grade.isEmpty() && ok)
             {
-                // first remove the selection - any better way?
-                ui->lvGrades->model()->removeRow(index.row());
+                // update the grade in the database
+                DatabaseManager::instance().updateGrade(oldGrade, grade);
 
-                // insert new row
-                ui->lvGrades->model()->insertRow(index.row());
-                ui->lvGrades->model()->setData(index, grade);
-                ui->lvGrades->model()->sort(0);
+                // change the table row data
+                mModelGrades->setData(index, grade);
             }
         }
     });
 
-    // for subjects FIXME: not working
+    // for subjects
     connect(ui->btnEditSubject, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->lvSubjects->currentIndex();
         if (index.isValid())
         {
-            QModelIndex index = ui->lvSubjects->currentIndex();
-            QString oldSubject = ui->lvSubjects->model()->data(ui->lvSubjects->model()->index(index.row(), 0)).toString();
+            QString oldSubject = mModelSubjects->data(mModelSubjects->index(index.row(), 0)).toString();
             bool ok;
             QString subject = QInputDialog::getText(this,
                                                   tr("Edit Grade"),
@@ -225,12 +224,10 @@ void PageOtherForm::setupEditButtons()
             if (!subject.isEmpty() && ok)
             {
                 // first remove the selection - any better way?
-                ui->lvSubjects->model()->removeRow(index.row());
+                DatabaseManager::instance().updateSubject(oldSubject, subject);
 
-                // insert new row
-                ui->lvSubjects->model()->insertRow(index.row());
-                ui->lvSubjects->model()->setData(index, subject);
-                ui->lvSubjects->model()->sort(0);
+                // change the table row data
+                mModelSubjects->setData(index, subject);
             }
         }
     });

@@ -928,14 +928,14 @@ bool DatabaseManager::updateBusstop(const QString &id, const QString &name, cons
     return true;
 }
 
-bool DatabaseManager::updateGrade(const QString &id, const QString &name)
+bool DatabaseManager::updateGrade(const QString &oldName, const QString &newName)
 {
     QSqlQuery query;
     query.prepare("UPDATE grade SET "
-                  "name = :name "
-                  "WHERE gradeId = :id");
-    query.bindValue(":name", name);
-    query.bindValue(":id", id);
+                  "name = :newName "
+                  "WHERE name = :oldName");
+    query.bindValue(":newName", newName);
+    query.bindValue(":oldName", oldName);
 
     if (!query.exec())
     {
@@ -946,14 +946,14 @@ bool DatabaseManager::updateGrade(const QString &id, const QString &name)
     return true;
 }
 
-bool DatabaseManager::updateSubject(const QString &id, const QString &name)
+bool DatabaseManager::updateSubject(const QString &oldName, const QString &newName)
 {
     QSqlQuery query;
     query.prepare("UPDATE subject SET "
-                  "subjectName = :name "
-                  "WHERE subjectId = :id");
-    query.bindValue(":name", name);
-    query.bindValue(":id", id);
+                  "subjectName = :newName "
+                  "WHERE subjectName = :oldName");
+    query.bindValue(":newName", newName);
+    query.bindValue(":oldName", oldName);
 
     if (!query.exec())
     {

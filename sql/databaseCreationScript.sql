@@ -12,7 +12,7 @@ INSERT INTO `school` (
 
 CREATE TABLE IF NOT EXISTS `gender` (
 	`genderId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`type`	TEXT NOT NULL UNIQUE
+        `type`          TEXT NOT NULL UNIQUE
 );
 
 INSERT INTO `gender` (
@@ -23,7 +23,7 @@ INSERT INTO `gender` (
 
 CREATE TABLE IF NOT EXISTS `user_type` (
 	`userTypeId` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`type` TEXT NOT NULL UNIQUE
+        `type`       TEXT NOT NULL UNIQUE
 );
 
 INSERT INTO `user_type` (
@@ -43,17 +43,19 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 CREATE TABLE IF NOT EXISTS `dormitory` (
 	`dormitoryId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`name`	TEXT NOT NULL UNIQUE
+        `name`          TEXT NOT NULL UNIQUE,
+        `description`   TEXT
 );
 
 CREATE TABLE IF NOT EXISTS `grade` (
 	`gradeId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`name`	TEXT NOT NULL UNIQUE
+        `name`          TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS `bus_stop` (
 	`busstopId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`busstopName`	TEXT NOT NULL UNIQUE
+        `busstopName`	TEXT NOT NULL UNIQUE,
+        `description`   TEXT
 );
 
 CREATE TABLE IF NOT EXISTS `subject` (
@@ -63,7 +65,8 @@ CREATE TABLE IF NOT EXISTS `subject` (
 
 CREATE TABLE IF NOT EXISTS `classroom` (
 	`classroomId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`classroomName`	TEXT NOT NULL UNIQUE
+        `classroomName`	TEXT NOT NULL UNIQUE,
+        `description`   TEXT
 );
 
 CREATE TABLE IF NOT EXISTS `nationality` (
@@ -306,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `enrollment` (
 CREATE TABLE IF NOT EXISTS `test` (
 	`testId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`subjectId`	INTEGER,
-	`date`	TEXT,
+        `date`          TEXT,
 	FOREIGN KEY(`subjectId`) REFERENCES subject(subjectId)
 );
 
