@@ -42,6 +42,11 @@ PageClassesForm::~PageClassesForm()
     delete ui;
 }
 
+void PageClassesForm::updateClassTable()
+{
+    mModel->select();
+}
+
 void PageClassesForm::setupConnections()
 {
     // Add a new class
@@ -52,7 +57,7 @@ void PageClassesForm::setupConnections()
         {
             // insert the new class into the database
             DatabaseManager::instance().addClass(add.getClass());
-            mModel->select(); // update the table view
+            updateClassTable(); // update the table view
 
             // Let connected slots know class table has changed
             emit notifyClassesChanged();
@@ -80,7 +85,7 @@ void PageClassesForm::setupConnections()
 
                 // update the database with the new class information
                 DatabaseManager::instance().saveClassData(c);
-                mModel->select(); // update the table view
+                updateClassTable(); // update the table view
 
                 // Let connected slots know class table has changed
                 emit notifyClassesChanged();
@@ -102,7 +107,7 @@ void PageClassesForm::setupConnections()
                 // get the selected id and delete the class
                 QString id = mModel->data(mModel->index(index.row(), 0)).toString();
                 DatabaseManager::instance().removeClass(id);
-                mModel->select(); // update the table view
+                updateClassTable(); // update the table view
 
                 // Let connected slots know class table has changed
                 emit notifyClassesChanged();
@@ -111,5 +116,5 @@ void PageClassesForm::setupConnections()
     });
 
     // refresh the table
-    connect(ui->btnRefresh, &QPushButton::clicked, mModel, &QSqlTableModel::select);
+    connect(ui->btnRefresh, &QPushButton::clicked, this, &PageClassesForm::updateClassTable);
 }

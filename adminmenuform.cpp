@@ -52,6 +52,7 @@ void AdminMenuForm::setupConnections()
     // connect signals and slots from the different pages
     connect(mPageStudentsForm, &PageStudentsForm::notifyStudentChanged, mPageHomeForm, &PageHomeForm::initStudents);
     connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, mPageHomeForm, &PageHomeForm::initTeachers);
+    connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, mPageClassesForm, &PageClassesForm::updateClassTable);
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageHomeForm, &PageHomeForm::initClasses);
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageTeachersForm, &PageTeachersForm::updateTeacherTable);
 }

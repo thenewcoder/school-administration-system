@@ -32,6 +32,9 @@ public:
 signals:
     void notifyClassesChanged();
 
+public slots:
+    void updateClassTable();
+
 private:
     void setupConnections();
 
