@@ -4,6 +4,7 @@
 #include <QStringListModel>
 #include <QSqlTableModel>
 #include <QInputDialog>
+#include <QMessageBox>
 #include <QDebug>
 
 #include "databasemanager.h"
@@ -240,8 +241,14 @@ void PageOtherForm::setupDeleteButtons()
         QModelIndex index = ui->tvClassrooms->currentIndex();
         if (index.isValid())
         {
-            mModelClassrooms->removeRow(index.row());
-            mModelClassrooms->select();
+            int result = QMessageBox::warning(this, tr("Delete Classroom"), tr("You're about to delete a classroom.\n"
+                                                                            "This can't be undone. Are you sure?"),
+                                              QMessageBox::Ok | QMessageBox::Cancel);
+            if (result == QMessageBox::Ok)
+            {
+                mModelClassrooms->removeRow(index.row());
+                mModelClassrooms->select();
+            }
         }
     });
 
@@ -250,8 +257,14 @@ void PageOtherForm::setupDeleteButtons()
         QModelIndex index = ui->tvDorms->currentIndex();
         if (index.isValid())
         {
-            mModelDormitories->removeRow(index.row());
-            mModelDormitories->select();
+            int result = QMessageBox::warning(this, tr("Delete Dormitory"), tr("You're about to delete a dormitory.\n"
+                                                                            "This can't be undone. Are you sure?"),
+                                              QMessageBox::Ok | QMessageBox::Cancel);
+            if (result == QMessageBox::Ok)
+            {
+                mModelDormitories->removeRow(index.row());
+                mModelDormitories->select();
+            }
         }
     });
 
@@ -260,8 +273,14 @@ void PageOtherForm::setupDeleteButtons()
         QModelIndex index = ui->tvBusStops->currentIndex();
         if (index.isValid())
         {
-            mModelBusStops->removeRow(index.row());
-            mModelBusStops->select();
+            int result = QMessageBox::warning(this, tr("Delete Bus stop"), tr("You're about to delete a bus stop.\n"
+                                                                            "This can't be undone. Are you sure?"),
+                                              QMessageBox::Ok | QMessageBox::Cancel);
+            if (result == QMessageBox::Ok)
+            {
+                mModelBusStops->removeRow(index.row());
+                mModelBusStops->select();
+            }
         }
     });
 
@@ -270,9 +289,15 @@ void PageOtherForm::setupDeleteButtons()
         QModelIndex index = ui->lvGrades->currentIndex();
         if (index.isValid())
         {
-            QString grade = mModelGrades->data(mModelGrades->index(index.row(), 0)).toString();
-            DatabaseManager::instance().removeGrade(grade);
-            mModelGrades->removeRow(index.row());
+            int result = QMessageBox::warning(this, tr("Delete Grade"), tr("You're about to delete a grade.\n"
+                                                                            "This can't be undone. Are you sure?"),
+                                              QMessageBox::Ok | QMessageBox::Cancel);
+            if (result == QMessageBox::Ok)
+            {
+                QString grade = mModelGrades->data(mModelGrades->index(index.row(), 0)).toString();
+                DatabaseManager::instance().removeGrade(grade);
+                mModelGrades->removeRow(index.row());
+            }
         }
     });
 
@@ -281,9 +306,15 @@ void PageOtherForm::setupDeleteButtons()
         QModelIndex index = ui->lvSubjects->currentIndex();
         if (index.isValid())
         {
-            QString subject = mModelSubjects->data(mModelSubjects->index(index.row(), 0)).toString();
-            DatabaseManager::instance().removeSubject(subject);
-            mModelSubjects->removeRow(index.row());
+            int result = QMessageBox::warning(this, tr("Delete Subject"), tr("You're about to delete a subject.\n"
+                                                                            "This can't be undone. Are you sure?"),
+                                              QMessageBox::Ok | QMessageBox::Cancel);
+            if (result == QMessageBox::Ok)
+            {
+                QString subject = mModelSubjects->data(mModelSubjects->index(index.row(), 0)).toString();
+                DatabaseManager::instance().removeSubject(subject);
+                mModelSubjects->removeRow(index.row());
+            }
         }
     });
 }
