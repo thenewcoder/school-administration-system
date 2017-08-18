@@ -46,7 +46,12 @@ SOURCES += main.cpp\
     class.cpp \
     selectordialog.cpp \
     pageotherform.cpp \
-    editotherdialog.cpp
+    editotherdialog.cpp \
+    wizarddatabasesetup.cpp \
+    wizardintropage.cpp \
+    wizardsetup.cpp \
+    wizardsummarypage.cpp \
+    wizardusersetuppage.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
@@ -70,7 +75,12 @@ HEADERS  += mainwindow.h \
     class.h \
     selectordialog.h \
     pageotherform.h \
-    editotherdialog.h
+    editotherdialog.h \
+    wizarddatabasesetup.h \
+    wizardintropage.h \
+    wizardsetup.h \
+    wizardsummarypage.h \
+    wizardusersetuppage.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \
