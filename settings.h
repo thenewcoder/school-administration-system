@@ -11,6 +11,17 @@ public:
     QString language() const;
     void setLanguage(const QString &lang);
 
+    QString databaseLocation() const;
+    void setDatabaseLocation(const QString &location);
+
+    QString databaseDriver() const;
+    void setDatabaseDriver(const QString &driver);
+
+    bool settingsExists() const;
+    void setSettingsExists();
+
+    void saveSetting(const QString &key, const QString &value);
+
 private:
     explicit Settings();
     Settings(const Settings& rhs) = delete;
@@ -21,6 +32,8 @@ private:
 
 private:
     QHash<QString, QString> mSettings;
+
+    bool mSettingsExists;
 };
 
 #endif // SETTINGS_H

@@ -14,6 +14,11 @@ public:
     // QDialog interface
 public slots:
     void accept() override;
+
+private:
+    QString getLanguage() const;
+    QString getDatabaseDriver() const;
+    QString getLocation() const;
 };
 
 #endif // WIZARDSETUP_H

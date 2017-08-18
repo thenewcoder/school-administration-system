@@ -8,6 +8,8 @@
 #include <QTextStream>
 #include <QDebug>
 
+#include "settings.h"
+
 #include "teacher.h"
 #include "student.h"
 #include "school.h"
@@ -1106,9 +1108,11 @@ QStringList DatabaseManager::classesTaught(const QString &id)
 }
 
 DatabaseManager::DatabaseManager(const QString &path)
-    : mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")))
+    : mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase(Settings::instance().databaseDriver())))
 {
-    mDatabase->setDatabaseName(path);
+    // TODO: change the way this is handled - eg. deal with locale issues
+    QString location = Settings::instance().databaseLocation() + "/" + path;
+    mDatabase->setDatabaseName(location);
 
     // add error checking later
     mDatabase->open();

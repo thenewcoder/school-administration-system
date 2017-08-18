@@ -2,6 +2,7 @@
 
 #include <QSettings>
 #include <QDir>
+#include <QFileInfo>
 
 static const QString FILENAME = QDir::currentPath() + "/settings.ini";
 
@@ -18,22 +19,60 @@ QString Settings::language() const
 
 void Settings::setLanguage(const QString &lang)
 {
-    mSettings["lang"] = lang;
+    saveSetting("lang", lang);
+}
+
+QString Settings::databaseLocation() const
+{
+    return mSettings["location"];
+}
+
+void Settings::setDatabaseLocation(const QString &location)
+{
+    QString dest;
+    if (location.isEmpty())
+        dest = QDir::currentPath();
+    else
+        dest = location;
+    saveSetting("location", dest);
+}
+
+QString Settings::databaseDriver() const
+{
+    return mSettings["driver"];
+}
+
+void Settings::setDatabaseDriver(const QString &driver)
+{
+    saveSetting("driver", driver);
+}
+
+void Settings::saveSetting(const QString &key, const QString &value)
+{
+    QSettings settings(FILENAME, QSettings::IniFormat);
+    settings.setValue(key, value);
+    mSettings[key] = value;
 }
 
 Settings::Settings()
 {
-    QSettings settings(FILENAME, QSettings::IniFormat);
-    if (settings.allKeys().size() == 0)
+    if (settingsExists())
     {
-        // create a fresh settings.ini file with default values
-        settings.setValue("lang", "en_US");
+        // read settings from the settings.ini file
+        loadSettings();
     }
+}
 
-    // read settings from the settings.ini file
-    loadSettings();
+bool Settings::settingsExists() const
+{
+    QSettings settings(FILENAME, QSettings::IniFormat);
+    return settings.value("setup", false).toBool();
+}
 
-
+void Settings::setSettingsExists()
+{
+    QSettings settings(FILENAME, QSettings::IniFormat);
+    settings.setValue("setup", true);
 }
 
 void Settings::loadSettings()

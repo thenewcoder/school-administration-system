@@ -61,7 +61,8 @@ WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
     setLayout(layout);
 
     // register fields
-    registerField("databasetype", cbDatabaseDrivers, "currentText");
+    registerField("databasedriver", cbDatabaseDrivers, "currentText");
+    registerField("defaultLocation", chbDefaultLocation, "isChecked");
     registerField("newdatabase", btnNewDatabase);
     registerField("location", leLocation);
 

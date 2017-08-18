@@ -45,6 +45,6 @@ WizardSummaryPage::WizardSummaryPage(QWidget *parent)
 void WizardSummaryPage::initializePage()
 {
     lblUsernameResult->setText(field("username").toString());
-    lblDatabaseTypeResult->setText(field("databasetype").toString());
+    lblDatabaseTypeResult->setText(field("databasedriver").toString());
     lblFullNameResult->setText(field("fullname").toString());
 }
