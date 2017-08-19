@@ -485,6 +485,28 @@ void DatabaseManager::addSubject(const QString &name)
     }
 }
 
+void DatabaseManager::addUser(const QString &username, const QString &password, const QString &fullname)
+{
+    QSqlQuery query;
+    // for now don't deal with the userTypeId
+    query.prepare("INSERT INTO user (username, password, fullname) VALUES("
+                  ":username, :password, :fullname)");
+    query.bindValue(":username", username);
+    query.bindValue(":password", password);
+    query.bindValue(":fullname", fullname);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to insert new user";
+        qDebug() << query.lastError().text();
+    }
+}
+
+void DatabaseManager::addUser(const User &user)
+{
+    addUser(user.username(), user.password(), user.fullName());
+}
+
 User DatabaseManager::getUser(const QString &username)
 {
     QSqlQuery query;

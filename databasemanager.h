@@ -47,6 +47,8 @@ public:
     void addBusstop(const QString &name, const QString &comment);
     void addGrade(const QString &name);
     void addSubject(const QString &name);
+    void addUser(const QString &username, const QString &password, const QString &fullname);
+    void addUser(const User &user);
 
     User getUser(const QString &username);
     School getSchoolInfo() const;
