@@ -75,6 +75,18 @@ void Settings::setSettingsExists()
     settings.setValue("setup", true);
 }
 
+bool Settings::isDefaultDatabase() const
+{
+    QSettings settings(FILENAME, QSettings::IniFormat);
+    return settings.value("defaultDatabase", true).toBool();
+}
+
+void Settings::setIsDefaultDatabase(bool isDefault)
+{
+    QSettings settings(FILENAME, QSettings::IniFormat);
+    settings.setValue("defaultDatabase", isDefault);
+}
+
 void Settings::loadSettings()
 {
     QSettings settings(FILENAME, QSettings::IniFormat);

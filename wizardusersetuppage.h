@@ -6,6 +6,8 @@
 
 class QLabel;
 class QLineEdit;
+class QGroupBox;
+class QRadioButton;
 
 class WizardUserSetupPage : public QWizardPage
 {
@@ -17,6 +19,13 @@ public:
     bool isComplete() const override;
 
 private:
+    void setupConnections();
+
+private:
+    QGroupBox *gbGroupBox;
+    QRadioButton *btnNewUser;
+    QRadioButton *btnExistingUser;
+
     QLabel *lblName;
     QLabel *lblPassword;
     QLabel *lblConfirmPassword;

@@ -2,6 +2,9 @@
 
 #include <QLabel>
 #include <QLineEdit>
+#include <QGroupBox>
+#include <QRadioButton>
+#include <QHBoxLayout>
 #include <QGridLayout>
 #include <QRegExpValidator>
 
@@ -11,6 +14,19 @@ WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     // setup title and subtitle for the page
     setTitle(tr("Setup User Profile"));
     setSubTitle(tr("Create your user profile"));
+
+    // setup the group box and the two radio buttons
+    gbGroupBox = new QGroupBox;
+    btnNewUser = new QRadioButton("Create New User");
+    btnNewUser->setChecked(true);
+    btnExistingUser = new QRadioButton("Use Existing Account");
+
+    // prepare groupbox layout and add radio buttons
+    QHBoxLayout *groupboxlayout = new QHBoxLayout;
+    groupboxlayout->addWidget(btnNewUser);
+    groupboxlayout->addWidget(btnExistingUser);
+    groupboxlayout->setSpacing(30);
+    gbGroupBox->setLayout(groupboxlayout);
 
     // create a validator for the username - 3 to 16 characters long
     QValidator *userValidator = new QRegExpValidator(QRegExp(".{3,16}"), this);
@@ -47,6 +63,7 @@ WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     lblFullName->setBuddy(leFullName);
 
     // register fields
+    registerField("newuser", btnNewUser, "isChecked");
     registerField("username*", leUsername);
     registerField("password*", lePassword);
     registerField("confirmPassword*", leConfirmPassword);
@@ -55,23 +72,49 @@ WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     // prepare the page layout and add widgets
     QGridLayout *layout = new QGridLayout;
 
-    layout->addWidget(lblName, 0, 0);
-    layout->addWidget(leUsername, 0, 1);
-    layout->addWidget(lblPassword, 1, 0);
-    layout->addWidget(lePassword, 1, 1);
-    layout->addWidget(lblConfirmPassword, 2, 0);
-    layout->addWidget(leConfirmPassword, 2, 1);
-    layout->addWidget(lblFullName, 3, 0);
-    layout->addWidget(leFullName, 3, 1);
+    layout->addWidget(gbGroupBox, 0, 0, 1, 4);
+    layout->addWidget(lblName, 1, 0);
+    layout->addWidget(leUsername, 1, 1, 1, 4);
+    layout->addWidget(lblPassword, 2, 0);
+    layout->addWidget(lePassword, 2, 1, 1, 4);
+    layout->addWidget(lblConfirmPassword, 3, 0);
+    layout->addWidget(leConfirmPassword, 3, 1, 1, 4);
+    layout->addWidget(lblFullName, 4, 0);
+    layout->addWidget(leFullName, 4, 1, 1, 4);
 
     setLayout(layout);
+
+    setupConnections();
 }
 
 
 bool WizardUserSetupPage::isComplete() const
 {
-    return lePassword->hasAcceptableInput() &&
+    return (lePassword->hasAcceptableInput() &&
            leConfirmPassword->hasAcceptableInput() &&
            leUsername->hasAcceptableInput() &&
-           lePassword->text() == leConfirmPassword->text();
+           lePassword->text() == leConfirmPassword->text()) ||
+            btnExistingUser->isChecked();
+}
+
+void WizardUserSetupPage::setupConnections()
+{
+    connect(btnExistingUser, &QRadioButton::toggled, [this] (bool checked) {
+        emit completeChanged();
+
+        if (checked)
+        {
+            leUsername->setEnabled(false);
+            lePassword->setEnabled(false);
+            leConfirmPassword->setEnabled(false);
+            leFullName->setEnabled(false);
+        }
+        else
+        {
+            leUsername->setEnabled(true);
+            lePassword->setEnabled(true);
+            leConfirmPassword->setEnabled(true);
+            leFullName->setEnabled(true);
+        }
+    });
 }

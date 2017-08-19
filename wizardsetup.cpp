@@ -30,6 +30,7 @@ WizardSetup::WizardSetup(QWidget *parent)
 void WizardSetup::accept()
 {
     // save locally needed settings to the settings file
+    Settings::instance().setIsDefaultDatabase(getIsDefaultDatabase());
     Settings::instance().setDatabaseLocation(getLocation());
     Settings::instance().setLanguage(getLanguage());
     Settings::instance().setDatabaseDriver(getDatabaseDriver());
@@ -77,4 +78,9 @@ QString WizardSetup::getLocation() const
 
         return location;
     }
+}
+
+bool WizardSetup::getIsDefaultDatabase() const
+{
+    return field("defaultLocation").toBool();
 }

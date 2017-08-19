@@ -19,6 +19,7 @@ private:
     QString getLanguage() const;
     QString getDatabaseDriver() const;
     QString getLocation() const;
+    bool getIsDefaultDatabase() const;
 };
 
 #endif // WIZARDSETUP_H

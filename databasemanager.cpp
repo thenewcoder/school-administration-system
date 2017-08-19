@@ -1111,7 +1111,12 @@ DatabaseManager::DatabaseManager(const QString &path)
     : mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase(Settings::instance().databaseDriver())))
 {
     // TODO: change the way this is handled - eg. deal with locale issues
-    QString location = Settings::instance().databaseLocation() + "/" + path;
+    // determine the location of the database - TODO: make it better later
+    QString location;
+    if (Settings::instance().isDefaultDatabase())
+        location = Settings::instance().databaseLocation() + "/" + path;
+    else
+        location = Settings::instance().databaseLocation();
     mDatabase->setDatabaseName(location);
 
     // add error checking later

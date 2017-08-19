@@ -20,6 +20,9 @@ public:
     bool settingsExists() const;
     void setSettingsExists();
 
+    bool isDefaultDatabase() const;
+    void setIsDefaultDatabase(bool isDefault);
+
     void saveSetting(const QString &key, const QString &value);
 
 private:
