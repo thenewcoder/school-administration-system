@@ -4,6 +4,7 @@
 #include "wizarddatabasesetup.h"
 #include "wizardsummarypage.h"
 #include "settings.h"
+#include "databasemanager.h"
 
 #include <QVariant>
 
@@ -36,10 +37,14 @@ void WizardSetup::accept()
     Settings::instance().setDatabaseDriver(getDatabaseDriver());
     Settings::instance().setSettingsExists();
 
-    // TODO: later save settings to database
-//    qDebug() << field("username").toString();
-//    qDebug() << field("password").toString();
-//    qDebug() << field("location").toString();
+    // if user doesn't have a previous account add a new one
+    if (field("newuser").toBool())
+    {
+        QString username = field("username").toString();
+        QString password = field("password").toString();
+        QString fullname = field("fullname").toString();
+        DatabaseManager::instance().addUser(username, password, fullname);
+    }
 
     QWizard::accept();
 }
