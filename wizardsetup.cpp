@@ -1,7 +1,7 @@
 #include "wizardsetup.h"
 #include "wizardintropage.h"
-#include "wizardusersetuppage.h"
 #include "wizarddatabasesetup.h"
+#include "wizardusersetuppage.h"
 #include "wizardsummarypage.h"
 #include "settings.h"
 #include "databasemanager.h"

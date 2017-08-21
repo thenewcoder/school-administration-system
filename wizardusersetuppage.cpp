@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QRegExpValidator>
+#include <QDebug>
 
 WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     : QWizardPage(parent)
@@ -62,13 +63,6 @@ WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     leFullName = new QLineEdit;
     lblFullName->setBuddy(leFullName);
 
-    // register fields
-    registerField("newuser", btnNewUser, "isChecked");
-    registerField("username*", leUsername);
-    registerField("password*", lePassword);
-    registerField("confirmPassword*", leConfirmPassword);
-    registerField("fullname", leFullName);
-
     // prepare the page layout and add widgets
     QGridLayout *layout = new QGridLayout;
 
@@ -84,6 +78,13 @@ WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
 
     setLayout(layout);
 
+    // register fields
+    registerField("newuser", btnNewUser, "isChecked");
+    registerField("username*", leUsername);
+    registerField("password*", lePassword);
+    registerField("confirmPassword*", leConfirmPassword);
+    registerField("fullname", leFullName);
+
     setupConnections();
 }
 
@@ -91,9 +92,9 @@ WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
 bool WizardUserSetupPage::isComplete() const
 {
     return (lePassword->hasAcceptableInput() &&
-           leConfirmPassword->hasAcceptableInput() &&
-           leUsername->hasAcceptableInput() &&
-           lePassword->text() == leConfirmPassword->text()) ||
+            leConfirmPassword->hasAcceptableInput() &&
+            leUsername->hasAcceptableInput() &&
+            lePassword->text() == leConfirmPassword->text()) ||
             btnExistingUser->isChecked();
 }
 
@@ -117,4 +118,16 @@ void WizardUserSetupPage::setupConnections()
             leFullName->setEnabled(true);
         }
     });
+}
+
+
+void WizardUserSetupPage::initializePage()
+{
+    // if the user chose create a new database, disable use existing account
+    if (field("newdatabase").toBool())
+    {
+        btnExistingUser->setEnabled(false);
+    }
+    else
+        btnExistingUser->setEnabled(true);
 }

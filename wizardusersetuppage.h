@@ -17,6 +17,7 @@ public:
 
     // QWizardPage interface
     bool isComplete() const override;
+    void initializePage() override;
 
 private:
     void setupConnections();
@@ -35,6 +36,7 @@ private:
     QLineEdit *lePassword;
     QLineEdit *leConfirmPassword;
     QLineEdit *leFullName;
+
 };
 
 #endif // WIZARDUSERSETUPPAGE_H

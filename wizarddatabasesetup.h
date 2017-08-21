@@ -38,6 +38,7 @@ private:
     QLineEdit *leLocation;
 
     QPushButton *btnChangeLocation;
+
 };
 
 #endif // WIZARDDATABASESETUP_H

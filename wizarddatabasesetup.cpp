@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QFileDialog>
+#include <QDebug>
 
 WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
     : QWizardPage(parent)
@@ -60,13 +61,13 @@ WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
 
     setLayout(layout);
 
+    setupConnections();
+
     // register fields
     registerField("databasedriver", cbDatabaseDrivers, "currentText");
     registerField("defaultLocation", chbDefaultLocation, "isChecked");
     registerField("newdatabase", btnNewDatabase);
     registerField("location", leLocation);
-
-    setupConnections();
 
     // disable the line edit and button on startup
     leLocation->setEnabled(false);
