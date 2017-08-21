@@ -110,6 +110,9 @@
      <height>151</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Teachers teaching this class</string>
+   </property>
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
    </property>
@@ -122,6 +125,9 @@
      <width>181</width>
      <height>181</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Enrolled Students</string>
    </property>
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
@@ -136,6 +142,9 @@
      <height>23</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Add or Remove Teachers for this class</string>
+   </property>
    <property name="text">
     <string>Edit</string>
    </property>
@@ -148,6 +157,9 @@
      <width>75</width>
      <height>23</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Add or Remove Students for this class</string>
    </property>
    <property name="text">
     <string>Edit</string>

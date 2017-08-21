@@ -33,7 +33,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabRooms">
       <attribute name="title">
@@ -67,6 +67,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Add a new Classroom</string>
+       </property>
        <property name="text">
         <string>Add</string>
        </property>
@@ -80,6 +83,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Delete the selected classroom</string>
+       </property>
        <property name="text">
         <string>Delete</string>
        </property>
@@ -92,6 +98,9 @@
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="toolTip">
+        <string>Edit a Classroom</string>
        </property>
        <property name="text">
         <string>Edit</string>
@@ -130,6 +139,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Add a new Dormitory</string>
+       </property>
        <property name="text">
         <string>Add</string>
        </property>
@@ -143,6 +155,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Edit a dormitory</string>
+       </property>
        <property name="text">
         <string>Edit</string>
        </property>
@@ -155,6 +170,9 @@
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="toolTip">
+        <string>Delete a dormitory</string>
        </property>
        <property name="text">
         <string>Delete</string>
@@ -193,6 +211,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Add a new Bus stop</string>
+       </property>
        <property name="text">
         <string>Add</string>
        </property>
@@ -206,6 +227,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Edit a Bus stop</string>
+       </property>
        <property name="text">
         <string>Edit</string>
        </property>
@@ -218,6 +242,9 @@
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="toolTip">
+        <string>Delete the selected Bus stop</string>
        </property>
        <property name="text">
         <string>Delete</string>
@@ -258,10 +285,13 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>80</y>
+         <y>60</y>
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="toolTip">
+        <string>Add a new Grade</string>
        </property>
        <property name="text">
         <string>Add</string>
@@ -271,10 +301,13 @@
        <property name="geometry">
         <rect>
          <x>230</x>
-         <y>80</y>
+         <y>60</y>
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="toolTip">
+        <string>Delete a Grade</string>
        </property>
        <property name="text">
         <string>Delete</string>
@@ -284,10 +317,13 @@
        <property name="geometry">
         <rect>
          <x>410</x>
-         <y>80</y>
+         <y>60</y>
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="toolTip">
+        <string>Add a new Subject</string>
        </property>
        <property name="text">
         <string>Add</string>
@@ -297,10 +333,13 @@
        <property name="geometry">
         <rect>
          <x>580</x>
-         <y>80</y>
+         <y>60</y>
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="toolTip">
+        <string>Delete a Subject</string>
        </property>
        <property name="text">
         <string>Delete</string>
@@ -310,10 +349,13 @@
        <property name="geometry">
         <rect>
          <x>150</x>
-         <y>80</y>
+         <y>60</y>
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="toolTip">
+        <string>Edit a Grade</string>
        </property>
        <property name="text">
         <string>Edit</string>
@@ -323,13 +365,54 @@
        <property name="geometry">
         <rect>
          <x>500</x>
-         <y>80</y>
+         <y>60</y>
          <width>75</width>
          <height>23</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Edit a Subject</string>
+       </property>
        <property name="text">
         <string>Edit</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>100</y>
+         <width>54</width>
+         <height>12</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Grades</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>500</x>
+         <y>97</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Subjects</string>
        </property>
       </widget>
      </widget>

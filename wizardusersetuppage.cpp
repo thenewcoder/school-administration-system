@@ -7,7 +7,6 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QRegExpValidator>
-#include <QDebug>
 
 WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     : QWizardPage(parent)

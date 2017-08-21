@@ -10,7 +10,6 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QFileDialog>
-#include <QDebug>
 
 WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
     : QWizardPage(parent)

@@ -30,6 +30,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="btnRefresh">
+       <property name="toolTip">
+        <string>Refresh Class Table</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -60,6 +63,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnAddClass">
+       <property name="toolTip">
+        <string>Add a new Class</string>
+       </property>
        <property name="text">
         <string>Add</string>
        </property>
@@ -67,6 +73,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnEditClass">
+       <property name="toolTip">
+        <string>View / Edit a Class</string>
+       </property>
        <property name="text">
         <string>Edit</string>
        </property>
@@ -74,6 +83,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnDeleteClass">
+       <property name="toolTip">
+        <string>Permanently delete a Class</string>
+       </property>
        <property name="text">
         <string>Delete</string>
        </property>
