@@ -135,6 +135,11 @@
        </item>
        <item>
         <property name="text">
+         <string>Attendance</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Classes</string>
         </property>
        </item>
@@ -241,7 +246,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="pageHome">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -272,6 +277,13 @@
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <layout class="QHBoxLayout" name="loStudents"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pageAttendance">
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <layout class="QHBoxLayout" name="loAttendance"/>
          </item>
         </layout>
        </widget>

@@ -51,7 +51,10 @@ SOURCES += main.cpp\
     wizardintropage.cpp \
     wizardsetup.cpp \
     wizardsummarypage.cpp \
-    wizardusersetuppage.cpp
+    wizardusersetuppage.cpp \
+    pageattendanceform.cpp \
+    editattendancedialog.cpp \
+    classrecord.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
@@ -80,7 +83,10 @@ HEADERS  += mainwindow.h \
     wizardintropage.h \
     wizardsetup.h \
     wizardsummarypage.h \
-    wizardusersetuppage.h
+    wizardusersetuppage.h \
+    pageattendanceform.h \
+    editattendancedialog.h \
+    classrecord.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \
@@ -96,7 +102,9 @@ FORMS    += mainwindow.ui \
     editclassdialog.ui \
     selectordialog.ui \
     pageotherform.ui \
-    editotherdialog.ui
+    editotherdialog.ui \
+    pageattendanceform.ui \
+    editattendancedialog.ui
 
 RESOURCES += \
     resources.qrc

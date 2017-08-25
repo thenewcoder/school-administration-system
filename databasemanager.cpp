@@ -15,6 +15,7 @@
 #include "school.h"
 #include "user.h"
 #include "class.h"
+#include "classrecord.h"
 
 DatabaseManager &DatabaseManager::instance()
 {
@@ -507,6 +508,24 @@ void DatabaseManager::addUser(const User &user)
     addUser(user.username(), user.password(), user.fullName());
 }
 
+void DatabaseManager::addClassRecord(const ClassRecord &record)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO class_record(date, classId, teacherId) VALUES("
+                  ":date,"
+                  "(SELECT classId FROM class WHERE className = :className),"
+                  "(SELECT teacherId FROM teacher WHERE name = :teacherName))");
+    query.bindValue(":date", record.getDate());
+    query.bindValue(":className", record.getClass());
+    query.bindValue(":teacherName", record.getTeacher());
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to insert a new class record";
+        qDebug() << query.lastError().text();
+    }
+}
+
 User DatabaseManager::getUser(const QString &username)
 {
     QSqlQuery query;
@@ -667,6 +686,37 @@ Class DatabaseManager::getClass(const QString &classId)
     }
 
     return c;
+}
+
+ClassRecord DatabaseManager::getClassRecord(const QString &recordId)
+{
+    ClassRecord record;
+    record.setRecordId(recordId);
+
+    QSqlQuery query;
+    query.prepare("SELECT CR.date, C.className, T.name "
+                  "FROM class_record CR "
+                  "LEFT OUTER JOIN class C ON C.classId = CR.classId "
+                  "LEFT OUTER JOIN teacher T ON T.teacherId = CR.teacherId "
+                  "WHERE recordId = :recordId");
+    query.bindValue(":recordId", recordId);
+
+    if (query.exec())
+    {
+        if (query.next())
+        {
+            record.setClass(query.value("className").toString());
+            record.setDate(query.value("date").toString());
+            record.setTeacher(query.value("name").toString());
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get a class record";
+        qDebug() << query.lastError().text();
+    }
+
+    return record;
 }
 
 void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &teacherId)
@@ -867,6 +917,26 @@ void DatabaseManager::saveClassData(const Class &c)
             qDebug() << "Unable to insert student into class_student table";
             qDebug() << query.lastError().text();
         }
+    }
+}
+
+void DatabaseManager::saveClassRecord(const ClassRecord &record)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE class_record SET "
+                  "date = :date "
+                  "classId = (SELECT classId FROM class WHERE className = :className) "
+                  "teacherId = (SELECT teacherId FROM teacher WHERE name = :teacherName) "
+                  "WHERE recordId = :recordId");
+    query.bindValue(":date", record.getDate());
+    query.bindValue(":className", record.getClass());
+    query.bindValue(":teacherName", record.getTeacher());
+    query.bindValue(":recordId", record.getRecordId());
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update a class record";
+        qDebug() << query.lastError().text();
     }
 }
 

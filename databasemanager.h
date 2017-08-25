@@ -13,6 +13,7 @@ class Student;
 class School;
 class User;
 class Class;
+class ClassRecord;
 
 // temporary name
 const QString DATABASE_FILENAME = "database.db";
@@ -49,17 +50,20 @@ public:
     void addSubject(const QString &name);
     void addUser(const QString &username, const QString &password, const QString &fullname);
     void addUser(const User &user);
+    void addClassRecord(const ClassRecord &record);
 
     User getUser(const QString &username);
     School getSchoolInfo() const;
     Teacher getTeacher(const QString &teacherId);
     Student getStudent(const QString &studentId);
     Class getClass(const QString &classId);
+    ClassRecord getClassRecord(const QString &recordId);
 
     void saveTeacherData(const Teacher &teacher, const QString &teacherId);
     void saveStudentData(const Student &student, const QString &studentId);
     void saveSchoolData(const School &school);
     void saveClassData(const Class &c);
+    void saveClassRecord(const ClassRecord &record);
 
     bool updateUserData(const User &user);
     bool updateClassroom(const QString &id, const QString &name, const QString &comment);

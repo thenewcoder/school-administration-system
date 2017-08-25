@@ -365,6 +365,30 @@ CREATE TABLE IF NOT EXISTS `test_result` (
 	FOREIGN KEY(`studentId`) REFERENCES `student`(`studentId`)
 );
 
+CREATE TABLE IF NOT EXISTS `attendance_type` (
+        `typeId`        INTEGER PRIMARY KEY AUTOINCREMENT,
+        `type` TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `class_record` (
+        `recordId` INTEGER PRIMARY KEY AUTOINCREMENT,
+        `date` TEXT,
+        `classId` INTEGER,
+        `teacherId` INTEGER,
+        FOREIGN KEY(`teacherId`) REFERENCES `teacher`(`teacherId`),
+        FOREIGN KEY(`classId`) REFERENCES `class`(`classId`)
+);
+
+CREATE TABLE IF NOT EXISTS `attendance_record` (
+        `class_record_id` INTEGER,
+        `studentId` INTEGER,
+        `attendance_type_id` INTEGER,
+        FOREIGN KEY(`attendance_type_id`) REFERENCES `attendance_type`(`typeId`),
+        FOREIGN KEY(`studentId`) REFERENCES `student`(`studentId`),
+        PRIMARY KEY(`class_record_id`,`studentId`),
+        FOREIGN KEY(`class_record_id`) REFERENCES `class_record`(`recordId`)
+);
+
 CREATE VIEW class_summary AS
 SELECT C.classId, G.name as 'grade', C.className, S.subjectName, CR.classroomName, group_concat(DISTINCT T.name) AS 'Teachers', count( DISTINCT CS.studentId) AS 'Num Students'
 FROM class C
@@ -400,3 +424,11 @@ LEFT OUTER JOIN class C ON C.classId = TC.classId
 LEFT OUTER JOIN subject S ON C.subjectId = S.subjectId
 GROUP BY TS.teacherId
 ORDER BY TS.name;
+
+CREATE VIEW class_record_summary AS
+SELECT DISTINCT recordId, date, C.className, T.name, CS.'Num Students' AS 'students'
+FROM class_record CR
+LEFT OUTER JOIN class C on C.classId = CR.classId
+LEFT OUTER JOIN teacher T on T.teacherId = CR.teacherId
+LEFT OUTER JOIN class_summary CS ON CS.classId = CR.classId
+ORDER BY date DESC, C.className;
