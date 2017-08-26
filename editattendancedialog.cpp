@@ -2,16 +2,20 @@
 #include "ui_editattendancedialog.h"
 
 #include <QStringListModel>
+#include <QSqlTableModel>
 #include <QDate>
 #include <QLocale>
 #include "databasemanager.h"
 #include "classrecord.h"
 
+#include <QDebug>
+
 EditAttendanceDialog::EditAttendanceDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditAttendanceDialog),
     mModelClasses(new QStringListModel(this)),
-    mModelTeachers(new QStringListModel(this))
+    mModelTeachers(new QStringListModel(this)),
+    mModelAttendance(new QSqlTableModel(this))
 {
     ui->setupUi(this);
 
@@ -31,6 +35,18 @@ EditAttendanceDialog::EditAttendanceDialog(QWidget *parent) :
 
     // set the date edit to todays date
     ui->deClassTime->setDate(QDate::currentDate());
+
+    // set up the attendance table view
+    mModelAttendance->setTable("attendance_summary");
+    mModelAttendance->setHeaderData(FIELDS::STUDENT, Qt::Horizontal, tr("Student"));
+    mModelAttendance->setHeaderData(FIELDS::STATUS, Qt::Horizontal, tr("Status"));
+    ui->tvAttendance->setModel(mModelAttendance);
+
+    // hide the class name column
+    ui->tvAttendance->hideColumn(FIELDS::CLASS);
+
+
+    setupConnections();
 }
 
 EditAttendanceDialog::~EditAttendanceDialog()
@@ -112,4 +128,15 @@ QString EditAttendanceDialog::getRecordId() const
 void EditAttendanceDialog::setRecordId(const QString &recordId)
 {
     mRecordId = recordId;
+}
+
+void EditAttendanceDialog::setupConnections()
+{
+    connect(ui->cbClasses, &QComboBox::currentTextChanged, [this] (const QString &text) {
+        if (ui->cbClasses->currentIndex() != 0)
+        {
+            mModelAttendance->setFilter(QString("Class = '%1'").arg(text));
+            mModelAttendance->select();
+        }
+    });
 }

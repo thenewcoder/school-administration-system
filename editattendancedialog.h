@@ -8,11 +8,20 @@ class EditAttendanceDialog;
 }
 
 class QStringListModel;
+class QSqlTableModel;
 class ClassRecord;
 
 class EditAttendanceDialog : public QDialog
 {
     Q_OBJECT
+
+public:
+    enum FIELDS
+    {
+        CLASS,
+        STUDENT,
+        STATUS
+    };
 
 public:
     explicit EditAttendanceDialog(QWidget *parent = 0);
@@ -34,12 +43,16 @@ public:
     void setRecordId(const QString &recordId);
 
 private:
+    void setupConnections();
+
+private:
     Ui::EditAttendanceDialog *ui;
 
     QString mRecordId;
 
     QStringListModel *mModelClasses;
     QStringListModel *mModelTeachers;
+    QSqlTableModel *mModelAttendance;
 };
 
 #endif // EDITATTENDANCEDIALOG_H
