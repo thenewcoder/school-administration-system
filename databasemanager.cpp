@@ -1149,6 +1149,12 @@ bool DatabaseManager::removeTableRows(const QString &table, const QString &col, 
     return true;
 }
 
+bool DatabaseManager::removeClassRecord(const QString &recordId)
+{
+    // remove row from class_record
+    return removeTableRows("class_record", "recordId", recordId);
+}
+
 QStringList DatabaseManager::classesTaken(const QString &id)
 {
     QStringList list;

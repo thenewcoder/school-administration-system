@@ -2,7 +2,7 @@
 #include "ui_pageattendanceform.h"
 
 #include <QSqlTableModel>
-#include <QDebug>
+#include <QMessageBox>
 
 #include "editattendancedialog.h"
 #include "databasemanager.h"
@@ -83,6 +83,25 @@ void PageAttendanceForm::setupConnections()
     });
 
     connect(ui->btnDelete, &QPushButton::clicked, [this] () {
+        QModelIndex index = ui->tvAttendance->currentIndex();
+        if (index.isValid())
+        {
+            // make sure the user really wants to delete
+            auto result = QMessageBox::warning(this, tr("Delete a class record"),
+                                               tr("Are you sure you want to delete the class "
+                                                  "record?\nThis action can't be undone!"),
+                                               QMessageBox::Yes, QMessageBox::Cancel);
+            if (result == QMessageBox::Yes)
+            {
+                // get id of the selected record
+                QString recordId = mModel->data(mModel->index(index.row(), 0)).toString();
 
+                // delete the record from the database
+                DatabaseManager::instance().removeClassRecord(recordId);
+
+                // update the table view
+                mModel->select();
+            }
+        }
     });
 }

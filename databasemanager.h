@@ -78,6 +78,7 @@ public:
     void removeGrade(const QString &grade);
     void removeSubject(const QString &subject);
     bool removeTableRows(const QString &table, const QString &col, const QString &id);
+    bool removeClassRecord(const QString &recordId);
 
     QStringList classesTaken(const QString &id);
     QStringList classesTaught(const QString &id);
