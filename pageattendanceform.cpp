@@ -2,6 +2,7 @@
 #include "ui_pageattendanceform.h"
 
 #include <QSqlTableModel>
+#include <QDebug>
 
 #include "editattendancedialog.h"
 #include "databasemanager.h"

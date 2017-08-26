@@ -61,14 +61,14 @@ void EditAttendanceDialog::setClass(const QString &theClass)
 
 QString EditAttendanceDialog::getDate() const
 {
-    // TODO: make sure returned date is in correct format
-    return ui->deClassTime->date().toString();
+    QDate d = ui->deClassTime->date();
+    return QLocale("en_US").toString(d, "yyyy-MM-dd");
 }
 
 void EditAttendanceDialog::setDate(const QString &date)
 {
-    // FIXME: not working properly
-    ui->deClassTime->setDate(QDate::fromString(date));
+    QDate d = QLocale("en_US").toDate(date, "yyyy-MM-dd");
+    ui->deClassTime->setDate(d);
 }
 
 QString EditAttendanceDialog::getTeacher() const
@@ -89,6 +89,7 @@ void EditAttendanceDialog::setTeacher(const QString &teacher)
 ClassRecord EditAttendanceDialog::getClassRecord() const
 {
     ClassRecord record;
+    record.setRecordId(getRecordId());
     record.setClass(getClass());
     record.setDate(getDate());
     record.setTeacher(getTeacher());
@@ -97,7 +98,18 @@ ClassRecord EditAttendanceDialog::getClassRecord() const
 
 void EditAttendanceDialog::setClassRecord(const ClassRecord &record)
 {
+    setRecordId(record.getRecordId());
     setClass(record.getClass());
     setDate(record.getDate());
     setTeacher(record.getTeacher());
+}
+
+QString EditAttendanceDialog::getRecordId() const
+{
+    return mRecordId;
+}
+
+void EditAttendanceDialog::setRecordId(const QString &recordId)
+{
+    mRecordId = recordId;
 }

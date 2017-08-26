@@ -924,8 +924,8 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
 {
     QSqlQuery query;
     query.prepare("UPDATE class_record SET "
-                  "date = :date "
-                  "classId = (SELECT classId FROM class WHERE className = :className) "
+                  "date = :date, "
+                  "classId = (SELECT classId FROM class WHERE className = :className), "
                   "teacherId = (SELECT teacherId FROM teacher WHERE name = :teacherName) "
                   "WHERE recordId = :recordId");
     query.bindValue(":date", record.getDate());

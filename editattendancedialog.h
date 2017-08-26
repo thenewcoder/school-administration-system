@@ -30,8 +30,13 @@ public:
     ClassRecord getClassRecord() const;
     void setClassRecord(const ClassRecord &record);
 
+    QString getRecordId() const;
+    void setRecordId(const QString &recordId);
+
 private:
     Ui::EditAttendanceDialog *ui;
+
+    QString mRecordId;
 
     QStringListModel *mModelClasses;
     QStringListModel *mModelTeachers;
