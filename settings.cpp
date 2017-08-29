@@ -29,12 +29,7 @@ QString Settings::databaseLocation() const
 
 void Settings::setDatabaseLocation(const QString &location)
 {
-    QString dest;
-    if (location.isEmpty())
-        dest = QDir::currentPath();
-    else
-        dest = location;
-    saveSetting("location", dest);
+    saveSetting("location", location);
 }
 
 QString Settings::databaseDriver() const

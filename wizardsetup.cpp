@@ -1,4 +1,4 @@
-#include "wizardsetup.h"
+﻿#include "wizardsetup.h"
 #include "wizardintropage.h"
 #include "wizarddatabasesetup.h"
 #include "wizardusersetuppage.h"
@@ -7,6 +7,7 @@
 #include "databasemanager.h"
 
 #include <QVariant>
+#include <QDir>
 
 WizardSetup::WizardSetup(QWidget *parent)
     : QWizard(parent)
@@ -68,20 +69,20 @@ QString WizardSetup::getDatabaseDriver() const
     if (driver == "SQLite")
         return "QSQLITE";
 
-    return "SQLite"; // for now...
+    return "QSQLITE"; // for now...
 }
 
 QString WizardSetup::getLocation() const
 {
     QString location = field("location").toString();
     if (field("defaultLocation").toBool())
-        return "";
+        return DATABASE_FILENAME;
     else
     {
         if (field("location").toString().isEmpty())
             return "";
 
-        return location;
+        return QDir::toNativeSeparators(location);
     }
 }
 

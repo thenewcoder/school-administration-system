@@ -1,4 +1,4 @@
-#include "wizarddatabasesetup.h"
+﻿#include "wizarddatabasesetup.h"
 
 #include <QLabel>
 #include <QLineEdit>
@@ -64,7 +64,7 @@ WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
 
     // register fields
     registerField("databasedriver", cbDatabaseDrivers, "currentText");
-    registerField("defaultLocation", chbDefaultLocation, "isChecked");
+    registerField("defaultLocation", chbDefaultLocation);
     registerField("newdatabase", btnNewDatabase);
     registerField("location", leLocation);
 
@@ -76,7 +76,6 @@ WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
 void WizardDatabaseSetup::setupConnections()
 {
     // connections needed for the isComplete() to work properly
-    connect(chbDefaultLocation, &QCheckBox::toggled, this, &WizardDatabaseSetup::completeChanged);
     connect(leLocation, &QLineEdit::textChanged, this, &WizardDatabaseSetup::completeChanged);
 
     // default location checkbox button

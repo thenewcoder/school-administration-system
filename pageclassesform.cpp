@@ -33,6 +33,7 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
     ui->tvClasses->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvClasses->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tvClasses->hideColumn(FIELDS::ID); // hide id column
+    ui->tvClasses->resizeRowsToContents();
 
     setupConnections();
 }

@@ -389,17 +389,24 @@ CREATE TABLE IF NOT EXISTS `attendance_record` (
         FOREIGN KEY(`class_record_id`) REFERENCES `class_record`(`recordId`)
 );
 
+CREATE VIEW teacher_class_summary AS
+SELECT C.classId, group_concat(T.name, ', ') AS 'teachers'
+FROM teacher_class TC
+LEFT OUTER JOIN class C ON C.classId = TC.classId
+LEFT OUTER JOIN teacher T ON T.teacherId = TC.teacherId
+GROUP BY TC.classId;
+
 CREATE VIEW class_summary AS
-SELECT C.classId, G.name as 'grade', C.className, S.subjectName, CR.classroomName, group_concat(DISTINCT T.name) AS 'Teachers', count( DISTINCT CS.studentId) AS 'Num Students'
+SELECT C.classId, G.name AS 'grade', className, S.subjectName, CR.classroomName, TCS.teachers 'Teachers', count(DISTINCT CS.studentId) AS "Num Students"
 FROM class C
 LEFT OUTER JOIN class_student CS ON C.classId = CS.classId
 LEFT OUTER JOIN subject S ON S.subjectId = C.subjectId
 LEFT OUTER JOIN classroom CR ON CR.classroomId = C.classroomId
 LEFT OUTER JOIN teacher_class TC ON TC.classId = C.classId
-LEFT OUTER JOIN teacher T ON T.teacherId = TC.teacherId
+LEFT OUTER JOIN teacher_class_summary TCS ON TCS.classId = C.classId
 LEFT OUTER JOIN grade G ON G.gradeId = C.gradeId
-GROUP BY CS.classId
-ORDER BY G.name, C.className;
+GROUP BY C.classId
+ORDER BY G.name, className;
 
 CREATE VIEW student_summary AS
 SELECT studentId, S.name, GR.name AS 'Grade', type, country, IDNumber, studentPhoneNumber, D.name AS 'Dorm'

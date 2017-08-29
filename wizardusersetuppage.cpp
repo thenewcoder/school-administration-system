@@ -1,4 +1,4 @@
-#include "wizardusersetuppage.h"
+﻿#include "wizardusersetuppage.h"
 
 #include <QLabel>
 #include <QLineEdit>
@@ -78,7 +78,7 @@ WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     setLayout(layout);
 
     // register fields
-    registerField("newuser", btnNewUser, "isChecked");
+    registerField("newuser", btnNewUser);
     registerField("username*", leUsername);
     registerField("password*", lePassword);
     registerField("confirmPassword*", leConfirmPassword);

@@ -16,7 +16,7 @@ class Class;
 class ClassRecord;
 
 // temporary name
-const QString DATABASE_FILENAME = "database.db";
+static const QString DATABASE_FILENAME = "database.db";
 
 class DatabaseManager
 {

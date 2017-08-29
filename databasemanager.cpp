@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QDir>
 
 #include "settings.h"
 
@@ -1208,17 +1209,21 @@ QStringList DatabaseManager::classesTaught(const QString &id)
 DatabaseManager::DatabaseManager(const QString &path)
     : mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase(Settings::instance().databaseDriver())))
 {
+    qDebug() << "In database manager constructor";
+
     // TODO: change the way this is handled - eg. deal with locale issues
     // determine the location of the database - TODO: make it better later
-    QString location;
-    if (Settings::instance().isDefaultDatabase())
-        location = Settings::instance().databaseLocation() + "/" + path;
-    else
-        location = Settings::instance().databaseLocation();
+    QString location = Settings::instance().databaseLocation();
+    if (location.isEmpty())
+        location = path;
+
     mDatabase->setDatabaseName(location);
 
-    // add error checking later
-    mDatabase->open();
+    // add better error checking later
+    if (!mDatabase->open())
+    {
+        qDebug() << "Unable to open database";
+    }
 
     // create new tables if none exist
     if (mDatabase->tables().count() < 1)
