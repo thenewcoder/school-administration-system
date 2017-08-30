@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->setVisible(false);
     ui->mainToolBar->setVisible(false);
 
+    // make the invalid username/password label invisible at startup
+    ui->lblInvalidUserPass->setVisible(false);
+
     setupConnections();
 }
 
@@ -31,6 +34,11 @@ void MainWindow::setupConnections()
         {
             setupNewAdminForm();
             emit notifyUserLogin();
+        }
+        else
+        {
+            // make the label visible when the user got the wrong password
+            ui->lblInvalidUserPass->setVisible(true);
         }
     });
 }
@@ -61,6 +69,9 @@ void MainWindow::setupNewAdminForm()
         ui->passwordEdit->setText("");
         ui->usernameEdit->setText("");
         ui->usernameEdit->setFocus();
+
+        // make the label invisible just in case
+        ui->lblInvalidUserPass->setVisible(false);
     });
 }
 
