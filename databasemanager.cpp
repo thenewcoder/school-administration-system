@@ -1209,8 +1209,6 @@ QStringList DatabaseManager::classesTaught(const QString &id)
 DatabaseManager::DatabaseManager(const QString &path)
     : mDatabase(new QSqlDatabase(QSqlDatabase::addDatabase(Settings::instance().databaseDriver())))
 {
-    qDebug() << "In database manager constructor";
-
     // TODO: change the way this is handled - eg. deal with locale issues
     // determine the location of the database - TODO: make it better later
     QString location = Settings::instance().databaseLocation();
@@ -1223,6 +1221,7 @@ DatabaseManager::DatabaseManager(const QString &path)
     if (!mDatabase->open())
     {
         qDebug() << "Unable to open database";
+        // TODO: add code to let the user search for the database or perhaps go through the wizard again
     }
 
     // create new tables if none exist

@@ -108,3 +108,7 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     resources.qrc
+
+win32:RC_ICONS += images/app.ico
+win32:VERSION = 0.2
+QMAKE_TARGET_COPYRIGHT = "(c) 2017 Markus Berg"

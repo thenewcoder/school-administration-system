@@ -11,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // set the application icon
+    setWindowIcon(QIcon(":/images/app.ico"));
+
     // set statusbar and main tool bar invisible for now while logging in
     ui->statusBar->setVisible(false);
     ui->mainToolBar->setVisible(false);
