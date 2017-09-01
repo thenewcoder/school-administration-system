@@ -56,8 +56,10 @@ void SchoolSettingsForm::setupConnections()
         DatabaseManager::instance().saveSchoolData(school);
 
         // update the school logo
-
         emit notifySchoolLogoUpdate(*logo);
+
+        // for now - notify the school name has changed. TODO:: make a proper check later
+        emit notifySchoolNameChanged(ui->leSchoolName->text());
     });
 }
 

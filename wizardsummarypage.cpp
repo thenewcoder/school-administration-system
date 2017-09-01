@@ -1,8 +1,9 @@
-#include "wizardsummarypage.h"
+﻿#include "wizardsummarypage.h"
 
 #include <QLabel>
 #include <QGridLayout>
 #include <QVariant>
+#include <QApplication>
 
 WizardSummaryPage::WizardSummaryPage(QWidget *parent)
     : QWizardPage(parent)
@@ -20,7 +21,7 @@ WizardSummaryPage::WizardSummaryPage(QWidget *parent)
 
     // setup the database location label - initialize it to 'Local' for now
     lblDatabaseLocation = new QLabel(tr("Database Location:"));
-    lblDatabaseLocationResult = new QLabel(tr("Local"));
+    lblDatabaseLocationResult = new QLabel(tr("Local")); // for now... remember to change translation event if change this
 
     // setup the full name label
     lblFullName = new QLabel(tr("Full name:"));
@@ -47,4 +48,18 @@ void WizardSummaryPage::initializePage()
     lblUsernameResult->setText(field("username").toString());
     lblDatabaseTypeResult->setText(field("databasedriver").toString());
     lblFullNameResult->setText(field("fullname").toString());
+}
+
+
+void WizardSummaryPage::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        setTitle(qApp->translate("WizardSummaryPage", "Summary"));
+        lblUsername->setText(qApp->translate("WizardSummaryPage", "Username:"));
+        lblDatabaseType->setText(qApp->translate("WizardSummaryPage", "Database Type:"));
+        lblDatabaseLocation->setText(qApp->translate("WizardSummaryPage", "Database Location:"));
+        lblDatabaseLocationResult->setText(qApp->translate("WizardSummaryPage", "Local"));
+        lblFullName->setText(qApp->translate("WizardSummaryPage", "Full name:"));
+    }
 }

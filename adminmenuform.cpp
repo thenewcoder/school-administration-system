@@ -28,7 +28,7 @@ AdminMenuForm::AdminMenuForm(QWidget *parent) :
 
     // add the menu items
     ui->loHome->addWidget(mPageHomeForm);
-    ui->loSettings->addWidget(new PageSettingsForm(this));
+    ui->loSettings->addWidget(new PageSettingsForm(mPageHomeForm, this));
     ui->loTeachers->addWidget(mPageTeachersForm);
     ui->loStudents->addWidget(mPageStudentsForm);
     ui->loClasses->addWidget(mPageClassesForm);
@@ -71,7 +71,9 @@ void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)
 
 void AdminMenuForm::handleUserLogin()
 {
+    // setup the username
     QString name = !Login::instance().fullname().isEmpty() ? Login::instance().fullname() : Login::instance().username();
     ui->lblWelcomeText->setText(tr("Welcome, ") + name);
+
     emit notifyUserLogon();
 }

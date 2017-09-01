@@ -1,4 +1,4 @@
-#ifndef WIZARDSUMMARYPAGE_H
+﻿#ifndef WIZARDSUMMARYPAGE_H
 #define WIZARDSUMMARYPAGE_H
 
 #include <QWidget>
@@ -25,6 +25,10 @@ private:
     QLabel *lblDatabaseTypeResult;
     QLabel *lblDatabaseLocationResult;
     QLabel *lblFullNameResult;
+
+    // QWidget interface
+protected:
+    virtual void changeEvent(QEvent *e) override;
 };
 
 #endif // WIZARDSUMMARYPAGE_H

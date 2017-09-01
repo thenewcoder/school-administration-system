@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QRegExpValidator>
+#include <QApplication>
 
 WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     : QWizardPage(parent)
@@ -129,4 +130,23 @@ void WizardUserSetupPage::initializePage()
     }
     else
         btnExistingUser->setEnabled(true);
+}
+
+
+void WizardUserSetupPage::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        setTitle(qApp->translate("WizardUserSetupPage", "Setup User Profile"));
+        setSubTitle(qApp->translate("WizardUserSetupPage", "Create your user profile"));
+        btnNewUser->setText(qApp->translate("WizardUserSetupPage", "Create New User"));
+        btnExistingUser->setText(qApp->translate("WizardUserSetupPage", "Use Existing Account"));
+        lblName->setText(qApp->translate("WizardUserSetupPage", "&Username:"));
+        leUsername->setPlaceholderText(qApp->translate("WizardUserSetupPage", "3-16 characters"));
+        lblPassword->setText(qApp->translate("WizardUserSetupPage", "&Password:"));
+        lePassword->setPlaceholderText(qApp->translate("WizardUserSetupPage", "6-16 characters"));
+        lblConfirmPassword->setText(qApp->translate("WizardUserSetupPage", "&Confirm Password:"));
+        leConfirmPassword->setPlaceholderText(qApp->translate("WizardUserSetupPage", "Re-type password"));
+        lblFullName->setText(qApp->translate("WizardUserSetupPage", "&Full Name:"));
+    }
 }

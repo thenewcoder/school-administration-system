@@ -1,4 +1,4 @@
-#ifndef PAGESETTINGSFORM_H
+﻿#ifndef PAGESETTINGSFORM_H
 #define PAGESETTINGSFORM_H
 
 #include <QWidget>
@@ -9,21 +9,26 @@ class PageSettingsForm;
 
 class SchoolSettingsForm;
 class PersonalProfileForm;
+class PageHomeForm;
 
 class PageSettingsForm : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PageSettingsForm(QWidget *parent = 0);
+    explicit PageSettingsForm(PageHomeForm *pageHomeForm, QWidget *parent = 0);
     ~PageSettingsForm();
 
 private:
     void setupConnections();
 
+signals:
+    void notifySchoolNameChanged(const QString &name);
+
 private:
     Ui::PageSettingsForm *ui;
 
+    PageHomeForm *mPageHomeForm;
     SchoolSettingsForm *mSchoolSettingsForm;
     PersonalProfileForm *mPersonalProfileForm;
 };

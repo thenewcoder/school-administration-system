@@ -1,7 +1,7 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include <QApplication>
+#include <QTranslator>
 
-#include <QDebug>
 #include "wizardsetup.h"
 #include "settings.h"
 
@@ -10,21 +10,36 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
 
+    // prepare the translator
+    QTranslator *translator = new QTranslator;
+    qApp->installTranslator(translator);
+
     // check if settings.ini exists
-    if (!Settings::instance().settingsExists())
+    if (!Settings::instance().settingsExists()) // no settings.ini exist
     {
         // take user through the wizard
-        WizardSetup setup;
-        if (setup.exec() == QWizard::Accepted)
+        WizardSetup setup(translator);
+        if (setup.exec() != QWizard::Accepted) // if user cancelled then close application
         {
-            qDebug() << "Settings setup properly";
-        }
-        else
-        {
+            // delete pointers
+            delete translator;
+
             return 0;
+        }
+    }
+    else // settings already exist
+    {
+        // get the preferred user language
+        QString lang = Settings::instance().language();
+        if (lang != "en_US") // other language than english
+        {
+            translator->load("translations/trans_" + lang);
         }
     }
 
     w.show();
     return a.exec();
+
+    // delete pointers
+    delete translator;
 }

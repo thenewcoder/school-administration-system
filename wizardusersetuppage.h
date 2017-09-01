@@ -1,4 +1,4 @@
-#ifndef WIZARDUSERSETUPPAGE_H
+﻿#ifndef WIZARDUSERSETUPPAGE_H
 #define WIZARDUSERSETUPPAGE_H
 
 #include <QWidget>
@@ -37,6 +37,9 @@ private:
     QLineEdit *leConfirmPassword;
     QLineEdit *leFullName;
 
+    // QWidget interface
+protected:
+    virtual void changeEvent(QEvent *e) override;
 };
 
 #endif // WIZARDUSERSETUPPAGE_H

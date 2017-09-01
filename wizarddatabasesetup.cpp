@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QFileDialog>
+#include <QApplication>
 
 WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
     : QWizardPage(parent)
@@ -77,6 +78,7 @@ void WizardDatabaseSetup::setupConnections()
 {
     // connections needed for the isComplete() to work properly
     connect(leLocation, &QLineEdit::textChanged, this, &WizardDatabaseSetup::completeChanged);
+    connect(chbDefaultLocation, &QCheckBox::toggled, this, &WizardDatabaseSetup::completeChanged);
 
     // default location checkbox button
     connect(chbDefaultLocation, &QCheckBox::toggled, [this] (bool toggled) {
@@ -116,7 +118,7 @@ void WizardDatabaseSetup::setupConnections()
         if (btnNewDatabase->isChecked())
         {
             QFileDialog dialog(this);
-            dialog.setWindowTitle(tr("Choose a Directory..."));
+            //dialog.setWindowTitle(tr("Choose a Directory..."));
             dialog.setFileMode(QFileDialog::Directory);
             dialog.setOption(QFileDialog::ShowDirsOnly, true);
 
@@ -130,7 +132,7 @@ void WizardDatabaseSetup::setupConnections()
         else if (btnExistingDatabase->isChecked())
         {
             QFileDialog dialog(this);
-            dialog.setWindowTitle(tr("Choose Existing Database..."));
+            //dialog.setWindowTitle(tr("Choose Existing Database..."));
             dialog.setFileMode(QFileDialog::ExistingFile);
             dialog.setViewMode(QFileDialog::Detail);
 
@@ -138,6 +140,7 @@ void WizardDatabaseSetup::setupConnections()
             {
                 QString file = dialog.selectedFiles().first();
                 leLocation->setText(file);
+
                 // TODO: add a database test later
             }
         }
@@ -148,4 +151,19 @@ bool WizardDatabaseSetup::isComplete() const
 {
     return (!chbDefaultLocation->isChecked() && !leLocation->text().isEmpty())
             || chbDefaultLocation->isChecked();
+}
+
+
+void WizardDatabaseSetup::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        setTitle(qApp->translate("WizardDatabaseSetup", "Database Setup"));
+        lblDatabaseType->setText(qApp->translate("WizardDatabaseSetup", "Database Type:"));
+        btnNewDatabase->setText(qApp->translate("WizardDatabaseSetup", "Create a New Database"));
+        btnExistingDatabase->setText(qApp->translate("WizardDatabaseSetup", "Use an Existing Database"));
+        gbGroupBox->setTitle(qApp->translate("WizardDatabaseSetup", "Database"));
+        chbDefaultLocation->setText(qApp->translate("WizardDatabaseSetup", "Default Location (Recommended)"));
+        lblLocation->setText(qApp->translate("WizardDatabaseSetup", "Location:"));
+    }
 }

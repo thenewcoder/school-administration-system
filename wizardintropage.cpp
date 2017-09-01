@@ -1,12 +1,17 @@
-#include "wizardintropage.h"
+﻿#include "wizardintropage.h"
 
 #include <QLabel>
 #include <QComboBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QTranslator>
+#include <QApplication>
+#include "wizardsetup.h"
 
 WizardIntroPage::WizardIntroPage(QWidget *parent)
     : QWizardPage(parent)
+    , translator(qobject_cast<WizardSetup *>(parent)->mTranslator)
+    , mLangIndex(0)
 {
     setTitle(tr("Welcome"));
 
@@ -22,9 +27,10 @@ WizardIntroPage::WizardIntroPage(QWidget *parent)
     lblLanguage = new QLabel(tr("Choose Language"));
 
     cbLanguage = new QComboBox;
-    cbLanguage->addItem("English");
-    cbLanguage->addItem("Chinese");
-    cbLanguage->addItem("Korean");
+    QStringList languages;
+    languages << tr("English") << tr("Chinese");
+    cbLanguage->addItems(languages);
+    //cbLanguage->addItem(tr("Korean"));
     cbLanguage->setFixedWidth(100);
 
     // prepare the layout for the language section
@@ -43,4 +49,53 @@ WizardIntroPage::WizardIntroPage(QWidget *parent)
 
     // register fields
     registerField("language", cbLanguage, "currentText");
+
+    // setup connection for the combo box
+    //void (QComboBox::* activatedOverloadPtr)(int index) = &QComboBox::currentIndexChanged;
+    connect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
+}
+
+void WizardIntroPage::changeLanguage(int index)
+{
+    if (index == 0) // English
+    {
+        // disonnect the combobox signal so it won't be called when translating
+        disconnect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
+        translator->load("translations/trans_en_US");
+    }
+    if (index == 1) // Chinese
+    {
+        // disonnect the combobox signal so it won't be called when translating
+        disconnect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
+        translator->load("translations/trans_zh_CN");
+    }
+    // remember the selected index
+    mLangIndex = index;
+}
+
+void WizardIntroPage::resetComboBox()
+{
+    // set the new index to the previously selected index
+    cbLanguage->setCurrentIndex(mLangIndex);
+
+    // activate the connection again
+    connect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
+}
+
+void WizardIntroPage::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        setTitle(translator->translate("WizardIntroPage", "Welcome"));
+        lblLanguage->setText(translator->translate("WizardIntroPage", "Choose Language"));
+        lblIntroText->setText(translator->translate("WizardIntroPage", "This wizard will help you to set up the database "
+                                                                       "and the user profile needed to use this software properly. "
+                                                                       "Please fill in the information on the next couple of pages."));
+
+        // translate the combo box texts - better way?
+        cbLanguage->clear();
+        cbLanguage->addItem(translator->translate("WizardIntroPage", "English"));
+        cbLanguage->addItem(translator->translate("WizardIntroPage", "Chinese"));
+        resetComboBox(); // return functionality to the combo box
+    }
 }

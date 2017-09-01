@@ -1,15 +1,19 @@
-#ifndef WIZARDSETUP_H
+﻿#ifndef WIZARDSETUP_H
 #define WIZARDSETUP_H
 
 #include <QWidget>
 #include <QWizard>
+
+class QTranslator;
 
 class WizardSetup : public QWizard
 {
     Q_OBJECT
 
 public:
-    WizardSetup(QWidget *parent = Q_NULLPTR);
+    WizardSetup(QTranslator *translator, QWidget *parent = Q_NULLPTR);
+
+    QTranslator *mTranslator;
 
     // QDialog interface
 public slots:

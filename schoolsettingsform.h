@@ -19,6 +19,7 @@ public:
 
 signals:
     void notifySchoolLogoUpdate(const QPixmap &logo);
+    void notifySchoolNameChanged(const QString &name);
 
 private:
     void setupConnections();

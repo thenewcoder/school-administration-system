@@ -87,3 +87,11 @@ QString MainWindow::password() const
 {
     return ui->passwordEdit->text();
 }
+
+void MainWindow::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+    }
+}

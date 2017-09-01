@@ -112,3 +112,6 @@ RESOURCES += \
 win32:RC_ICONS += images/app.ico
 win32:VERSION = 0.2
 QMAKE_TARGET_COPYRIGHT = "(c) 2017 Markus Berg"
+
+TRANSLATIONS += translations/trans_zh_CN.ts \
+                translations/trans_en_US.ts

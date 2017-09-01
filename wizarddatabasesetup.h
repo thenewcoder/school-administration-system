@@ -1,4 +1,4 @@
-#ifndef WIZARDDATABASESETUP_H
+﻿#ifndef WIZARDDATABASESETUP_H
 #define WIZARDDATABASESETUP_H
 
 #include <QWidget>
@@ -39,6 +39,10 @@ private:
 
     QPushButton *btnChangeLocation;
 
+
+    // QWidget interface
+protected:
+    virtual void changeEvent(QEvent *e) override;
 };
 
 #endif // WIZARDDATABASESETUP_H

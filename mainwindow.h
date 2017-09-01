@@ -32,6 +32,10 @@ private:
     Ui::MainWindow *ui;
 
     AdminMenuForm *adminMenuForm;
+
+    // QWidget interface
+protected:
+    virtual void changeEvent(QEvent *e) override;
 };
 
 #endif // MAINWINDOW_H

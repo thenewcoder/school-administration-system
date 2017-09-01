@@ -4,6 +4,7 @@
 #include "databasemanager.h"
 #include "teacher.h"
 #include "student.h"
+#include "school.h"
 
 PageHomeForm::PageHomeForm(QWidget *parent) :
     QWidget(parent),
@@ -15,11 +16,26 @@ PageHomeForm::PageHomeForm(QWidget *parent) :
     initClasses();
     initStudents();
     initTeachers();
+
+    // set the school name as the title if a name exists
+    QString title = DatabaseManager::instance().getSchoolInfo().schoolName();
+
+    if (!title.isEmpty())
+        ui->lblTitle->setText(title);
+
 }
 
 PageHomeForm::~PageHomeForm()
 {
     delete ui;
+}
+
+void PageHomeForm::onSchoolNameChanged(const QString &name)
+{
+    if (!name.isEmpty())
+        ui->lblTitle->setText(name);
+    else
+        ui->lblTitle->setText(tr("Home"));
 }
 
 void PageHomeForm::initClasses()

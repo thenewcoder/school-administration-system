@@ -5,10 +5,12 @@
 #include "personalprofileform.h"
 #include "adminmenuform.h"
 #include "personalprofileform.h"
+#include "pagehomeform.h"
 
-PageSettingsForm::PageSettingsForm(QWidget *parent) :
+PageSettingsForm::PageSettingsForm(PageHomeForm *pageHomeForm, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PageSettingsForm),
+    mPageHomeForm(pageHomeForm),
     mSchoolSettingsForm(new SchoolSettingsForm(this)),
     mPersonalProfileForm(new PersonalProfileForm(this))
 {
@@ -36,4 +38,8 @@ void PageSettingsForm::setupConnections()
 
     connect(qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::notifyUserLogon,
             mPersonalProfileForm, &PersonalProfileForm::setupUser);
+
+    // to let the school name update...TODO: find a better way, too hackish
+    connect(mSchoolSettingsForm, &SchoolSettingsForm::notifySchoolNameChanged, mPageHomeForm, &PageHomeForm::onSchoolNameChanged);
 }
+

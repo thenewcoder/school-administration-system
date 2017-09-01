@@ -24,6 +24,7 @@ PageOtherForm::PageOtherForm(QWidget *parent) :
     // set the first tab as active on startup
     ui->tabWidget->setCurrentWidget(ui->tabRooms);
 
+    // setup the table views for all the tabs
     setupViews();
 
     setupConnections();
@@ -330,6 +331,7 @@ void PageOtherForm::setupViews()
     ui->tvClassrooms->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvClassrooms->setSelectionMode(QAbstractItemView::SingleSelection);
     mModelClassrooms->select();
+    ui->tvClassrooms->resizeColumnsToContents();
 
     // set up the dormitory table view
     mModelDormitories->setTable("dormitory");
@@ -340,6 +342,7 @@ void PageOtherForm::setupViews()
     ui->tvDorms->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvDorms->setSelectionMode(QAbstractItemView::SingleSelection);
     mModelDormitories->select();
+    ui->tvDorms->resizeColumnsToContents();
 
     // set up the bus stop table view
     mModelBusStops->setTable("bus_stop");
@@ -350,6 +353,7 @@ void PageOtherForm::setupViews()
     ui->tvBusStops->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvBusStops->setSelectionMode(QAbstractItemView::SingleSelection);
     mModelBusStops->select();
+    ui->tvBusStops->resizeColumnsToContents();
 
     // set up the grade list view
     QStringList grades = DatabaseManager::instance().grades();

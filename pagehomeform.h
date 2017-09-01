@@ -1,4 +1,4 @@
-#ifndef PAGEHOMEFORM_H
+﻿#ifndef PAGEHOMEFORM_H
 #define PAGEHOMEFORM_H
 
 #include <QWidget>
@@ -14,6 +14,9 @@ class PageHomeForm : public QWidget
 public:
     explicit PageHomeForm(QWidget *parent = 0);
     ~PageHomeForm();
+
+public slots:
+    void onSchoolNameChanged(const QString &name);
 
 private:
     void setupConnections();

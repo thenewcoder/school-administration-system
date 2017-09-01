@@ -5,6 +5,13 @@
         <file>images/your_logo_here.png</file>
         <file>images/refresh.png</file>
         <file>images/app.ico</file>
+        <file>images/home.png</file>
+        <file>images/settings.png</file>
+        <file>images/students.png</file>
+        <file>images/teacher.png</file>
+        <file>images/classes.png</file>
+        <file>images/attendance.png</file>
+        <file>images/setup.png</file>
     </qresource>
     <qresource prefix="/sql">
         <file>sql/databaseCreationScript.sql</file>

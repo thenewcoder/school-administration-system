@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>942</width>
-    <height>731</height>
+    <width>832</width>
+    <height>612</height>
    </rect>
   </property>
   <property name="font">
@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string/>
   </property>
   <widget class="QGroupBox" name="gbPersonalInfo">
    <property name="geometry">
@@ -84,7 +84,7 @@
      <rect>
       <x>130</x>
       <y>90</y>
-      <width>141</width>
+      <width>121</width>
       <height>22</height>
      </rect>
     </property>
@@ -127,53 +127,6 @@
      </property>
     </item>
    </widget>
-  </widget>
-  <widget class="QLabel" name="lblPhoto">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>90</y>
-     <width>150</width>
-     <height>150</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>150</width>
-     <height>150</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>150</width>
-     <height>150</height>
-    </size>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="resources.qrc">:/images/user_profile.png</pixmap>
-   </property>
-   <property name="scaledContents">
-    <bool>false</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnAddPhoto">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>270</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Add Photo</string>
-   </property>
   </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -238,25 +191,25 @@
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>30</y>
-     <width>81</width>
+     <y>20</y>
+     <width>141</width>
      <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <property name="text">
-    <string>Teachers</string>
+    <string>Teacher Summary</string>
    </property>
   </widget>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>600</y>
+     <x>610</x>
+     <y>550</y>
      <width>156</width>
      <height>23</height>
     </rect>
@@ -265,60 +218,112 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnRemove">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>300</y>
-     <width>75</width>
-     <height>23</height>
+     <x>590</x>
+     <y>110</y>
+     <width>211</width>
+     <height>381</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Remove</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Classes:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnEditClasses">
+        <property name="toolTip">
+         <string>Add or Remove classes the current teacher is teaching</string>
+        </property>
+        <property name="text">
+         <string>Edit</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QListView" name="lvClasses">
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QListView" name="lvClasses">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>120</y>
-     <width>261</width>
-     <height>371</height>
-    </rect>
-   </property>
-   <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
+     <x>60</x>
      <y>90</y>
-     <width>61</width>
-     <height>16</height>
+     <width>152</width>
+     <height>231</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Classes:</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnEditClasses">
-   <property name="geometry">
-    <rect>
-     <x>780</x>
-     <y>80</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>Add or Remove classes the current teacher is teaching</string>
-   </property>
-   <property name="text">
-    <string>Edit</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="lblPhoto">
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="resources.qrc">:/images/user_profile.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnAddPhoto">
+      <property name="text">
+       <string>Add Photo</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnRemove">
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>

@@ -8,9 +8,12 @@
 
 #include <QVariant>
 #include <QDir>
+#include <QTranslator>
+#include <QApplication>
 
-WizardSetup::WizardSetup(QWidget *parent)
+WizardSetup::WizardSetup(QTranslator *translator, QWidget *parent)
     : QWizard(parent)
+    , mTranslator(translator)
 {
     // make the font size a little bigger than default
     QFont f(font());
@@ -18,10 +21,10 @@ WizardSetup::WizardSetup(QWidget *parent)
     setFont(f);
 
     // add wizard pages
-    addPage(new WizardIntroPage);
-    addPage(new WizardDatabaseSetup);
-    addPage(new WizardUserSetupPage);
-    addPage(new WizardSummaryPage);
+    addPage(new WizardIntroPage(this));
+    addPage(new WizardDatabaseSetup(this));
+    addPage(new WizardUserSetupPage(this));
+    addPage(new WizardSummaryPage(this));
 
     setWindowTitle(tr("New Installation Setup"));
 
@@ -52,12 +55,12 @@ void WizardSetup::accept()
 
 QString WizardSetup::getLanguage() const
 {
-    QString language = field("language").toString();
-    if (language == "English")
+    int index = field("language").toInt();
+    if (index == 0)
         return "en_US";
-    else if (language == "Chinese")
+    else if (index == 1)
         return "zh_CN";
-    else if (language == "Korean")
+    else if (index == 2)
         return "ko_KR";
 
     return "en_US"; // default value
