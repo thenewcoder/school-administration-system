@@ -4,6 +4,7 @@
 
 #include "wizardsetup.h"
 #include "settings.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -38,8 +39,10 @@ int main(int argc, char *argv[])
     }
 
     w.show();
-    return a.exec();
+    int return_code = a.exec();
 
     // delete pointers
     delete translator;
+
+    return return_code;
 }
