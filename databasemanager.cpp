@@ -557,7 +557,7 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
     int id = query.lastInsertId().toInt();
 
     // add the attendance
-    QMap<QString, int> &att = record.getAttendance();
+    const QMap<QString, int> &att = record.getAttendance();
     for (auto &student : att.keys())
     {
         query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type_id) "
@@ -1012,7 +1012,7 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
 
     // update the existing attendance records
 
-    QMap<QString, int> &att = record.getAttendance();
+    const QMap<QString, int> &att = record.getAttendance();
     for (auto &student : att.keys())
     {
 
