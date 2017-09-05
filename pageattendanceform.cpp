@@ -1,8 +1,9 @@
-#include "pageattendanceform.h"
+﻿#include "pageattendanceform.h"
 #include "ui_pageattendanceform.h"
 
 #include <QSqlTableModel>
 #include <QMessageBox>
+#include <QDebug>
 
 #include "editattendancedialog.h"
 #include "databasemanager.h"
@@ -50,9 +51,6 @@ void PageAttendanceForm::setupConnections()
         add.setWindowTitle(tr("Add a New Class Record"));
         if (add.exec() == QDialog::Accepted)
         {
-            // add the class record to the database
-            DatabaseManager::instance().addClassRecord(add.getClassRecord());
-
             // update the table view
             mModel->select();
         }
@@ -67,15 +65,14 @@ void PageAttendanceForm::setupConnections()
 
             EditAttendanceDialog edit(this);
             edit.setWindowTitle(tr("Edit an Existing Class Record"));
+            //edit.setRecordId(recordId);
+            edit.setIsEditMode(true);
 
             // get the record from the database
             edit.setClassRecord(DatabaseManager::instance().getClassRecord(recordId));
 
             if (edit.exec() == QDialog::Accepted)
             {
-                // update the record in the database
-                DatabaseManager::instance().saveClassRecord(edit.getClassRecord());
-
                 // update the table view
                 mModel->select();
             }

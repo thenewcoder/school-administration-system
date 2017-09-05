@@ -1,7 +1,8 @@
-#ifndef CLASSRECORD_H
+﻿#ifndef CLASSRECORD_H
 #define CLASSRECORD_H
 
 #include <QString>
+#include <QMap>
 
 class ClassRecord
 {
@@ -21,11 +22,18 @@ public:
     QString getTeacher() const;
     void setTeacher(const QString &teacher);
 
+    QMap<QString, int> getAttendance() const;
+    void setAttendance(const QMap<QString, int> &attendance);
+
+    void addAttendanceRecord(const QString &name, const int status);
+
 private:
     QString mId;
     QString mClass;
     QString mDate;
     QString mTeacher;
+
+    QMap<QString, int> mAttendance;
 };
 
 #endif // CLASSRECORD_H

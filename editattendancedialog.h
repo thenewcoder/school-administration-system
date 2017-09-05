@@ -1,14 +1,14 @@
-#ifndef EDITATTENDANCEDIALOG_H
+﻿#ifndef EDITATTENDANCEDIALOG_H
 #define EDITATTENDANCEDIALOG_H
 
 #include <QDialog>
+#include <QMap>
 
 namespace Ui {
 class EditAttendanceDialog;
 }
 
 class QStringListModel;
-class QSqlTableModel;
 class ClassRecord;
 
 class EditAttendanceDialog : public QDialog
@@ -42,8 +42,18 @@ public:
     QString getRecordId() const;
     void setRecordId(const QString &recordId);
 
+    QMap<QString, int> getAttendance() const;
+    void setAttendance(const QStringList &students, const QMap<QString, int> &attendance = QMap<QString, int>());
+
+    bool getIsEditMode() const;
+    void setIsEditMode(bool isEditmode);
+
 private:
     void setupConnections();
+
+    // QDialog interface
+public slots:
+    virtual void accept() override;
 
 private:
     Ui::EditAttendanceDialog *ui;
@@ -52,7 +62,8 @@ private:
 
     QStringListModel *mModelClasses;
     QStringListModel *mModelTeachers;
-    QSqlTableModel *mModelAttendance;
+
+    bool mIsEditMode;
 };
 
 #endif // EDITATTENDANCEDIALOG_H

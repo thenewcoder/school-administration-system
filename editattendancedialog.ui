@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
-    <height>413</height>
+    <width>748</width>
+    <height>588</height>
    </rect>
   </property>
   <property name="font">
@@ -21,8 +21,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>350</y>
+     <x>370</x>
+     <y>540</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -37,7 +37,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>30</x>
      <y>15</y>
      <width>54</width>
      <height>12</height>
@@ -50,8 +50,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>41</x>
-     <y>52</y>
+     <x>270</x>
+     <y>14</y>
      <width>54</width>
      <height>12</height>
     </rect>
@@ -63,8 +63,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>29</x>
-     <y>94</y>
+     <x>499</x>
+     <y>15</y>
      <width>54</width>
      <height>12</height>
     </rect>
@@ -76,8 +76,8 @@
   <widget class="QComboBox" name="cbTeachers">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>88</y>
+     <x>570</x>
+     <y>12</y>
      <width>141</width>
      <height>22</height>
     </rect>
@@ -86,8 +86,8 @@
   <widget class="QDateEdit" name="deClassTime">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>50</y>
+     <x>335</x>
+     <y>8</y>
      <width>141</width>
      <height>22</height>
     </rect>
@@ -109,13 +109,26 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTableView" name="tvAttendance">
+  <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>140</y>
-     <width>271</width>
-     <height>192</height>
+     <x>30</x>
+     <y>60</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Attendance:</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="twAttendance">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>80</y>
+     <width>681</width>
+     <height>431</height>
     </rect>
    </property>
    <property name="font">
@@ -131,19 +144,6 @@
    </property>
    <property name="cornerButtonEnabled">
     <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>140</y>
-     <width>81</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Attendance:</string>
    </property>
   </widget>
  </widget>

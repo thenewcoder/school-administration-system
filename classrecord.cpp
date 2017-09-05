@@ -1,10 +1,11 @@
-#include "classrecord.h"
+﻿#include "classrecord.h"
 
 ClassRecord::ClassRecord()
     : mId()
     , mClass()
     , mDate()
     , mTeacher()
+    , mAttendance()
 {
 
 }
@@ -14,6 +15,7 @@ ClassRecord::ClassRecord(const QString &id, const QString &theClass, const QStri
     , mClass(theClass)
     , mDate(date)
     , mTeacher(teacher)
+    , mAttendance()
 {
 
 }
@@ -46,6 +48,21 @@ QString ClassRecord::getTeacher() const
 void ClassRecord::setTeacher(const QString &teacher)
 {
     mTeacher = teacher;
+}
+
+QMap<QString, int> ClassRecord::getAttendance() const
+{
+    return mAttendance;
+}
+
+void ClassRecord::setAttendance(const QMap<QString, int> &attendance)
+{
+    mAttendance = attendance;
+}
+
+void ClassRecord::addAttendanceRecord(const QString &name, const int status)
+{
+    mAttendance.insert(name, status);
 }
 
 QString ClassRecord::getClass() const

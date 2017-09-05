@@ -260,6 +260,33 @@ QStringList DatabaseManager::grades() const
     return list;
 }
 
+QStringList DatabaseManager::studentsOfClass(const QString &className)
+{
+    QStringList students;
+
+    QSqlQuery query;
+    query.prepare("SELECT S.name FROM class_student CS "
+                  "LEFT OUTER JOIN student S ON S.studentId = CS.studentId "
+                  "LEFT OUTER JOIN class C ON C.classId = CS.classId "
+                  "WHERE C.className = :className");
+    query.bindValue(":className", className);
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            students.append(query.value(0).toString());
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get the students of the class:" << className;
+        qDebug() << query.lastError().text();
+    }
+
+    return students;
+}
+
 void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
     QSqlQuery query;
@@ -525,6 +552,28 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
         qDebug() << "Unable to insert a new class record";
         qDebug() << query.lastError().text();
     }
+
+    // get the last id
+    int id = query.lastInsertId().toInt();
+
+    // add the attendance
+    QMap<QString, int> &att = record.getAttendance();
+    for (auto &student : att.keys())
+    {
+        query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type_id) "
+                      "VALUES(:recordId,"
+                      "(SELECT studentId FROM student WHERE name = :name),"
+                      ":attendanceId)");
+        query.bindValue(":recordId", id);
+        query.bindValue(":name", student);
+        query.bindValue(":attendanceId", att.value(student));
+
+        if (!query.exec())
+        {
+            qDebug() << "Unable to insert an attendance record";
+            qDebug() << query.lastError().text();
+        }
+    }
 }
 
 User DatabaseManager::getUser(const QString &username)
@@ -714,6 +763,27 @@ ClassRecord DatabaseManager::getClassRecord(const QString &recordId)
     else
     {
         qDebug() << "Unable to get a class record";
+        qDebug() << query.lastError().text();
+    }
+
+    // get the attendance records
+    query.prepare("SELECT S.name, attendance_type_id "
+                  "FROM attendance_record AR "
+                  "LEFT OUTER JOIN student S ON S.studentId = AR.studentId "
+                  "WHERE class_record_id = :recordId");
+    query.bindValue(":recordId", recordId);
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            record.addAttendanceRecord(query.value(0).toString(),  // name
+                                       query.value(1).toInt());    //  attendance type
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get the attendance records";
         qDebug() << query.lastError().text();
     }
 
@@ -939,6 +1009,25 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
         qDebug() << "Unable to update a class record";
         qDebug() << query.lastError().text();
     }
+
+    // update the existing attendance records
+
+    QMap<QString, int> &att = record.getAttendance();
+    for (auto &student : att.keys())
+    {
+
+        query.prepare(QString("UPDATE attendance_record SET "
+                      "attendance_type_id = %1 "
+                      "WHERE class_record_id = %2 AND "
+                      "studentId = (SELECT studentId FROM student WHERE name = '%3')").arg(QString::number(att.value(student)),
+                                                                                           record.getRecordId(),
+                                                                                           student));
+        if (!query.exec())
+        {
+            qDebug() << "Unable to update an attendance record";
+            qDebug() << query.lastError().text();
+        }
+    }
 }
 
 bool DatabaseManager::updateUserData(const User &user)
@@ -1152,8 +1241,13 @@ bool DatabaseManager::removeTableRows(const QString &table, const QString &col, 
 
 bool DatabaseManager::removeClassRecord(const QString &recordId)
 {
+    // remove rows from attendance_record with the recordId
+    bool op2 = removeTableRows("attendance_record", "class_record_id", recordId);
+
     // remove row from class_record
-    return removeTableRows("class_record", "recordId", recordId);
+    bool op1 = removeTableRows("class_record", "recordId", recordId);
+
+    return op1 && op2;
 }
 
 QStringList DatabaseManager::classesTaken(const QString &id)
