@@ -28,12 +28,8 @@ EditAttendanceDialog::EditAttendanceDialog(QWidget *parent) :
     mModelClasses->setStringList(classes);
     ui->cbClasses->setCurrentIndex(0);
 
-    // set up the teachers combo box
+    // set up the model for the teachers combo box
     ui->cbTeachers->setModel(mModelTeachers);
-    QStringList teachers;
-    teachers << tr("Select one") << DatabaseManager::instance().teachers();
-    mModelTeachers->setStringList(teachers);
-    ui->cbTeachers->setCurrentIndex(0);
 
     // set the date edit to todays date
     ui->deClassTime->setDate(QDate::currentDate());
@@ -130,6 +126,9 @@ void EditAttendanceDialog::setClassRecord(const ClassRecord &record)
     // prepare the table widget
     setAttendance(DatabaseManager::instance().studentsOfClass(getClass()),
                   record.getAttendance());
+
+    // set the correct index to the teachers combo box
+    ui->cbTeachers->setCurrentText(record.getTeacher());
 
     // don't let the user edit the class combo box
     ui->cbClasses->setEnabled(false);
@@ -230,9 +229,19 @@ void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap
 void EditAttendanceDialog::setIsEditMode(bool isEditmode)
 {
     mIsEditMode = isEditmode;
+}
 
-    // will disable the classes combo box if we're in edit more only
-    //ui->cbClasses->setEnabled(!isEditmode);
+void EditAttendanceDialog::populateTeachersBox(const QString &className)
+{
+    if (mIsEditMode)
+        mModelTeachers->setStringList(DatabaseManager::instance().teachersOfClass(className));
+    else
+    {
+        QStringList teachers;
+        teachers << tr("Select one") << DatabaseManager::instance().teachersOfClass(className);
+        mModelTeachers->setStringList(teachers);
+        ui->cbTeachers->setCurrentIndex(0);
+    }
 }
 
 void EditAttendanceDialog::setupConnections()
@@ -247,6 +256,9 @@ void EditAttendanceDialog::setupConnections()
             // populate the table widget with the students from the selected class only
             setAttendance(DatabaseManager::instance().studentsOfClass(text));
         }
+
+        // populate the teachers box
+        populateTeachersBox(text);
     });
 }
 
@@ -258,19 +270,17 @@ bool EditAttendanceDialog::getIsEditMode() const
 void EditAttendanceDialog::accept()
 {
     // TODO: add ways to notify user visually on screen
-    if (ui->cbClasses->currentIndex() != 0 &&
-        ui->cbTeachers->currentIndex() != 0)
+    if (mIsEditMode) // if we are editing an existing record
     {
-        if (mIsEditMode) // if we are editing an existing record
-        {
-            // update the record in the database
-            DatabaseManager::instance().saveClassRecord(getClassRecord());
-        }
-        else // creating a new record
-        {
-            // insert the new class record to the database
-            DatabaseManager::instance().addClassRecord(getClassRecord());
-        }
+        // update the record in the database
+        DatabaseManager::instance().saveClassRecord(getClassRecord());
+        QDialog::accept();
+    }
+    else if (!mIsEditMode && ui->cbClasses->currentIndex() != 0 &&
+             ui->cbTeachers->currentIndex() != 0)  // creating a new record
+    {
+        // insert the new class record to the database
+        DatabaseManager::instance().addClassRecord(getClassRecord());
         QDialog::accept();
     }
 }

@@ -23,6 +23,8 @@ public:
     void setPassword(const QString &password);
     void setFullname(const QString &fullname);
 
+    QString encryptString(const QString &text);
+
 private:
     Login();
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>522</width>
-    <height>477</height>
+    <width>477</width>
+    <height>417</height>
    </rect>
   </property>
   <property name="font">
@@ -34,8 +34,8 @@
   <widget class="QPushButton" name="btnSave">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>190</y>
+     <x>45</x>
+     <y>163</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -47,8 +47,8 @@
   <widget class="QPushButton" name="btnChangePassword">
    <property name="geometry">
     <rect>
-     <x>95</x>
-     <y>387</y>
+     <x>50</x>
+     <y>350</y>
      <width>121</width>
      <height>23</height>
     </rect>
@@ -57,65 +57,11 @@
     <string>Change Password</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>250</y>
-     <width>401</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Old Password:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lePassword">
-      <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>New Password:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="leNewPassword">
-      <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Confirm New Password:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="leConfirmNewPassword">
-      <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>90</y>
+     <x>45</x>
+     <y>63</y>
      <width>321</width>
      <height>71</height>
     </rect>
@@ -140,6 +86,65 @@
     </item>
     <item row="1" column="1">
      <widget class="QLineEdit" name="leFullName"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>46</x>
+     <y>240</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Change Password</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>46</x>
+     <y>266</y>
+     <width>401</width>
+     <height>52</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>New Password:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="leNewPassword">
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Confirm New Password:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="leConfirmNewPassword">
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

@@ -1,5 +1,6 @@
 ﻿#include "login.h"
 
+#include <QCryptographicHash>
 #include "databasemanager.h"
 
 Login &Login::instance()
@@ -25,8 +26,10 @@ QString Login::fullname() const
 
 bool Login::validLogin(const QString &username, const QString &password)
 {
-    // TODO: add encryption to username and password
-    if (DatabaseManager::instance().validateLogin(username, password))
+    // first encrypt the password
+    QString encryptedPassword = encryptString(password);
+
+    if (DatabaseManager::instance().validateLogin(username, encryptedPassword))
     {
         mUser = DatabaseManager::instance().getUser(username);
         return true;
@@ -70,4 +73,12 @@ void Login::setPassword(const QString &password)
 void Login::setFullname(const QString &fullname)
 {
     mUser.setFullName(fullname);
+}
+
+QString Login::encryptString(const QString &text)
+{
+    QCryptographicHash c(QCryptographicHash::Sha256);
+    c.addData(text.toStdString().c_str(), text.length());
+    QString result = QString::fromStdString(c.result().toBase64().toStdString());
+    return result;
 }

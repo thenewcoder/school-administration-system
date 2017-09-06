@@ -22,7 +22,6 @@ void PersonalProfileForm::setupUser()
 {
     ui->leUsername->setText(Login::instance().username());
     ui->leFullName->setText(Login::instance().fullname());
-    ui->lePassword->setText(Login::instance().password());
 }
 
 void PersonalProfileForm::setupConnections()
@@ -37,12 +36,15 @@ void PersonalProfileForm::setupConnections()
     connect(ui->btnChangePassword, &QPushButton::clicked, [this] () {
         /*
          * Check that the new password isn't the same as old password
-         * and that the new password equals the confirmation
+         * and that the new password equals the confirmed password
          */
+
+        User user = Login::instance().getUserData();
+        QString encryptedPassword = Login::instance().encryptString(ui->leNewPassword->text());
+
         if (ui->leNewPassword->text() == ui->leConfirmNewPassword->text() &&
-                ui->leNewPassword->text() != ui->lePassword->text())
+                encryptedPassword != user.password())
         {
-            User user = Login::instance().getUserData();
             user.setPassword(ui->leNewPassword->text());
             if (Login::instance().updateUserData(user))
             {

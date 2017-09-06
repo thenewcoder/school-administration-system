@@ -287,6 +287,33 @@ QStringList DatabaseManager::studentsOfClass(const QString &className)
     return students;
 }
 
+QStringList DatabaseManager::teachersOfClass(const QString &className)
+{
+    QStringList teachers;
+
+    QSqlQuery query;
+    query.prepare("SELECT T.name FROM teacher_class TC "
+                  "LEFT OUTER JOIN teacher T ON T.teacherId = TC.teacherId "
+                  "LEFT OUTER JOIN class C ON C.classId = TC.classId "
+                  "WHERE C.className = :className");
+    query.bindValue(":className", className);
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            teachers.append(query.value(0).toString());
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get the teachers for class " << className;
+        qDebug() << query.lastError().text();
+    }
+
+    return teachers;
+}
+
 void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
     QSqlQuery query;

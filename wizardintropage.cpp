@@ -57,16 +57,14 @@ WizardIntroPage::WizardIntroPage(QWidget *parent)
 
 void WizardIntroPage::changeLanguage(int index)
 {
+    // disonnect the combobox signal so it won't be called when translating
+    disconnect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
     if (index == 0) // English
     {
-        // disonnect the combobox signal so it won't be called when translating
-        disconnect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
         translator->load("translations/trans_en_US");
     }
-    if (index == 1) // Chinese
+    else if (index == 1) // Chinese
     {
-        // disonnect the combobox signal so it won't be called when translating
-        disconnect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
         translator->load("translations/trans_zh_CN");
     }
     // remember the selected index

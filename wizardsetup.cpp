@@ -5,6 +5,7 @@
 #include "wizardsummarypage.h"
 #include "settings.h"
 #include "databasemanager.h"
+#include "login.h"
 
 #include <QVariant>
 #include <QDir>
@@ -47,7 +48,10 @@ void WizardSetup::accept()
         QString username = field("username").toString();
         QString password = field("password").toString();
         QString fullname = field("fullname").toString();
-        DatabaseManager::instance().addUser(username, password, fullname);
+
+        // encrypt password before sending it off
+        QString encryptedPassword = Login::instance().encryptString(password);
+        DatabaseManager::instance().addUser(username, encryptedPassword, fullname);
     }
 
     QWizard::accept();
@@ -77,15 +81,17 @@ QString WizardSetup::getDatabaseDriver() const
 
 QString WizardSetup::getLocation() const
 {
-    QString location = field("location").toString();
     if (field("defaultLocation").toBool())
         return DATABASE_FILENAME;
     else
     {
-        if (field("location").toString().isEmpty())
-            return "";
+        QString location = field("location").toString();
 
-        return QDir::toNativeSeparators(location);
+        if (location.isEmpty())
+            return DATABASE_FILENAME;
+
+        // adding the database name to the end of the path that was chosen
+        return QDir::toNativeSeparators(QDir(location).filePath(DATABASE_FILENAME));
     }
 }
 

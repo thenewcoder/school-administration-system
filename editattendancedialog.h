@@ -48,6 +48,8 @@ public:
     bool getIsEditMode() const;
     void setIsEditMode(bool isEditmode);
 
+    void populateTeachersBox(const QString &className);
+
 private:
     void setupConnections();
 
