@@ -11,6 +11,7 @@
 #include <QDir>
 #include <QTranslator>
 #include <QApplication>
+#include <QDebug>
 
 WizardSetup::WizardSetup(QTranslator *translator, QWidget *parent)
     : QWizard(parent)
@@ -83,15 +84,16 @@ QString WizardSetup::getLocation() const
 {
     if (field("defaultLocation").toBool())
         return DATABASE_FILENAME;
-    else
+    else  // user specify a location
     {
         QString location = field("location").toString();
 
         if (location.isEmpty())
             return DATABASE_FILENAME;
-
-        // adding the database name to the end of the path that was chosen
-        return QDir::toNativeSeparators(QDir(location).filePath(DATABASE_FILENAME));
+        else if (field("newdatabase").toBool()) // user wants to create a new database
+            return QDir::toNativeSeparators(QDir(location).filePath(DATABASE_FILENAME));
+        else  // user wants to use an existing database
+            return QDir::toNativeSeparators(location);
     }
 }
 
