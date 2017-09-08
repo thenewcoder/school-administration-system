@@ -116,6 +116,6 @@ void PageClassesForm::setupConnections()
         }
     });
 
-    // refresh the table
+    // Refresh the table
     connect(ui->btnRefresh, &QPushButton::clicked, this, &PageClassesForm::updateClassTable);
 }

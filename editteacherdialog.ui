@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string/>
+   <string notr="true">Teacher Summary</string>
   </property>
   <widget class="QGroupBox" name="gbPersonalInfo">
    <property name="geometry">
@@ -61,7 +61,7 @@
      <rect>
       <x>20</x>
       <y>170</y>
-      <width>71</width>
+      <width>91</width>
       <height>16</height>
      </rect>
     </property>
@@ -250,9 +250,9 @@
      <height>381</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="loClasses">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="loClassesHeader">
       <item>
        <widget class="QLabel" name="label_7">
         <property name="text">
@@ -303,7 +303,7 @@
      <height>231</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="loPhoto">
     <item>
      <widget class="QLabel" name="lblPhoto">
       <property name="minimumSize">
@@ -349,6 +349,18 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leName</tabstop>
+  <tabstop>lePreferredName</tabstop>
+  <tabstop>cbGender</tabstop>
+  <tabstop>cbNationality</tabstop>
+  <tabstop>teAddress</tabstop>
+  <tabstop>lePhone</tabstop>
+  <tabstop>lvClasses</tabstop>
+  <tabstop>btnEditClasses</tabstop>
+  <tabstop>btnAddPhoto</tabstop>
+  <tabstop>btnRemove</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

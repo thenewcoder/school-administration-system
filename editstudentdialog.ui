@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string/>
+   <string notr="true">Student Summary</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -430,6 +430,28 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leName</tabstop>
+  <tabstop>leNickName</tabstop>
+  <tabstop>deBirthDate</tabstop>
+  <tabstop>cbGender</tabstop>
+  <tabstop>cbNationality</tabstop>
+  <tabstop>cbGrade</tabstop>
+  <tabstop>leIDNumber</tabstop>
+  <tabstop>lePassportNumber</tabstop>
+  <tabstop>cbDormitory</tabstop>
+  <tabstop>cbBusStop</tabstop>
+  <tabstop>teAddress</tabstop>
+  <tabstop>leStudentPhone</tabstop>
+  <tabstop>leStudentEmail</tabstop>
+  <tabstop>leFathersPhone</tabstop>
+  <tabstop>leMothersPhone</tabstop>
+  <tabstop>leParentEmail</tabstop>
+  <tabstop>lvClassesTaken</tabstop>
+  <tabstop>btnEditClasses</tabstop>
+  <tabstop>btnAddPhoto</tabstop>
+  <tabstop>btnRemove</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

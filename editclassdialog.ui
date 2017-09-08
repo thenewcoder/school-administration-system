@@ -222,6 +222,16 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leClassName</tabstop>
+  <tabstop>cbGrades</tabstop>
+  <tabstop>cbSubject</tabstop>
+  <tabstop>cbClassroom</tabstop>
+  <tabstop>lvTeachers</tabstop>
+  <tabstop>btnEditTeachers</tabstop>
+  <tabstop>lvStudents</tabstop>
+  <tabstop>btnEditStudents</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

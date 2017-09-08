@@ -42,9 +42,7 @@ PageAttendanceForm::~PageAttendanceForm()
 
 void PageAttendanceForm::setupConnections()
 {
-    connect(ui->btnRefresh, &QPushButton::clicked, [this] () {
-        mModel->select();
-    });
+    connect(ui->btnRefresh, &QPushButton::clicked, this, &PageAttendanceForm::updateAttendanceTable);
 
     connect(ui->btnAdd, &QPushButton::clicked, [this] () {
         EditAttendanceDialog add(this);
@@ -52,7 +50,7 @@ void PageAttendanceForm::setupConnections()
         if (add.exec() == QDialog::Accepted)
         {
             // update the table view
-            mModel->select();
+            updateAttendanceTable();
         }
     });
 
@@ -74,7 +72,7 @@ void PageAttendanceForm::setupConnections()
             if (edit.exec() == QDialog::Accepted)
             {
                 // update the table view
-                mModel->select();
+                updateAttendanceTable();
             }
         }
     });
@@ -97,8 +95,13 @@ void PageAttendanceForm::setupConnections()
                 DatabaseManager::instance().removeClassRecord(recordId);
 
                 // update the table view
-                mModel->select();
+                updateAttendanceTable();
             }
         }
     });
+}
+
+void PageAttendanceForm::updateAttendanceTable()
+{
+    mModel->select();
 }

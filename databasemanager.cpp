@@ -325,7 +325,7 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
                           ":address, :phoneNumber, :photo)"));
 
     query.bindValue(":name", teacher.name());
-    query.bindValue("preferredName", teacher.preferredName());
+    query.bindValue(":preferredName", teacher.preferredName());
     query.bindValue(":gender", teacher.gender());
     query.bindValue(":nationality", teacher.nationality());
     query.bindValue(":address", teacher.address());
@@ -724,6 +724,7 @@ Student DatabaseManager::getStudent(const QString &studentId)
     }
     else
     {
+        qDebug() << "Unable to get a student";
         qDebug() << query.lastError().text();
     }
 

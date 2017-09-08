@@ -108,7 +108,7 @@
     <string>Change Password</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>46</x>
@@ -149,6 +149,14 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leUsername</tabstop>
+  <tabstop>leFullName</tabstop>
+  <tabstop>btnSave</tabstop>
+  <tabstop>leNewPassword</tabstop>
+  <tabstop>leConfirmNewPassword</tabstop>
+  <tabstop>btnChangePassword</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

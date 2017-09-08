@@ -62,6 +62,7 @@ void AdminMenuForm::setupConnections()
     connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, mPageClassesForm, &PageClassesForm::updateClassTable);
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageHomeForm, &PageHomeForm::initClasses);
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageTeachersForm, &PageTeachersForm::updateTeacherTable);
+    connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageAttendanceForm, &PageAttendanceForm::updateAttendanceTable);
 }
 
 void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)

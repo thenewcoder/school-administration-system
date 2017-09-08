@@ -14,7 +14,7 @@ class PageAttendanceForm : public QWidget
     Q_OBJECT
 
 public:
-    enum FIELDS
+    enum FIELDS  // currently only using the ID...
     {
         ID,
         DATE,
@@ -29,6 +29,9 @@ public:
 
 private:
     void setupConnections();
+
+public slots:
+    void updateAttendanceTable();
 
 private:
     Ui::PageAttendanceForm *ui;
