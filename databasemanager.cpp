@@ -337,6 +337,9 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
         qDebug() << "Unable to add a teacher to the database";
     }
 
+    // get the new teacher's id
+    int id = query.lastInsertId().toInt();
+
     // add teacher class connection
     for (auto &c : teacher.classesTaught())
     {
@@ -344,11 +347,12 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
                       "(SELECT classId FROM class WHERE className = :className),"
                       ":teacherId)");
         query.bindValue(":className", c);
-        query.bindValue(":teacherId", teacher.id());
+        query.bindValue(":teacherId", id);
 
         if (!query.exec())
         {
             qDebug() << "Unable to insert class teacher connection";
+            qDebug() << query.lastError().text();
         }
     }
 }
@@ -395,6 +399,9 @@ void DatabaseManager::addStudent(const Student &student) const
         qDebug() << query.lastError().text();
     }
 
+    // get the new student's id
+    int id = query.lastInsertId().toInt();
+
     // add student class connection
     for (auto &c : student.getClassesTaken())
     {
@@ -402,7 +409,7 @@ void DatabaseManager::addStudent(const Student &student) const
                       "(SELECT classId FROM class WHERE className = :className),"
                       ":studentId)");
         query.bindValue(":className", c);
-        query.bindValue(":studentId", student.getId());
+        query.bindValue(":studentId", id);
 
         if (!query.exec())
         {
