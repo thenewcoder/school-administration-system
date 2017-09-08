@@ -8,7 +8,7 @@ class Teacher
 {
 public:
     Teacher();
-    Teacher(const QString &id, const QString &name, const QString &gender, const QString &nationality,
+    Teacher(const QString &id, const QString &name, const QString &preferredName, const QString &gender, const QString &nationality,
             const QString &address, const QString &phoneNumber, const QByteArray &photo);
 
     QString id() const;
@@ -35,9 +35,13 @@ public:
     QStringList classesTaught() const;
     void setClassesTaught(const QStringList &classes);
 
+    QString preferredName() const;
+    void setPreferredName(const QString &preferredName);
+
 private:
     QString mId;
     QString mName;
+    QString mPreferredName;
     QString mGender;
     QString mNationality;
     QString mAddress;

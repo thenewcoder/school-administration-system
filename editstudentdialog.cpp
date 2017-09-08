@@ -57,6 +57,7 @@ EditStudentDialog::~EditStudentDialog()
 void EditStudentDialog::setStudent(const Student &student)
 {
     setName(student.name());
+    setNickName(student.nickName());
     setDateOfBirth(student.dateOfBirth());
     setGender(student.gender());
     setNationality(student.nationality());
@@ -91,6 +92,7 @@ Student EditStudentDialog::getStudent() const
 {
     Student student;
     student.setName(name());
+    student.setNickName(nickName());
     student.setDateOfBirth(dateOfBirth());
     student.setGender(gender());
     student.setNationality(nationality());
@@ -144,6 +146,16 @@ QString EditStudentDialog::name() const
 void EditStudentDialog::setName(const QString &name)
 {
     ui->leName->setText(name);
+}
+
+QString EditStudentDialog::nickName() const
+{
+    return ui->leNickName->text();
+}
+
+void EditStudentDialog::setNickName(const QString &nickName)
+{
+    ui->leNickName->setText(nickName);
 }
 
 QString EditStudentDialog::dateOfBirth() const

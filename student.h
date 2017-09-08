@@ -8,7 +8,7 @@ class Student
 {
 public:
     Student();
-    Student(const QString &id, const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
+    Student(const QString &id, const QString &name, const QString &nickName, const QString &dateOfBirth, const QString &gender, const QString &nationality,
             const QString &grade, const QString &passportNumber, const QString &iDNumber, const QString &address,
             const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
             const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
@@ -20,6 +20,9 @@ public:
 
     QString name() const;
     void setName(const QString &name);
+
+    QString nickName() const;
+    void setNickName(const QString &nickName);
 
     QString dateOfBirth() const;
     void setDateOfBirth(const QString &dateOfBirth);
@@ -72,6 +75,7 @@ public:
 private:
     QString mId;
     QString mName;
+    QString mNickName;
     QString mDateOfBirth;
     QString mGender;
     QString mNationality;

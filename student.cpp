@@ -1,7 +1,7 @@
 ﻿#include "student.h"
 
 Student::Student()
-    : mId(""), mName(""), mDateOfBirth(""), mGender("")
+    : mId(""), mName(""), mNickName(""), mDateOfBirth(""), mGender("")
     , mNationality(""), mGrade(""), mPassportNumber(""), mIDNumber("")
     , mAddress(""), mStudentPhoneNumber(""), mStudentEmail("")
     , mFathersPhoneNumber(""), mMothersPhoneNumber(""), mParentsEmail("")
@@ -10,12 +10,12 @@ Student::Student()
 
 }
 
-Student::Student(const QString &id, const QString &name, const QString &dateOfBirth, const QString &gender, const QString &nationality,
-                 const QString &grade, const QString &passportNumber, const QString &iDNumber, const QString &address,
-                 const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
-                 const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
-                 const QString &dormitory, const QString &busstop)
-    : mId(id), mName(name), mDateOfBirth(dateOfBirth), mGender(gender)
+Student::Student(const QString &id, const QString &name, const QString &nickName, const QString &dateOfBirth, const QString &gender,
+                 const QString &nationality, const QString &grade, const QString &passportNumber, const QString &iDNumber,
+                 const QString &address, const QString &studentPhoneNumber, const QString &studentEmail,
+                 const QString &fathersPhoneNumber, const QString &mothersPhoneNumber, const QString &parentsEmail,
+                 const QByteArray &photo, const QString &dormitory, const QString &busstop)
+    : mId(id), mName(name), mNickName(nickName), mDateOfBirth(dateOfBirth), mGender(gender)
     , mNationality(nationality), mGrade(grade), mPassportNumber(passportNumber), mIDNumber(iDNumber)
     , mAddress(address), mStudentPhoneNumber(studentPhoneNumber), mStudentEmail(studentEmail)
     , mFathersPhoneNumber(fathersPhoneNumber), mMothersPhoneNumber(mothersPhoneNumber)
@@ -192,6 +192,16 @@ QString Student::getGrade() const
 void Student::setGrade(const QString &grade)
 {
     mGrade = grade;
+}
+
+QString Student::nickName() const
+{
+    return mNickName;
+}
+
+void Student::setNickName(const QString &nickName)
+{
+    mNickName = nickName;
 }
 
 QString Student::getId() const

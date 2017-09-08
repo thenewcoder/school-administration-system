@@ -1,15 +1,16 @@
 ﻿#include "teacher.h"
 
 Teacher::Teacher()
-    : mName(""), mGender("")
+    : mName(""), mPreferredName(""), mGender("")
     , mNationality(""), mAddress("")
     , mPhoneNumber(""), mPhoto()
 {
 
 }
 
-Teacher::Teacher(const QString &id, const QString &name, const QString &gender, const QString &nationality, const QString &address, const QString &phoneNumber, const QByteArray &photo)
-    : mId(id), mName(name), mGender(gender)
+Teacher::Teacher(const QString &id, const QString &name, const QString &preferredName, const QString &gender,
+                 const QString &nationality, const QString &address, const QString &phoneNumber, const QByteArray &photo)
+    : mId(id), mName(name), mPreferredName(preferredName), mGender(gender)
     , mNationality(nationality), mAddress(address)
     , mPhoneNumber(phoneNumber), mPhoto(photo)
 {
@@ -84,6 +85,16 @@ QStringList Teacher::classesTaught() const
 void Teacher::setClassesTaught(const QStringList &classes)
 {
     mClassesTaught = classes;
+}
+
+QString Teacher::preferredName() const
+{
+    return mPreferredName;
+}
+
+void Teacher::setPreferredName(const QString &preferredName)
+{
+    mPreferredName = preferredName;
 }
 
 QString Teacher::id() const

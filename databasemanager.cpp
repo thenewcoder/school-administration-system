@@ -318,13 +318,14 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
     QSqlQuery query;
     query.prepare(QString("INSERT INTO teacher "
-                          "('name', genderId, nationalityId, 'address', 'phoneNumber', 'photo') "
-                          "VALUES(:name, "
+                          "('name', 'preferredName', genderId, nationalityId, 'address', 'phoneNumber', 'photo') "
+                          "VALUES(:name, :preferredName, "
                           "(SELECT genderId FROM gender WHERE type = :gender), "
                           "(SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           ":address, :phoneNumber, :photo)"));
 
     query.bindValue(":name", teacher.name());
+    query.bindValue("preferredName", teacher.preferredName());
     query.bindValue(":gender", teacher.gender());
     query.bindValue(":nationality", teacher.nationality());
     query.bindValue(":address", teacher.address());
@@ -356,11 +357,11 @@ void DatabaseManager::addStudent(const Student &student) const
 {
     QSqlQuery query;
     query.prepare(QString("INSERT INTO student "
-                          "('name', 'dateOfBirth', genderId, nationalityId, "
+                          "('name', 'nickName', 'dateOfBirth', genderId, nationalityId, "
                           "'passportNumber', 'IDNumber', 'address', "
                           "'studentPhoneNumber', 'studentEmail', 'fathersPhoneNumber', "
                           "'mothersPhoneNumber', 'parentEmail', gradeId, 'photo', dormitoryId, busstopId) "
-                          "VALUES(:name, :dateOfBirth, "
+                          "VALUES(:name, :nickName, :dateOfBirth, "
                           "(SELECT genderId FROM gender WHERE type = :gender), "
                           "(SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           ":passportNumber, :IDNumber, :address, :studentPhoneNumber, :studentEmail, "
@@ -371,6 +372,7 @@ void DatabaseManager::addStudent(const Student &student) const
                           "(SELECT busstopId FROM bus_stop WHERE busstopName = :busstop))"));
 
     query.bindValue(":name", student.name());
+    query.bindValue(":nickName", student.nickName());
     query.bindValue(":dateOfBirth", student.dateOfBirth());
     query.bindValue(":gender", student.gender());
     query.bindValue(":nationality", student.nationality());
@@ -405,6 +407,7 @@ void DatabaseManager::addStudent(const Student &student) const
         if (!query.exec())
         {
             qDebug() << "Unable to add student class connection";
+            qDebug() << query.lastError().text();
         }
     }
 }
@@ -651,7 +654,7 @@ Teacher DatabaseManager::getTeacher(const QString &teacherId)
     Teacher teacher;
 
     QSqlQuery query;
-    query.prepare(QString("SELECT name, type, country, address, phoneNumber, photo FROM teacher AS T "
+    query.prepare(QString("SELECT name, preferredName, type, country, address, phoneNumber, photo FROM teacher AS T "
                           "JOIN gender AS G ON T.genderId = G.genderId "
                           "JOIN nationality AS N ON T.nationalityId = N.nationalityId "
                           "WHERE teacherId = %1").arg(teacherId));
@@ -661,6 +664,7 @@ Teacher DatabaseManager::getTeacher(const QString &teacherId)
         while (query.next())
         {
             teacher.setName(query.value("name").toString());
+            teacher.setPreferredName(query.value("preferredName").toString());
             teacher.setGender(query.value("type").toString());
             teacher.setNationality(query.value("country").toString());
             teacher.setAddress(query.value("address").toString());
@@ -677,7 +681,7 @@ Student DatabaseManager::getStudent(const QString &studentId)
     Student student;
 
     QSqlQuery query;
-    query.prepare(QString("SELECT S.name, dateOfBirth, type, country, passportNumber, "
+    query.prepare(QString("SELECT S.name, S.nickName, dateOfBirth, type, country, passportNumber, "
                           "GR.name AS Grade, IDNumber, address, studentPhoneNumber, studentEmail, "
                           "fathersPhoneNumber, mothersPhoneNumber, parentEmail, photo, D.name AS dorm, B.busstopName AS busstop "
                           "FROM student AS S "
@@ -693,6 +697,7 @@ Student DatabaseManager::getStudent(const QString &studentId)
         {
             student.setId(studentId);
             student.setName(query.value("name").toString());
+            student.setNickName(query.value("nickName").toString());
             student.setDateOfBirth(query.value("dateOfBirth").toString());
             student.setGender(query.value("type").toString());
             student.setNationality(query.value("country").toString());
@@ -821,12 +826,14 @@ void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &tea
 {
     QSqlQuery query;
     query.prepare(QString("UPDATE teacher SET "
-                          "name = :name, genderId = (SELECT genderId FROM gender WHERE type = :gender), "
+                          "name = :name, preferredName = :preferredName, "
+                          "genderId = (SELECT genderId FROM gender WHERE type = :gender), "
                           "nationalityId = (SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           "address = :address, phoneNumber = :phoneNumber, photo = :photo "
                           "WHERE teacherId = :teacherId"));
 
     query.bindValue(":name", teacher.name());
+    query.bindValue(":preferredName", teacher.preferredName());
     query.bindValue(":gender", teacher.gender());
     query.bindValue(":nationality", teacher.nationality());
     query.bindValue(":address", teacher.address());
@@ -866,7 +873,7 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
 {
     QSqlQuery query;
     query.prepare(QString("UPDATE student SET "
-                          "name = :name, dateOfBirth = :dateOfBirth, "
+                          "name = :name, nickName = :nickName, dateOfBirth = :dateOfBirth, "
                           "genderId = (SELECT genderId FROM gender WHERE type = :gender), "
                           "nationalityId = (SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           "passportNumber = :passportNumber, IDNumber = :IDNumber, "
@@ -880,6 +887,7 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
                           "WHERE studentId = :studentId"));
 
     query.bindValue(":name", student.name());
+    query.bindValue(":nickName", student.nickName());
     query.bindValue(":dateOfBirth", student.dateOfBirth());
     query.bindValue(":gender", student.gender());
     query.bindValue(":nationality", student.nationality());

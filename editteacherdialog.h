@@ -27,6 +27,9 @@ public:
     QString name() const;
     void setName(const QString &name);
 
+    QString preferredName() const;
+    void setPreferredName(const QString &preferredName);
+
     QString gender() const;
     void setGender(const QString &gender);
 

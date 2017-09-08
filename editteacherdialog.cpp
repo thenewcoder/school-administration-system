@@ -42,6 +42,7 @@ EditTeacherDialog::~EditTeacherDialog()
 void EditTeacherDialog::setTeacher(const Teacher &teacher)
 {
     setName(teacher.name());
+    setPreferredName(teacher.preferredName());
     setGender(teacher.gender());
     setNationality(teacher.nationality());
     setAddress(teacher.address());
@@ -65,6 +66,7 @@ Teacher EditTeacherDialog::getTeacher() const
 {
     Teacher teacher;
     teacher.setName(name());
+    teacher.setPreferredName(preferredName());
     teacher.setGender(gender());
     teacher.setNationality(nationality());
     teacher.setAddress(address());
@@ -97,6 +99,16 @@ QString EditTeacherDialog::name() const
 void EditTeacherDialog::setName(const QString &name)
 {
     ui->leName->setText(name);
+}
+
+QString EditTeacherDialog::preferredName() const
+{
+    return ui->lePreferredName->text();
+}
+
+void EditTeacherDialog::setPreferredName(const QString &preferredName)
+{
+    ui->lePreferredName->setText(preferredName);
 }
 
 QString EditTeacherDialog::gender() const

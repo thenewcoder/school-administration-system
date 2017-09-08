@@ -271,6 +271,7 @@ INSERT INTO `nationality` (
 CREATE TABLE IF NOT EXISTS `teacher` (
 	`teacherId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         `name`	        TEXT,
+        `preferredName`	TEXT,
 	`genderId`	INTEGER,
 	`nationalityId`	INTEGER,
 	`address`	TEXT,
@@ -316,6 +317,7 @@ CREATE TABLE IF NOT EXISTS `test` (
 CREATE TABLE IF NOT EXISTS `student` (
 	`studentId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`name`	TEXT NOT NULL,
+        `nickName`	TEXT,
 	`dateOfBirth`	TEXT,
 	`genderId`	INTEGER,
 	`nationalityId`	INTEGER,
@@ -365,11 +367,6 @@ CREATE TABLE IF NOT EXISTS `test_result` (
 	FOREIGN KEY(`studentId`) REFERENCES `student`(`studentId`)
 );
 
-CREATE TABLE IF NOT EXISTS `attendance_type` (
-        `typeId`        INTEGER PRIMARY KEY AUTOINCREMENT,
-        `type` TEXT NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS `class_record` (
         `recordId` INTEGER PRIMARY KEY AUTOINCREMENT,
         `date` TEXT,
@@ -383,7 +380,6 @@ CREATE TABLE IF NOT EXISTS `attendance_record` (
         `class_record_id` INTEGER,
         `studentId` INTEGER,
         `attendance_type_id` INTEGER,
-        FOREIGN KEY(`attendance_type_id`) REFERENCES `attendance_type`(`typeId`),
         FOREIGN KEY(`studentId`) REFERENCES `student`(`studentId`),
         PRIMARY KEY(`class_record_id`,`studentId`),
         FOREIGN KEY(`class_record_id`) REFERENCES `class_record`(`recordId`)

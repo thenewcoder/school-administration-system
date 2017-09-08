@@ -27,6 +27,9 @@ public:
     QString name() const;
     void setName(const QString &name);
 
+    QString nickName() const;
+    void setNickName(const QString &nickName);
+
     QString dateOfBirth() const;
     void setDateOfBirth(const QString &date);
 

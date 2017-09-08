@@ -82,26 +82,122 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>100</y>
-     <width>441</width>
-     <height>401</height>
+     <x>270</x>
+     <y>90</y>
+     <width>391</width>
+     <height>391</height>
     </rect>
    </property>
    <property name="title">
     <string>Personal Information</string>
    </property>
    <layout class="QGridLayout" name="gridLayout_3">
-    <item row="0" column="1" colspan="2">
-     <widget class="QLineEdit" name="leName"/>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Passport Number:</string>
+      </property>
+     </widget>
     </item>
-    <item row="5" column="1" colspan="2">
-     <widget class="QLineEdit" name="leIDNumber"/>
+    <item row="9" column="1">
+     <widget class="QComboBox" name="cbBusStop">
+      <item>
+       <property name="text">
+        <string>Choose...</string>
+       </property>
+      </item>
+     </widget>
     </item>
-    <item row="6" column="1" colspan="2">
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_17">
+      <property name="text">
+       <string>Grade:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Nationality:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QComboBox" name="cbGrade">
+      <item>
+       <property name="text">
+        <string>Choose...</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="7" column="1">
      <widget class="QLineEdit" name="lePassportNumber"/>
     </item>
-    <item row="1" column="1">
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_16">
+      <property name="text">
+       <string>Bus stop:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_15">
+      <property name="text">
+       <string>Dormitory:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_18">
+      <property name="text">
+       <string>Nick Name:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QComboBox" name="cbNationality">
+      <item>
+       <property name="text">
+        <string>Choose...</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QComboBox" name="cbDormitory">
+      <item>
+       <property name="text">
+        <string>Choose...</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLineEdit" name="leIDNumber"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>ID Number:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Name:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Gender:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
      <widget class="QDateEdit" name="deBirthDate">
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -118,14 +214,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Gender:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
+    <item row="3" column="1">
      <widget class="QComboBox" name="cbGender">
       <item>
        <property name="text">
@@ -144,95 +233,16 @@
       </item>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QComboBox" name="cbGrade">
-      <item>
-       <property name="text">
-        <string>Choose...</string>
-       </property>
-      </item>
-     </widget>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="leName"/>
     </item>
-    <item row="7" column="1" colspan="2">
-     <widget class="QComboBox" name="cbDormitory">
-      <item>
-       <property name="text">
-        <string>Choose...</string>
-       </property>
-      </item>
-     </widget>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="leNickName"/>
     </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>ID Number:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="1" colspan="2">
-     <widget class="QComboBox" name="cbBusStop">
-      <item>
-       <property name="text">
-        <string>Choose...</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="1" column="0">
+    <item row="2" column="0">
      <widget class="QLabel" name="label_4">
       <property name="text">
        <string>Birth Date:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Name:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_15">
-      <property name="text">
-       <string>Dormitory:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_16">
-      <property name="text">
-       <string>Bus stop:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Nationality:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QComboBox" name="cbNationality">
-      <item>
-       <property name="text">
-        <string>Choose...</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Passport Number:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_17">
-      <property name="text">
-       <string>Grade:</string>
       </property>
      </widget>
     </item>
