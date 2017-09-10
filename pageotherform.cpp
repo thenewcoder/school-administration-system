@@ -331,7 +331,7 @@ void PageOtherForm::setupViews()
     ui->tvClassrooms->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvClassrooms->setSelectionMode(QAbstractItemView::SingleSelection);
     mModelClassrooms->select();
-    ui->tvClassrooms->resizeColumnsToContents();
+    ui->tvClassrooms->horizontalHeader()->setStretchLastSection(true);
 
     // set up the dormitory table view
     mModelDormitories->setTable("dormitory");
@@ -342,7 +342,7 @@ void PageOtherForm::setupViews()
     ui->tvDorms->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvDorms->setSelectionMode(QAbstractItemView::SingleSelection);
     mModelDormitories->select();
-    ui->tvDorms->resizeColumnsToContents();
+    ui->tvDorms->horizontalHeader()->setStretchLastSection(true);
 
     // set up the bus stop table view
     mModelBusStops->setTable("bus_stop");
@@ -353,7 +353,7 @@ void PageOtherForm::setupViews()
     ui->tvBusStops->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvBusStops->setSelectionMode(QAbstractItemView::SingleSelection);
     mModelBusStops->select();
-    ui->tvBusStops->resizeColumnsToContents();
+    ui->tvBusStops->horizontalHeader()->setStretchLastSection(true);
 
     // set up the grade list view
     QStringList grades = DatabaseManager::instance().grades();
