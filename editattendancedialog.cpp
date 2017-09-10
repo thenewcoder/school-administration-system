@@ -7,7 +7,6 @@
 #include <QDate>
 #include <QLocale>
 #include "databasemanager.h"
-#include "classrecord.h"
 
 #include <QDebug>
 #include <QRadioButton>
@@ -100,7 +99,14 @@ QString EditAttendanceDialog::getTeacher() const
 void EditAttendanceDialog::setTeacher(const QString &teacher)
 {
     if (!teacher.isEmpty())
+    {
+        if (!mModelTeachers->stringList().contains(teacher))
+        {
+            QStringList teachers = mModelTeachers->stringList() << teacher;
+            mModelTeachers->setStringList(teachers);
+        }
         ui->cbTeachers->setCurrentText(teacher);
+    }
     else
         ui->cbTeachers->setCurrentIndex(0);
 }
@@ -121,14 +127,16 @@ void EditAttendanceDialog::setClassRecord(const ClassRecord &record)
     setRecordId(record.getRecordId());
     setClass(record.getClass());
     setDate(record.getDate());
-    setTeacher(record.getTeacher());
+
+    // for now, just store a copy of the classrecord
+    mRecord = record;
 
     // prepare the table widget
     setAttendance(DatabaseManager::instance().studentsOfClass(getClass()),
                   record.getAttendance());
 
     // set the correct index to the teachers combo box
-    ui->cbTeachers->setCurrentText(record.getTeacher());
+    setTeacher(record.getTeacher());
 
     // don't let the user edit the class combo box
     ui->cbClasses->setEnabled(false);
@@ -259,6 +267,23 @@ void EditAttendanceDialog::setupConnections()
 
         // populate the teachers box
         populateTeachersBox(text);
+    });
+
+    connect(ui->cbShowAllTeachers, &QCheckBox::toggled, [this] (bool checked) {
+       if (checked)
+       {
+           // get all teachers and reset the current text
+           QStringList teachers = DatabaseManager::instance().teachers();
+           mModelTeachers->setStringList(teachers);
+           ui->cbTeachers->setCurrentText(mRecord.getTeacher());
+       }
+       else
+       {
+           populateTeachersBox(getClass());
+
+           // set the correct index to the teachers combo box
+           setTeacher(mRecord.getTeacher());
+       }
     });
 }
 

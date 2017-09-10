@@ -4,12 +4,13 @@
 #include <QDialog>
 #include <QMap>
 
+#include "classrecord.h"
+
 namespace Ui {
 class EditAttendanceDialog;
 }
 
 class QStringListModel;
-class ClassRecord;
 
 class EditAttendanceDialog : public QDialog
 {
@@ -60,10 +61,11 @@ public slots:
 private:
     Ui::EditAttendanceDialog *ui;
 
-    QString mRecordId;
-
     QStringListModel *mModelClasses;
     QStringListModel *mModelTeachers;
+
+    QString mRecordId;
+    ClassRecord mRecord;
 
     bool mIsEditMode;
 };

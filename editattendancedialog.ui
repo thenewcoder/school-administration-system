@@ -146,6 +146,19 @@
     <bool>false</bool>
    </property>
   </widget>
+  <widget class="QCheckBox" name="cbShowAllTeachers">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>50</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Show all teachers</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
