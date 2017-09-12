@@ -7,6 +7,8 @@ namespace Ui {
 class PageActivitiesForm;
 }
 
+class QSqlTableModel;
+
 class PageActivitiesForm : public QWidget
 {
     Q_OBJECT
@@ -16,7 +18,14 @@ public:
     ~PageActivitiesForm();
 
 private:
+    void setupConnections();
+    void initTables();
+
+private:
     Ui::PageActivitiesForm *ui;
+
+    QSqlTableModel *mModelSports;
+    QSqlTableModel *mModelActivities;
 };
 
 #endif // PAGEACTIVITIESFORM_H

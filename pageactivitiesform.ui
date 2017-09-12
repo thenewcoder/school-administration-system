@@ -79,7 +79,14 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableView" name="tvSports"/>
+        <widget class="QTableView" name="tvSports">
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="cornerButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -138,7 +145,14 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableView" name="tvAfterSchool"/>
+        <widget class="QTableView" name="tvAfterSchool">
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="cornerButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
