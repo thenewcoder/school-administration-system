@@ -237,6 +237,14 @@
           <normaloff>:/images/setup.png</normaloff>:/images/setup.png</iconset>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Activities</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -394,6 +402,13 @@
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
           <layout class="QHBoxLayout" name="loOther"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pageActivities">
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <layout class="QHBoxLayout" name="loActivities"/>
          </item>
         </layout>
        </widget>

@@ -13,6 +13,7 @@ class PageTeachersForm;
 class PageClassesForm;
 class PageAttendanceForm;
 class PageOtherForm;
+class PageActivitiesForm;
 
 class AdminMenuForm : public QWidget
 {
@@ -51,6 +52,7 @@ private:
     PageClassesForm *mPageClassesForm;
     PageAttendanceForm *mPageAttendanceForm;
     PageOtherForm *mPageOtherForm;
+    PageActivitiesForm *mPageActivitiesForm;
 };
 
 #endif // ADMINMENUFORM_H

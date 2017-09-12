@@ -8,6 +8,7 @@
 #include "pageattendanceform.h"
 #include "pageclassesform.h"
 #include "pageotherform.h"
+#include "pageactivitiesform.h"
 #include "login.h"
 
 AdminMenuForm::AdminMenuForm(QWidget *parent) :
@@ -18,7 +19,8 @@ AdminMenuForm::AdminMenuForm(QWidget *parent) :
     mPageTeachersForm(new PageTeachersForm(this)),
     mPageClassesForm(new PageClassesForm(this)),
     mPageAttendanceForm(new PageAttendanceForm(this)),
-    mPageOtherForm(new PageOtherForm(this))
+    mPageOtherForm(new PageOtherForm(this)),
+    mPageActivitiesForm(new PageActivitiesForm(this))
 {
     ui->setupUi(this);
 
@@ -34,6 +36,7 @@ AdminMenuForm::AdminMenuForm(QWidget *parent) :
     ui->loClasses->addWidget(mPageClassesForm);
     ui->loAttendance->addWidget(mPageAttendanceForm);
     ui->loOther->addWidget(mPageOtherForm);
+    ui->loActivities->addWidget(mPageActivitiesForm);
 
     setupConnections();
 }
