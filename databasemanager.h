@@ -2,9 +2,8 @@
 #define DATABASEMANAGER_H
 
 #include <QString>
-
-#include <memory>
 #include <QStringList>
+#include <memory>
 
 class QSqlQuery;
 class QSqlDatabase;
@@ -14,6 +13,7 @@ class School;
 class User;
 class Class;
 class ClassRecord;
+class Activity;
 
 // temporary name
 static const QString DATABASE_FILENAME = "database.db";
@@ -53,6 +53,7 @@ public:
     void addUser(const QString &username, const QString &password, const QString &fullname);
     void addUser(const User &user);
     void addClassRecord(const ClassRecord &record);
+    void addActivity(const Activity &activity);
 
     User getUser(const QString &username);
     School getSchoolInfo() const;
@@ -60,12 +61,14 @@ public:
     Student getStudent(const QString &studentId);
     Class getClass(const QString &classId);
     ClassRecord getClassRecord(const QString &recordId);
+    Activity getActivity(const QString &activityId);
 
     void saveTeacherData(const Teacher &teacher, const QString &teacherId);
     void saveStudentData(const Student &student, const QString &studentId);
     void saveSchoolData(const School &school);
     void saveClassData(const Class &c);
     void saveClassRecord(const ClassRecord &record);
+    void saveActivityData(const Activity &activity);
 
     bool updateUserData(const User &user);
     bool updateClassroom(const QString &id, const QString &name, const QString &comment);
@@ -81,6 +84,7 @@ public:
     void removeSubject(const QString &subject);
     bool removeTableRows(const QString &table, const QString &col, const QString &id);
     bool removeClassRecord(const QString &recordId);
+    bool removeActivity(const QString &activityId);
 
     QStringList classesTaken(const QString &id);
     QStringList classesTaught(const QString &id);

@@ -55,7 +55,9 @@ SOURCES += main.cpp\
     pageattendanceform.cpp \
     editattendancedialog.cpp \
     classrecord.cpp \
-    pageactivitiesform.cpp
+    pageactivitiesform.cpp \
+    editactivitydialog.cpp \
+    activity.cpp
 
 HEADERS  += mainwindow.h \
     databasemanager.h \
@@ -88,7 +90,9 @@ HEADERS  += mainwindow.h \
     pageattendanceform.h \
     editattendancedialog.h \
     classrecord.h \
-    pageactivitiesform.h
+    pageactivitiesform.h \
+    editactivitydialog.h \
+    activity.h
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \
@@ -107,7 +111,8 @@ FORMS    += mainwindow.ui \
     editotherdialog.ui \
     pageattendanceform.ui \
     editattendancedialog.ui \
-    pageactivitiesform.ui
+    pageactivitiesform.ui \
+    editactivitydialog.ui
 
 RESOURCES += \
     resources.qrc

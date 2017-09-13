@@ -17,6 +17,7 @@
 #include "user.h"
 #include "class.h"
 #include "classrecord.h"
+#include "activity.h"
 
 DatabaseManager &DatabaseManager::instance()
 {
@@ -613,6 +614,27 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
     }
 }
 
+void DatabaseManager::addActivity(const Activity &activity)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO activity (code, type, name, description, teacherId, membership_limit) VALUES("
+                  ":code, :type, :name, :description,"
+                  "(SELECT teacherId FROM teacher WHERE name = :teacherName),"
+                  ":limit)");
+    query.bindValue(":code", activity.code());
+    query.bindValue(":type", activity.getType());
+    query.bindValue(":name", activity.name());
+    query.bindValue(":description", activity.description());
+    query.bindValue(":teacherName", activity.advisor());
+    query.bindValue(":limit", activity.limit());
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to add a new activity";
+        qDebug() << query.lastError().text();
+    }
+}
+
 User DatabaseManager::getUser(const QString &username)
 {
     QSqlQuery query;
@@ -828,6 +850,39 @@ ClassRecord DatabaseManager::getClassRecord(const QString &recordId)
     }
 
     return record;
+}
+
+Activity DatabaseManager::getActivity(const QString &activityId)
+{
+    Activity activity;
+    activity.setId(activityId);
+
+    QSqlQuery query;
+    query.prepare("SELECT code, A.name, type, description, T.name, membership_limit "
+                  "FROM activity A "
+                  "LEFT OUTER JOIN teacher T ON T.teacherId = A.teacherId "
+                  "WHERE activityId = :activityId");
+    query.bindValue(":activityId", activityId);
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            activity.setCode(query.value(0).toString());
+            activity.setName(query.value(1).toString());
+            activity.setType(query.value(2).toInt());
+            activity.setDescription(query.value(3).toString());
+            activity.setAdvisor(query.value(4).toString());
+            activity.setLimit(query.value(5).toString());
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get the activity data";
+        qDebug() << query.lastError().text();
+    }
+
+    return activity;
 }
 
 void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &teacherId)
@@ -1073,6 +1128,33 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
     }
 }
 
+void DatabaseManager::saveActivityData(const Activity &activity)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE activity SET "
+                  "code = :code,"
+                  "type = :type,"
+                  "name = :name,"
+                  "description = :description,"
+                  "teacherId = (SELECT teacherId FROM teacher WHERE name = :teacherName),"
+                  "membership_limit = :limit "
+                  "WHERE activityId = :id");
+
+    query.bindValue(":code", activity.code());
+    query.bindValue(":type", activity.getType());
+    query.bindValue(":name", activity.name());
+    query.bindValue(":description", activity.description());
+    query.bindValue(":teacherName", activity.advisor());
+    query.bindValue(":limit", activity.limit());
+    query.bindValue(":id", activity.id());
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update an activity";
+        qDebug() << query.lastError().text();
+    }
+}
+
 bool DatabaseManager::updateUserData(const User &user)
 {
     QSqlQuery query;
@@ -1088,7 +1170,7 @@ bool DatabaseManager::updateUserData(const User &user)
 
     if (!query.exec())
     {
-        qDebug() << "Unable to udpate the user data";
+        qDebug() << "Unable to update the user data";
         qDebug() << query.lastError().text();
         return false;
     }
@@ -1291,6 +1373,11 @@ bool DatabaseManager::removeClassRecord(const QString &recordId)
     bool op1 = removeTableRows("class_record", "recordId", recordId);
 
     return op1 && op2;
+}
+
+bool DatabaseManager::removeActivity(const QString &activityId)
+{
+    return removeTableRows("activity", "activityId", activityId);
 }
 
 QStringList DatabaseManager::classesTaken(const QString &id)

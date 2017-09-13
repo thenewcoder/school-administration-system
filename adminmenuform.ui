@@ -244,6 +244,10 @@
         <property name="textAlignment">
          <set>AlignCenter</set>
         </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/images/activities.png</normaloff>:/images/activities.png</iconset>
+        </property>
        </item>
       </widget>
      </item>

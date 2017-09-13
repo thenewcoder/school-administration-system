@@ -385,6 +385,17 @@ CREATE TABLE IF NOT EXISTS `attendance_record` (
         FOREIGN KEY(`class_record_id`) REFERENCES `class_record`(`recordId`)
 );
 
+CREATE TABLE IF NOT EXISTS `activity` (
+        `activityId`	INTEGER PRIMARY KEY AUTOINCREMENT,
+        `code`          TEXT,
+        `type`          INTEGER,
+        `name`          TEXT,
+        `description`	TEXT,
+        `teacherId`	INTEGER,
+        `membership_limit`  INTEGER,
+        FOREIGN KEY(`teacherId`) REFERENCES `teacher`(`teacherId`)
+);
+
 CREATE VIEW teacher_class_summary AS
 SELECT C.classId, group_concat(T.name, ', ') AS 'teachers'
 FROM teacher_class TC
@@ -443,3 +454,15 @@ LEFT OUTER JOIN student S ON S.studentId = AR.studentId
 LEFT OUTER JOIN attendance_type AT ON AT.typeId = AR.attendance_type_id
 LEFT OUTER JOIN class_record CR ON CR.recordId = AR.class_record_id
 LEFT OUTER JOIN class C ON C.classId = CR.classId;
+
+CREATE VIEW sports_summary AS
+SELECT activityId, code, A.name, T.name, membership_limit
+FROM activity A
+LEFT OUTER JOIN teacher T ON T.teacherId = A.teacherId
+WHERE A.type = 1;
+
+CREATE VIEW activity_summary AS
+SELECT activityId, code, A.name, T.name, membership_limit
+FROM activity A
+LEFT OUTER JOIN teacher T ON T.teacherId = A.teacherId
+WHERE A.type = 2;

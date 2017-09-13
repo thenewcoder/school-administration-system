@@ -12,6 +12,7 @@
         <file>images/classes.png</file>
         <file>images/attendance.png</file>
         <file>images/setup.png</file>
+        <file>images/activities.png</file>
     </qresource>
     <qresource prefix="/sql">
         <file>sql/databaseCreationScript.sql</file>
