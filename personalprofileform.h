@@ -2,6 +2,8 @@
 #define PERSONALPROFILEFORM_H
 
 #include <QWidget>
+#include <QHash>
+#include "user.h"
 
 namespace Ui {
 class PersonalProfileForm;
@@ -18,11 +20,21 @@ public:
 public slots:
     void setupUser();
 
+private slots:
+    void onUsernameChanged(const QString &change);
+    void onFullnameChanged(const QString &change);
+
 private:
     void setupConnections();
+    void toggleSaveButton(bool state);
 
 private:
     Ui::PersonalProfileForm *ui;
+
+    User user;
+
+    bool mSettingsChanged;
+    QHash<QString, QString> mPendingChanges;
 };
 
 #endif // PERSONALPROFILEFORM_H

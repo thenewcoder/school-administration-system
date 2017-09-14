@@ -6,9 +6,14 @@
 
 PersonalProfileForm::PersonalProfileForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PersonalProfileForm)
+    ui(new Ui::PersonalProfileForm),
+    mSettingsChanged(false)
 {
     ui->setupUi(this);
+
+    // make the Save buttons disabled by default
+    ui->btnSave->setEnabled(false);
+    //ui->btnChangePassword->setEnabled(false);
 
     setupConnections();
 }
@@ -20,12 +25,64 @@ PersonalProfileForm::~PersonalProfileForm()
 
 void PersonalProfileForm::setupUser()
 {
-    ui->leUsername->setText(Login::instance().username());
-    ui->leFullName->setText(Login::instance().fullname());
+    QString username = Login::instance().username();
+    QString fullname = Login::instance().fullname();
+
+    // add the values to the line edits
+    ui->leUsername->setText(username);
+    ui->leFullName->setText(fullname);
+
+    // add the values the user variable
+    user.setUsername(username);
+    user.setFullName(fullname);
+}
+
+void PersonalProfileForm::onUsernameChanged(const QString &change)
+{
+    if (change != user.username())
+    {
+        mPendingChanges["username"] = change;
+        mSettingsChanged = true;
+        toggleSaveButton(true);
+    }
+    else
+    {
+        if (mPendingChanges.contains("username"))
+            mPendingChanges.remove("username");
+        if (mPendingChanges.size() == 0 && mSettingsChanged)
+        {
+            mSettingsChanged = false;
+            toggleSaveButton(false);
+        }
+    }
+}
+
+void PersonalProfileForm::onFullnameChanged(const QString &change)
+{
+    if (change != user.fullName())
+    {
+        mPendingChanges["fullname"] = change;
+        mSettingsChanged = true;
+        toggleSaveButton(true);
+    }
+    else
+    {
+        if (mPendingChanges.contains("fullname"))
+            mPendingChanges.remove("fullname");
+        if (mPendingChanges.size() == 0 && mSettingsChanged)
+        {
+            mSettingsChanged = false;
+            toggleSaveButton(false);
+        }
+    }
 }
 
 void PersonalProfileForm::setupConnections()
 {
+    // create connections to check for line edit changes
+    connect(ui->leUsername, SIGNAL(textEdited(QString)), this, SLOT(onUsernameChanged(QString)));
+    connect(ui->leFullName, SIGNAL(textEdited(QString)), this, SLOT(onFullnameChanged(QString)));
+
     connect(ui->btnSave, &QPushButton::clicked, [this] () {
         User user = Login::instance().getUserData();
         user.setUsername(ui->leUsername->text());
@@ -54,4 +111,9 @@ void PersonalProfileForm::setupConnections()
             }
         }
     });
+}
+
+void PersonalProfileForm::toggleSaveButton(bool state)
+{
+    ui->btnSave->setEnabled(state);
 }
