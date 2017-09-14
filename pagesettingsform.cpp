@@ -41,5 +41,9 @@ void PageSettingsForm::setupConnections()
 
     // to let the school name update...TODO: find a better way, too hackish
     connect(mSchoolSettingsForm, &SchoolSettingsForm::notifySchoolNameChanged, mPageHomeForm, &PageHomeForm::onSchoolNameChanged);
+
+    // connect signal from personal settings when user changes his/her username
+    connect(mPersonalProfileForm, &PersonalProfileForm::notifyFullnameChanged,
+            qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::onFullnameChanged);
 }
 

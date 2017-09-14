@@ -17,6 +17,9 @@ public:
     explicit PersonalProfileForm(QWidget *parent = 0);
     ~PersonalProfileForm();
 
+signals:
+    void notifyFullnameChanged(const QString &name);
+
 public slots:
     void setupUser();
 

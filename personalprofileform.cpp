@@ -93,6 +93,9 @@ void PersonalProfileForm::setupConnections()
         mUser = user; // change the new default values
         mPendingChanges.clear(); // empty the pending changes
         toggleSaveButton(false);
+
+        // send a signal so the fullname at the admin menu form will update
+        emit notifyFullnameChanged(user.fullName());
     });
 
     connect(ui->btnChangePassword, &QPushButton::clicked, [this] () {

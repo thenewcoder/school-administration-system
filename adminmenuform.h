@@ -34,6 +34,7 @@ public:
 
 private:
     void setupConnections();
+    void setWelcomeMessage(const QString &name);
 
 signals:
     void notifyLoggingOut();
@@ -42,6 +43,7 @@ signals:
 public slots:
     void updateSchoolLogo(const QPixmap &logo);
     void handleUserLogin();
+    void onFullnameChanged(const QString &name);
 
 private:
     Ui::AdminMenuForm *ui;

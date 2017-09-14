@@ -68,6 +68,11 @@ void AdminMenuForm::setupConnections()
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageAttendanceForm, &PageAttendanceForm::updateAttendanceTable);
 }
 
+void AdminMenuForm::setWelcomeMessage(const QString &name)
+{
+    ui->lblWelcomeText->setText(tr("Welcome, ") + name);
+}
+
 void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)
 {
     ui->lblSchoolLogo->setPixmap(logo);
@@ -77,7 +82,12 @@ void AdminMenuForm::handleUserLogin()
 {
     // setup the username
     QString name = !Login::instance().fullname().isEmpty() ? Login::instance().fullname() : Login::instance().username();
-    ui->lblWelcomeText->setText(tr("Welcome, ") + name);
+    setWelcomeMessage(name);
 
     emit notifyUserLogon();
+}
+
+void AdminMenuForm::onFullnameChanged(const QString &name)
+{
+    setWelcomeMessage(name);
 }
