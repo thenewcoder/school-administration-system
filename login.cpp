@@ -42,6 +42,11 @@ User Login::getUserData()
     return mUser;
 }
 
+bool Login::isUsernameTaken(const QString &name)
+{
+    return DatabaseManager::instance().isUsernameTaken(name);
+}
+
 bool Login::updateUserData(const User &user)
 {
     if (DatabaseManager::instance().updateUserData(user))

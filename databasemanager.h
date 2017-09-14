@@ -25,6 +25,7 @@ public:
     ~DatabaseManager();
 
     bool validateLogin(const QString &username, const QString &password);
+    bool isUsernameTaken(const QString &name);
 
     int numClasses() const;
     int numTeachers() const;

@@ -42,7 +42,15 @@ void PersonalProfileForm::onUsernameChanged(const QString &change)
 {
     // TODO: refactor this and the next method
     if (change != mUser.username())
-    {
+    {   
+        // check if username is already in use
+        if (Login::instance().isUsernameTaken(change))
+        {
+            // TODO: add a proper way of telling the user - eg. colors
+            // for now just erase the change
+            ui->leUsername->setText(mUser.username());
+        }
+
         mPendingChanges["username"] = change;
         mSettingsChanged = true;
         toggleSaveButton(true);

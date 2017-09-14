@@ -48,6 +48,23 @@ bool DatabaseManager::validateLogin(const QString &username, const QString &pass
     return true;
 }
 
+bool DatabaseManager::isUsernameTaken(const QString &name)
+{
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(userId) FROM user WHERE username = :name");
+    query.bindValue(":name", name);
+
+    if (!query.exec() || !query.first())
+    {
+        return false;
+    }
+    else if (query.value(0).toInt() == 0)
+    {
+        return false;
+    }
+    return true;
+}
+
 int DatabaseManager::numClasses() const
 {
     QSqlQuery query;
