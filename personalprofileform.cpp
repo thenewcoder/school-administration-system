@@ -13,6 +13,7 @@ PersonalProfileForm::PersonalProfileForm(QWidget *parent) :
 
     // make the Save buttons disabled by default
     ui->btnSave->setEnabled(false);
+    ui->btnResetPersonal->setEnabled(false);
     //ui->btnChangePassword->setEnabled(false);
 
     setupConnections();
@@ -33,13 +34,14 @@ void PersonalProfileForm::setupUser()
     ui->leFullName->setText(fullname);
 
     // add the values the user variable
-    user.setUsername(username);
-    user.setFullName(fullname);
+    mUser.setUsername(username);
+    mUser.setFullName(fullname);
 }
 
 void PersonalProfileForm::onUsernameChanged(const QString &change)
 {
-    if (change != user.username())
+    // TODO: refactor this and the next method
+    if (change != mUser.username())
     {
         mPendingChanges["username"] = change;
         mSettingsChanged = true;
@@ -59,7 +61,7 @@ void PersonalProfileForm::onUsernameChanged(const QString &change)
 
 void PersonalProfileForm::onFullnameChanged(const QString &change)
 {
-    if (change != user.fullName())
+    if (change != mUser.fullName())
     {
         mPendingChanges["fullname"] = change;
         mSettingsChanged = true;
@@ -88,6 +90,9 @@ void PersonalProfileForm::setupConnections()
         user.setUsername(ui->leUsername->text());
         user.setFullName(ui->leFullName->text());
         Login::instance().updateUserData(user);
+        mUser = user; // change the new default values
+        mPendingChanges.clear(); // empty the pending changes
+        toggleSaveButton(false);
     });
 
     connect(ui->btnChangePassword, &QPushButton::clicked, [this] () {
@@ -111,9 +116,18 @@ void PersonalProfileForm::setupConnections()
             }
         }
     });
+
+    // reset the user profile data
+    connect(ui->btnResetPersonal, &QPushButton::clicked, [this] () {
+        ui->leUsername->setText(mUser.username());
+        ui->leFullName->setText(mUser.fullName());
+        mPendingChanges.clear();
+        toggleSaveButton(false);
+    });
 }
 
 void PersonalProfileForm::toggleSaveButton(bool state)
 {
     ui->btnSave->setEnabled(state);
+    ui->btnResetPersonal->setEnabled(state);
 }

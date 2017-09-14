@@ -31,7 +31,7 @@ private:
 private:
     Ui::PersonalProfileForm *ui;
 
-    User user;
+    User mUser;
 
     bool mSettingsChanged;
     QHash<QString, QString> mPendingChanges;
