@@ -4,11 +4,14 @@
 
 #include "wizardsetup.h"
 #include "settings.h"
-#include <QDebug>
 
 int main(int argc, char *argv[])
 {
+    // hopefully fix some scaling issues
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     QApplication a(argc, argv);
+    a.setStyle("fusion");  // the docs suggested using the fusion style for DPI scaling issues
     MainWindow w;
 
     // prepare the translator

@@ -47,6 +47,15 @@ bool Login::isUsernameTaken(const QString &name)
     return DatabaseManager::instance().isUsernameTaken(name);
 }
 
+bool Login::isValidPassword(const QString &newPassword)
+{
+    // validate the password. 6 - 16 characters and not same as old password
+    if ((newPassword.length() >= 6 && newPassword.length() <= 16) &&
+            encryptString(newPassword) != password())
+        return true;
+    return false;
+}
+
 bool Login::updateUserData(const User &user)
 {
     if (DatabaseManager::instance().updateUserData(user))

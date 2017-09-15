@@ -6,15 +6,14 @@
 
 PersonalProfileForm::PersonalProfileForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PersonalProfileForm),
-    mSettingsChanged(false)
+    ui(new Ui::PersonalProfileForm)
 {
     ui->setupUi(this);
 
     // make the Save buttons disabled by default
     ui->btnSave->setEnabled(false);
     ui->btnResetPersonal->setEnabled(false);
-    //ui->btnChangePassword->setEnabled(false);
+    ui->btnChangePassword->setEnabled(false);
 
     setupConnections();
 }
@@ -38,60 +37,45 @@ void PersonalProfileForm::setupUser()
     mUser.setFullName(fullname);
 }
 
-void PersonalProfileForm::onUsernameChanged(const QString &change)
+void PersonalProfileForm::onProfileHasChanged()
 {
-    // TODO: refactor this and the next method
-    if (change != mUser.username())
-    {   
-        // check if username is already in use
-        if (Login::instance().isUsernameTaken(change))
-        {
-            // TODO: add a proper way of telling the user - eg. colors
-            // for now just erase the change
-            ui->leUsername->setText(mUser.username());
-        }
+    // start out with no changes has been made
+    bool hasChanged = false;
 
-        mPendingChanges["username"] = change;
-        mSettingsChanged = true;
-        toggleSaveButton(true);
-    }
-    else
+    // check every field to see if any changes have been made
+    if (mUser.username() != ui->leUsername->text())
     {
-        if (mPendingChanges.contains("username"))
-            mPendingChanges.remove("username");
-        if (mPendingChanges.size() == 0 && mSettingsChanged)
-        {
-            mSettingsChanged = false;
-            toggleSaveButton(false);
-        }
+        // check if username is already taken
+        if(!Login::instance().isUsernameTaken(ui->leUsername->text()))
+            hasChanged = true;
     }
+    else if (mUser.fullName() != ui->leFullName->text())
+        hasChanged = true;
+
+    // change the state of the buttons to reflect the change
+    toggleSaveButton(hasChanged);
 }
 
-void PersonalProfileForm::onFullnameChanged(const QString &change)
+void PersonalProfileForm::onPasswordHasChanged()
 {
-    if (change != mUser.fullName())
+    // check so that the password fields aren't empty and that they are the same
+    if (!ui->leNewPassword->text().isEmpty() &&  // not empty
+            ui->leNewPassword->text() == ui->leConfirmNewPassword->text() && // not equal
+            Login::instance().isValidPassword(ui->leNewPassword->text()))  // is a valid password
     {
-        mPendingChanges["fullname"] = change;
-        mSettingsChanged = true;
-        toggleSaveButton(true);
+        ui->btnChangePassword->setEnabled(true);
     }
     else
-    {
-        if (mPendingChanges.contains("fullname"))
-            mPendingChanges.remove("fullname");
-        if (mPendingChanges.size() == 0 && mSettingsChanged)
-        {
-            mSettingsChanged = false;
-            toggleSaveButton(false);
-        }
-    }
+        ui->btnChangePassword->setEnabled(false);
 }
 
 void PersonalProfileForm::setupConnections()
 {
     // create connections to check for line edit changes
-    connect(ui->leUsername, SIGNAL(textEdited(QString)), this, SLOT(onUsernameChanged(QString)));
-    connect(ui->leFullName, SIGNAL(textEdited(QString)), this, SLOT(onFullnameChanged(QString)));
+    connect(ui->leUsername, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leFullName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leNewPassword, SIGNAL(textEdited(QString)), this, SLOT(onPasswordHasChanged()));
+    connect(ui->leConfirmNewPassword, SIGNAL(textEdited(QString)), this, SLOT(onPasswordHasChanged()));
 
     connect(ui->btnSave, &QPushButton::clicked, [this] () {
         User user = Login::instance().getUserData();
@@ -99,32 +83,23 @@ void PersonalProfileForm::setupConnections()
         user.setFullName(ui->leFullName->text());
         Login::instance().updateUserData(user);
         mUser = user; // change the new default values
-        mPendingChanges.clear(); // empty the pending changes
         toggleSaveButton(false);
 
-        // send a signal so the fullname at the admin menu form will update
+        // send a signal so that the fullname at the admin menu form will update
         emit notifyFullnameChanged(user.fullName());
     });
 
     connect(ui->btnChangePassword, &QPushButton::clicked, [this] () {
-        /*
-         * Check that the new password isn't the same as old password
-         * and that the new password equals the confirmed password
-         */
 
+        // update with the new password  TODO: make the password update separate from the profile data
         User user = Login::instance().getUserData();
-        QString encryptedPassword = Login::instance().encryptString(ui->leNewPassword->text());
+        user.setPassword(ui->leNewPassword->text());
 
-        if (ui->leNewPassword->text() == ui->leConfirmNewPassword->text() &&
-                encryptedPassword != user.password())
+        if (Login::instance().updateUserData(user))
         {
-            user.setPassword(ui->leNewPassword->text());
-            if (Login::instance().updateUserData(user))
-            {
-                // clear the line edits again
-                ui->leNewPassword->setText("");
-                ui->leConfirmNewPassword->setText("");
-            }
+            // clear the line edits again
+            ui->leNewPassword->setText("");
+            ui->leConfirmNewPassword->setText("");
         }
     });
 
@@ -132,7 +107,6 @@ void PersonalProfileForm::setupConnections()
     connect(ui->btnResetPersonal, &QPushButton::clicked, [this] () {
         ui->leUsername->setText(mUser.username());
         ui->leFullName->setText(mUser.fullName());
-        mPendingChanges.clear();
         toggleSaveButton(false);
     });
 }

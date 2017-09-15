@@ -18,6 +18,7 @@ public:
     User getUserData();
 
     bool isUsernameTaken(const QString &name);
+    bool isValidPassword(const QString &newPassword);
     bool updateUserData(const User &user);
 
     void setUsername(const QString &username);

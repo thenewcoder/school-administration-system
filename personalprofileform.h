@@ -24,8 +24,8 @@ public slots:
     void setupUser();
 
 private slots:
-    void onUsernameChanged(const QString &change);
-    void onFullnameChanged(const QString &change);
+    void onProfileHasChanged();
+    void onPasswordHasChanged();
 
 private:
     void setupConnections();
@@ -35,9 +35,6 @@ private:
     Ui::PersonalProfileForm *ui;
 
     User mUser;
-
-    bool mSettingsChanged;
-    QHash<QString, QString> mPendingChanges;
 };
 
 #endif // PERSONALPROFILEFORM_H
