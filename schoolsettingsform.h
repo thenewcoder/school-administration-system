@@ -2,6 +2,7 @@
 #define SCHOOLSETTINGSFORM_H
 
 #include <QWidget>
+#include "school.h"
 
 namespace Ui {
 class SchoolSettingsForm;
@@ -23,9 +24,15 @@ signals:
 
 private:
     void setupConnections();
+    void toggleSaveButton(bool state);
+
+private slots:
+    void onSettingsHaveChanged();
 
 private:
     Ui::SchoolSettingsForm *ui;
+
+    School mSchool;
 };
 
 #endif // SCHOOLSETTINGSFORM_H

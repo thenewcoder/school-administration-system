@@ -2,9 +2,9 @@
 #include "ui_schoolsettingsform.h"
 
 #include <QFileDialog>
-
-#include "school.h"
 #include "databasemanager.h"
+
+#include <QDebug>
 
 SchoolSettingsForm::SchoolSettingsForm(QWidget *parent) :
     QWidget(parent),
@@ -13,8 +13,6 @@ SchoolSettingsForm::SchoolSettingsForm(QWidget *parent) :
     ui->setupUi(this);
 
     setupConnections();
-
-    loadDatabaseSettings();
 }
 
 SchoolSettingsForm::~SchoolSettingsForm()
@@ -24,6 +22,12 @@ SchoolSettingsForm::~SchoolSettingsForm()
 
 void SchoolSettingsForm::setupConnections()
 {
+    // connects to help check if any settings have changed
+    connect(ui->leSchoolName, SIGNAL(textEdited(QString)), this, SLOT(onSettingsHaveChanged()));
+    connect(ui->teAddress, SIGNAL(textChanged()), this, SLOT(onSettingsHaveChanged()));
+    connect(ui->lePhoneNumber, SIGNAL(textEdited(QString)), this, SLOT(onSettingsHaveChanged()));
+    connect(ui->leEmail, SIGNAL(textEdited(QString)), this, SLOT(onSettingsHaveChanged()));
+
     connect(ui->btnAddLogo, &QPushButton::clicked, [this] () {
         QString filename = QFileDialog::getOpenFileName(this,
                                                         tr("Choose a picture"),
@@ -34,26 +38,29 @@ void SchoolSettingsForm::setupConnections()
             QPixmap p(filename);
             QPixmap logo = p.scaled(200, 150, Qt::KeepAspectRatio);
             ui->lblSchoolLogo->setPixmap(logo);
+
+            onSettingsHaveChanged();
         }
     });
 
     connect(ui->btnRemoveLogo, &QPushButton::clicked, [this] () {
         ui->lblSchoolLogo->setPixmap(QPixmap(":/images/your_logo_here.png"));
+
+        onSettingsHaveChanged();
     });
 
     connect(ui->btnSaveSettings, &QPushButton::clicked, [this] () {
 
         const QPixmap* logo = ui->lblSchoolLogo->pixmap();
 
-        School school;
-        school.setSchoolName(ui->leSchoolName->text());
-        school.setSchoolAddress(ui->teAddress->toPlainText());
-        school.setSchoolPhone(ui->lePhoneNumber->text());
-        school.setSchoolEmail(ui->leEmail->text());
-        school.setSchoolLogoPixmap(*logo);
+        mSchool.setSchoolName(ui->leSchoolName->text());
+        mSchool.setSchoolAddress(ui->teAddress->toPlainText());
+        mSchool.setSchoolPhone(ui->lePhoneNumber->text());
+        mSchool.setSchoolEmail(ui->leEmail->text());
+        mSchool.setSchoolLogoPixmap(*logo);
 
         // save data to the database
-        DatabaseManager::instance().saveSchoolData(school);
+        DatabaseManager::instance().saveSchoolData(mSchool);
 
         // update the school logo
         emit notifySchoolLogoUpdate(*logo);
@@ -63,19 +70,44 @@ void SchoolSettingsForm::setupConnections()
     });
 }
 
+void SchoolSettingsForm::toggleSaveButton(bool state)
+{
+    ui->btnSaveSettings->setEnabled(state);
+}
+
+void SchoolSettingsForm::onSettingsHaveChanged()
+{
+    bool hasChanged = false;
+    if (mSchool.schoolName() != ui->leSchoolName->text())
+        hasChanged = true;
+    else if (mSchool.schoolAddress() != ui->teAddress->toPlainText())
+        hasChanged = true;
+    else if (mSchool.schoolPhone() != ui->lePhoneNumber->text())
+        hasChanged = true;
+    else if (mSchool.schoolEmail() != ui->leEmail->text())
+        hasChanged = true;
+    else if(mSchool.schoolLogoPixmap().cacheKey() != ui->lblSchoolLogo->pixmap()->cacheKey())
+        hasChanged = true;
+
+    toggleSaveButton(hasChanged);
+}
+
 void SchoolSettingsForm::loadDatabaseSettings()
 {
-    School school = DatabaseManager::instance().getSchoolInfo();
+    mSchool = DatabaseManager::instance().getSchoolInfo();
 
-    ui->leSchoolName->setText(school.schoolName());
-    ui->teAddress->setPlainText(school.schoolAddress());
-    ui->lePhoneNumber->setText(school.schoolPhone());
-    ui->leEmail->setText(school.schoolEmail());
+    ui->leSchoolName->setText(mSchool.schoolName());
+    ui->teAddress->setPlainText(mSchool.schoolAddress());
+    ui->lePhoneNumber->setText(mSchool.schoolPhone());
+    ui->leEmail->setText(mSchool.schoolEmail());
 
-    QPixmap logo = school.schoolLogoPixmap();
+    QPixmap logo = mSchool.schoolLogoPixmap();
     if (!logo.isNull())
     {
-        ui->lblSchoolLogo->setPixmap(school.schoolLogoPixmap());
-        emit notifySchoolLogoUpdate(school.schoolLogoPixmap());
+        ui->lblSchoolLogo->setPixmap(mSchool.schoolLogoPixmap());
+        emit notifySchoolLogoUpdate(mSchool.schoolLogoPixmap());
     }
+
+    // start with save buttons disabled
+    toggleSaveButton(false);
 }

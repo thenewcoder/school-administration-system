@@ -2,7 +2,6 @@
 #define PERSONALPROFILEFORM_H
 
 #include <QWidget>
-#include <QHash>
 #include "user.h"
 
 namespace Ui {
