@@ -75,7 +75,7 @@ public:
     QString busstop() const;
     void setBusstop(const QString &busstop);
 
-    void setEditMode(bool editMode);
+    void setEditMode(bool state);
 
 private:
     void setupConnections();

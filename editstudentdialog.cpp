@@ -218,9 +218,9 @@ void EditStudentDialog::onProfileHasChanged()
     toggleSaveButton(hasChanged);
 }
 
-void EditStudentDialog::setEditMode(bool editMode)
+void EditStudentDialog::setEditMode(bool state)
 {
-    mEditMode = editMode;
+    mEditMode = state;
 }
 
 QString EditStudentDialog::name() const

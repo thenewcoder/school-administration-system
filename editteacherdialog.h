@@ -2,12 +2,12 @@
 #define EDITTEACHERDIALOG_H
 
 #include <QDialog>
+#include <teacher.h>
 
 namespace Ui {
 class EditTeacherDialog;
 }
 
-class Teacher;
 class QStringListModel;
 
 class EditTeacherDialog : public QDialog
@@ -48,6 +48,8 @@ public:
     QStringList classesTaught() const;
     void setClassesTaught(const QStringList &classes);
 
+    void setEditMode(bool state);
+
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
@@ -55,6 +57,7 @@ private slots:
 
 private:
     void setupConnections();
+    void setupDetectEditConnections();
     void toggleSaveButton(bool state);
 
 private:
@@ -64,6 +67,10 @@ private:
 
     QString mTeacherId;
     bool mDefaultPhoto;
+
+    bool mEditMode;
+
+    Teacher mTeacher;
 };
 
 #endif // EDITTEACHERDIALOG_H

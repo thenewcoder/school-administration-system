@@ -56,11 +56,10 @@ void PageTeachersForm::editTeacher()
         EditTeacherDialog edit(this);
         edit.setId(teacherId);
         edit.setTeacher(teacher);
+        edit.setEditMode(true); // make sure we get edit mode behaviour
 
         if (edit.exec() == QDialog::Accepted)
         {
-            qDebug() << "Saving new values to teacher";
-
             // get the new values from the dialog
             teacher = edit.getTeacher();
 
@@ -79,8 +78,6 @@ void PageTeachersForm::addTeacher()
     EditTeacherDialog add(this);
     if (add.exec() == QDialog::Accepted)
     {
-        qDebug() << "Add new teacher to the database";
-
         Teacher teacher = add.getTeacher();
 
         // add teacher to the database
