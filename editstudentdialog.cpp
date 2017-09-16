@@ -9,6 +9,7 @@
 #include <QStringListModel>
 #include <QLocale>
 #include <QBuffer>
+#include <QDebug>
 
 EditStudentDialog::EditStudentDialog(QWidget *parent) :
     QDialog(parent),
@@ -154,7 +155,7 @@ void EditStudentDialog::onProfileHasChanged()
 {
     bool hasChanged = false;
 
-    // if student name has been entered
+    // if student name has been entered - when adding a student
     if (!mEditMode && !ui->leName->text().isEmpty())
         hasChanged = true;
     else if (mEditMode) // we are in edit mode
@@ -190,6 +191,9 @@ void EditStudentDialog::onProfileHasChanged()
         else if (mStudent.nationality() != nationality())
             hasChanged = true;
         else if (mStudent.getGrade() != grade())
+            hasChanged = true;
+        else if ((mStudent.photo().isEmpty() != mDefaultPhoto) &&
+                 mStudent.photo() != photo())
             hasChanged = true;
 
         // evaluate the classes taken list - any better way?
@@ -418,6 +422,7 @@ void EditStudentDialog::setupConnections()
     // setup connections to check if enough data has been entered to enable the save button
     connect(ui->leName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
 
+    // add a new photo
     connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
         QString filename = QFileDialog::getOpenFileName(this,
                                                         tr("Choose an image"),
@@ -429,14 +434,20 @@ void EditStudentDialog::setupConnections()
             QImage photo = img.scaled(150, 150, Qt::KeepAspectRatio);
             ui->lblStudentPhoto->setPixmap(QPixmap::fromImage(photo));
             mDefaultPhoto = false;
+
+            onProfileHasChanged();
         }
     });
 
+    // remove the current photo
     connect(ui->btnRemove, &QPushButton::clicked, [this] () {
         ui->lblStudentPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
         mDefaultPhoto = true;
+
+        onProfileHasChanged();
     });
 
+    // edit classes taken
     connect(ui->btnEditClasses, &QPushButton::clicked, [this] () {
         QStringList all = DatabaseManager::instance().classes();
         SelectorDialog edit(tr("Edit Student Classes"),
