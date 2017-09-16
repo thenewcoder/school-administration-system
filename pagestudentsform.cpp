@@ -63,6 +63,7 @@ void PageStudentsForm::editStudent()
 
         EditStudentDialog edit(this);
         edit.setId(studentId);
+        edit.setEditMode(true); // we want edit mode
 
         // set the values of the dialog
         edit.setStudent(student);

@@ -51,9 +51,11 @@ public:
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
+    void onProfileHasChanged();
 
 private:
     void setupConnections();
+    void toggleSaveButton(bool state);
 
 private:
     Ui::EditTeacherDialog *ui;

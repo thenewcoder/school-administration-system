@@ -2,7 +2,6 @@
 #include "ui_editstudentdialog.h"
 
 #include "databasemanager.h"
-#include "student.h"
 #include "selectordialog.h"
 
 #include <QFileDialog>
@@ -16,7 +15,8 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
     ui(new Ui::EditStudentDialog),
     mStudentId(),
     mDefaultPhoto(true),
-    mModelClasses(new QStringListModel(this))
+    mModelClasses(new QStringListModel(this)),
+    mEditMode(false)
 {
     ui->setupUi(this);
 
@@ -47,6 +47,9 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
     ui->lvClassesTaken->setModel(mModelClasses);
 
     setupConnections();
+
+    // disable the save button on start
+    toggleSaveButton(false);
 }
 
 EditStudentDialog::~EditStudentDialog()
@@ -86,6 +89,15 @@ void EditStudentDialog::setStudent(const Student &student)
     // prepare the classes list view
     QStringList classesTaken = DatabaseManager::instance().classesTaken(getId());
     mModelClasses->setStringList(classesTaken);
+
+    // save a copy of the student object
+    mStudent = student;
+
+    // save the classes taken by the student - a bit hackish
+    mStudent.setClassesTaken(classesTaken);
+
+    // setup connections especially for edit mode
+    setupDetectEditConnections();
 }
 
 Student EditStudentDialog::getStudent() const
@@ -136,6 +148,75 @@ void EditStudentDialog::on_buttonBox_accepted()
 void EditStudentDialog::on_buttonBox_rejected()
 {
     reject();
+}
+
+void EditStudentDialog::onProfileHasChanged()
+{
+    bool hasChanged = false;
+
+    // if student name has been entered
+    if (!mEditMode && !ui->leName->text().isEmpty())
+        hasChanged = true;
+    else if (mEditMode) // we are in edit mode
+    {
+        if (mStudent.name() != name())
+            hasChanged = true;
+        else if (mStudent.nickName() != nickName())
+            hasChanged = true;
+        else if (mStudent.iDNumber() != idNumber())
+            hasChanged = true;
+        else if (mStudent.passportNumber() != passportNumber())
+            hasChanged = true;
+        else if (mStudent.studentEmail() != studentEmail())
+            hasChanged = true;
+        else if (mStudent.studentPhoneNumber() != studentPhoneNumber())
+            hasChanged = true;
+        else if (mStudent.fathersPhoneNumber() != fathersPhoneNumber())
+            hasChanged = true;
+        else if (mStudent.mothersPhoneNumber() != mothersPhoneNumber())
+            hasChanged = true;
+        else if (mStudent.parentsEmail() != parentEmail())
+            hasChanged = true;
+        else if (mStudent.dateOfBirth() != dateOfBirth())
+            hasChanged = true;
+        else if (mStudent.address() != address())
+            hasChanged = true;
+        else if (mStudent.gender() != gender())
+            hasChanged = true;
+        else if (mStudent.busstop() != busstop())
+            hasChanged = true;
+        else if (mStudent.dormitory() != dormitory())
+            hasChanged = true;
+        else if (mStudent.nationality() != nationality())
+            hasChanged = true;
+        else if (mStudent.getGrade() != grade())
+            hasChanged = true;
+
+        // evaluate the classes taken list - any better way?
+        if (mStudent.getClassesTaken().length() != mModelClasses->stringList().length())
+            hasChanged = true;
+        else // same length but values might be different
+        {
+            QStringList tmp = mStudent.getClassesTaken();
+
+            for (QString &v : mModelClasses->stringList())
+            {
+                if (tmp.contains(v)) // if found in tmp remove it
+                    tmp.removeOne(v);
+            }
+
+            // if length of tmp is not zero, a change has been made
+            if (!tmp.isEmpty())
+                hasChanged = true;
+        }
+    }
+
+    toggleSaveButton(hasChanged);
+}
+
+void EditStudentDialog::setEditMode(bool editMode)
+{
+    mEditMode = editMode;
 }
 
 QString EditStudentDialog::name() const
@@ -334,6 +415,9 @@ void EditStudentDialog::setBusstop(const QString &busstop)
 
 void EditStudentDialog::setupConnections()
 {
+    // setup connections to check if enough data has been entered to enable the save button
+    connect(ui->leName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+
     connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
         QString filename = QFileDialog::getOpenFileName(this,
                                                         tr("Choose an image"),
@@ -349,22 +433,52 @@ void EditStudentDialog::setupConnections()
     });
 
     connect(ui->btnRemove, &QPushButton::clicked, [this] () {
-       ui->lblStudentPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
-       mDefaultPhoto = true;
+        ui->lblStudentPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
+        mDefaultPhoto = true;
     });
 
     connect(ui->btnEditClasses, &QPushButton::clicked, [this] () {
         QStringList all = DatabaseManager::instance().classes();
         SelectorDialog edit(tr("Edit Student Classes"),
                             all,
-                            DatabaseManager::instance().classesTaken(mStudentId),
+                            mModelClasses->stringList(),
                             this);
 
         if (edit.exec() == QDialog::Accepted)
         {
             // add classes to the list view of classes
             mModelClasses->setStringList(edit.getItems());
+
+            // check if any changes were made
+            onProfileHasChanged();
         }
     });
 }
 
+void EditStudentDialog::setupDetectEditConnections()
+{
+    // setup connections to check if enough data has been entered to enable the save button
+    connect(ui->leNickName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leIDNumber, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->lePassportNumber, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leStudentEmail, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leStudentPhone, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leFathersPhone, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leMothersPhone, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leParentEmail, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+
+    connect(ui->deBirthDate, SIGNAL(dateChanged(QDate)), this, SLOT(onProfileHasChanged()));
+
+    connect(ui->teAddress, SIGNAL(textChanged()), this, SLOT(onProfileHasChanged()));
+
+    connect(ui->cbGender, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->cbBusStop, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->cbDormitory, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->cbNationality, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->cbGrade, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+}
+
+void EditStudentDialog::toggleSaveButton(bool state)
+{
+    ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(state);
+}

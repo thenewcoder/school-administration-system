@@ -2,12 +2,12 @@
 #define EDITSTUDENTDIALOG_H
 
 #include <QDialog>
+#include "student.h"
 
 namespace Ui {
 class EditStudentDialog;
 }
 
-class Student;
 class QStringListModel;
 
 class EditStudentDialog : public QDialog
@@ -75,12 +75,17 @@ public:
     QString busstop() const;
     void setBusstop(const QString &busstop);
 
+    void setEditMode(bool editMode);
+
 private:
     void setupConnections();
+    void setupDetectEditConnections();
+    void toggleSaveButton(bool state);
 
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
+    void onProfileHasChanged();
 
 private:
     Ui::EditStudentDialog *ui;
@@ -89,6 +94,10 @@ private:
     bool mDefaultPhoto;
 
     QStringListModel *mModelClasses;
+
+    bool mEditMode;
+
+    Student mStudent;
 };
 
 #endif // EDITSTUDENTDIALOG_H

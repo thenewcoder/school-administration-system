@@ -32,6 +32,9 @@ EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
     ui->lvClasses->setModel(mModelClasses);
 
     setupConnections();
+
+    // disable the OK button
+    toggleSaveButton(false);
 }
 
 EditTeacherDialog::~EditTeacherDialog()
@@ -183,6 +186,9 @@ void EditTeacherDialog::setClassesTaught(const QStringList &classes)
 
 void EditTeacherDialog::setupConnections()
 {
+    // add connection to check if the save button should be enabled or disabled
+    connect(ui->leName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+
     connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
         QString filename = QFileDialog::getOpenFileName(this,
                                                         tr("Choose an image"),
@@ -207,7 +213,7 @@ void EditTeacherDialog::setupConnections()
         QStringList all = DatabaseManager::instance().classes();
         SelectorDialog edit(tr("Edit Teacher Classes"),
                             all,
-                            DatabaseManager::instance().classesTaught(getId()),
+                            mModelClasses->stringList(),
                             this);
 
         if (edit.exec() == QDialog::Accepted)
@@ -216,7 +222,11 @@ void EditTeacherDialog::setupConnections()
             mModelClasses->setStringList(edit.getItems());
         }
     });
+}
 
+void EditTeacherDialog::toggleSaveButton(bool state)
+{
+    ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(state);
 }
 
 void EditTeacherDialog::on_buttonBox_accepted()
@@ -227,4 +237,15 @@ void EditTeacherDialog::on_buttonBox_accepted()
 void EditTeacherDialog::on_buttonBox_rejected()
 {
     reject();
+}
+
+void EditTeacherDialog::onProfileHasChanged()
+{
+    bool hasChanged = false;
+
+    // if a teacher name has been entered, enable save button
+    if (!ui->leName->text().isEmpty())
+        hasChanged = true;
+
+    toggleSaveButton(hasChanged);
 }
