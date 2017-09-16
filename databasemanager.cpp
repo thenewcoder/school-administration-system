@@ -1307,6 +1307,18 @@ void DatabaseManager::removeStudent(const QString &studentId)
 
 void DatabaseManager::removeTeacher(const QString &teacherId)
 {
+    // remove the teacher from class_record - attendance
+    if (!removeTableRows("class_record", "teacherId", teacherId))
+    {
+        qDebug() << "Unable to delete the class records associated with the teacher";
+    }
+
+    // remove the teacher from the activity table TODO: really delete without warning first?? change later
+    if (!removeTableRows("activity", "teacherId", teacherId))
+    {
+        qDebug() << "Unable to delete the activities associated with the teacher";
+    }
+
     // remove teacher from teacher_class connection
     if (!removeTableRows("teacher_class", "teacherId", teacherId))
     {
