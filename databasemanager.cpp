@@ -286,7 +286,8 @@ QStringList DatabaseManager::studentsOfClass(const QString &className)
     query.prepare("SELECT S.name FROM class_student CS "
                   "LEFT OUTER JOIN student S ON S.studentId = CS.studentId "
                   "LEFT OUTER JOIN class C ON C.classId = CS.classId "
-                  "WHERE C.className = :className");
+                  "WHERE C.className = :className "
+                  "ORDER BY S.name");
     query.bindValue(":className", className);
 
     if (query.exec())

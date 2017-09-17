@@ -46,8 +46,6 @@ EditAttendanceDialog::EditAttendanceDialog(QWidget *parent) :
     ui->twAttendance->setHorizontalHeaderLabels(headerLabels);
     ui->twAttendance->setColumnWidth(0, 220);
 
-    ui->twAttendance->sortByColumn(0, Qt::AscendingOrder);
-
     setupConnections();
 }
 
@@ -211,7 +209,6 @@ void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap
                     if (val == col)
                         rbtn->setChecked(true);
                 }
-
             }
 
             // Create an empty widget
