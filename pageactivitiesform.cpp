@@ -68,6 +68,7 @@ void PageActivitiesForm::setupRefreshButtons()
 
 void PageActivitiesForm::setupAddButtons()
 {
+    // add a new sport
     connect(ui->btnAddSports, &QPushButton::clicked, [this] () {
         EditActivityDialog add(this, tr("Add a New Sports Activity"));
 
@@ -83,6 +84,7 @@ void PageActivitiesForm::setupAddButtons()
         }
     });
 
+    // add a new after school activity
     connect(ui->btnAddAfterSchool, &QPushButton::clicked, [this] () {
         EditActivityDialog add(this, tr("Add a New After-School Activity"));
 
@@ -101,6 +103,7 @@ void PageActivitiesForm::setupAddButtons()
 
 void PageActivitiesForm::setupEditButtons()
 {
+    // edit an existing sport
     connect(ui->btnEditSports, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->tvSports->currentIndex();
         if (index.isValid())
@@ -112,7 +115,7 @@ void PageActivitiesForm::setupEditButtons()
             Activity activity = DatabaseManager::instance().getActivity(id);
 
             // prepare the edit dialog
-            EditActivityDialog edit(this, tr("Edit a Sports Activity"));
+            EditActivityDialog edit(this, tr("Edit a Sports Activity"), true);
             edit.setActivity(activity);
 
             if (edit.exec() == QDialog::Accepted)
@@ -129,6 +132,7 @@ void PageActivitiesForm::setupEditButtons()
         }
     });
 
+    // edit an after school activity
     connect(ui->btnEditAfterSchool, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->tvAfterSchool->currentIndex();
         if (index.isValid())
@@ -140,7 +144,7 @@ void PageActivitiesForm::setupEditButtons()
             Activity activity = DatabaseManager::instance().getActivity(id);
 
             // prepare the edit dialog
-            EditActivityDialog edit(this, tr("Edit an After-School Activity"));
+            EditActivityDialog edit(this, tr("Edit an After-School Activity"), true);
             edit.setActivity(activity);
 
             if (edit.exec() == QDialog::Accepted)
@@ -160,6 +164,7 @@ void PageActivitiesForm::setupEditButtons()
 
 void PageActivitiesForm::setupDeleteButtons()
 {
+    // delete a sport
     connect(ui->btnDeleteSports, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->tvSports->currentIndex();
         if (index.isValid())
@@ -181,6 +186,7 @@ void PageActivitiesForm::setupDeleteButtons()
         }
     });
 
+    // delete an after school activity
     connect(ui->btnDeleteAfterSchool, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->tvAfterSchool->currentIndex();
         if (index.isValid())

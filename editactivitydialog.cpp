@@ -1,12 +1,13 @@
 ﻿#include "editactivitydialog.h"
 #include "ui_editactivitydialog.h"
 
+#include <QPushButton>
 #include "databasemanager.h"
-#include "activity.h"
 
-EditActivityDialog::EditActivityDialog(QWidget *parent, const QString &title) :
+EditActivityDialog::EditActivityDialog(QWidget *parent, const QString &title, bool isEditMode) :
     QDialog(parent),
-    ui(new Ui::EditActivityDialog)
+    ui(new Ui::EditActivityDialog),
+    mEditMode(isEditMode)
 {
     ui->setupUi(this);
 
@@ -20,6 +21,11 @@ EditActivityDialog::EditActivityDialog(QWidget *parent, const QString &title) :
     QStringList advisors;
     advisors << "" << DatabaseManager::instance().teachers();
     ui->cbAdvisor->addItems(advisors);
+
+    setupConnections();
+
+    // start with OK button disabled
+    toggleOKButton(false);
 }
 
 EditActivityDialog::~EditActivityDialog()
@@ -45,6 +51,49 @@ void EditActivityDialog::setActivity(const Activity &activity)
     setDescription(activity.description());
     setAdvisor(activity.advisor());
     setMembershipLimit(activity.limit());
+
+    // save a copy of the activity object
+    mActivity = activity;
+
+    // setup the connections for edit mode
+    setupDetectEditConnections();
+}
+
+void EditActivityDialog::onProfileHasChanged()
+{
+    bool hasChanged = false;
+
+    if (!ui->leName->text().isEmpty() && !mEditMode)
+        hasChanged = true;
+    else if (mEditMode)
+    {
+        if (mActivity.code() != code())
+            hasChanged = true;
+        else if (mActivity.name() != activityName())
+            hasChanged = true;
+        else if (mActivity.description() != description())
+            hasChanged = true;
+        else if (mActivity.advisor() != advisor())
+            hasChanged = true;
+        else if (mActivity.limit() != membershipLimit())
+            hasChanged = true;
+    }
+    toggleOKButton(hasChanged);
+}
+
+void EditActivityDialog::setupConnections()
+{
+    // setup connection to determine if the OK button should be enabled
+    connect(ui->leName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+}
+
+void EditActivityDialog::setupDetectEditConnections()
+{
+    // setup connections for edit mode
+    connect(ui->leCode, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->pteDescription, SIGNAL(textChanged()), this, SLOT(onProfileHasChanged()));
+    connect(ui->cbAdvisor, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->leMembership, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
 }
 
 QString EditActivityDialog::code() const
@@ -95,4 +144,9 @@ QString EditActivityDialog::membershipLimit() const
 void EditActivityDialog::setMembershipLimit(const QString &limit)
 {
     ui->leMembership->setText(limit);
+}
+
+void EditActivityDialog::toggleOKButton(bool state)
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(state);
 }
