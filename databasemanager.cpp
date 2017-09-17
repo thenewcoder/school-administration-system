@@ -1291,66 +1291,77 @@ bool DatabaseManager::updateSubject(const QString &oldName, const QString &newNa
     return true;
 }
 
-void DatabaseManager::removeStudent(const QString &studentId)
+bool DatabaseManager::removeStudent(const QString &studentId)
 {
     // remove student from the class attendance_record
     if (!removeTableRows("attendance_record", "studentId", studentId))
     {
         qDebug() << "Unable to delete student's attendance record";
+        return false;
     }
 
     // remove the student from the class_student table
     if (!removeTableRows("class_student", "studentId", studentId))
     {
         qDebug() << "Unable to delete student's class_student connection";
+        return false;
     }
 
     // remove the student entry
     if (!removeTableRows("student", "studentId", studentId))
     {
         qDebug() << "Unable to delete student";
+        return false;
     }
+    return true;
 }
 
-void DatabaseManager::removeTeacher(const QString &teacherId)
+bool DatabaseManager::removeTeacher(const QString &teacherId)
 {
     // remove the teacher from class_record - attendance
     if (!removeTableRows("class_record", "teacherId", teacherId))
     {
         qDebug() << "Unable to delete the class records associated with the teacher";
+        return false;
     }
 
     // remove the teacher from the activity table TODO: really delete without warning first?? change later
     if (!removeTableRows("activity", "teacherId", teacherId))
     {
         qDebug() << "Unable to delete the activities associated with the teacher";
+        return false;
     }
 
     // remove teacher from teacher_class connection
     if (!removeTableRows("teacher_class", "teacherId", teacherId))
     {
         qDebug() << "Unable to delete teacher's teacher_class connection";
+        return false;
     }
 
     // remove teacher entry
     if (!removeTableRows("teacher", "teacherId", teacherId))
     {
         qDebug() << "Unable to delete teacher";
+        return false;
     }
+    return true;
 }
 
-void DatabaseManager::removeClass(const QString &classId)
+bool DatabaseManager::removeClass(const QString &classId)
 {
     // remove record from teacher_class table
     if (!removeTableRows("teacher_class", "classId", classId))
     {
         qDebug() << "Unable to delete class reference from teacher_class table";
+        return false;
     }
 
     // remove record from class_student table
     if (!removeTableRows("class_student", "classId", classId))
     {
         qDebug() << "Unable to delete class reference from class_student table";
+        return false;
     }
 
     // finally remove record from class table
@@ -1358,11 +1369,12 @@ void DatabaseManager::removeClass(const QString &classId)
     {
         qDebug() << "classId to delete:" << classId;
         qDebug() << "Unable to delete from class table";
-        return;
+        return false;
     }
+    return true;
 }
 
-void DatabaseManager::removeGrade(const QString &grade)
+bool DatabaseManager::removeGrade(const QString &grade)
 {
     QSqlQuery query;
     query.prepare(QString("DELETE FROM grade WHERE name = '%1'").arg(grade));
@@ -1371,10 +1383,12 @@ void DatabaseManager::removeGrade(const QString &grade)
     {
         qDebug() << "Unable to delete grade:" << grade;
         qDebug() << query.lastError().text();
+        return false;
     }
+    return true;
 }
 
-void DatabaseManager::removeSubject(const QString &subject)
+bool DatabaseManager::removeSubject(const QString &subject)
 {
     QSqlQuery query;
     query.prepare(QString("DELETE FROM subject WHERE subjectName = '%1'").arg(subject));
@@ -1383,7 +1397,9 @@ void DatabaseManager::removeSubject(const QString &subject)
     {
         qDebug() << "Unable to delete subject:" << subject;
         qDebug() << query.lastError().text();
+        return false;
     }
+    return true;
 }
 
 bool DatabaseManager::removeTableRows(const QString &table, const QString &col, const QString &id)

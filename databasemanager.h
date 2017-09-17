@@ -78,11 +78,11 @@ public:
     bool updateGrade(const QString &oldName, const QString &newName);
     bool updateSubject(const QString &oldName, const QString &newName);
 
-    void removeStudent(const QString &studentId);
-    void removeTeacher(const QString &teacherId);
-    void removeClass(const QString &classId);
-    void removeGrade(const QString &grade);
-    void removeSubject(const QString &subject);
+    bool removeStudent(const QString &studentId);
+    bool removeTeacher(const QString &teacherId);
+    bool removeClass(const QString &classId);
+    bool removeGrade(const QString &grade);
+    bool removeSubject(const QString &subject);
     bool removeTableRows(const QString &table, const QString &col, const QString &id);
     bool removeClassRecord(const QString &recordId);
     bool removeActivity(const QString &activityId);

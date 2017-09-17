@@ -448,10 +448,9 @@ LEFT OUTER JOIN class_summary CS ON CS.classId = CR.classId
 ORDER BY date DESC, C.className;
 
 CREATE VIEW attendance_summary AS
-SELECT C.className 'Class', S.name 'Student', AT.type 'Status'
+SELECT C.className 'Class', S.name 'Student', AR.attendance_type_id 'Status'
 FROM attendance_record AR
 LEFT OUTER JOIN student S ON S.studentId = AR.studentId
-LEFT OUTER JOIN attendance_type AT ON AT.typeId = AR.attendance_type_id
 LEFT OUTER JOIN class_record CR ON CR.recordId = AR.class_record_id
 LEFT OUTER JOIN class C ON C.classId = CR.classId;
 
