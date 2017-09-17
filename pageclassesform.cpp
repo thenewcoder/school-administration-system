@@ -75,7 +75,7 @@ void PageClassesForm::setupConnections()
         {
             QString id = mModel->data(mModel->index(index.row(), 0)).toString();
 
-            EditClassDialog edit(tr("Edit Class"), this);
+            EditClassDialog edit(tr("Edit Class"), this, true);
             edit.setClass(DatabaseManager::instance().getClass(id));
 
             if (edit.exec() == QDialog::Accepted)

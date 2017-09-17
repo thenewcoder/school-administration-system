@@ -2,12 +2,12 @@
 #define EDITCLASSDIALOG_H
 
 #include <QDialog>
+#include "class.h"
 
 namespace Ui {
 class EditClassDialog;
 }
 
-class Class;
 class QStringListModel;
 
 class EditClassDialog : public QDialog
@@ -15,7 +15,7 @@ class EditClassDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditClassDialog(const QString &title, QWidget *parent = 0);
+    explicit EditClassDialog(const QString &title, QWidget *parent = 0, bool isEditMode = false);
     ~EditClassDialog();
 
     QString grade() const;
@@ -39,14 +39,24 @@ public:
     void setClass(const Class &c);
     Class getClass() const;
 
+
+private slots:
+    void onProfileHasChanged();
+
 private:
     void setupConnections();
+    void setupDetectEditConnections();
+    void toggleOKButton(bool state);
 
 private:
     Ui::EditClassDialog *ui;
 
     QStringListModel *mModelTeachers;
     QStringListModel *mModelStudents;
+
+    bool mEditMode;
+
+    Class mClass;
 };
 
 #endif // EDITCLASSDIALOG_H

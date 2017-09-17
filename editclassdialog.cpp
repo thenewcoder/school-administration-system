@@ -2,17 +2,17 @@
 #include "ui_editclassdialog.h"
 
 #include <QStringListModel>
-#include "class.h"
 #include "databasemanager.h"
 #include "selectordialog.h"
 
 #include <QDebug>
 
-EditClassDialog::EditClassDialog(const QString &title, QWidget *parent) :
+EditClassDialog::EditClassDialog(const QString &title, QWidget *parent, bool isEditMode) :
     QDialog(parent),
     ui(new Ui::EditClassDialog),
     mModelTeachers(new QStringListModel(this)),
-    mModelStudents(new QStringListModel(this))
+    mModelStudents(new QStringListModel(this)),
+    mEditMode(isEditMode)
 {
     ui->setupUi(this);
 
@@ -28,18 +28,24 @@ EditClassDialog::EditClassDialog(const QString &title, QWidget *parent) :
     grades << "" << DatabaseManager::instance().grades();
     ui->cbGrades->setModel(new QStringListModel(grades));
     ui->cbGrades->model()->sort(0);
+    ui->cbGrades->setCurrentIndex(0);
 
     // set up the subjects combo box
     QStringList subs = DatabaseManager::instance().subjects();
     ui->cbSubject->setModel(new QStringListModel(subs));
     ui->cbSubject->model()->sort(0);
+    ui->cbSubject->setCurrentIndex(0);
 
     // set up the classrooms combo box
     QStringList rooms;
     rooms << "" << DatabaseManager::instance().classrooms();
     ui->cbClassroom->setModel(new QStringListModel(rooms));
+    ui->cbClassroom->setCurrentIndex(0);
 
     setupConnections();
+
+    // start with ok button disabled
+    toggleOKButton(false);
 }
 
 EditClassDialog::~EditClassDialog()
@@ -123,6 +129,12 @@ void EditClassDialog::setClass(const Class &c)
     setClassroom(c.classRoom());
     setTeachers(c.teachers());
     setStudents(c.students());
+
+    // save a copy of the class object
+    mClass = c;
+
+    // setup connections for edit mode
+    setupDetectEditConnections();
 }
 
 Class EditClassDialog::getClass() const
@@ -137,8 +149,68 @@ Class EditClassDialog::getClass() const
     return c;
 }
 
+void EditClassDialog::onProfileHasChanged()
+{
+    bool hasChanged = false;
+
+    if (!ui->leClassName->text().isEmpty() && !mEditMode)
+        hasChanged = true;
+    if (mEditMode)
+    {
+        if (mClass.className() != className())
+            hasChanged = true;
+        else if (mClass.getGrade() != grade())
+            hasChanged = true;
+        else if (mClass.subject() != subject())
+            hasChanged = true;
+        else if (mClass.classRoom() != classroom())
+            hasChanged = true;
+
+        // check if the associated teachers list has changed
+        if (mClass.teachers().length() != mModelTeachers->stringList().length())
+            hasChanged = true;
+        else // same length but values might be different
+        {
+            QStringList tmp = mClass.teachers();
+
+            for (QString &v : mModelTeachers->stringList())
+            {
+                if (tmp.contains(v)) // if found in tmp remove it
+                    tmp.removeOne(v);
+            }
+
+            // if length of tmp is not zero, a change has been made
+            if (!tmp.isEmpty())
+                hasChanged = true;
+        }
+
+        // check if the associated students list has changed
+        if (mClass.students().length() != mModelStudents->stringList().length())
+            hasChanged = true;
+        else // same length but values might be different
+        {
+            QStringList tmp = mClass.students();
+
+            for (QString &v : mModelStudents->stringList())
+            {
+                if (tmp.contains(v)) // if found in tmp remove it
+                    tmp.removeOne(v);
+            }
+
+            // if length of tmp is not zero, a change has been made
+            if (!tmp.isEmpty())
+                hasChanged = true;
+        }
+    }
+    toggleOKButton(hasChanged);
+}
+
 void EditClassDialog::setupConnections()
 {
+    // add connection to check if the save button should be enabled or disabled
+    connect(ui->leClassName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
+
+    // edit associated teachers
     connect(ui->btnEditTeachers, &QPushButton::clicked, [this] () {
         QStringList all = DatabaseManager::instance().teachers();
         SelectorDialog edit(tr("Edit Teachers"),
@@ -149,9 +221,12 @@ void EditClassDialog::setupConnections()
         {
             // set the new teachers string list
             setTeachers(edit.getItems());
+
+            onProfileHasChanged();
         }
     });
 
+    // edit associated students
     connect(ui->btnEditStudents, &QPushButton::clicked, [this] () {
         QStringList all = DatabaseManager::instance().students();
         SelectorDialog edit(tr("Edit Students"),
@@ -162,6 +237,21 @@ void EditClassDialog::setupConnections()
         {
             // set the new students string list
             setStudents(edit.getItems());
+
+            onProfileHasChanged();
         }
     });
+}
+
+void EditClassDialog::setupDetectEditConnections()
+{
+    // add connections specifically for edit mode
+    connect(ui->cbGrades, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->cbSubject, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->cbClassroom, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+}
+
+void EditClassDialog::toggleOKButton(bool state)
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(state);
 }
