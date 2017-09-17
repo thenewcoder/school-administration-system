@@ -823,7 +823,7 @@ ClassRecord DatabaseManager::getClassRecord(const QString &recordId)
     record.setRecordId(recordId);
 
     QSqlQuery query;
-    query.prepare("SELECT CR.date, C.className, T.name "
+    query.prepare("SELECT CR.date, C.className, T.name 'name' "
                   "FROM class_record CR "
                   "LEFT OUTER JOIN class C ON C.classId = CR.classId "
                   "LEFT OUTER JOIN teacher T ON T.teacherId = CR.teacherId "
@@ -1292,6 +1292,12 @@ bool DatabaseManager::updateSubject(const QString &oldName, const QString &newNa
 
 void DatabaseManager::removeStudent(const QString &studentId)
 {
+    // remove student from the class attendance_record
+    if (!removeTableRows("attendance_record", "studentId", studentId))
+    {
+        qDebug() << "Unable to delete student's attendance record";
+    }
+
     // remove the student from the class_student table
     if (!removeTableRows("class_student", "studentId", studentId))
     {

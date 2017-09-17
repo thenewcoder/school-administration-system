@@ -91,7 +91,9 @@ void EditAttendanceDialog::setDate(const QString &date)
 
 QString EditAttendanceDialog::getTeacher() const
 {
-    if (ui->cbTeachers->currentIndex() != 0)
+    if (mIsEditMode)
+        return ui->cbTeachers->currentText();
+    else if (ui->cbTeachers->currentIndex() != 0)
         return ui->cbTeachers->currentText();
     return QString();
 }
