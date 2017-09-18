@@ -2,6 +2,7 @@
 #include "ui_editactivitydialog.h"
 
 #include <QPushButton>
+#include <QRegExpValidator>
 #include "databasemanager.h"
 
 EditActivityDialog::EditActivityDialog(QWidget *parent, const QString &title, bool isEditMode) :
@@ -21,6 +22,10 @@ EditActivityDialog::EditActivityDialog(QWidget *parent, const QString &title, bo
     QStringList advisors;
     advisors << "" << DatabaseManager::instance().teachers();
     ui->cbAdvisor->addItems(advisors);
+
+    // setup a validator for the membership limit line edit, between 1 - 9999
+    QValidator *validator = new QRegExpValidator(QRegExp("[1-9][0-9]{1,3}"), this);
+    ui->leMembership->setValidator(validator);
 
     setupConnections();
 
