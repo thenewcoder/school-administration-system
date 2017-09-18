@@ -616,7 +616,7 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
     const QMap<QString, int> &att = record.getAttendance();
     for (auto &student : att.keys())
     {
-        query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type_id) "
+        query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type) "
                       "VALUES(:recordId,"
                       "(SELECT studentId FROM student WHERE name = :name),"
                       ":attendanceId)");
@@ -847,7 +847,7 @@ ClassRecord DatabaseManager::getClassRecord(const QString &recordId)
     }
 
     // get the attendance records
-    query.prepare("SELECT S.name, attendance_type_id "
+    query.prepare("SELECT S.name, attendance_type "
                   "FROM attendance_record AR "
                   "LEFT OUTER JOIN student S ON S.studentId = AR.studentId "
                   "WHERE class_record_id = :recordId");
@@ -1133,7 +1133,7 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
     {
 
         query.prepare(QString("UPDATE attendance_record SET "
-                      "attendance_type_id = %1 "
+                      "attendance_type = %1 "
                       "WHERE class_record_id = %2 AND "
                       "studentId = (SELECT studentId FROM student WHERE name = '%3')").arg(QString::number(att.value(student)),
                                                                                            record.getRecordId(),
@@ -1319,16 +1319,16 @@ bool DatabaseManager::removeStudent(const QString &studentId)
 bool DatabaseManager::removeTeacher(const QString &teacherId)
 {
     // remove the teacher from class_record - attendance
-    if (!removeTableRows("class_record", "teacherId", teacherId))
+    if (!clearColumnEntry("class_record", "teacherId", teacherId))
     {
-        qDebug() << "Unable to delete the class records associated with the teacher";
+        qDebug() << "Unable to remove the teacher from the class records";
         return false;
     }
 
-    // remove the teacher from the activity table TODO: really delete without warning first?? change later
-    if (!removeTableRows("activity", "teacherId", teacherId))
+    // remove the teacher from the activity table
+    if (!clearColumnEntry("activity", "teacherId", teacherId))
     {
-        qDebug() << "Unable to delete the activities associated with the teacher";
+        qDebug() << "Unable to remove the teacher from activities";
         return false;
     }
 
@@ -1357,14 +1357,21 @@ bool DatabaseManager::removeClass(const QString &classId)
         return false;
     }
 
-    // remove record from class_student table
+    // remove class from class_student table
     if (!removeTableRows("class_student", "classId", classId))
     {
         qDebug() << "Unable to delete class reference from class_student table";
         return false;
     }
 
-    // finally remove record from class table
+    // remove class from the class_record table
+    if (!removeTableRows("class_record", "classId", classId))
+    {
+        qDebug() << "Unable to delete class reference from class_record";
+        return false;
+    }
+
+    // finally remove class from class table
     if (!removeTableRows("class", "classId", classId))
     {
         qDebug() << "classId to delete:" << classId;
@@ -1377,12 +1384,37 @@ bool DatabaseManager::removeClass(const QString &classId)
 bool DatabaseManager::removeGrade(const QString &grade)
 {
     QSqlQuery query;
-    query.prepare(QString("DELETE FROM grade WHERE name = '%1'").arg(grade));
+
+    // remove the grade connection to the class table
+    query.prepare("UPDATE class SET "
+                  "gradeId = NULL "
+                  "WHERE gradeId = (SELECT gradeId FROM grade WHERE name = :grade)");
+    query.bindValue(":grade", grade);
 
     if (!query.exec())
     {
-        qDebug() << "Unable to delete grade:" << grade;
+        qDebug() << "Unable to delete grade association in the class table";
         qDebug() << query.lastError().text();
+        return false;
+    }
+
+    // remove the grade connection to the student table
+    query.prepare("UPDATE student SET "
+                  "gradeId = NULL "
+                  "WHERE gradeId = (SELECT gradeId FROM grade WHERE name = :grade)");
+    query.bindValue(":grade", grade);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to delete grade association in the student table";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+
+    // remove the grade record
+    if (!removeTableRows("grade", "name", grade))
+    {
+        qDebug() << "Unable to delete grade:" << grade;
         return false;
     }
     return true;
@@ -1390,13 +1422,24 @@ bool DatabaseManager::removeGrade(const QString &grade)
 
 bool DatabaseManager::removeSubject(const QString &subject)
 {
+    // remove the subject connection to the class table
     QSqlQuery query;
-    query.prepare(QString("DELETE FROM subject WHERE subjectName = '%1'").arg(subject));
+    query.prepare("UPDATE class SET "
+                  "subjectId = NULL "
+                  "WHERE subjectId = (SELECT subjectId FROM subject WHERE subjectName = :subject)");
+    query.bindValue(":subject", subject);
 
     if (!query.exec())
     {
-        qDebug() << "Unable to delete subject:" << subject;
+        qDebug() << "Unable to remove subject association to the class table";
         qDebug() << query.lastError().text();
+        return false;
+    }
+
+    // remove the subject
+    if (!removeTableRows("subject", "subjectName", subject))
+    {
+        qDebug() << "Unable to delete subject:" << subject;
         return false;
     }
     return true;
@@ -1405,7 +1448,7 @@ bool DatabaseManager::removeSubject(const QString &subject)
 bool DatabaseManager::removeTableRows(const QString &table, const QString &col, const QString &id)
 {
     QSqlQuery query;
-    query.prepare(QString("DELETE FROM %1 WHERE %2 = %3").arg(table, col, id));
+    query.prepare(QString("DELETE FROM `%1` WHERE `%2` = '%3'").arg(table, col, id));
 
     if (!query.exec())
     {
@@ -1419,10 +1462,10 @@ bool DatabaseManager::removeTableRows(const QString &table, const QString &col, 
 bool DatabaseManager::removeClassRecord(const QString &recordId)
 {
     // remove rows from attendance_record with the recordId
-    bool op2 = removeTableRows("attendance_record", "class_record_id", recordId);
+    bool op1 = removeTableRows("attendance_record", "class_record_id", recordId);
 
     // remove row from class_record
-    bool op1 = removeTableRows("class_record", "recordId", recordId);
+    bool op2 = removeTableRows("class_record", "recordId", recordId);
 
     return op1 && op2;
 }
@@ -1430,6 +1473,77 @@ bool DatabaseManager::removeClassRecord(const QString &recordId)
 bool DatabaseManager::removeActivity(const QString &activityId)
 {
     return removeTableRows("activity", "activityId", activityId);
+}
+
+bool DatabaseManager::clearColumnEntry(const QString &table, const QString &col, const QString &id)
+{
+    QSqlQuery query;
+    query.prepare(QString("UPDATE %1 SET "
+                          "%2 = NULL "
+                          "WHERE %2 = %3").arg(table, col, id));
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to clear the column entry";
+        qDebug() << query.lastError().text();
+        qDebug() << query.lastQuery();
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::removeClassroom(const QString &roomId)
+{
+    // remove classroom connection from the class table
+    if (!clearColumnEntry("class", "classroomId", roomId))
+    {
+        qDebug() << "Unable to remove classroom association to class table";
+        return false;
+    }
+
+    // remove the classroom
+    if (!removeTableRows("classroom", "classroomId", roomId))
+    {
+        qDebug() << "Unable to delete a classroom";
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::removeBusstop(const QString &busstopId)
+{
+    // remove bus stop connections to the student table
+    if (!clearColumnEntry("student", "busstopId", busstopId))
+    {
+        qDebug() << "Unable to remove association in the student table";
+        return false;
+    }
+
+    // remove the bus stop
+    if (!removeTableRows("bus_stop", "busstopId", busstopId))
+    {
+        qDebug() << "Unable to delete a bus stop";
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::removeDormitory(const QString &dormId)
+{
+    // remove dormitory connection from student table
+    if (!clearColumnEntry("student", "dormitoryId", dormId))
+    {
+        qDebug() << "Unable to remove association to student table";
+        return false;
+    }
+
+    // remove the dormitory
+    if (!removeTableRows("dormitory", "dormitoryId", dormId))
+    {
+        qDebug() << "Unable to remove dormitory";
+        return false;
+    }
+    return true;
 }
 
 QStringList DatabaseManager::classesTaken(const QString &id)

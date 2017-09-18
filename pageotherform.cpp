@@ -247,7 +247,9 @@ void PageOtherForm::setupDeleteButtons()
                                               QMessageBox::Ok | QMessageBox::Cancel);
             if (result == QMessageBox::Ok)
             {
-                mModelClassrooms->removeRow(index.row());
+                QString roomId = mModelClassrooms->data(mModelClassrooms->index(index.row(), FIELDS::ID)).toString();
+                DatabaseManager::instance().removeClassroom(roomId);
+                //mModelClassrooms->removeRow(index.row());
                 mModelClassrooms->select();
             }
         }
@@ -263,7 +265,8 @@ void PageOtherForm::setupDeleteButtons()
                                               QMessageBox::Ok | QMessageBox::Cancel);
             if (result == QMessageBox::Ok)
             {
-                mModelDormitories->removeRow(index.row());
+                QString dormId = mModelDormitories->data(mModelDormitories->index(index.row(), FIELDS::ID)).toString();
+                DatabaseManager::instance().removeDormitory(dormId);
                 mModelDormitories->select();
             }
         }
@@ -279,7 +282,8 @@ void PageOtherForm::setupDeleteButtons()
                                               QMessageBox::Ok | QMessageBox::Cancel);
             if (result == QMessageBox::Ok)
             {
-                mModelBusStops->removeRow(index.row());
+                QString busstopId = mModelBusStops->data(mModelBusStops->index(index.row(), FIELDS::ID)).toString();
+                DatabaseManager::instance().removeBusstop(busstopId);
                 mModelBusStops->select();
             }
         }

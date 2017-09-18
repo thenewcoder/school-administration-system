@@ -86,6 +86,11 @@ public:
     bool removeTableRows(const QString &table, const QString &col, const QString &id);
     bool removeClassRecord(const QString &recordId);
     bool removeActivity(const QString &activityId);
+    bool clearColumnEntry(const QString &table, const QString &col, const QString &id);
+
+    bool removeClassroom(const QString &roomId);
+    bool removeBusstop(const QString &busstopId);
+    bool removeDormitory(const QString &dormId);
 
     QStringList classesTaken(const QString &id);
     QStringList classesTaught(const QString &id);

@@ -211,6 +211,9 @@ void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap
             QRadioButton *rbtn = new QRadioButton;
             grp->addButton(rbtn);
 
+            // setup connections for the radio buttons
+            connect(rbtn, SIGNAL(toggled(bool)), this, SLOT(onProfileHasChanged()));
+
             if (takeAttendance) // TODO: clean this up a bit
             {
                 if (attendance.contains(student))
@@ -370,8 +373,8 @@ void EditAttendanceDialog::onProfileHasChanged()
             hasChanged = true;
         else if (mRecord.getTeacher() != getTeacher())
             hasChanged = true;
-        //        else if (mRecord.getAttendance() != getAttendance()) // TODO: how to compare QMap?
-        //            hasChanged = true;
+        else if (mRecord.getAttendance() != getAttendance())
+            hasChanged = true;
     }
     toggleOKButton(hasChanged);
 }

@@ -51,6 +51,9 @@ void PageAttendanceForm::setupConnections()
         add.setWindowTitle(tr("Add a New Class Record"));
         if (add.exec() == QDialog::Accepted)
         {
+            // insert a new class record into the database
+            DatabaseManager::instance().addClassRecord(add.getClassRecord());
+
             // update the table view
             updateAttendanceTable();
         }
@@ -73,6 +76,9 @@ void PageAttendanceForm::setupConnections()
 
             if (edit.exec() == QDialog::Accepted)
             {
+                // update the class record in the database
+                DatabaseManager::instance().saveClassRecord(edit.getClassRecord());
+
                 // update the table view
                 updateAttendanceTable();
             }
