@@ -310,10 +310,10 @@ QStringList DatabaseManager::teachersOfClass(const QString &className)
 {
     QStringList teachers;
 
-    QSqlQuery query;
+    QSqlQuery query;  // TODO: check if this query actually gets the correct values
     query.prepare("SELECT T.name FROM teacher_class TC "
-                  "LEFT OUTER JOIN teacher T ON T.teacherId = TC.teacherId "
-                  "LEFT OUTER JOIN class C ON C.classId = TC.classId "
+                  "JOIN teacher T ON T.teacherId = TC.teacherId "
+                  "JOIN class C ON C.classId = TC.classId "
                   "WHERE C.className = :className");
     query.bindValue(":className", className);
 

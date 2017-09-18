@@ -42,8 +42,10 @@ PageAttendanceForm::~PageAttendanceForm()
 
 void PageAttendanceForm::setupConnections()
 {
+    // refresh the table view
     connect(ui->btnRefresh, &QPushButton::clicked, this, &PageAttendanceForm::updateAttendanceTable);
 
+    // add a new attendance record
     connect(ui->btnAdd, &QPushButton::clicked, [this] () {
         EditAttendanceDialog add(this);
         add.setWindowTitle(tr("Add a New Class Record"));
@@ -54,6 +56,7 @@ void PageAttendanceForm::setupConnections()
         }
     });
 
+    // edit an existing attendance record
     connect(ui->btnEdit, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->tvAttendance->currentIndex();
         if (index.isValid())
@@ -61,10 +64,9 @@ void PageAttendanceForm::setupConnections()
             // get the id selected record id
             QString recordId = mModel->data(mModel->index(index.row(), 0)).toString();
 
-            EditAttendanceDialog edit(this);
+            EditAttendanceDialog edit(this, true);
             edit.setWindowTitle(tr("Edit an Existing Class Record"));
             //edit.setRecordId(recordId);
-            edit.setIsEditMode(true);
 
             // get the record from the database
             edit.setClassRecord(DatabaseManager::instance().getClassRecord(recordId));
@@ -77,6 +79,7 @@ void PageAttendanceForm::setupConnections()
         }
     });
 
+    // delete an attendance record
     connect(ui->btnDelete, &QPushButton::clicked, [this] () {
         QModelIndex index = ui->tvAttendance->currentIndex();
         if (index.isValid())

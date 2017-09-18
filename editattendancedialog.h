@@ -25,7 +25,7 @@ public:
     };
 
 public:
-    explicit EditAttendanceDialog(QWidget *parent = 0);
+    explicit EditAttendanceDialog(QWidget *parent = 0, bool isEditMode = false);
     ~EditAttendanceDialog();
 
     QString getClass() const;
@@ -46,17 +46,15 @@ public:
     QMap<QString, int> getAttendance() const;
     void setAttendance(const QStringList &students, const QMap<QString, int> &attendance = QMap<QString, int>());
 
-    bool getIsEditMode() const;
-    void setIsEditMode(bool isEditmode);
-
     void populateTeachersBox(const QString &className);
 
 private:
     void setupConnections();
+    void setupDetectEditConnections();
+    void toggleOKButton(bool state);
 
-    // QDialog interface
-public slots:
-    virtual void accept() override;
+private slots:
+    void onProfileHasChanged();
 
 private:
     Ui::EditAttendanceDialog *ui;
@@ -67,7 +65,7 @@ private:
     QString mRecordId;
     ClassRecord mRecord;
 
-    bool mIsEditMode;
+    bool mEditMode;
 };
 
 #endif // EDITATTENDANCEDIALOG_H

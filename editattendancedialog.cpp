@@ -9,14 +9,15 @@
 #include "databasemanager.h"
 
 #include <QDebug>
+#include <QPushButton>
 #include <QRadioButton>
 
-EditAttendanceDialog::EditAttendanceDialog(QWidget *parent) :
+EditAttendanceDialog::EditAttendanceDialog(QWidget *parent, bool isEditMode) :
     QDialog(parent),
     ui(new Ui::EditAttendanceDialog),
     mModelClasses(new QStringListModel(this)),
     mModelTeachers(new QStringListModel(this)),
-    mIsEditMode(false)
+    mEditMode(isEditMode)
 {
     ui->setupUi(this);
 
@@ -47,6 +48,12 @@ EditAttendanceDialog::EditAttendanceDialog(QWidget *parent) :
     ui->twAttendance->setColumnWidth(0, 220);
 
     setupConnections();
+
+    // start with OK button disabled
+    toggleOKButton(false);
+
+    // set state of check box depending on the mode
+    ui->cbShowAllTeachers->setEnabled(isEditMode);
 }
 
 EditAttendanceDialog::~EditAttendanceDialog()
@@ -89,7 +96,7 @@ void EditAttendanceDialog::setDate(const QString &date)
 
 QString EditAttendanceDialog::getTeacher() const
 {
-    if (mIsEditMode)
+    if (mEditMode)
         return ui->cbTeachers->currentText();
     else if (ui->cbTeachers->currentIndex() != 0)
         return ui->cbTeachers->currentText();
@@ -140,6 +147,9 @@ void EditAttendanceDialog::setClassRecord(const ClassRecord &record)
 
     // don't let the user edit the class combo box
     ui->cbClasses->setEnabled(false);
+
+    // setup edit mode connections
+    setupDetectEditConnections();
 }
 
 QString EditAttendanceDialog::getRecordId() const
@@ -233,15 +243,13 @@ void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap
     }
 }
 
-void EditAttendanceDialog::setIsEditMode(bool isEditmode)
-{
-    mIsEditMode = isEditmode;
-}
-
 void EditAttendanceDialog::populateTeachersBox(const QString &className)
 {
-    if (mIsEditMode)
+    if (mEditMode)
+    {
         mModelTeachers->setStringList(DatabaseManager::instance().teachersOfClass(className));
+        ui->cbTeachers->setCurrentText(mRecord.getTeacher());
+    }
     else
     {
         QStringList teachers;
@@ -253,58 +261,117 @@ void EditAttendanceDialog::populateTeachersBox(const QString &className)
 
 void EditAttendanceDialog::setupConnections()
 {
+    // setup connections to check if enough data has been entered to enable the OK button
+    connect(ui->cbClasses, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->cbTeachers, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+
+    // classes combo box has changed
     connect(ui->cbClasses, &QComboBox::currentTextChanged, [this] (const QString &text) {
-        if (ui->cbClasses->currentIndex() != 0 && !mIsEditMode)
+        if (!mEditMode)
         {
-            // first clear the table widget
-            ui->twAttendance->clearContents();
-            ui->twAttendance->setRowCount(0);
+            if (ui->cbClasses->currentIndex() != 0) // class is selected
+            {
+                // first clear the table widget
+                ui->twAttendance->clearContents();
+                ui->twAttendance->setRowCount(0);
 
-            // populate the table widget with the students from the selected class only
-            setAttendance(DatabaseManager::instance().studentsOfClass(text));
+                // populate the table widget with the students from the selected class only
+                setAttendance(DatabaseManager::instance().studentsOfClass(text));
+
+                // enable the check box
+                ui->cbShowAllTeachers->setEnabled(true);
+
+                // populate the teachers box
+                populateTeachersBox(text);
+            }
+            else if (ui->cbClasses->currentIndex() == 0) // no class is selected
+            {
+                ui->cbShowAllTeachers->setEnabled(false);
+                ui->cbTeachers->clear();
+            }
         }
-
-        // populate the teachers box
-        populateTeachersBox(text);
+        else // edit mode
+        {
+            // populate the teachers box
+            populateTeachersBox(text);
+        }
     });
 
+    // show all teachers check box has changed state
     connect(ui->cbShowAllTeachers, &QCheckBox::toggled, [this] (bool checked) {
-       if (checked)
-       {
-           // get all teachers and reset the current text
-           QStringList teachers = DatabaseManager::instance().teachers();
-           mModelTeachers->setStringList(teachers);
-           ui->cbTeachers->setCurrentText(mRecord.getTeacher());
-       }
-       else
-       {
-           populateTeachersBox(getClass());
+        if (checked)
+        {
+            QString name;
+            // first check what the current index is pointing to
+            if ((!mEditMode && ui->cbTeachers->currentIndex() != 0) || mEditMode)
+            {
+                name = ui->cbTeachers->currentText();
+            }
 
-           // set the correct index to the teachers combo box
-           setTeacher(mRecord.getTeacher());
-       }
+            // get all teachers and reset the current text
+            QStringList teachers = DatabaseManager::instance().teachers();
+            mModelTeachers->setStringList(teachers);
+
+            if (!name.isEmpty())
+                setTeacher(name);
+            else
+                ui->cbTeachers->setCurrentIndex(0);
+        }
+        else  // checkbox toggled off
+        {
+            QString name;
+            if (!mEditMode)
+            {
+                name = ui->cbTeachers->currentText();
+            }
+            else if (mEditMode)
+            {
+                if (ui->cbTeachers->currentText() != mRecord.getTeacher())
+                    name = ui->cbTeachers->currentText();
+            }
+
+            populateTeachersBox(getClass());
+
+            // set the correct index to the teachers combo box
+            if (mModelTeachers->stringList().contains(name))
+                setTeacher(name);
+            else if (mEditMode)
+                setTeacher(mRecord.getTeacher());
+            else
+                ui->cbTeachers->setCurrentIndex(0);
+        }
     });
 }
 
-bool EditAttendanceDialog::getIsEditMode() const
+void EditAttendanceDialog::setupDetectEditConnections()
 {
-    return mIsEditMode;
+    // additional connections for edit mode
+    connect(ui->deClassTime, SIGNAL(dateChanged(QDate)), this, SLOT(onProfileHasChanged()));
 }
 
-void EditAttendanceDialog::accept()
+void EditAttendanceDialog::toggleOKButton(bool state)
 {
-    // TODO: add ways to notify user visually on screen
-    if (mIsEditMode) // if we are editing an existing record
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(state);
+}
+
+void EditAttendanceDialog::onProfileHasChanged()
+{
+    bool hasChanged = false;
+
+    if (!mEditMode)
     {
-        // update the record in the database
-        DatabaseManager::instance().saveClassRecord(getClassRecord());
-        QDialog::accept();
+        if (ui->cbClasses->currentIndex() != 0 && ui->cbTeachers->currentIndex() != 0)
+            hasChanged = true;
     }
-    else if (!mIsEditMode && ui->cbClasses->currentIndex() != 0 &&
-             ui->cbTeachers->currentIndex() != 0)  // creating a new record
+    else if (mEditMode)
     {
-        // insert the new class record to the database
-        DatabaseManager::instance().addClassRecord(getClassRecord());
-        QDialog::accept();
+        // don't need to compare class names because the combo box is disabled by default
+        if (mRecord.getDate() != getDate())
+            hasChanged = true;
+        else if (mRecord.getTeacher() != getTeacher())
+            hasChanged = true;
+        //        else if (mRecord.getAttendance() != getAttendance()) // TODO: how to compare QMap?
+        //            hasChanged = true;
     }
+    toggleOKButton(hasChanged);
 }
