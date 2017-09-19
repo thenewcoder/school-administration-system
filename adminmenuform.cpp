@@ -66,6 +66,12 @@ void AdminMenuForm::setupConnections()
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageHomeForm, &PageHomeForm::initClasses);
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageTeachersForm, &PageTeachersForm::updateTeacherTable);
     connect(mPageClassesForm, &PageClassesForm::notifyClassesChanged, mPageAttendanceForm, &PageAttendanceForm::updateAttendanceTable);
+    connect(mPageOtherForm, &PageOtherForm::notifySubjectsChanged, mPageClassesForm, &PageClassesForm::updateClassTable);
+    connect(mPageOtherForm, &PageOtherForm::notifyClassroomsChanged, mPageClassesForm, &PageClassesForm::updateClassTable);
+    connect(mPageOtherForm, &PageOtherForm::notifyGradesChanged, mPageClassesForm, &PageClassesForm::updateClassTable);
+    connect(mPageOtherForm, &PageOtherForm::notifyGradesChanged, mPageStudentsForm, &PageStudentsForm::updateStudentsTable);
+    connect(mPageOtherForm, &PageOtherForm::notifyDormsChanged, mPageStudentsForm, &PageStudentsForm::updateStudentsTable);
+    connect(mPageOtherForm, &PageOtherForm::notifySubjectsChanged, mPageTeachersForm, &PageTeachersForm::updateTeacherTable);
 }
 
 void AdminMenuForm::setWelcomeMessage(const QString &name)

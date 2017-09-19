@@ -1,4 +1,4 @@
-#ifndef PAGEOTHERFORM_H
+﻿#ifndef PAGEOTHERFORM_H
 #define PAGEOTHERFORM_H
 
 #include <QWidget>
@@ -25,6 +25,12 @@ public:
 public:
     explicit PageOtherForm(QWidget *parent = 0);
     ~PageOtherForm();
+
+signals:
+    void notifyDormsChanged();
+    void notifyClassroomsChanged();
+    void notifySubjectsChanged();
+    void notifyGradesChanged();
 
 private:
     void setupConnections();

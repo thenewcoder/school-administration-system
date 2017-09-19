@@ -47,7 +47,12 @@ void PageStudentsForm::setupConnections()
     connect(ui->btnEdit, &QPushButton::clicked, this, &PageStudentsForm::editStudent);
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageStudentsForm::addStudent);
     connect(ui->btnDelete, &QPushButton::clicked, this, &PageStudentsForm::deleteStudent);
-    connect(ui->btnRefresh, &QPushButton::clicked, mModel, &QSqlTableModel::select);
+    connect(ui->btnRefresh, &QPushButton::clicked, this, &PageStudentsForm::updateStudentsTable);
+}
+
+void PageStudentsForm::updateStudentsTable()
+{
+    mModel->select();
 }
 
 void PageStudentsForm::editStudent()
@@ -78,7 +83,7 @@ void PageStudentsForm::editStudent()
             DatabaseManager::instance().saveStudentData(student, studentId);
 
             // refresh the students table
-            mModel->select();
+            updateStudentsTable();
 
             emit notifyStudentChanged();
         }
@@ -97,7 +102,7 @@ void PageStudentsForm::addStudent()
         DatabaseManager::instance().addStudent(student);
 
         // refresh the students table
-        mModel->select();
+        updateStudentsTable();
 
         emit notifyStudentChanged();
     }
@@ -122,7 +127,7 @@ void PageStudentsForm::deleteStudent()
             DatabaseManager::instance().removeStudent(studentId);
 
             // refresh the student table
-            mModel->select();
+            updateStudentsTable();
 
             emit notifyStudentChanged();
         }

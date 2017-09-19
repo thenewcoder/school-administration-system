@@ -132,6 +132,8 @@ void PageOtherForm::setupEditButtons()
                 // update classroom with the new values
                 DatabaseManager::instance().updateClassroom(id, edit.name(), edit.comment());
                 mModelClassrooms->select();
+
+                emit notifyClassroomsChanged();
             }
         }
     });
@@ -157,6 +159,8 @@ void PageOtherForm::setupEditButtons()
                 // update dormitory with the new values
                 DatabaseManager::instance().updateDormitory(id, edit.name(), edit.comment());
                 mModelDormitories->select();
+
+                emit notifyDormsChanged();
             }
         }
     });
@@ -206,6 +210,8 @@ void PageOtherForm::setupEditButtons()
 
                 // change the table row data
                 mModelGrades->setData(index, grade);
+
+                emit notifyGradesChanged();
             }
         }
     });
@@ -230,6 +236,8 @@ void PageOtherForm::setupEditButtons()
 
                 // change the table row data
                 mModelSubjects->setData(index, subject);
+
+                emit notifySubjectsChanged();
             }
         }
     });

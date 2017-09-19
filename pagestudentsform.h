@@ -36,6 +36,9 @@ signals:
 private:
     void setupConnections();
 
+public slots:
+    void updateStudentsTable();
+
 private slots:
     void editStudent();
     void addStudent();
