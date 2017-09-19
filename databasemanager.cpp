@@ -791,7 +791,13 @@ Class DatabaseManager::getClass(const QString &classId)
             c.setClassname(query.value("className").toString());
             c.setSubject(query.value("subjectName").toString());
             c.setClassroom(query.value("classroomName").toString());
-            c.setTeachers(query.value("Teachers").toString().split(","));
+
+            // remove any spaces from the front and end of each teacher name
+            QStringList teachers = query.value("Teachers").toString().split(",");
+            for (QString &t : teachers)
+                t = t.trimmed();
+
+            c.setTeachers(teachers);
         }
     }
     else
