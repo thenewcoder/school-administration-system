@@ -129,11 +129,12 @@ void PageOtherForm::setupEditButtons()
                 // get the id of the selected classroom row
                 QString id = mModelClassrooms->data(mModelClassrooms->index(index.row(), 0)).toString();
 
-                // update classroom with the new values
-                DatabaseManager::instance().updateClassroom(id, edit.name(), edit.comment());
-                mModelClassrooms->select();
-
-                emit notifyClassroomsChanged();
+                // update classroom with the new values - only refresh if update was successful
+                if (DatabaseManager::instance().updateClassroom(id, edit.name(), edit.comment()))
+                {
+                    mModelClassrooms->select();
+                    emit notifyClassroomsChanged();
+                }
             }
         }
     });
@@ -157,10 +158,13 @@ void PageOtherForm::setupEditButtons()
                 QString id = mModelDormitories->data(mModelDormitories->index(index.row(), 0)).toString();
 
                 // update dormitory with the new values
-                DatabaseManager::instance().updateDormitory(id, edit.name(), edit.comment());
-                mModelDormitories->select();
+                if (DatabaseManager::instance().updateDormitory(id, edit.name(), edit.comment()))
+                {
+                    // update the table
+                    mModelDormitories->select();
 
-                emit notifyDormsChanged();
+                    emit notifyDormsChanged();
+                }
             }
         }
     });
@@ -184,8 +188,8 @@ void PageOtherForm::setupEditButtons()
                 QString id = mModelBusStops->data(mModelBusStops->index(index.row(), 0)).toString();
 
                 // update bus_stop with the new values
-                DatabaseManager::instance().updateBusstop(id, edit.name(), edit.comment());
-                mModelBusStops->select();
+                if (DatabaseManager::instance().updateBusstop(id, edit.name(), edit.comment()))
+                    mModelBusStops->select();
             }
         }
     });
@@ -206,12 +210,13 @@ void PageOtherForm::setupEditButtons()
             if (!grade.isEmpty() && ok)
             {
                 // update the grade in the database
-                DatabaseManager::instance().updateGrade(oldGrade, grade);
+                if (DatabaseManager::instance().updateGrade(oldGrade, grade))
+                {
+                    // change the table row data
+                    mModelGrades->setData(index, grade);
 
-                // change the table row data
-                mModelGrades->setData(index, grade);
-
-                emit notifyGradesChanged();
+                    emit notifyGradesChanged();
+                }
             }
         }
     });
@@ -232,12 +237,13 @@ void PageOtherForm::setupEditButtons()
             if (!subject.isEmpty() && ok)
             {
                 // first remove the selection - any better way?
-                DatabaseManager::instance().updateSubject(oldSubject, subject);
+                if (DatabaseManager::instance().updateSubject(oldSubject, subject))
+                {
+                    // change the table row data
+                    mModelSubjects->setData(index, subject);
 
-                // change the table row data
-                mModelSubjects->setData(index, subject);
-
-                emit notifySubjectsChanged();
+                    emit notifySubjectsChanged();
+                }
             }
         }
     });
@@ -256,9 +262,15 @@ void PageOtherForm::setupDeleteButtons()
             if (result == QMessageBox::Ok)
             {
                 QString roomId = mModelClassrooms->data(mModelClassrooms->index(index.row(), FIELDS::ID)).toString();
-                DatabaseManager::instance().removeClassroom(roomId);
-                //mModelClassrooms->removeRow(index.row());
-                mModelClassrooms->select();
+
+                // remove the classroom
+                if (DatabaseManager::instance().removeClassroom(roomId))
+                {
+                    // refresh the table
+                    mModelClassrooms->select();
+
+                    emit notifyClassroomsChanged();
+                }
             }
         }
     });
@@ -274,8 +286,15 @@ void PageOtherForm::setupDeleteButtons()
             if (result == QMessageBox::Ok)
             {
                 QString dormId = mModelDormitories->data(mModelDormitories->index(index.row(), FIELDS::ID)).toString();
-                DatabaseManager::instance().removeDormitory(dormId);
-                mModelDormitories->select();
+
+                // remove the dormitory
+                if (DatabaseManager::instance().removeDormitory(dormId))
+                {
+                    // refresh the table
+                    mModelDormitories->select();
+
+                    emit notifyDormsChanged();
+                }
             }
         }
     });
@@ -291,8 +310,13 @@ void PageOtherForm::setupDeleteButtons()
             if (result == QMessageBox::Ok)
             {
                 QString busstopId = mModelBusStops->data(mModelBusStops->index(index.row(), FIELDS::ID)).toString();
-                DatabaseManager::instance().removeBusstop(busstopId);
-                mModelBusStops->select();
+
+                // delete the bus stop
+                if (DatabaseManager::instance().removeBusstop(busstopId))
+                {
+                    // refresh the table
+                    mModelBusStops->select();
+                }
             }
         }
     });
@@ -308,8 +332,15 @@ void PageOtherForm::setupDeleteButtons()
             if (result == QMessageBox::Ok)
             {
                 QString grade = mModelGrades->data(mModelGrades->index(index.row(), 0)).toString();
-                DatabaseManager::instance().removeGrade(grade);
-                mModelGrades->removeRow(index.row());
+
+                // delete the grade
+                if (DatabaseManager::instance().removeGrade(grade))
+                {
+                    // remove the row from the table
+                    mModelGrades->removeRow(index.row());
+
+                    emit notifyGradesChanged();
+                }
             }
         }
     });
@@ -325,8 +356,15 @@ void PageOtherForm::setupDeleteButtons()
             if (result == QMessageBox::Ok)
             {
                 QString subject = mModelSubjects->data(mModelSubjects->index(index.row(), 0)).toString();
-                DatabaseManager::instance().removeSubject(subject);
-                mModelSubjects->removeRow(index.row());
+
+                // remove the subject
+                if (DatabaseManager::instance().removeSubject(subject))
+                {
+                    // remove the row from table
+                    mModelSubjects->removeRow(index.row());
+
+                    emit notifySubjectsChanged();
+                }
             }
         }
     });
