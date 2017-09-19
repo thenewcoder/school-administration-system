@@ -30,8 +30,8 @@ WizardSetup::WizardSetup(QTranslator *translator, QWidget *parent)
 
     setWindowTitle(tr("New Installation Setup"));
 
-    // make the wizard window a fixed size
-    setFixedSize(460, 420);
+    // set the wizard window size
+    resize(460, 420);
 }
 
 void WizardSetup::accept()

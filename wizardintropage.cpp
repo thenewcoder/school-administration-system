@@ -7,6 +7,7 @@
 #include <QTranslator>
 #include <QApplication>
 #include "wizardsetup.h"
+#include <QLocale>
 
 WizardIntroPage::WizardIntroPage(QWidget *parent)
     : QWizardPage(parent)
@@ -53,6 +54,15 @@ WizardIntroPage::WizardIntroPage(QWidget *parent)
     // setup connection for the combo box
     //void (QComboBox::* activatedOverloadPtr)(int index) = &QComboBox::currentIndexChanged;
     connect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
+
+    mLangLocale.insert("zh_CN", "Chinese");
+    mLangLocale.insert("en_US", "English");
+
+    if (mLangLocale.contains(QLocale::system().name()))
+    {
+        int index = cbLanguage->findText(mLangLocale.value(QLocale::system().name()));
+        changeLanguage(index);
+    }
 }
 
 void WizardIntroPage::changeLanguage(int index)

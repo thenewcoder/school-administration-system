@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QWizardPage>
+#include <QHash>
 
 class QLabel;
 class QComboBox;
@@ -27,6 +28,8 @@ private:
     QComboBox *cbLanguage;
 
     QTranslator *translator;
+
+    QHash<QString, QString> mLangLocale;
 
     int mLangIndex;
 
