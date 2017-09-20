@@ -379,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `class_record` (
 CREATE TABLE IF NOT EXISTS `attendance_record` (
         `class_record_id` INTEGER,
         `studentId` INTEGER,
-        `attendance_type_id` INTEGER,
+        `attendance_type` INTEGER,
         FOREIGN KEY(`studentId`) REFERENCES `student`(`studentId`),
         PRIMARY KEY(`class_record_id`,`studentId`),
         FOREIGN KEY(`class_record_id`) REFERENCES `class_record`(`recordId`)
@@ -448,7 +448,7 @@ LEFT OUTER JOIN class_summary CS ON CS.classId = CR.classId
 ORDER BY date DESC, C.className;
 
 CREATE VIEW attendance_summary AS
-SELECT C.className 'Class', S.name 'Student', AR.attendance_type_id 'Status'
+SELECT C.className 'Class', S.name 'Student', AR.attendance_type 'Status'
 FROM attendance_record AR
 LEFT OUTER JOIN student S ON S.studentId = AR.studentId
 LEFT OUTER JOIN class_record CR ON CR.recordId = AR.class_record_id

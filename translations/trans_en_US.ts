@@ -39,24 +39,62 @@
         <translation>Other</translation>
     </message>
     <message>
-        <location filename="../adminmenuform.ui" line="277"/>
+        <location filename="../adminmenuform.ui" line="242"/>
+        <source>Activities</source>
+        <translation>Activities</translation>
+    </message>
+    <message>
+        <location filename="../adminmenuform.ui" line="289"/>
         <source>Connected to: Local Database</source>
         <translation>Connected to: Local Database</translation>
     </message>
     <message>
-        <location filename="../adminmenuform.ui" line="302"/>
+        <location filename="../adminmenuform.ui" line="314"/>
         <source>Welcome, Name</source>
         <translation>Welcome, Name</translation>
     </message>
     <message>
-        <location filename="../adminmenuform.ui" line="322"/>
+        <location filename="../adminmenuform.ui" line="334"/>
         <source>Logout</source>
         <translation>Logout</translation>
     </message>
     <message>
-        <location filename="../adminmenuform.cpp" line="76"/>
+        <location filename="../adminmenuform.cpp" line="73"/>
         <source>Welcome, </source>
         <translation>Welcome, </translation>
+    </message>
+</context>
+<context>
+    <name>EditActivityDialog</name>
+    <message>
+        <location filename="../editactivitydialog.ui" line="19"/>
+        <source>Activity</source>
+        <translation>Activity</translation>
+    </message>
+    <message>
+        <location filename="../editactivitydialog.ui" line="47"/>
+        <source>Activity Code:</source>
+        <translation>Activity Code:</translation>
+    </message>
+    <message>
+        <location filename="../editactivitydialog.ui" line="60"/>
+        <source>Activity Name:</source>
+        <translation>Activity Name:</translation>
+    </message>
+    <message>
+        <location filename="../editactivitydialog.ui" line="73"/>
+        <source>Activity Description:</source>
+        <translation>Activity Description:</translation>
+    </message>
+    <message>
+        <location filename="../editactivitydialog.ui" line="86"/>
+        <source>Teacher Advisor:</source>
+        <translation>Teacher Advisor:</translation>
+    </message>
+    <message>
+        <location filename="../editactivitydialog.ui" line="99"/>
+        <source>Membership Limit:</source>
+        <translation>Membership Limit:</translation>
     </message>
 </context>
 <context>
@@ -77,25 +115,40 @@
         <translation>Teacher:</translation>
     </message>
     <message>
-        <location filename="../editattendancedialog.ui" line="146"/>
+        <location filename="../editattendancedialog.ui" line="122"/>
         <source>Attendance:</source>
         <translation>Attendance:</translation>
     </message>
     <message>
-        <location filename="../editattendancedialog.cpp" line="25"/>
-        <location filename="../editattendancedialog.cpp" line="32"/>
+        <location filename="../editattendancedialog.ui" line="159"/>
+        <source>Show all teachers</source>
+        <translation>Show all teachers</translation>
+    </message>
+    <message>
+        <location filename="../editattendancedialog.cpp" line="26"/>
+        <location filename="../editattendancedialog.cpp" line="249"/>
         <source>Select one</source>
         <translation>Select one</translation>
     </message>
     <message>
-        <location filename="../editattendancedialog.cpp" line="41"/>
-        <source>Student</source>
-        <translation>Student</translation>
+        <location filename="../editattendancedialog.cpp" line="43"/>
+        <source>Students</source>
+        <translation>Students</translation>
     </message>
     <message>
-        <location filename="../editattendancedialog.cpp" line="42"/>
-        <source>Status</source>
-        <translation>Status</translation>
+        <location filename="../editattendancedialog.cpp" line="43"/>
+        <source>Present</source>
+        <translation>Present</translation>
+    </message>
+    <message>
+        <location filename="../editattendancedialog.cpp" line="43"/>
+        <source>Absent</source>
+        <translation>Absent</translation>
+    </message>
+    <message>
+        <location filename="../editattendancedialog.cpp" line="43"/>
+        <source>Absent W/ Excuse</source>
+        <translation>Absent W/ Excuse</translation>
     </message>
 </context>
 <context>
@@ -208,116 +261,121 @@
         <translation>Personal Information</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="124"/>
+        <location filename="../editstudentdialog.ui" line="196"/>
         <source>Gender:</source>
         <translation>Gender:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="132"/>
-        <location filename="../editstudentdialog.ui" line="151"/>
-        <location filename="../editstudentdialog.ui" line="160"/>
-        <location filename="../editstudentdialog.ui" line="176"/>
-        <location filename="../editstudentdialog.ui" line="220"/>
+        <location filename="../editstudentdialog.ui" line="106"/>
+        <location filename="../editstudentdialog.ui" line="129"/>
+        <location filename="../editstudentdialog.ui" line="162"/>
+        <location filename="../editstudentdialog.ui" line="171"/>
+        <location filename="../editstudentdialog.ui" line="221"/>
         <source>Choose...</source>
         <translation>Choose...</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="137"/>
+        <location filename="../editstudentdialog.ui" line="226"/>
         <source>Male</source>
         <translation>Male</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="142"/>
+        <location filename="../editstudentdialog.ui" line="231"/>
         <source>Female</source>
         <translation>Female</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="168"/>
+        <location filename="../editstudentdialog.ui" line="182"/>
         <source>ID Number:</source>
         <translation>ID Number:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="184"/>
+        <location filename="../editstudentdialog.ui" line="245"/>
         <source>Birth Date:</source>
         <translation>Birth Date:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="191"/>
+        <location filename="../editstudentdialog.ui" line="189"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="198"/>
+        <location filename="../editstudentdialog.ui" line="147"/>
         <source>Dormitory:</source>
         <translation>Dormitory:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="205"/>
+        <location filename="../editstudentdialog.ui" line="140"/>
         <source>Bus stop:</source>
         <translation>Bus stop:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="212"/>
+        <location filename="../editstudentdialog.ui" line="121"/>
         <source>Nationality:</source>
         <translation>Nationality:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="228"/>
+        <location filename="../editstudentdialog.ui" line="98"/>
         <source>Passport Number:</source>
         <translation>Passport Number:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="235"/>
+        <location filename="../editstudentdialog.ui" line="114"/>
         <source>Grade:</source>
         <translation>Grade:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="251"/>
+        <location filename="../editstudentdialog.ui" line="154"/>
+        <source>Nick Name:</source>
+        <translation>Nick Name:</translation>
+    </message>
+    <message>
+        <location filename="../editstudentdialog.ui" line="261"/>
         <source>Student Contact Information</source>
         <translation>Student Contact Information</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="257"/>
+        <location filename="../editstudentdialog.ui" line="267"/>
         <source>Address:</source>
         <translation>Address:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="267"/>
+        <location filename="../editstudentdialog.ui" line="277"/>
         <source>Phone:</source>
         <translation>Phone:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="277"/>
+        <location filename="../editstudentdialog.ui" line="287"/>
         <source>Email:</source>
         <translation>Email:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="301"/>
+        <location filename="../editstudentdialog.ui" line="311"/>
         <source>Student Summary</source>
         <translation>Student Summary</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="351"/>
+        <location filename="../editstudentdialog.ui" line="361"/>
         <source>Add Photo</source>
         <translation>Add Photo</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="358"/>
+        <location filename="../editstudentdialog.ui" line="368"/>
         <source>Remove</source>
         <translation>Remove</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="384"/>
+        <location filename="../editstudentdialog.ui" line="394"/>
         <source>Enrolled Classes:</source>
         <translation>Enrolled Classes:</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="404"/>
+        <location filename="../editstudentdialog.ui" line="414"/>
         <source>Edit the classes the current student is enrolled in</source>
         <translation>Edit the classes the current student is enrolled in</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.ui" line="407"/>
+        <location filename="../editstudentdialog.ui" line="417"/>
         <source>Edit</source>
         <translation>Edit</translation>
     </message>
@@ -325,7 +383,7 @@
         <location filename="../editstudentdialog.cpp" line="27"/>
         <location filename="../editstudentdialog.cpp" line="37"/>
         <location filename="../editstudentdialog.cpp" line="42"/>
-        <location filename="../editstudentdialog.cpp" line="180"/>
+        <location filename="../editstudentdialog.cpp" line="192"/>
         <source>Select one</source>
         <translation>Select one</translation>
     </message>
@@ -335,17 +393,17 @@
         <translation>Select One</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.cpp" line="327"/>
+        <location filename="../editstudentdialog.cpp" line="339"/>
         <source>Choose an image</source>
         <translation>Choose an image</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.cpp" line="329"/>
+        <location filename="../editstudentdialog.cpp" line="341"/>
         <source>Images (*.png *.bmp *.jpg)</source>
         <translation>Images (*.png *.bmp *.jpg)</translation>
     </message>
     <message>
-        <location filename="../editstudentdialog.cpp" line="346"/>
+        <location filename="../editstudentdialog.cpp" line="358"/>
         <source>Edit Student Classes</source>
         <translation>Edit Student Classes</translation>
     </message>
@@ -394,67 +452,72 @@
         <translation>Choose...</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="141"/>
+        <location filename="../editteacherdialog.ui" line="140"/>
+        <source>Preferred Name:</source>
+        <translation>Preferred Name:</translation>
+    </message>
+    <message>
+        <location filename="../editteacherdialog.ui" line="164"/>
         <source>Contact Information</source>
         <translation>Contact Information</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="153"/>
+        <location filename="../editteacherdialog.ui" line="176"/>
         <source>Address:</source>
         <translation>Address:</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="166"/>
+        <location filename="../editteacherdialog.ui" line="189"/>
         <source>Phone:</source>
         <translation>Phone:</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="205"/>
+        <location filename="../editteacherdialog.ui" line="228"/>
         <source>Teacher Summary</source>
         <translation>Teacher Summary</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="236"/>
+        <location filename="../editteacherdialog.ui" line="259"/>
         <source>Classes:</source>
         <translation>Classes:</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="256"/>
+        <location filename="../editteacherdialog.ui" line="279"/>
         <source>Add or Remove classes the current teacher is teaching</source>
         <translation>Add or Remove classes the current teacher is teaching</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="259"/>
+        <location filename="../editteacherdialog.ui" line="282"/>
         <source>Edit</source>
         <translation>Edit</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="315"/>
+        <location filename="../editteacherdialog.ui" line="338"/>
         <source>Add Photo</source>
         <translation>Add Photo</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.ui" line="322"/>
+        <location filename="../editteacherdialog.ui" line="345"/>
         <source>Remove</source>
         <translation>Remove</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.cpp" line="122"/>
+        <location filename="../editteacherdialog.cpp" line="134"/>
         <source>Select one</source>
         <translation>Select one</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.cpp" line="176"/>
+        <location filename="../editteacherdialog.cpp" line="188"/>
         <source>Choose an image</source>
         <translation>Choose an image</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.cpp" line="178"/>
+        <location filename="../editteacherdialog.cpp" line="190"/>
         <source>Images (*.png *.bmp *.jpg)</source>
         <translation>Images (*.png *.bmp *.jpg)</translation>
     </message>
     <message>
-        <location filename="../editteacherdialog.cpp" line="196"/>
+        <location filename="../editteacherdialog.cpp" line="208"/>
         <source>Edit Teacher Classes</source>
         <translation>Edit Teacher Classes</translation>
     </message>
@@ -488,6 +551,104 @@
     </message>
 </context>
 <context>
+    <name>PageActivitiesForm</name>
+    <message>
+        <location filename="../pageactivitiesform.ui" line="14"/>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.ui" line="29"/>
+        <source>Sports</source>
+        <translation>Sports</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.ui" line="61"/>
+        <location filename="../pageactivitiesform.ui" line="127"/>
+        <source>Add</source>
+        <translation>Add</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.ui" line="68"/>
+        <location filename="../pageactivitiesform.ui" line="134"/>
+        <source>Edit</source>
+        <translation>Edit</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.ui" line="75"/>
+        <location filename="../pageactivitiesform.ui" line="141"/>
+        <source>Delete</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.ui" line="95"/>
+        <source>After-School Activities</source>
+        <translation>After-School Activities</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="40"/>
+        <location filename="../pageactivitiesform.cpp" line="52"/>
+        <source>Code</source>
+        <translation>Code</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="41"/>
+        <source>Sport Name</source>
+        <translation>Sport Name</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="42"/>
+        <location filename="../pageactivitiesform.cpp" line="54"/>
+        <source>Teacher Advisor</source>
+        <translation>Teacher Advisor</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="43"/>
+        <location filename="../pageactivitiesform.cpp" line="55"/>
+        <source>Membership</source>
+        <translation>Membership</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="53"/>
+        <source>Activity Name</source>
+        <translation>Activity Name</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="72"/>
+        <source>Add a New Sports Activity</source>
+        <translation>Add a New Sports Activity</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="87"/>
+        <source>Add a New After-School Activity</source>
+        <translation>Add a New After-School Activity</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="115"/>
+        <source>Edit a Sports Activity</source>
+        <translation>Edit a Sports Activity</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="143"/>
+        <source>Edit an After-School Activity</source>
+        <translation>Edit an After-School Activity</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="167"/>
+        <location filename="../pageactivitiesform.cpp" line="188"/>
+        <source>Delete Activity</source>
+        <translation>Delete Activity</translation>
+    </message>
+    <message>
+        <location filename="../pageactivitiesform.cpp" line="167"/>
+        <location filename="../pageactivitiesform.cpp" line="188"/>
+        <source>You&apos;re about to delete an activity.
+This can&apos;t be undone. Are you sure?</source>
+        <translation>You&apos;re about to delete an activity.
+This can&apos;t be undone. Are you sure?</translation>
+    </message>
+</context>
+<context>
     <name>PageAttendanceForm</name>
     <message>
         <location filename="../pageattendanceform.ui" line="51"/>
@@ -505,42 +666,42 @@
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../pageattendanceform.cpp" line="24"/>
+        <location filename="../pageattendanceform.cpp" line="25"/>
         <source>Date</source>
         <translation>Date</translation>
     </message>
     <message>
-        <location filename="../pageattendanceform.cpp" line="25"/>
+        <location filename="../pageattendanceform.cpp" line="26"/>
         <source>Class Name</source>
         <translation>Class Name</translation>
     </message>
     <message>
-        <location filename="../pageattendanceform.cpp" line="26"/>
+        <location filename="../pageattendanceform.cpp" line="27"/>
         <source>Teacher</source>
         <translation>Teacher</translation>
     </message>
     <message>
-        <location filename="../pageattendanceform.cpp" line="27"/>
+        <location filename="../pageattendanceform.cpp" line="28"/>
         <source>Total Students</source>
         <translation>Total Students</translation>
     </message>
     <message>
-        <location filename="../pageattendanceform.cpp" line="50"/>
+        <location filename="../pageattendanceform.cpp" line="49"/>
         <source>Add a New Class Record</source>
         <translation>Add a New Class Record</translation>
     </message>
     <message>
-        <location filename="../pageattendanceform.cpp" line="69"/>
+        <location filename="../pageattendanceform.cpp" line="65"/>
         <source>Edit an Existing Class Record</source>
         <translation>Edit an Existing Class Record</translation>
     </message>
     <message>
-        <location filename="../pageattendanceform.cpp" line="90"/>
+        <location filename="../pageattendanceform.cpp" line="85"/>
         <source>Delete a class record</source>
         <translation>Delete a class record</translation>
     </message>
     <message>
-        <location filename="../pageattendanceform.cpp" line="91"/>
+        <location filename="../pageattendanceform.cpp" line="86"/>
         <source>Are you sure you want to delete the class record?
 This action can&apos;t be undone!</source>
         <translation>Are you sure you want to delete the class record?
@@ -649,10 +810,6 @@ This action cannot be undone!</translation>
         <location filename="../pagehomeform.cpp" line="38"/>
         <source>Home</source>
         <translation>Home</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation type="vanished">0</translation>
     </message>
     <message>
         <location filename="../pagehomeform.ui" line="125"/>
@@ -1152,31 +1309,32 @@ This cannot be undone!</translation>
     </message>
     <message>
         <location filename="../personalprofileform.ui" line="57"/>
+        <location filename="../personalprofileform.ui" line="108"/>
         <source>Change Password</source>
         <translation>Change Password</translation>
     </message>
     <message>
-        <location filename="../personalprofileform.ui" line="73"/>
-        <source>Old Password:</source>
-        <translation>Old Password:</translation>
-    </message>
-    <message>
-        <location filename="../personalprofileform.ui" line="87"/>
+        <location filename="../personalprofileform.ui" line="124"/>
         <source>New Password:</source>
         <translation>New Password:</translation>
     </message>
     <message>
-        <location filename="../personalprofileform.ui" line="101"/>
+        <location filename="../personalprofileform.ui" line="138"/>
         <source>Confirm New Password:</source>
         <translation>Confirm New Password:</translation>
     </message>
     <message>
-        <location filename="../personalprofileform.ui" line="127"/>
+        <location filename="../personalprofileform.ui" line="161"/>
+        <source>Reset</source>
+        <translation>Reset</translation>
+    </message>
+    <message>
+        <location filename="../personalprofileform.ui" line="73"/>
         <source>Username:</source>
         <translation>Username:</translation>
     </message>
     <message>
-        <location filename="../personalprofileform.ui" line="137"/>
+        <location filename="../personalprofileform.ui" line="83"/>
         <source>Full Name:</source>
         <translation>Full Name:</translation>
     </message>
@@ -1276,36 +1434,43 @@ This cannot be undone!</translation>
     <name>WizardDatabaseSetup</name>
     <message>
         <location filename="../wizarddatabasesetup.cpp" line="18"/>
+        <location filename="../wizarddatabasesetup.cpp" line="161"/>
         <source>Database Setup</source>
         <translation>Database Setup</translation>
     </message>
     <message>
         <location filename="../wizarddatabasesetup.cpp" line="21"/>
+        <location filename="../wizarddatabasesetup.cpp" line="162"/>
         <source>Database Type:</source>
         <translation>Database Type:</translation>
     </message>
     <message>
         <location filename="../wizarddatabasesetup.cpp" line="28"/>
+        <location filename="../wizarddatabasesetup.cpp" line="163"/>
         <source>Create a New Database</source>
         <translation>Create a New Database</translation>
     </message>
     <message>
         <location filename="../wizarddatabasesetup.cpp" line="29"/>
+        <location filename="../wizarddatabasesetup.cpp" line="164"/>
         <source>Use an Existing Database</source>
         <translation>Use an Existing Database</translation>
     </message>
     <message>
         <location filename="../wizarddatabasesetup.cpp" line="33"/>
+        <location filename="../wizarddatabasesetup.cpp" line="165"/>
         <source>Database</source>
         <translation>Database</translation>
     </message>
     <message>
         <location filename="../wizarddatabasesetup.cpp" line="42"/>
+        <location filename="../wizarddatabasesetup.cpp" line="166"/>
         <source>Default Location (Recommended)</source>
         <translation>Default Location (Recommended)</translation>
     </message>
     <message>
         <location filename="../wizarddatabasesetup.cpp" line="46"/>
+        <location filename="../wizarddatabasesetup.cpp" line="167"/>
         <source>Location:</source>
         <translation>Location:</translation>
     </message>
@@ -1314,28 +1479,31 @@ This cannot be undone!</translation>
     <name>WizardIntroPage</name>
     <message>
         <location filename="../wizardintropage.cpp" line="16"/>
+        <location filename="../wizardintropage.cpp" line="87"/>
         <source>Welcome</source>
         <translation>Welcome</translation>
     </message>
     <message>
-        <location filename="../wizardintropage.cpp" line="23"/>
+        <location filename="../wizardintropage.cpp" line="19"/>
+        <location filename="../wizardintropage.cpp" line="89"/>
         <source>This wizard will help you to set up the database and the user profile needed to use this software properly. Please fill in the information on the next couple of pages.</source>
         <translation>This wizard will help you to set up the database and the user profile needed to use this software properly. Please fill in the information on the next couple of pages.</translation>
     </message>
     <message>
-        <location filename="../wizardintropage.cpp" line="31"/>
+        <location filename="../wizardintropage.cpp" line="27"/>
+        <location filename="../wizardintropage.cpp" line="88"/>
         <source>Choose Language</source>
         <translation>Choose Language</translation>
     </message>
     <message>
-        <location filename="../wizardintropage.cpp" line="35"/>
-        <location filename="../wizardintropage.cpp" line="93"/>
+        <location filename="../wizardintropage.cpp" line="31"/>
+        <location filename="../wizardintropage.cpp" line="95"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../wizardintropage.cpp" line="35"/>
-        <location filename="../wizardintropage.cpp" line="94"/>
+        <location filename="../wizardintropage.cpp" line="31"/>
+        <location filename="../wizardintropage.cpp" line="96"/>
         <source>Chinese</source>
         <translation>Chinese</translation>
     </message>
@@ -1343,7 +1511,7 @@ This cannot be undone!</translation>
 <context>
     <name>WizardSetup</name>
     <message>
-        <location filename="../wizardsetup.cpp" line="29"/>
+        <location filename="../wizardsetup.cpp" line="31"/>
         <source>New Installation Setup</source>
         <translation>New Installation Setup</translation>
     </message>
@@ -1352,31 +1520,37 @@ This cannot be undone!</translation>
     <name>WizardSummaryPage</name>
     <message>
         <location filename="../wizardsummarypage.cpp" line="12"/>
+        <location filename="../wizardsummarypage.cpp" line="58"/>
         <source>Summary</source>
         <translation>Summary</translation>
     </message>
     <message>
         <location filename="../wizardsummarypage.cpp" line="15"/>
+        <location filename="../wizardsummarypage.cpp" line="59"/>
         <source>Username:</source>
         <translation>Username:</translation>
     </message>
     <message>
         <location filename="../wizardsummarypage.cpp" line="19"/>
+        <location filename="../wizardsummarypage.cpp" line="60"/>
         <source>Database Type:</source>
         <translation>Database Type:</translation>
     </message>
     <message>
         <location filename="../wizardsummarypage.cpp" line="23"/>
+        <location filename="../wizardsummarypage.cpp" line="61"/>
         <source>Database Location:</source>
         <translation>Database Location:</translation>
     </message>
     <message>
         <location filename="../wizardsummarypage.cpp" line="24"/>
+        <location filename="../wizardsummarypage.cpp" line="62"/>
         <source>Local</source>
         <translation>Local</translation>
     </message>
     <message>
         <location filename="../wizardsummarypage.cpp" line="27"/>
+        <location filename="../wizardsummarypage.cpp" line="63"/>
         <source>Full name:</source>
         <translation>Full name:</translation>
     </message>
@@ -1385,48 +1559,67 @@ This cannot be undone!</translation>
     <name>WizardUserSetupPage</name>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="16"/>
+        <location filename="../wizardusersetuppage.cpp" line="140"/>
         <source>Setup User Profile</source>
         <translation>Setup User Profile</translation>
     </message>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="17"/>
+        <location filename="../wizardusersetuppage.cpp" line="141"/>
         <source>Create your user profile</source>
         <translation>Create your user profile</translation>
     </message>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="36"/>
+        <location filename="../wizardusersetuppage.cpp" line="144"/>
         <source>&amp;Username:</source>
         <translation>&amp;Username:</translation>
     </message>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="38"/>
+        <location filename="../wizardusersetuppage.cpp" line="145"/>
         <source>3-16 characters</source>
         <translation>3-16 characters</translation>
     </message>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="46"/>
+        <location filename="../wizardusersetuppage.cpp" line="146"/>
         <source>&amp;Password:</source>
         <translation>&amp;Password:</translation>
     </message>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="49"/>
+        <location filename="../wizardusersetuppage.cpp" line="147"/>
         <source>6-16 characters</source>
         <translation>6-16 characters</translation>
     </message>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="54"/>
+        <location filename="../wizardusersetuppage.cpp" line="148"/>
         <source>&amp;Confirm Password:</source>
         <translation>&amp;Confirm Password:</translation>
     </message>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="57"/>
+        <location filename="../wizardusersetuppage.cpp" line="149"/>
         <source>Re-type password</source>
         <translation>Re-type password</translation>
     </message>
     <message>
         <location filename="../wizardusersetuppage.cpp" line="62"/>
+        <location filename="../wizardusersetuppage.cpp" line="150"/>
         <source>&amp;Full Name:</source>
         <translation>&amp;Full Name:</translation>
+    </message>
+    <message>
+        <location filename="../wizardusersetuppage.cpp" line="142"/>
+        <source>Create New User</source>
+        <translation>Create New User</translation>
+    </message>
+    <message>
+        <location filename="../wizardusersetuppage.cpp" line="143"/>
+        <source>Use Existing Account</source>
+        <translation>Use Existing Account</translation>
     </message>
 </context>
 </TS>
