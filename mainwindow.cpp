@@ -44,6 +44,9 @@ void MainWindow::setupConnections()
             ui->lblInvalidUserPass->setVisible(true);
         }
     });
+
+    // add connection so that the user can press return after entering the password
+    connect(ui->passwordEdit, &QLineEdit::returnPressed, ui->loginButton, &QPushButton::click);
 }
 
 void MainWindow::setupNewAdminForm()
