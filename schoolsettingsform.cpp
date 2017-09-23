@@ -67,6 +67,9 @@ void SchoolSettingsForm::setupConnections()
 
         // for now - notify the school name has changed. TODO:: make a proper check later
         emit notifySchoolNameChanged(ui->leSchoolName->text());
+
+        // toggle the save button
+        toggleSaveButton(false);
     });
 }
 

@@ -81,7 +81,7 @@ void AdminMenuForm::setWelcomeMessage(const QString &name)
 
 void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)
 {
-    ui->lblSchoolLogo->setPixmap(logo);
+    ui->lblMenuSchoolLogo->setPixmap(logo);
 }
 
 void AdminMenuForm::handleUserLogin()
