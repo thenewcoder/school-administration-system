@@ -116,6 +116,9 @@
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
    </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QListView" name="lvStudents">
    <property name="geometry">
@@ -131,6 +134,9 @@
    </property>
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btnEditTeachers">
