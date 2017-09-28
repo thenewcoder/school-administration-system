@@ -55,8 +55,8 @@ WizardIntroPage::WizardIntroPage(QWidget *parent)
     //void (QComboBox::* activatedOverloadPtr)(int index) = &QComboBox::currentIndexChanged;
     connect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
 
+    // add non en_US locales
     mLangLocale.insert("zh_CN", "Chinese");
-    mLangLocale.insert("en_US", "English");
 
     if (mLangLocale.contains(QLocale::system().name()))
     {

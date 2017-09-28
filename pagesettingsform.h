@@ -9,6 +9,7 @@ class PageSettingsForm;
 
 class SchoolSettingsForm;
 class PersonalProfileForm;
+class SystemSettingsForm;
 class PageHomeForm;
 
 class PageSettingsForm : public QWidget
@@ -31,6 +32,7 @@ private:
     PageHomeForm *mPageHomeForm;
     SchoolSettingsForm *mSchoolSettingsForm;
     PersonalProfileForm *mPersonalProfileForm;
+    SystemSettingsForm *mSystemSettingsForm;
 };
 
 #endif // PAGESETTINGSFORM_H

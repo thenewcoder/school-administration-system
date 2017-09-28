@@ -3,6 +3,7 @@
 
 #include "schoolsettingsform.h"
 #include "personalprofileform.h"
+#include "systemsettingsform.h"
 #include "adminmenuform.h"
 #include "personalprofileform.h"
 #include "pagehomeform.h"
@@ -12,13 +13,15 @@ PageSettingsForm::PageSettingsForm(PageHomeForm *pageHomeForm, QWidget *parent) 
     ui(new Ui::PageSettingsForm),
     mPageHomeForm(pageHomeForm),
     mSchoolSettingsForm(new SchoolSettingsForm(this)),
-    mPersonalProfileForm(new PersonalProfileForm(this))
+    mPersonalProfileForm(new PersonalProfileForm(this)),
+    mSystemSettingsForm(new SystemSettingsForm(this))
 {
     ui->setupUi(this);
 
     // Add tabs to the settings tab widget
     ui->twSettingsPages->addTab(mSchoolSettingsForm, tr("School Settings"));
     ui->twSettingsPages->addTab(mPersonalProfileForm, tr("Personal Info"));
+    ui->twSettingsPages->addTab(mSystemSettingsForm, tr("System Settings"));
 
     setupConnections();
 
