@@ -37,6 +37,6 @@ void SystemSettingsForm::setupConnections()
 
 void SystemSettingsForm::onLanguageChanged(int index)
 {
-    if (index == 1) // chinese
+    if (index == Settings::CHINESE)
         Settings::instance().setLanguage("zh_CN");
 }

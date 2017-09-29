@@ -8,6 +8,7 @@
 #include <QApplication>
 #include "wizardsetup.h"
 #include <QLocale>
+#include "settings.h"
 
 WizardIntroPage::WizardIntroPage(QWidget *parent)
     : QWizardPage(parent)
@@ -69,11 +70,11 @@ void WizardIntroPage::changeLanguage(int index)
 {
     // disonnect the combobox signal so it won't be called when translating
     disconnect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
-    if (index == 0) // English
+    if (index == Settings::ENGLISH)
     {
         translator->load("translations/trans_en_US");
     }
-    else if (index == 1) // Chinese
+    else if (index == Settings::CHINESE)
     {
         translator->load("translations/trans_zh_CN");
     }

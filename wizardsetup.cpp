@@ -61,11 +61,11 @@ void WizardSetup::accept()
 QString WizardSetup::getLanguage() const
 {
     int index = field("language").toInt();
-    if (index == 0)
+    if (index == Settings::ENGLISH)
         return "en_US";
-    else if (index == 1)
+    else if (index == Settings::CHINESE)
         return "zh_CN";
-    else if (index == 2)
+    else if (index == Settings::KOREAN)
         return "ko_KR";
 
     return "en_US"; // default value

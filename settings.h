@@ -6,6 +6,14 @@
 class Settings
 {
 public:
+    enum LANGUAGE
+    {
+        ENGLISH,
+        CHINESE,
+        KOREAN
+    };
+
+public:
     static Settings& instance();
 
     QString language() const;

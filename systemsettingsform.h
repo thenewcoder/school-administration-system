@@ -23,8 +23,13 @@ private:
 private slots:
     void onLanguageChanged(int index);
 
+signals:
+    void notifyLanguageChanged();
+
 private:
     Ui::SystemSettingsForm *ui;
+
+    QString mLanguage;
 };
 
 #endif // SYSTEMSETTINGSFORM_H
