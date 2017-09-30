@@ -3,6 +3,8 @@
 
 #include <QHash>
 
+class QTranslator;
+
 class Settings
 {
 public:
@@ -33,6 +35,9 @@ public:
 
     void saveSetting(const QString &key, const QString &value);
 
+    void addTranslator(QTranslator *translator);
+    QTranslator* getTranslator() const;
+
 private:
     explicit Settings();
     Settings(const Settings& rhs) = delete;
@@ -43,6 +48,8 @@ private:
 
 private:
     QHash<QString, QString> mSettings;
+
+    QTranslator *mTranslator;
 
     bool mSettingsExists;
 };

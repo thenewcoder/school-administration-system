@@ -3,6 +3,7 @@
 #include <QSettings>
 #include <QDir>
 #include <QFileInfo>
+#include <QTranslator>
 
 static const QString FILENAME = QDir::currentPath() + "/settings.ini";
 
@@ -47,6 +48,16 @@ void Settings::saveSetting(const QString &key, const QString &value)
     QSettings settings(FILENAME, QSettings::IniFormat);
     settings.setValue(key, value);
     mSettings[key] = value;
+}
+
+void Settings::addTranslator(QTranslator *translator)
+{
+    mTranslator = translator;
+}
+
+QTranslator *Settings::getTranslator() const
+{
+    return mTranslator;
 }
 
 Settings::Settings()

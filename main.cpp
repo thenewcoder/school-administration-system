@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 
     // prepare the translator
     QTranslator *translator = new QTranslator;
+    Settings::instance().addTranslator(translator);
     qApp->installTranslator(translator);
 
     // check if settings.ini exists

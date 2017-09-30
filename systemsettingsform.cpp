@@ -1,6 +1,8 @@
 #include "systemsettingsform.h"
 #include "ui_systemsettingsform.h"
 
+#include <QTranslator>
+#include <QMessageBox>
 #include "settings.h"
 
 SystemSettingsForm::SystemSettingsForm(QWidget *parent) :
@@ -37,6 +39,17 @@ void SystemSettingsForm::setupConnections()
 
 void SystemSettingsForm::onLanguageChanged(int index)
 {
-    if (index == Settings::CHINESE)
+    if (index == Settings::ENGLISH)
+    {
+        Settings::instance().setLanguage("en_US");
+        Settings::instance().getTranslator()->load("translations/trans_en_US");
+    }
+    else if (index == Settings::CHINESE)
+    {
         Settings::instance().setLanguage("zh_CN");
+        Settings::instance().getTranslator()->load("translations/trans_zh_CN");
+    }
+    QMessageBox::information(this, tr("Language Changed"),
+                             tr("Changes will take effect the next time you log in."));
+
 }
