@@ -34,14 +34,15 @@ EditAttendanceDialog::EditAttendanceDialog(QWidget *parent, bool isEditMode) :
     // set the date edit to todays date
     ui->deClassTime->setDate(QDate::currentDate());
 
-    // setup the attendance table widget
-    ui->twAttendance->setColumnCount(4);
-    ui->twAttendance->setSelectionMode(QAbstractItemView::NoSelection);
-    ui->twAttendance->setFocusPolicy(Qt::NoFocus);
-
     // set the attendance possibilities
     QStringList headerLabels;
-    headerLabels << tr("Students") << tr("Present") << tr("Absent") << tr("Absent W/ Excuse");
+    headerLabels << tr("Students") << tr("Present") << tr("Absent") << tr("Tardy") <<
+                    tr("Absent W/ Excuse") << tr("Tardy W/ Excuse");
+
+    // setup the attendance table widget
+    ui->twAttendance->setColumnCount(headerLabels.length());
+    ui->twAttendance->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->twAttendance->setFocusPolicy(Qt::NoFocus);
 
     // set headers
     ui->twAttendance->setHorizontalHeaderLabels(headerLabels);
@@ -168,11 +169,12 @@ QMap<QString, int> EditAttendanceDialog::getAttendance() const
 
     // get the number of rows in the table
     int rows = ui->twAttendance->rowCount();
+    int columns = ui->twAttendance->columnCount();
 
     for (int row = 0; row < rows; ++row)
     {
         // check each radio button if it's checked or not
-        for (int col = 1; col <= 3; ++col)
+        for (int col = 1; col < columns; ++col)
         {
             QRadioButton *btn = ui->twAttendance->cellWidget(row, col)->findChild<QRadioButton*>();
             if (btn->isChecked()) // if attendance has been found
@@ -205,7 +207,8 @@ void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap
 
         // add a radio button for the remaining columns
         QButtonGroup *grp = new QButtonGroup;
-        for (int col = 1; col <= 3; ++col)
+        int num_columns = ui->twAttendance->columnCount();
+        for (int col = 1; col < num_columns; ++col)
         {
             // create the radio button
             QRadioButton *rbtn = new QRadioButton;
