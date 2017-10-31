@@ -360,11 +360,11 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
     int id = query.lastInsertId().toInt();
 
     // add teacher class connection
+    query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
+                  "(SELECT classId FROM class WHERE className = :className),"
+                  ":teacherId)");
     for (auto &c : teacher.classesTaught())
     {
-        query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
-                      "(SELECT classId FROM class WHERE className = :className),"
-                      ":teacherId)");
         query.bindValue(":className", c);
         query.bindValue(":teacherId", id);
 
@@ -422,11 +422,11 @@ void DatabaseManager::addStudent(const Student &student) const
     int id = query.lastInsertId().toInt();
 
     // add student class connection
+    query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
+                  "(SELECT classId FROM class WHERE className = :className),"
+                  ":studentId)");
     for (auto &c : student.getClassesTaken())
     {
-        query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
-                      "(SELECT classId FROM class WHERE className = :className),"
-                      ":studentId)");
         query.bindValue(":className", c);
         query.bindValue(":studentId", id);
 
@@ -448,13 +448,12 @@ void DatabaseManager::addClass(const Class &c) const
                   ":className, "
                   "(SELECT subjectId FROM subject WHERE subjectName = :subjectName), "
                   "(SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");
-    /*"WHERE EXISTS (SELECT subjectId FROM subject WHERE subjectName = :subjectName) "
-                  "AND (SELECT classroomId FROM classroom WHERE classroomName = :classroomName))");*/
 
     query.bindValue(":gradeName", c.getGrade());
     query.bindValue(":className", c.className());
     query.bindValue(":subjectName", c.subject());
     query.bindValue(":classroomName", c.classRoom());
+
     if (!query.exec())
     {
         qDebug() << "Unable to insert class";
@@ -466,11 +465,11 @@ void DatabaseManager::addClass(const Class &c) const
     QString classId = query.lastInsertId().toString();
 
     // insert the teachers - class connections
+    query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
+                  ":classId,"
+                  "(SELECT teacherId FROM teacher WHERE name = :name))");
     for (auto &t : c.teachers())
     {
-        query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
-                      ":classId,"
-                      "(SELECT teacherId FROM teacher WHERE name = :name))");
         query.bindValue(":classId", classId);
         query.bindValue(":name", t);
 
@@ -481,11 +480,11 @@ void DatabaseManager::addClass(const Class &c) const
     }
 
     // insert the students - class connections
+    query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
+                  ":classId,"
+                  "(SELECT studentId FROM student WHERE name = :name))");
     for (auto &s : c.students())
     {
-        query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
-                      ":classId,"
-                      "(SELECT studentId FROM student WHERE name = :name))");
         query.bindValue(":classId", classId);
         query.bindValue(":name", s);
 
@@ -614,12 +613,13 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
 
     // add the attendance
     const QMap<QString, int> &att = record.getAttendance();
+    query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type) "
+                  "VALUES(:recordId,"
+                  "(SELECT studentId FROM student WHERE name = :name),"
+                  ":attendanceId)");
+
     for (auto &student : att.keys())
     {
-        query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type) "
-                      "VALUES(:recordId,"
-                      "(SELECT studentId FROM student WHERE name = :name),"
-                      ":attendanceId)");
         query.bindValue(":recordId", id);
         query.bindValue(":name", student);
         query.bindValue(":attendanceId", att.value(student));
@@ -941,11 +941,11 @@ void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &tea
     }
 
     // add the new connections
+    query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
+                  "(SELECT classId FROM class WHERE className = :className),"
+                  ":teacherId)");
     for (auto &c : teacher.classesTaught())
     {
-        query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
-                      "(SELECT classId FROM class WHERE className = :className),"
-                      ":teacherId)");
         query.bindValue(":className", c);
         query.bindValue(":teacherId", teacherId);
 
@@ -1007,11 +1007,11 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
     }
 
     // update with the new connections
+    query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
+                  "(SELECT classId FROM class WHERE className = :className),"
+                  ":studentId)");
     for (auto &c : student.getClassesTaken())
     {
-        query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
-                      "(SELECT classId FROM class WHERE className = :className),"
-                      ":studentId)");
         query.bindValue(":className", c);
         query.bindValue(":studentId", studentId);
 
@@ -1075,11 +1075,11 @@ void DatabaseManager::saveClassData(const Class &c)
     }
 
     // then insert all the teachers
+    query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES( "
+                  ":classId,"
+                  "(SELECT teacherId FROM teacher WHERE name = :teacherName))");
     for (auto &t : c.teachers())
     {
-        query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES( "
-                      ":classId,"
-                      "(SELECT teacherId FROM teacher WHERE name = :teacherName))");
         query.bindValue(":classId", c.classId());
         query.bindValue(":teacherName", t);
 
@@ -1097,11 +1097,11 @@ void DatabaseManager::saveClassData(const Class &c)
     }
 
     // insert the students
+    query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
+                  ":classId,"
+                  "(SELECT studentId FROM student WHERE name = :studentName))");
     for (auto &s : c.students())
     {
-        query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
-                      ":classId,"
-                      "(SELECT studentId FROM student WHERE name = :studentName))");
         query.bindValue(":classId", c.classId());
         query.bindValue(":studentName", s);
 
@@ -1137,7 +1137,6 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
     const QMap<QString, int> &att = record.getAttendance();
     for (auto &student : att.keys())
     {
-
         query.prepare(QString("UPDATE attendance_record SET "
                       "attendance_type = %1 "
                       "WHERE class_record_id = %2 AND "
