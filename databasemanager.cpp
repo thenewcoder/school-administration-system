@@ -614,12 +614,13 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
 
     // add the attendance
     const QMap<QString, int> &att = record.getAttendance();
+    query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type) "
+                  "VALUES(:recordId,"
+                  "(SELECT studentId FROM student WHERE name = :name),"
+                  ":attendanceId)");
+
     for (auto &student : att.keys())
     {
-        query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type) "
-                      "VALUES(:recordId,"
-                      "(SELECT studentId FROM student WHERE name = :name),"
-                      ":attendanceId)");
         query.bindValue(":recordId", id);
         query.bindValue(":name", student);
         query.bindValue(":attendanceId", att.value(student));
