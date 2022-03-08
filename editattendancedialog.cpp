@@ -10,6 +10,7 @@
 
 #include <QDebug>
 #include <QPushButton>
+#include <QButtonGroup>
 #include <QRadioButton>
 
 EditAttendanceDialog::EditAttendanceDialog(QWidget *parent, bool isEditMode) :
@@ -227,7 +228,7 @@ void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap
                 }
             }
 
-            // Create an empty widget
+            // Create an empty widget to help with adding the radio button
             QWidget *wdg = new QWidget;
 
             // create a layout for the empty widget and add the radio button
