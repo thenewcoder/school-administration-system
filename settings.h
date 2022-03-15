@@ -35,11 +35,11 @@ public:
 
     void saveSetting(const QString &key, const QString &value);
 
-    void addTranslator(QTranslator *translator);
     QTranslator* getTranslator() const;
 
 private:
     explicit Settings();
+    ~Settings();
     Settings(const Settings& rhs) = delete;
     Settings& operator=(const Settings& rhs) = delete;
 

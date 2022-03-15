@@ -50,11 +50,6 @@ void Settings::saveSetting(const QString &key, const QString &value)
     mSettings[key] = value;
 }
 
-void Settings::addTranslator(QTranslator *translator)
-{
-    mTranslator = translator;
-}
-
 QTranslator *Settings::getTranslator() const
 {
     return mTranslator;
@@ -62,11 +57,18 @@ QTranslator *Settings::getTranslator() const
 
 Settings::Settings()
 {
+    mTranslator = new QTranslator();
     if (settingsExists())
     {
         // read settings from the settings.ini file
         loadSettings();
     }
+}
+
+Settings::~Settings()
+{
+    if (mTranslator != nullptr)
+        delete mTranslator;
 }
 
 bool Settings::settingsExists() const

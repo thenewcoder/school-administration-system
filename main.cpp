@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     // prepare the translator
-    QTranslator *translator = new QTranslator;
-    Settings::instance().addTranslator(translator);
+    QTranslator *translator = Settings::instance().getTranslator();
     qApp->installTranslator(translator);
 
     // check if settings.ini exists
@@ -26,9 +25,6 @@ int main(int argc, char *argv[])
         WizardSetup setup(translator);
         if (setup.exec() != QWizard::Accepted) // if user cancelled then close application
         {
-            // delete pointers
-            delete translator;
-
             return 0;
         }
     }
@@ -43,10 +39,5 @@ int main(int argc, char *argv[])
     }
 
     w.show();
-    int return_code = a.exec();
-
-    // delete pointers
-    delete translator;
-
-    return return_code;
+    return a.exec();
 }
