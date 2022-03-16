@@ -9,13 +9,11 @@
 
 #include <QVariant>
 #include <QDir>
-#include <QTranslator>
 #include <QApplication>
-#include <QDebug>
 
-WizardSetup::WizardSetup(QTranslator *translator, QWidget *parent)
+
+WizardSetup::WizardSetup(QWidget *parent)
     : QWizard(parent)
-    , mTranslator(translator)
 {
     // make the font size a little bigger than default
     QFont f(font());
@@ -61,14 +59,18 @@ void WizardSetup::accept()
 QString WizardSetup::getLanguage() const
 {
     int index = field("language").toInt();
-    if (index == Settings::ENGLISH)
-        return "en_US";
-    else if (index == Settings::CHINESE)
-        return "zh_CN";
-    else if (index == Settings::KOREAN)
-        return "ko_KR";
 
-    return "en_US"; // default value
+    switch(index)
+    {
+    case Settings::ENGLISH:
+        return "en_US";
+    case Settings::CHINESE:
+        return "zh_CN";
+    case Settings::KOREAN:
+        return "ko_KR";
+    default:
+        return "en_US";
+    }
 }
 
 QString WizardSetup::getDatabaseDriver() const

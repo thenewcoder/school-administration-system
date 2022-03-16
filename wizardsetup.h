@@ -4,16 +4,12 @@
 #include <QWidget>
 #include <QWizard>
 
-class QTranslator;
-
 class WizardSetup : public QWizard
 {
     Q_OBJECT
 
 public:
-    WizardSetup(QTranslator *translator, QWidget *parent = Q_NULLPTR);
-
-    QTranslator *mTranslator;
+    WizardSetup(QWidget *parent = nullptr);
 
     // QDialog interface
 public slots:

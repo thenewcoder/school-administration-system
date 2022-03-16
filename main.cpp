@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     if (!Settings::instance().settingsExists()) // no settings.ini exist
     {
         // take user through the wizard
-        WizardSetup setup(translator);
+        WizardSetup setup;
         if (setup.exec() != QWizard::Accepted) // if user cancelled then close application
         {
             return 0;

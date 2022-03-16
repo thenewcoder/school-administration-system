@@ -1,4 +1,6 @@
 ﻿#include "wizardintropage.h"
+#include "wizardsetup.h"
+#include "settings.h"
 
 #include <QLabel>
 #include <QComboBox>
@@ -6,13 +8,12 @@
 #include <QHBoxLayout>
 #include <QTranslator>
 #include <QApplication>
-#include "wizardsetup.h"
 #include <QLocale>
-#include "settings.h"
+
 
 WizardIntroPage::WizardIntroPage(QWidget *parent)
     : QWizardPage(parent)
-    , translator(qobject_cast<WizardSetup *>(parent)->mTranslator)
+    , translator(Settings::instance().getTranslator())
     , mLangIndex(0)
 {
     setTitle(tr("Welcome"));
