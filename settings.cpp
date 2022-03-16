@@ -107,7 +107,7 @@ void Settings::loadSettings()
 void Settings::saveSettings(QHash<QString, QString> &values)
 {
     QSettings settings(FILENAME, QSettings::IniFormat);
-    for (auto &k : values.keys())
+    for (auto &k : qAsConst(values))
     {
         settings.setValue(k, values[k]);
         mSettings[k] = values[k];
