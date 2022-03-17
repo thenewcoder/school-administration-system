@@ -32,7 +32,7 @@ MainWindow::~MainWindow()
 void MainWindow::setupConnections()
 {
     // log in user
-    connect(ui->loginButton, &QPushButton::clicked, [this] () {
+    connect(ui->loginButton, &QPushButton::clicked, this, [this] () {
         if (Login::instance().validLogin(username(), password()))
         {
             setupNewAdminForm();
@@ -64,7 +64,7 @@ void MainWindow::setupNewAdminForm()
     connect(this, &MainWindow::notifyUserLogin, adminMenuForm, &AdminMenuForm::handleUserLogin);
 
     // log out user
-    connect(adminMenuForm, &AdminMenuForm::notifyLoggingOut, [this] () {
+    connect(adminMenuForm, &AdminMenuForm::notifyLoggingOut, this, [this] () {
         ui->stackedWidget->setCurrentWidget(ui->loginPage);
 
         // delete the adminMenuForm on logout

@@ -100,7 +100,7 @@ bool WizardUserSetupPage::isComplete() const
 
 void WizardUserSetupPage::setupConnections()
 {
-    connect(btnExistingUser, &QRadioButton::toggled, [this] (bool checked) {
+    connect(btnExistingUser, &QRadioButton::toggled, this, [this] (bool checked) {
         emit completeChanged();
 
         if (checked)
