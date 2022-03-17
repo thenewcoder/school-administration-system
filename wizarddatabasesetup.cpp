@@ -81,7 +81,7 @@ void WizardDatabaseSetup::setupConnections()
     connect(chbDefaultLocation, &QCheckBox::toggled, this, &WizardDatabaseSetup::completeChanged);
 
     // default location checkbox button
-    connect(chbDefaultLocation, &QCheckBox::toggled, [this] (bool toggled) {
+    connect(chbDefaultLocation, &QCheckBox::toggled, this, [this] (bool toggled) {
         if (toggled)
         {
             leLocation->setEnabled(false);
@@ -95,7 +95,7 @@ void WizardDatabaseSetup::setupConnections()
     });
 
     // existing database radio button
-    connect(btnExistingDatabase, &QRadioButton::clicked, [this] (bool clicked) {
+    connect(btnExistingDatabase, &QRadioButton::clicked, this, [this] (bool clicked) {
         if (clicked)
         {
             chbDefaultLocation->setChecked(false);
@@ -105,7 +105,7 @@ void WizardDatabaseSetup::setupConnections()
     });
 
     // new database radio button
-    connect(btnNewDatabase, &QRadioButton::clicked, [this] (bool clicked) {
+    connect(btnNewDatabase, &QRadioButton::clicked, this, [this] (bool clicked) {
         if (clicked)
         {
             chbDefaultLocation->setEnabled(true);
@@ -114,7 +114,7 @@ void WizardDatabaseSetup::setupConnections()
     });
 
     // change location button
-    connect(btnChangeLocation, &QPushButton::clicked, [this] () {
+    connect(btnChangeLocation, &QPushButton::clicked, this, [this] () {
         if (btnNewDatabase->isChecked())
         {
             QFileDialog dialog(this);
@@ -138,7 +138,7 @@ void WizardDatabaseSetup::setupConnections()
 
             if (dialog.exec() == QFileDialog::Accepted)
             {
-                QString file = dialog.selectedFiles().first();
+                QString file = dialog.selectedFiles().constFirst();
                 leLocation->setText(file);
 
                 // TODO: add a database test later
