@@ -28,6 +28,11 @@ EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
     countries << DatabaseManager::instance().nationalities();
     ui->cbNationality->setModel(new QStringListModel(countries));
 
+    ui->cbGender->setEditable(true);
+    ui->cbGender->lineEdit()->setPlaceholderText(tr("Choose Gender..."));
+    ui->cbGender->addItems(QStringList{tr("Male"), tr("Female")});
+    ui->cbGender->setCurrentIndex(-1);
+
     // prepare the list view classes model
     ui->lvClasses->setModel(mModelClasses);
 
@@ -125,12 +130,22 @@ void EditTeacherDialog::setPreferredName(const QString &preferredName)
 
 QString EditTeacherDialog::gender() const
 {
-    return ui->cbGender->currentText();
+    QString currentText = ui->cbGender->currentText();
+    if (currentText == tr("Male"))
+        return QString("Male");
+    else if (currentText == tr("Female"))
+        return QString("Female");
+    return QString("");
 }
 
 void EditTeacherDialog::setGender(const QString &gender)
 {
-    ui->cbGender->setCurrentText(gender);
+    if (gender == "Male")
+        ui->cbGender->setCurrentIndex(0);
+    else if (gender == "Female")
+        ui->cbGender->setCurrentIndex(1);
+    else
+        ui->cbGender->setCurrentIndex(-1);
 }
 
 QString EditTeacherDialog::nationality() const
