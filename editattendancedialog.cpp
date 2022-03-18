@@ -207,7 +207,7 @@ void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap
         ui->twAttendance->setItem(row, 0, item);
 
         // add a radio button for the remaining columns
-        QButtonGroup *grp = new QButtonGroup;
+        QButtonGroup *grp = new QButtonGroup(ui->twAttendance);
         int num_columns = ui->twAttendance->columnCount();
         for (int col = 1; col < num_columns; ++col)
         {
@@ -247,6 +247,10 @@ void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap
 
         // go to the next row
         ++row;
+
+        // fixes memory leak warning
+        if (grp->buttons().count() < 1)
+            delete grp;
     }
 }
 
@@ -273,7 +277,7 @@ void EditAttendanceDialog::setupConnections()
     connect(ui->cbTeachers, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
 
     // classes combo box has changed
-    connect(ui->cbClasses, &QComboBox::currentTextChanged, [this] (const QString &text) {
+    connect(ui->cbClasses, &QComboBox::currentTextChanged, this, [this] (const QString &text) {
         if (!mEditMode)
         {
             if (ui->cbClasses->currentIndex() != 0) // class is selected
@@ -305,7 +309,7 @@ void EditAttendanceDialog::setupConnections()
     });
 
     // show all teachers check box has changed state
-    connect(ui->cbShowAllTeachers, &QCheckBox::toggled, [this] (bool checked) {
+    connect(ui->cbShowAllTeachers, &QCheckBox::toggled, this, [this] (bool checked) {
         if (checked)
         {
             QString name;
