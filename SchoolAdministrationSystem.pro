@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += main.cpp\
+    genderitemdelegate.cpp \
         mainwindow.cpp \
     databasemanager.cpp \
     adminmenuform.cpp \
@@ -48,6 +49,7 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     databasemanager.h \
     adminmenuform.h \
+    genderitemdelegate.h \
     settings.h \
     login.h \
     pagehomeform.h \
