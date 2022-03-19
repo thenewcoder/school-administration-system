@@ -337,9 +337,8 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
     QSqlQuery query;
     query.prepare(QString("INSERT INTO teacher "
-                          "('name', 'preferredName', genderId, nationalityId, 'address', 'phoneNumber', 'photo') "
-                          "VALUES(:name, :preferredName, "
-                          "(SELECT genderId FROM gender WHERE type = :gender), "
+                          "('name', 'preferredName', gender, nationalityId, 'address', 'phoneNumber', 'photo') "
+                          "VALUES(:name, :preferredName, :gender, "
                           "(SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           ":address, :phoneNumber, :photo)"));
 
@@ -380,12 +379,11 @@ void DatabaseManager::addStudent(const Student &student) const
 {
     QSqlQuery query;
     query.prepare(QString("INSERT INTO student "
-                          "('name', 'nickName', 'dateOfBirth', genderId, nationalityId, "
+                          "('name', 'nickName', 'dateOfBirth', gender, nationalityId, "
                           "'passportNumber', 'IDNumber', 'address', "
                           "'studentPhoneNumber', 'studentEmail', 'fathersPhoneNumber', "
                           "'mothersPhoneNumber', 'parentEmail', gradeId, 'photo', dormitoryId, busstopId) "
-                          "VALUES(:name, :nickName, :dateOfBirth, "
-                          "(SELECT genderId FROM gender WHERE type = :gender), "
+                          "VALUES(:name, :nickName, :dateOfBirth, :gender, "
                           "(SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           ":passportNumber, :IDNumber, :address, :studentPhoneNumber, :studentEmail, "
                           ":fathersPhoneNumber, :mothersPhoneNumber, :parentEmail, "
@@ -701,8 +699,7 @@ Teacher DatabaseManager::getTeacher(const QString &teacherId)
     Teacher teacher;
 
     QSqlQuery query;
-    query.prepare(QString("SELECT name, preferredName, type, country, address, phoneNumber, photo FROM teacher AS T "
-                          "JOIN gender AS G ON T.genderId = G.genderId "
+    query.prepare(QString("SELECT name, preferredName, gender, country, address, phoneNumber, photo FROM teacher AS T "
                           "JOIN nationality AS N ON T.nationalityId = N.nationalityId "
                           "WHERE teacherId = %1").arg(teacherId));
 
@@ -712,7 +709,7 @@ Teacher DatabaseManager::getTeacher(const QString &teacherId)
         {
             teacher.setName(query.value("name").toString());
             teacher.setPreferredName(query.value("preferredName").toString());
-            teacher.setGender(query.value("type").toString());
+            teacher.setGender(query.value("gender").toString());
             teacher.setNationality(query.value("country").toString());
             teacher.setAddress(query.value("address").toString());
             teacher.setPhoneNumber(query.value("phoneNumber").toString());
@@ -728,11 +725,10 @@ Student DatabaseManager::getStudent(const QString &studentId)
     Student student;
 
     QSqlQuery query;
-    query.prepare(QString("SELECT S.name, S.nickName, dateOfBirth, type, country, passportNumber, "
+    query.prepare(QString("SELECT S.name, S.nickName, dateOfBirth, gender, country, passportNumber, "
                           "GR.name AS Grade, IDNumber, address, studentPhoneNumber, studentEmail, "
                           "fathersPhoneNumber, mothersPhoneNumber, parentEmail, photo, D.name AS dorm, B.busstopName AS busstop "
                           "FROM student AS S "
-                          "LEFT OUTER JOIN gender AS G ON S.genderId = G.genderId "
                           "LEFT OUTER JOIN nationality AS N ON S.nationalityId = N.nationalityId "
                           "LEFT OUTER JOIN dormitory AS D ON D.dormitoryId = S.dormitoryId "
                           "LEFT OUTER JOIN bus_stop AS B ON B.busstopId = S.busstopId "
@@ -746,7 +742,7 @@ Student DatabaseManager::getStudent(const QString &studentId)
             student.setName(query.value("name").toString());
             student.setNickName(query.value("nickName").toString());
             student.setDateOfBirth(query.value("dateOfBirth").toString());
-            student.setGender(query.value("type").toString());
+            student.setGender(query.value("gender").toString());
             student.setNationality(query.value("country").toString());
             student.setGrade(query.value("Grade").toString());
             student.setPassportNumber(query.value("passportNumber").toString());
@@ -913,8 +909,7 @@ void DatabaseManager::saveTeacherData(const Teacher &teacher, const QString &tea
 {
     QSqlQuery query;
     query.prepare(QString("UPDATE teacher SET "
-                          "name = :name, preferredName = :preferredName, "
-                          "genderId = (SELECT genderId FROM gender WHERE type = :gender), "
+                          "name = :name, preferredName = :preferredName, gender = :gender, "
                           "nationalityId = (SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           "address = :address, phoneNumber = :phoneNumber, photo = :photo "
                           "WHERE teacherId = :teacherId"));
@@ -961,7 +956,7 @@ void DatabaseManager::saveStudentData(const Student &student, const QString &stu
     QSqlQuery query;
     query.prepare(QString("UPDATE student SET "
                           "name = :name, nickName = :nickName, dateOfBirth = :dateOfBirth, "
-                          "genderId = (SELECT genderId FROM gender WHERE type = :gender), "
+                          "gender = :gender, "
                           "nationalityId = (SELECT nationalityId FROM nationality WHERE country = :nationality), "
                           "passportNumber = :passportNumber, IDNumber = :IDNumber, "
                           "address = :address, studentPhoneNumber = :studentPhoneNumber, "

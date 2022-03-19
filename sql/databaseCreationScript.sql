@@ -10,17 +10,6 @@ INSERT INTO `school` (
         `name`, `address`, `phone`, `email`, `logo`)
         VALUES (NULL, NULL, NULL, NULL, NULL);
 
-CREATE TABLE IF NOT EXISTS `gender` (
-	`genderId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        `type`          TEXT NOT NULL UNIQUE
-);
-
-INSERT INTO `gender` (
-	`type`)
-	VALUES
-	("Male"),
-	("Female");
-
 CREATE TABLE IF NOT EXISTS `user_type` (
 	`userTypeId` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         `type`       TEXT NOT NULL UNIQUE
@@ -272,12 +261,11 @@ CREATE TABLE IF NOT EXISTS `teacher` (
 	`teacherId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         `name`	        TEXT,
         `preferredName`	TEXT,
-	`genderId`	INTEGER,
+        `gender`	INTEGER,
 	`nationalityId`	INTEGER,
 	`address`	TEXT,
 	`phoneNumber`	TEXT,
         `photo`         BLOB,
-	FOREIGN KEY(`genderId`) REFERENCES gender(genderId),
         FOREIGN KEY(`nationalityId`) REFERENCES nationality(nationalityId)
 );
 
@@ -319,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `student` (
 	`name`	TEXT NOT NULL,
         `nickName`	TEXT,
 	`dateOfBirth`	TEXT,
-	`genderId`	INTEGER,
+        `gender`	INTEGER,
 	`nationalityId`	INTEGER,
 	`passportNumber`	TEXT,
 	`IDNumber`	TEXT,
@@ -334,7 +322,6 @@ CREATE TABLE IF NOT EXISTS `student` (
 	`dormitoryId`	INTEGER,
 	`enrollmentId`	INTEGER,
 	`busstopId`	INTEGER,
-	FOREIGN KEY(`genderId`) REFERENCES gender(genderId),
 	FOREIGN KEY(`nationalityId`) REFERENCES nationality(nationalityId),
 	FOREIGN KEY(`gradeId`) REFERENCES grade(gradeId),
 	FOREIGN KEY(`dormitoryId`) REFERENCES dormitory(dormitoryId),
@@ -416,22 +403,20 @@ GROUP BY C.classId
 ORDER BY G.name, className;
 
 CREATE VIEW student_summary AS
-SELECT studentId, S.name, GR.name AS 'Grade', type, country, IDNumber, studentPhoneNumber, D.name AS 'Dorm'
+SELECT studentId, S.name, GR.name AS 'Grade', gender, country, IDNumber, studentPhoneNumber, D.name AS 'Dorm'
 FROM student S
-LEFT OUTER JOIN gender G on G.genderId = S.genderId
 LEFT OUTER JOIN nationality N on N.nationalityId = S.nationalityId
 LEFT OUTER JOIN dormitory D on D.dormitoryId = S.dormitoryId
 LEFT OUTER JOIN grade GR ON GR.gradeId = S.gradeId
 ORDER BY S.name;
 
 CREATE VIEW teacher_summary AS
-SELECT teacherId, name, type, country, address, phoneNumber
+SELECT teacherId, name, gender, country, address, phoneNumber
 FROM teacher
-LEFT OUTER JOIN gender ON gender.genderId = teacher.genderId
 LEFT OUTER JOIN nationality ON nationality.nationalityId = teacher.nationalityId;
 
 CREATE VIEW teacher_summary2 AS
-SELECT TS.teacherId, TS.name, TS.type, TS.country, TS.address, TS.phoneNumber, group_concat(S.subjectName, ', ') AS classes
+SELECT TS.teacherId, TS.name, TS.gender, TS.country, TS.address, TS.phoneNumber, group_concat(S.subjectName, ', ') AS classes
 FROM teacher_summary TS
 LEFT OUTER JOIN teacher_class TC ON TC.teacherId = TS.teacherId
 LEFT OUTER JOIN class C ON C.classId = TC.classId

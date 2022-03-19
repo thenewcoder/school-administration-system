@@ -29,6 +29,11 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
     countries << DatabaseManager::instance().nationalities();
     ui->cbNationality->setModel(new QStringListModel(countries));
 
+    ui->cbGender->setEditable(true);
+    ui->cbGender->lineEdit()->setPlaceholderText(tr("Choose Gender..."));
+    ui->cbGender->addItems(QStringList{tr("Male"), tr("Female")});
+    ui->cbGender->setCurrentIndex(-1);
+
     // prepare the grade combo box
     QStringList grades(tr("Select One"));
     grades << DatabaseManager::instance().grades();
@@ -256,12 +261,22 @@ void EditStudentDialog::setDateOfBirth(const QString &date)
 
 QString EditStudentDialog::gender() const
 {
-    return ui->cbGender->currentText();
+    int currentIndex = ui->cbGender->currentIndex();
+    if (currentIndex == 0)
+        return QString("0");
+    else if (currentIndex == 1)
+        return QString("1");
+    return QString("");
 }
 
 void EditStudentDialog::setGender(const QString &gender)
 {
-    ui->cbGender->setCurrentText(gender);
+    if (gender == "0")
+        ui->cbGender->setCurrentIndex(0);
+    else if (gender == "1")
+        ui->cbGender->setCurrentIndex(1);
+    else
+        ui->cbGender->setCurrentIndex(-1);
 }
 
 QString EditStudentDialog::nationality() const

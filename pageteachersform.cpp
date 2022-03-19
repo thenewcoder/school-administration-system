@@ -4,6 +4,7 @@
 #include "databasemanager.h"
 #include "editteacherdialog.h"
 #include "teacher.h"
+#include "genderitemdelegate.h"
 
 #include <QSqlTableModel>
 #include <QMessageBox>
@@ -28,6 +29,7 @@ PageTeachersForm::PageTeachersForm(QWidget *parent) :
     mModel->setHeaderData(FIELDS::CLASSES, Qt::Horizontal, tr("Classes"));  // maybe temporary
 
     ui->tvTeachers->setModel(mModel);
+    ui->tvTeachers->setItemDelegateForColumn(FIELDS::GENDER, new GenderItemDelegate);
     ui->tvTeachers->hideColumn(FIELDS::ID); // hide id
     ui->tvTeachers->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvTeachers->setSelectionMode(QAbstractItemView::SingleSelection);

@@ -130,19 +130,19 @@ void EditTeacherDialog::setPreferredName(const QString &preferredName)
 
 QString EditTeacherDialog::gender() const
 {
-    QString currentText = ui->cbGender->currentText();
-    if (currentText == tr("Male"))
-        return QString("Male");
-    else if (currentText == tr("Female"))
-        return QString("Female");
+    int currentIndex = ui->cbGender->currentIndex();
+    if (currentIndex == 0)
+        return QString("0");
+    else if (currentIndex == 1)
+        return QString("1");
     return QString("");
 }
 
 void EditTeacherDialog::setGender(const QString &gender)
 {
-    if (gender == "Male")
+    if (gender == "0")
         ui->cbGender->setCurrentIndex(0);
-    else if (gender == "Female")
+    else if (gender == "1")
         ui->cbGender->setCurrentIndex(1);
     else
         ui->cbGender->setCurrentIndex(-1);
