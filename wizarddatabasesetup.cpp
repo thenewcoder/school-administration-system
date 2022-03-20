@@ -10,7 +10,10 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QApplication>
+#include <QDebug>
+#include "settings.h"
 
 WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
     : QWizardPage(parent)
@@ -48,6 +51,9 @@ WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
     btnChangeLocation = new QPushButton("...");
     btnChangeLocation->setFixedWidth(50);
 
+    lblDatabaseMessage = new QLabel(tr("<font color='red'>A database already exist!</font>"));
+    lblDatabaseMessage->setVisible(false);
+
     // prepare main layout and add the widgets
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(lblDatabaseType, 0, 0);
@@ -57,8 +63,8 @@ WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
     layout->addWidget(lblLocation, 3, 0);
     layout->addWidget(leLocation, 3, 1);
     layout->addWidget(btnChangeLocation, 3, 2);
+    layout->addWidget(lblDatabaseMessage, 4, 1);
     layout->setVerticalSpacing(10);
-
     setLayout(layout);
 
     setupConnections();
@@ -147,12 +153,34 @@ void WizardDatabaseSetup::setupConnections()
     });
 }
 
-bool WizardDatabaseSetup::isComplete() const
+bool WizardDatabaseSetup::databaseExists() const
 {
-    return (!chbDefaultLocation->isChecked() && !leLocation->text().isEmpty())
-            || chbDefaultLocation->isChecked();
+    QFileInfo check_file(Settings::instance().defaultDatabaseLocation());
+    bool exists = false;
+    if ((btnNewDatabase->isChecked() && chbDefaultLocation->isChecked() && check_file.exists()))
+        exists = true;
+    else if (btnNewDatabase->isChecked() && !chbDefaultLocation->isChecked())
+    {
+        QString path;
+        if (leLocation->text().isEmpty())
+            path = Settings::instance().defaultDatabaseLocation();
+        else
+            path = leLocation->text().append("/" + Settings::instance().defaultDatabaseLocation());
+        check_file.setFile(path);
+        exists = check_file.exists();
+    }
+    return exists;
 }
 
+bool WizardDatabaseSetup::isComplete() const
+{
+    // validate if new database option is checked but a database already exist
+    bool showWarning = databaseExists();
+    lblDatabaseMessage->setVisible(showWarning);
+
+    return (!chbDefaultLocation->isChecked() && !leLocation->text().isEmpty())
+            || (chbDefaultLocation->isChecked() && !showWarning);
+}
 
 void WizardDatabaseSetup::changeEvent(QEvent *e)
 {
@@ -165,5 +193,6 @@ void WizardDatabaseSetup::changeEvent(QEvent *e)
         gbGroupBox->setTitle(qApp->translate("WizardDatabaseSetup", "Database"));
         chbDefaultLocation->setText(qApp->translate("WizardDatabaseSetup", "Default Location (Recommended)"));
         lblLocation->setText(qApp->translate("WizardDatabaseSetup", "Location:"));
+        lblDatabaseMessage->setText(qApp->translate("WizardDatabaseSetup", "<font color='red'>A database already exist!</font>"));
     }
 }

@@ -32,6 +32,7 @@ public:
 
     bool isDefaultDatabase() const;
     void setIsDefaultDatabase(bool isDefault);
+    QString defaultDatabaseLocation() const;
 
     void saveSetting(const QString &key, const QString &value);
 

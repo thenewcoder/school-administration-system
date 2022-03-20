@@ -95,6 +95,11 @@ void Settings::setIsDefaultDatabase(bool isDefault)
     settings.setValue("defaultDatabase", isDefault);
 }
 
+QString Settings::defaultDatabaseLocation() const
+{
+    return QString("database.db");
+}
+
 void Settings::loadSettings()
 {
     QSettings settings(FILENAME, QSettings::IniFormat);

@@ -23,6 +23,7 @@ public:
 
 private:
     void setupConnections();
+    bool databaseExists() const;
 
 private:
     QLabel *lblDatabaseType;
@@ -38,6 +39,8 @@ private:
     QLineEdit *leLocation;
 
     QPushButton *btnChangeLocation;
+
+    QLabel *lblDatabaseMessage;
 
 
     // QWidget interface
