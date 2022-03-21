@@ -53,7 +53,12 @@ void PageSettingsForm::setupConnections()
 void PageSettingsForm::changeEvent(QEvent *e)
 {
     if (e->type() == QEvent::LanguageChange)
+    {
         ui->retranslateUi(this);
+        ui->twSettingsPages->setTabText(0, tr("School Settings"));
+        ui->twSettingsPages->setTabText(1, tr("Personal Info"));
+        ui->twSettingsPages->setTabText(2, tr("System Settings"));
+    }
     QWidget::changeEvent(e);
 }
 
