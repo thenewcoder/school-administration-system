@@ -39,6 +39,10 @@ private:
     void setupDeleteButtons();
     void setupViews();
 
+    void addClassroomTableHeaders();
+    void addDormitoryTableHeaders();
+    void addBusstopTableHeaders();
+
 private:
     Ui::PageOtherForm *ui;
 
@@ -47,6 +51,10 @@ private:
     QSqlTableModel *mModelBusStops;
     QStringListModel *mModelGrades;
     QStringListModel *mModelSubjects;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // PAGEOTHERFORM_H

@@ -155,3 +155,10 @@ void EditActivityDialog::toggleOKButton(bool state)
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(state);
 }
+
+void EditActivityDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QDialog::changeEvent(e);
+}

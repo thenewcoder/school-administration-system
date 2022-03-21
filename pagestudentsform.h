@@ -35,6 +35,7 @@ signals:
 
 private:
     void setupConnections();
+    void addTableHeaders();
 
 public slots:
     void updateStudentsTable();
@@ -48,6 +49,10 @@ private:
     Ui::PageStudentsForm *ui;
 
     QSqlTableModel *mModel;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // PAGESTUDENTSFORM_H

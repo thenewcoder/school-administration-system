@@ -30,6 +30,10 @@ private:
     Ui::SystemSettingsForm *ui;
 
     QString mLanguage;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // SYSTEMSETTINGSFORM_H

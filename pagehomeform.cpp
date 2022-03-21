@@ -52,3 +52,10 @@ void PageHomeForm::initTeachers()
 {
     ui->lblTotalTeachers->setText(QString::number(DatabaseManager::instance().numTeachers()));
 }
+
+void PageHomeForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QWidget::changeEvent(e);
+}

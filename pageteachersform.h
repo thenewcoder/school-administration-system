@@ -42,12 +42,17 @@ private slots:
 
 private:
     void setupConnections();
+    void addTableHeaders();
 
 private:
     Ui::PageTeachersForm *ui;
 
     QSqlTableModel *mModel;
 
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // PAGETEACHERSFORM_H

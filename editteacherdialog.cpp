@@ -276,6 +276,13 @@ void EditTeacherDialog::toggleSaveButton(bool state)
     ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(state);
 }
 
+void EditTeacherDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QDialog::changeEvent(e);
+}
+
 void EditTeacherDialog::on_buttonBox_accepted()
 {
     accept();

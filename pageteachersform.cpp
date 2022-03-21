@@ -9,6 +9,7 @@
 #include <QSqlTableModel>
 #include <QMessageBox>
 #include <QDebug>
+#include <QTableView>
 
 PageTeachersForm::PageTeachersForm(QWidget *parent) :
     QWidget(parent),
@@ -21,12 +22,7 @@ PageTeachersForm::PageTeachersForm(QWidget *parent) :
     mModel->select();
     mModel->sort(FIELDS::NAME, Qt::AscendingOrder); // sort by the name column
 
-    mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
-    mModel->setHeaderData(FIELDS::GENDER, Qt::Horizontal, tr("Gender"));
-    mModel->setHeaderData(FIELDS::NATIONALITY, Qt::Horizontal, tr("Nationality"));
-    mModel->setHeaderData(FIELDS::ADDRESS, Qt::Horizontal, tr("Address"));
-    mModel->setHeaderData(FIELDS::PHONE, Qt::Horizontal, tr("Phone Number"));
-    mModel->setHeaderData(FIELDS::CLASSES, Qt::Horizontal, tr("Classes"));  // maybe temporary
+    addTableHeaders();
 
     ui->tvTeachers->setModel(mModel);
     ui->tvTeachers->setItemDelegateForColumn(FIELDS::GENDER, new GenderItemDelegate);
@@ -130,4 +126,24 @@ void PageTeachersForm::setupConnections()
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageTeachersForm::addTeacher);
     connect(ui->btnDelete, &QPushButton::clicked, this, &PageTeachersForm::deleteTeacher);
     connect(ui->btnRefresh, &QPushButton::clicked, mModel, &QSqlTableModel::select);
+}
+
+void PageTeachersForm::addTableHeaders()
+{
+    mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(FIELDS::GENDER, Qt::Horizontal, tr("Gender"));
+    mModel->setHeaderData(FIELDS::NATIONALITY, Qt::Horizontal, tr("Nationality"));
+    mModel->setHeaderData(FIELDS::ADDRESS, Qt::Horizontal, tr("Address"));
+    mModel->setHeaderData(FIELDS::PHONE, Qt::Horizontal, tr("Phone Number"));
+    mModel->setHeaderData(FIELDS::CLASSES, Qt::Horizontal, tr("Classes"));  // maybe temporary
+}
+
+void PageTeachersForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+        addTableHeaders();
+    }
+    QWidget::changeEvent(e);
 }

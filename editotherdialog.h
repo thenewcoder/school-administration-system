@@ -25,6 +25,10 @@ public:
 
 private:
     Ui::EditOtherDialog *ui;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // EDITOTHERDIALOG_H

@@ -22,10 +22,7 @@ PageAttendanceForm::PageAttendanceForm(QWidget *parent) :
     mModel->select();
 
     // set up the column names
-    mModel->setHeaderData(FIELDS::DATE, Qt::Horizontal, tr("Date"));
-    mModel->setHeaderData(FIELDS::CLASS, Qt::Horizontal, tr("Class Name"));
-    mModel->setHeaderData(FIELDS::TEACHER, Qt::Horizontal, tr("Teacher"));
-    mModel->setHeaderData(FIELDS::NSTUDENT, Qt::Horizontal, tr("Total Students"));
+    addTableHeaders();
 
     // setup the table view
     ui->tvAttendance->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -110,7 +107,25 @@ void PageAttendanceForm::setupConnections()
     });
 }
 
+void PageAttendanceForm::addTableHeaders()
+{
+    mModel->setHeaderData(FIELDS::DATE, Qt::Horizontal, tr("Date"));
+    mModel->setHeaderData(FIELDS::CLASS, Qt::Horizontal, tr("Class Name"));
+    mModel->setHeaderData(FIELDS::TEACHER, Qt::Horizontal, tr("Teacher"));
+    mModel->setHeaderData(FIELDS::NSTUDENT, Qt::Horizontal, tr("Total Students"));
+}
+
 void PageAttendanceForm::updateAttendanceTable()
 {
     mModel->select();
+}
+
+void PageAttendanceForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+        addTableHeaders();
+    }
+    QWidget::changeEvent(e);
 }

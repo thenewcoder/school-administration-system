@@ -98,6 +98,10 @@ private:
     bool mEditMode;
 
     Student mStudent;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // EDITSTUDENTDIALOG_H

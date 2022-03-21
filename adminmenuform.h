@@ -55,6 +55,10 @@ private:
     PageAttendanceForm *mPageAttendanceForm;
     PageOtherForm *mPageOtherForm;
     PageActivitiesForm *mPageActivitiesForm;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // ADMINMENUFORM_H

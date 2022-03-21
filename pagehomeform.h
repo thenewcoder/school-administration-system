@@ -28,6 +28,10 @@ public slots:
 
 private:
     Ui::PageHomeForm *ui;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // PAGEHOMEFORM_H

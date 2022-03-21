@@ -386,3 +386,10 @@ void EditAttendanceDialog::onProfileHasChanged()
     }
     toggleOKButton(hasChanged);
 }
+
+void EditAttendanceDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QDialog::changeEvent(e);
+}

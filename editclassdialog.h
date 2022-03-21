@@ -57,6 +57,10 @@ private:
     bool mEditMode;
 
     Class mClass;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // EDITCLASSDIALOG_H

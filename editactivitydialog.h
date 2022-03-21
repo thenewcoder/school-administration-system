@@ -48,6 +48,10 @@ private:
     bool mEditMode;
 
     Activity mActivity;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // EDITACTIVITYDIALOG_H

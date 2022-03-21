@@ -29,6 +29,7 @@ public:
 
 private:
     void setupConnections();
+    void addTableHeaders();
 
 public slots:
     void updateAttendanceTable();
@@ -37,6 +38,10 @@ private:
     Ui::PageAttendanceForm *ui;
 
     QSqlTableModel *mModel;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // PAGEATTENDANCEFORM_H

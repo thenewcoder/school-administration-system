@@ -78,3 +78,10 @@ void SelectorDialog::setupConnections()
         }
     });
 }
+
+void SelectorDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QDialog::changeEvent(e);
+}

@@ -36,6 +36,9 @@ private:
     void setupEditButtons();
     void setupDeleteButtons();
 
+    void addSportsTableHeaders();
+    void addActivityTableHeaders();
+
 private slots:
     void updateSportsTable();
     void updateAfterSchoolTable();
@@ -45,6 +48,10 @@ private:
 
     QSqlTableModel *mModelSports;
     QSqlTableModel *mModelActivities;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // PAGEACTIVITIESFORM_H

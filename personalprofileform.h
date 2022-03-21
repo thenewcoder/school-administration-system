@@ -34,6 +34,10 @@ private:
     Ui::PersonalProfileForm *ui;
 
     User mUser;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // PERSONALPROFILEFORM_H

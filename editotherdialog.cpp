@@ -39,3 +39,10 @@ void EditOtherDialog::setTitle(const QString &title)
 {
     setWindowTitle(title);
 }
+
+void EditOtherDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QDialog::changeEvent(e);
+}

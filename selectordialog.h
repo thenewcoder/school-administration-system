@@ -28,6 +28,10 @@ private:
 
     QStringListModel *mModelAll;
     QStringListModel *mModelChosen;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // SELECTORDIALOG_H

@@ -255,3 +255,10 @@ void EditClassDialog::toggleOKButton(bool state)
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(state);
 }
+
+void EditClassDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QDialog::changeEvent(e);
+}

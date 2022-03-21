@@ -21,13 +21,7 @@ PageStudentsForm::PageStudentsForm(QWidget *parent) :
     mModel->select();
     mModel->sort(FIELDS::NAME, Qt::AscendingOrder); // sort on the name column
 
-    mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
-    mModel->setHeaderData(FIELDS::GRADE, Qt::Horizontal, tr("Grade"));
-    mModel->setHeaderData(FIELDS::GENDER, Qt::Horizontal, tr("Gender"));
-    mModel->setHeaderData(FIELDS::NATIONALITY, Qt::Horizontal, tr("Nationality"));
-    mModel->setHeaderData(FIELDS::IDNUMBER, Qt::Horizontal, tr("ID Number"));
-    mModel->setHeaderData(FIELDS::PHONE, Qt::Horizontal, tr("Phone Number"));
-    mModel->setHeaderData(DORM, Qt::Horizontal, tr("Dormitory"));
+    addTableHeaders();
 
     ui->tvStudents->setItemDelegateForColumn(FIELDS::GENDER, new GenderItemDelegate);
     ui->tvStudents->setModel(mModel);
@@ -50,6 +44,17 @@ void PageStudentsForm::setupConnections()
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageStudentsForm::addStudent);
     connect(ui->btnDelete, &QPushButton::clicked, this, &PageStudentsForm::deleteStudent);
     connect(ui->btnRefresh, &QPushButton::clicked, this, &PageStudentsForm::updateStudentsTable);
+}
+
+void PageStudentsForm::addTableHeaders()
+{
+    mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(FIELDS::GRADE, Qt::Horizontal, tr("Grade"));
+    mModel->setHeaderData(FIELDS::GENDER, Qt::Horizontal, tr("Gender"));
+    mModel->setHeaderData(FIELDS::NATIONALITY, Qt::Horizontal, tr("Nationality"));
+    mModel->setHeaderData(FIELDS::IDNUMBER, Qt::Horizontal, tr("ID Number"));
+    mModel->setHeaderData(FIELDS::PHONE, Qt::Horizontal, tr("Phone Number"));
+    mModel->setHeaderData(DORM, Qt::Horizontal, tr("Dormitory"));
 }
 
 void PageStudentsForm::updateStudentsTable()
@@ -134,4 +139,14 @@ void PageStudentsForm::deleteStudent()
             emit notifyStudentChanged();
         }
     }
+}
+
+void PageStudentsForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+        addTableHeaders();
+    }
+    QWidget::changeEvent(e);
 }

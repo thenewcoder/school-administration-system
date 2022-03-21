@@ -71,6 +71,10 @@ private:
     bool mEditMode;
 
     Teacher mTeacher;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // EDITTEACHERDIALOG_H

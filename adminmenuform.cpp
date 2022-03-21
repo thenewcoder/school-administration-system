@@ -76,7 +76,7 @@ void AdminMenuForm::setupConnections()
 
 void AdminMenuForm::setWelcomeMessage(const QString &name)
 {
-    ui->lblWelcomeText->setText(tr("Welcome, ") + name);
+    ui->lblWelcomeText->setText(tr("Welcome, %1").arg(name));
 }
 
 void AdminMenuForm::updateSchoolLogo(const QPixmap &logo)
@@ -96,4 +96,16 @@ void AdminMenuForm::handleUserLogin()
 void AdminMenuForm::onFullnameChanged(const QString &name)
 {
     setWelcomeMessage(name);
+}
+
+void AdminMenuForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+        // setup the username
+        QString name = !Login::instance().fullname().isEmpty() ? Login::instance().fullname() : Login::instance().username();
+        setWelcomeMessage(name);
+    }
+    QWidget::changeEvent(e);
 }

@@ -50,3 +50,10 @@ void PageSettingsForm::setupConnections()
             qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::onFullnameChanged);
 }
 
+void PageSettingsForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QWidget::changeEvent(e);
+}
+

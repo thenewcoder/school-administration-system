@@ -21,12 +21,7 @@ PageClassesForm::PageClassesForm(QWidget *parent) :
     mModel->select();
 
     // set header names
-    mModel->setHeaderData(FIELDS::GRADE, Qt::Horizontal, tr("Grade"));
-    mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
-    mModel->setHeaderData(FIELDS::SUBJECT, Qt::Horizontal, tr("Subject"));
-    mModel->setHeaderData(FIELDS::ROOM, Qt::Horizontal, tr("Classroom"));
-    mModel->setHeaderData(FIELDS::TEACHERS, Qt::Horizontal, tr("Teachers"));
-    mModel->setHeaderData(FIELDS::ENROLLMENT, Qt::Horizontal, tr("Enrollment"));
+    addTableHeaders();
 
     // set up the view
     ui->tvClasses->setModel(mModel);
@@ -118,4 +113,24 @@ void PageClassesForm::setupConnections()
 
     // Refresh the table
     connect(ui->btnRefresh, &QPushButton::clicked, this, &PageClassesForm::updateClassTable);
+}
+
+void PageClassesForm::addTableHeaders()
+{
+    mModel->setHeaderData(FIELDS::GRADE, Qt::Horizontal, tr("Grade"));
+    mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
+    mModel->setHeaderData(FIELDS::SUBJECT, Qt::Horizontal, tr("Subject"));
+    mModel->setHeaderData(FIELDS::ROOM, Qt::Horizontal, tr("Classroom"));
+    mModel->setHeaderData(FIELDS::TEACHERS, Qt::Horizontal, tr("Teachers"));
+    mModel->setHeaderData(FIELDS::ENROLLMENT, Qt::Horizontal, tr("Enrollment"));
+}
+
+void PageClassesForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+        addTableHeaders();
+    }
+    QWidget::changeEvent(e);
 }

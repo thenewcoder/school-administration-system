@@ -33,6 +33,10 @@ private:
     Ui::SchoolSettingsForm *ui;
 
     School mSchool;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // SCHOOLSETTINGSFORM_H

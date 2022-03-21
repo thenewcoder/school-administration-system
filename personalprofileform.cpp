@@ -116,3 +116,10 @@ void PersonalProfileForm::toggleSaveButton(bool state)
     ui->btnSave->setEnabled(state);
     ui->btnResetPersonal->setEnabled(state);
 }
+
+void PersonalProfileForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QWidget::changeEvent(e);
+}

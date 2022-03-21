@@ -33,6 +33,10 @@ private:
     SchoolSettingsForm *mSchoolSettingsForm;
     PersonalProfileForm *mPersonalProfileForm;
     SystemSettingsForm *mSystemSettingsForm;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // PAGESETTINGSFORM_H

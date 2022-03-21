@@ -374,8 +374,7 @@ void PageOtherForm::setupViews()
 {
     // set up the classroom table view
     mModelClassrooms->setTable("classroom");
-    mModelClassrooms->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
-    mModelClassrooms->setHeaderData(FIELDS::COMMENT, Qt::Horizontal, tr("Comment"));
+    addClassroomTableHeaders();
     ui->tvClassrooms->setModel(mModelClassrooms);
     ui->tvClassrooms->hideColumn(FIELDS::ID); // Hide the id
     ui->tvClassrooms->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -385,8 +384,7 @@ void PageOtherForm::setupViews()
 
     // set up the dormitory table view
     mModelDormitories->setTable("dormitory");
-    mModelDormitories->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
-    mModelDormitories->setHeaderData(FIELDS::COMMENT, Qt::Horizontal, tr("Comment"));
+    addDormitoryTableHeaders();
     ui->tvDorms->setModel(mModelDormitories);
     ui->tvDorms->hideColumn(FIELDS::ID); // Hide the id
     ui->tvDorms->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -396,8 +394,7 @@ void PageOtherForm::setupViews()
 
     // set up the bus stop table view
     mModelBusStops->setTable("bus_stop");
-    mModelBusStops->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
-    mModelBusStops->setHeaderData(FIELDS::COMMENT, Qt::Horizontal, tr("Comment"));
+    addBusstopTableHeaders();
     ui->tvBusStops->setModel(mModelBusStops);
     ui->tvBusStops->hideColumn(FIELDS::ID); // Hide the id
     ui->tvBusStops->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -416,4 +413,34 @@ void PageOtherForm::setupViews()
     mModelSubjects->setStringList(subjects);
     ui->lvSubjects->setModel(mModelSubjects);
     ui->lvSubjects->model()->sort(0);
+}
+
+void PageOtherForm::addClassroomTableHeaders()
+{
+    mModelClassrooms->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
+    mModelClassrooms->setHeaderData(FIELDS::COMMENT, Qt::Horizontal, tr("Comment"));
+}
+
+void PageOtherForm::addDormitoryTableHeaders()
+{
+    mModelDormitories->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
+    mModelDormitories->setHeaderData(FIELDS::COMMENT, Qt::Horizontal, tr("Comment"));
+}
+
+void PageOtherForm::addBusstopTableHeaders()
+{
+    mModelBusStops->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
+    mModelBusStops->setHeaderData(FIELDS::COMMENT, Qt::Horizontal, tr("Comment"));
+}
+
+void PageOtherForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+        addClassroomTableHeaders();
+        addDormitoryTableHeaders();
+        addBusstopTableHeaders();
+    }
+    QWidget::changeEvent(e);
 }

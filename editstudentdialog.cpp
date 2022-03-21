@@ -223,6 +223,13 @@ void EditStudentDialog::onProfileHasChanged()
     toggleSaveButton(hasChanged);
 }
 
+void EditStudentDialog::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QDialog::changeEvent(e);
+}
+
 void EditStudentDialog::setEditMode(bool state)
 {
     mEditMode = state;

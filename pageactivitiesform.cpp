@@ -37,10 +37,7 @@ void PageActivitiesForm::initTables()
     // prepare the sports table view
     mModelSports->setTable("sports_summary");
     mModelSports->select();
-    mModelSports->setHeaderData(FIELDS::CODE, Qt::Horizontal, tr("Code"));
-    mModelSports->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Sport Name"));
-    mModelSports->setHeaderData(FIELDS::TEACHER, Qt::Horizontal, tr("Teacher Advisor"));
-    mModelSports->setHeaderData(FIELDS::LIMIT, Qt::Horizontal, tr("Membership"));
+    addSportsTableHeaders();
     ui->tvSports->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvSports->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tvSports->setModel(mModelSports);
@@ -49,10 +46,7 @@ void PageActivitiesForm::initTables()
     //prepare the after-school activities table view
     mModelActivities->setTable("activity_summary");
     mModelActivities->select();
-    mModelActivities->setHeaderData(FIELDS::CODE, Qt::Horizontal, tr("Code"));
-    mModelActivities->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Activity Name"));
-    mModelActivities->setHeaderData(FIELDS::TEACHER, Qt::Horizontal, tr("Teacher Advisor"));
-    mModelActivities->setHeaderData(FIELDS::LIMIT, Qt::Horizontal, tr("Membership"));
+    addActivityTableHeaders();
     ui->tvAfterSchool->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvAfterSchool->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tvAfterSchool->setModel(mModelActivities);
@@ -209,6 +203,22 @@ void PageActivitiesForm::setupDeleteButtons()
     });
 }
 
+void PageActivitiesForm::addSportsTableHeaders()
+{
+    mModelSports->setHeaderData(FIELDS::CODE, Qt::Horizontal, tr("Code"));
+    mModelSports->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Sport Name"));
+    mModelSports->setHeaderData(FIELDS::TEACHER, Qt::Horizontal, tr("Teacher Advisor"));
+    mModelSports->setHeaderData(FIELDS::LIMIT, Qt::Horizontal, tr("Membership"));
+}
+
+void PageActivitiesForm::addActivityTableHeaders()
+{
+    mModelActivities->setHeaderData(FIELDS::CODE, Qt::Horizontal, tr("Code"));
+    mModelActivities->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Activity Name"));
+    mModelActivities->setHeaderData(FIELDS::TEACHER, Qt::Horizontal, tr("Teacher Advisor"));
+    mModelActivities->setHeaderData(FIELDS::LIMIT, Qt::Horizontal, tr("Membership"));
+}
+
 void PageActivitiesForm::updateSportsTable()
 {
     mModelSports->select();
@@ -217,4 +227,15 @@ void PageActivitiesForm::updateSportsTable()
 void PageActivitiesForm::updateAfterSchoolTable()
 {
     mModelActivities->select();
+}
+
+void PageActivitiesForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);
+        addSportsTableHeaders();
+        addActivityTableHeaders();
+    }
+    QWidget::changeEvent(e);
 }

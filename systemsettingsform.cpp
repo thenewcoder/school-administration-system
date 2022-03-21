@@ -49,7 +49,11 @@ void SystemSettingsForm::onLanguageChanged(int index)
         Settings::instance().setLanguage("zh_CN");
         Settings::instance().getTranslator()->load("translations/trans_zh_CN");
     }
-    QMessageBox::information(this, tr("Language Changed"),
-                             tr("Changes will take effect the next time you log in."));
+}
 
+void SystemSettingsForm::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+    QWidget::changeEvent(e);
 }

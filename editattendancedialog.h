@@ -66,6 +66,10 @@ private:
     ClassRecord mRecord;
 
     bool mEditMode;
+
+    // QWidget interface
+protected:
+    void changeEvent(QEvent *e) override;
 };
 
 #endif // EDITATTENDANCEDIALOG_H
