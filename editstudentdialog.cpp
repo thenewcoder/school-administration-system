@@ -445,7 +445,7 @@ void EditStudentDialog::setupConnections()
     connect(ui->leName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
 
     // add a new photo
-    connect(ui->btnAddPhoto, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddPhoto, &QPushButton::clicked, this, [this] () {
         QString filename = QFileDialog::getOpenFileName(this,
                                                         tr("Choose an image"),
                                                         QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
@@ -462,7 +462,7 @@ void EditStudentDialog::setupConnections()
     });
 
     // remove the current photo
-    connect(ui->btnRemove, &QPushButton::clicked, [this] () {
+    connect(ui->btnRemove, &QPushButton::clicked, this, [this] () {
         ui->lblStudentPhoto->setPixmap(QPixmap(":/images/user_profile.png"));
         mDefaultPhoto = true;
 
@@ -470,7 +470,7 @@ void EditStudentDialog::setupConnections()
     });
 
     // edit classes taken
-    connect(ui->btnEditClasses, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditClasses, &QPushButton::clicked, this, [this] () {
         QStringList all = DatabaseManager::instance().classes();
         SelectorDialog edit(tr("Edit Student Classes"),
                             all,

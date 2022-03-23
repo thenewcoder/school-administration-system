@@ -28,7 +28,7 @@ void SchoolSettingsForm::setupConnections()
     connect(ui->lePhoneNumber, SIGNAL(textEdited(QString)), this, SLOT(onSettingsHaveChanged()));
     connect(ui->leEmail, SIGNAL(textEdited(QString)), this, SLOT(onSettingsHaveChanged()));
 
-    connect(ui->btnAddLogo, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddLogo, &QPushButton::clicked, this, [this] () {
         QString filename = QFileDialog::getOpenFileName(this,
                                                         tr("Choose a picture"),
                                                         "",
@@ -43,13 +43,13 @@ void SchoolSettingsForm::setupConnections()
         }
     });
 
-    connect(ui->btnRemoveLogo, &QPushButton::clicked, [this] () {
+    connect(ui->btnRemoveLogo, &QPushButton::clicked, this, [this] () {
         ui->lblSchoolLogo->setPixmap(QPixmap(":/images/your_logo_here.png"));
 
         onSettingsHaveChanged();
     });
 
-    connect(ui->btnSaveSettings, &QPushButton::clicked, [this] () {
+    connect(ui->btnSaveSettings, &QPushButton::clicked, this, [this] () {
 
         const QPixmap* logo = ui->lblSchoolLogo->pixmap();
 

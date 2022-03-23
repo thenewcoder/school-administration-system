@@ -616,11 +616,11 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
                   "(SELECT studentId FROM student WHERE name = :name),"
                   ":attendanceId)");
 
-    for (auto &student : att.keys())
+    for (auto &student : qAsConst(att))
     {
         query.bindValue(":recordId", id);
-        query.bindValue(":name", student);
-        query.bindValue(":attendanceId", att.value(student));
+        query.bindValue(":name", att.key(student));
+        query.bindValue(":attendanceId", student);
 
         if (!query.exec())
         {
@@ -1130,14 +1130,14 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
     // update the existing attendance records
 
     const QMap<QString, int> &att = record.getAttendance();
-    for (auto &student : att.keys())
+    for (auto &student : qAsConst(att))
     {
         query.prepare(QString("UPDATE attendance_record SET "
                       "attendance_type = %1 "
                       "WHERE class_record_id = %2 AND "
-                      "studentId = (SELECT studentId FROM student WHERE name = '%3')").arg(QString::number(att.value(student)),
+                      "studentId = (SELECT studentId FROM student WHERE name = '%3')").arg(QString::number(student),
                                                                                            record.getRecordId(),
-                                                                                           student));
+                                                                                           att.key(student)));
         if (!query.exec())
         {
             qDebug() << "Unable to update an attendance record";
@@ -1630,9 +1630,9 @@ void DatabaseManager::createDatabase()
         return;
 
     QTextStream in(&file);
-    QString sql = in.readAll();
+    QStringList sql = in.readAll().split(";", QString::SkipEmptyParts);
 
-    for (const QString &statement : sql.split(";", QString::SkipEmptyParts))
+    for (const QString &statement : qAsConst(sql))
     {
         if (statement.trimmed() != "")
         {

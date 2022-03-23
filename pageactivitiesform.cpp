@@ -63,7 +63,7 @@ void PageActivitiesForm::setupRefreshButtons()
 void PageActivitiesForm::setupAddButtons()
 {
     // add a new sport
-    connect(ui->btnAddSports, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddSports, &QPushButton::clicked, this, [this] () {
         EditActivityDialog add(this, tr("Add a New Sports Activity"));
 
         if (add.exec() == QDialog::Accepted)
@@ -79,7 +79,7 @@ void PageActivitiesForm::setupAddButtons()
     });
 
     // add a new after school activity
-    connect(ui->btnAddAfterSchool, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddAfterSchool, &QPushButton::clicked, this, [this] () {
         EditActivityDialog add(this, tr("Add a New After-School Activity"));
 
         if (add.exec() == QDialog::Accepted)
@@ -98,7 +98,7 @@ void PageActivitiesForm::setupAddButtons()
 void PageActivitiesForm::setupEditButtons()
 {
     // edit an existing sport
-    connect(ui->btnEditSports, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditSports, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvSports->currentIndex();
         if (index.isValid())
         {
@@ -127,7 +127,7 @@ void PageActivitiesForm::setupEditButtons()
     });
 
     // edit an after school activity
-    connect(ui->btnEditAfterSchool, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditAfterSchool, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvAfterSchool->currentIndex();
         if (index.isValid())
         {
@@ -159,7 +159,7 @@ void PageActivitiesForm::setupEditButtons()
 void PageActivitiesForm::setupDeleteButtons()
 {
     // delete a sport
-    connect(ui->btnDeleteSports, &QPushButton::clicked, [this] () {
+    connect(ui->btnDeleteSports, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvSports->currentIndex();
         if (index.isValid())
         {
@@ -181,7 +181,7 @@ void PageActivitiesForm::setupDeleteButtons()
     });
 
     // delete an after school activity
-    connect(ui->btnDeleteAfterSchool, &QPushButton::clicked, [this] () {
+    connect(ui->btnDeleteAfterSchool, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvAfterSchool->currentIndex();
         if (index.isValid())
         {

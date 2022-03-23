@@ -46,7 +46,7 @@ void PageOtherForm::setupConnections()
 void PageOtherForm::setupAddButtons()
 {
     // for classrooms
-    connect(ui->btnAddRoom, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddRoom, &QPushButton::clicked, this, [this] () {
         EditOtherDialog add(tr("Add New Classroom"), this);
         if (add.exec() == QDialog::Accepted)
         {
@@ -57,7 +57,7 @@ void PageOtherForm::setupAddButtons()
     });
 
     // for dormitories
-    connect(ui->btnAddDorm, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddDorm, &QPushButton::clicked, this, [this] () {
         EditOtherDialog add(tr("Add New Dormitory"), this);
         if (add.exec() == QDialog::Accepted)
         {
@@ -68,7 +68,7 @@ void PageOtherForm::setupAddButtons()
     });
 
     // for bus stops
-    connect(ui->btnAddBusstop, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddBusstop, &QPushButton::clicked, this, [this] () {
         EditOtherDialog add(tr("Add New Bus Stop"), this);
         if (add.exec() == QDialog::Accepted)
         {
@@ -79,7 +79,7 @@ void PageOtherForm::setupAddButtons()
     });
 
     // for grade
-    connect(ui->btnAddGrade, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddGrade, &QPushButton::clicked, this, [this] () {
         QString grade = QInputDialog::getText(this,
                                               tr("Add New Grade"),
                                               tr("Grade name:"));
@@ -94,7 +94,7 @@ void PageOtherForm::setupAddButtons()
     });
 
     // for subject
-    connect(ui->btnAddSubject, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddSubject, &QPushButton::clicked, this, [this] () {
         QString subject = QInputDialog::getText(this,
                                                 tr("Add New Subject"),
                                                 tr("Subject name:"));
@@ -112,7 +112,7 @@ void PageOtherForm::setupAddButtons()
 void PageOtherForm::setupEditButtons()
 {
     // for classroom
-    connect(ui->btnEditRoom, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditRoom, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvClassrooms->currentIndex();
         if (index.isValid())
         {
@@ -140,7 +140,7 @@ void PageOtherForm::setupEditButtons()
     });
 
     // for dormitories
-    connect(ui->btnEditDorm, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditDorm, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvDorms->currentIndex();
         if (index.isValid())
         {
@@ -170,7 +170,7 @@ void PageOtherForm::setupEditButtons()
     });
 
     // for bus stops
-    connect(ui->btnEditBusstop, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditBusstop, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvBusStops->currentIndex();
         if (index.isValid())
         {
@@ -195,7 +195,7 @@ void PageOtherForm::setupEditButtons()
     });
 
     // for grades
-    connect(ui->btnEditGrade, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditGrade, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->lvGrades->currentIndex();
         if (index.isValid())
         {
@@ -222,7 +222,7 @@ void PageOtherForm::setupEditButtons()
     });
 
     // for subjects
-    connect(ui->btnEditSubject, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditSubject, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->lvSubjects->currentIndex();
         if (index.isValid())
         {
@@ -252,7 +252,7 @@ void PageOtherForm::setupEditButtons()
 void PageOtherForm::setupDeleteButtons()
 {
     // for classrooms
-    connect(ui->btnDeleteRoom, &QPushButton::clicked, [this] () {
+    connect(ui->btnDeleteRoom, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvClassrooms->currentIndex();
         if (index.isValid())
         {
@@ -276,7 +276,7 @@ void PageOtherForm::setupDeleteButtons()
     });
 
     // for dormitories
-    connect(ui->btnDeleteDorm, &QPushButton::clicked, [this] () {
+    connect(ui->btnDeleteDorm, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvDorms->currentIndex();
         if (index.isValid())
         {
@@ -300,7 +300,7 @@ void PageOtherForm::setupDeleteButtons()
     });
 
     // for bus stops
-    connect(ui->btnDeleteBusstop, &QPushButton::clicked, [this] () {
+    connect(ui->btnDeleteBusstop, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvBusStops->currentIndex();
         if (index.isValid())
         {
@@ -322,7 +322,7 @@ void PageOtherForm::setupDeleteButtons()
     });
 
     // for grade list
-    connect(ui->btnDeleteGrade, &QPushButton::clicked, [this] () {
+    connect(ui->btnDeleteGrade, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->lvGrades->currentIndex();
         if (index.isValid())
         {
@@ -346,7 +346,7 @@ void PageOtherForm::setupDeleteButtons()
     });
 
     // for subject list
-    connect(ui->btnDeleteSubject, &QPushButton::clicked, [this] () {
+    connect(ui->btnDeleteSubject, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->lvSubjects->currentIndex();
         if (index.isValid())
         {

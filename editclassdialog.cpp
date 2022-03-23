@@ -211,7 +211,7 @@ void EditClassDialog::setupConnections()
     connect(ui->leClassName, SIGNAL(textEdited(QString)), this, SLOT(onProfileHasChanged()));
 
     // edit associated teachers
-    connect(ui->btnEditTeachers, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditTeachers, &QPushButton::clicked, this, [this] () {
         QStringList all = DatabaseManager::instance().teachers();
         SelectorDialog edit(tr("Edit Teachers"),
                             all,
@@ -227,7 +227,7 @@ void EditClassDialog::setupConnections()
     });
 
     // edit associated students
-    connect(ui->btnEditStudents, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditStudents, &QPushButton::clicked, this, [this] () {
         QStringList all = DatabaseManager::instance().students();
         SelectorDialog edit(tr("Edit Students"),
                             all,

@@ -43,7 +43,7 @@ void PageAttendanceForm::setupConnections()
     connect(ui->btnRefresh, &QPushButton::clicked, this, &PageAttendanceForm::updateAttendanceTable);
 
     // add a new attendance record
-    connect(ui->btnAdd, &QPushButton::clicked, [this] () {
+    connect(ui->btnAdd, &QPushButton::clicked, this, [this] () {
         EditAttendanceDialog add(this);
         add.setWindowTitle(tr("Add a New Class Record"));
         if (add.exec() == QDialog::Accepted)
@@ -57,7 +57,7 @@ void PageAttendanceForm::setupConnections()
     });
 
     // edit an existing attendance record
-    connect(ui->btnEdit, &QPushButton::clicked, [this] () {
+    connect(ui->btnEdit, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvAttendance->currentIndex();
         if (index.isValid())
         {
@@ -83,7 +83,7 @@ void PageAttendanceForm::setupConnections()
     });
 
     // delete an attendance record
-    connect(ui->btnDelete, &QPushButton::clicked, [this] () {
+    connect(ui->btnDelete, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvAttendance->currentIndex();
         if (index.isValid())
         {

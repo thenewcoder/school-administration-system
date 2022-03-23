@@ -55,7 +55,7 @@ QStringList SelectorDialog::getItems() const
 
 void SelectorDialog::setupConnections()
 {
-    connect(ui->btnAddSelection, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddSelection, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->lvAllSelections->currentIndex();
         if (index.isValid())
         {
@@ -67,7 +67,7 @@ void SelectorDialog::setupConnections()
 
     });
 
-    connect(ui->btnRemoveSelection, &QPushButton::clicked, [this] () {
+    connect(ui->btnRemoveSelection, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->lvChosenSelections->currentIndex();
         if (index.isValid())
         {

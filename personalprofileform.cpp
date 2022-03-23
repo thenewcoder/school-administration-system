@@ -77,7 +77,7 @@ void PersonalProfileForm::setupConnections()
     connect(ui->leNewPassword, SIGNAL(textEdited(QString)), this, SLOT(onPasswordHasChanged()));
     connect(ui->leConfirmNewPassword, SIGNAL(textEdited(QString)), this, SLOT(onPasswordHasChanged()));
 
-    connect(ui->btnSave, &QPushButton::clicked, [this] () {
+    connect(ui->btnSave, &QPushButton::clicked, this, [this] () {
         User user = Login::instance().getUserData();
         user.setUsername(ui->leUsername->text());
         user.setFullName(ui->leFullName->text());
@@ -89,7 +89,7 @@ void PersonalProfileForm::setupConnections()
         emit notifyFullnameChanged(user.fullName());
     });
 
-    connect(ui->btnChangePassword, &QPushButton::clicked, [this] () {
+    connect(ui->btnChangePassword, &QPushButton::clicked, this, [this] () {
 
         // update with the new password  TODO: make the password update separate from the profile data
         User user = Login::instance().getUserData();
@@ -104,7 +104,7 @@ void PersonalProfileForm::setupConnections()
     });
 
     // reset the user profile data
-    connect(ui->btnResetPersonal, &QPushButton::clicked, [this] () {
+    connect(ui->btnResetPersonal, &QPushButton::clicked, this, [this] () {
         ui->leUsername->setText(mUser.username());
         ui->leFullName->setText(mUser.fullName());
         toggleSaveButton(false);

@@ -46,7 +46,7 @@ void PageClassesForm::updateClassTable()
 void PageClassesForm::setupConnections()
 {
     // Add a new class
-    connect(ui->btnAddClass, &QPushButton::clicked, [this] () {
+    connect(ui->btnAddClass, &QPushButton::clicked, this, [this] () {
         EditClassDialog add(tr("Add New Class"), this);
 
         if (add.exec() == QDialog::Accepted)
@@ -62,7 +62,7 @@ void PageClassesForm::setupConnections()
     });
 
     // Edit an existing class
-    connect(ui->btnEditClass, &QPushButton::clicked, [this] () {
+    connect(ui->btnEditClass, &QPushButton::clicked, this, [this] () {
         // get index and id for the selected row
         QModelIndex index = ui->tvClasses->currentIndex();
 
@@ -90,7 +90,7 @@ void PageClassesForm::setupConnections()
     });
 
     // Delete a class
-    connect(ui->btnDeleteClass, &QPushButton::clicked, [this] () {
+    connect(ui->btnDeleteClass, &QPushButton::clicked, this, [this] () {
         QModelIndex index = ui->tvClasses->currentIndex();
         if (index.isValid())
         {
