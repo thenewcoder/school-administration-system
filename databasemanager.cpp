@@ -438,6 +438,7 @@ void DatabaseManager::addStudent(const Student &student) const
 
 void DatabaseManager::addClass(const Class &c) const
 {
+    mDatabase->transaction();
     QSqlQuery query;
 
     // insert the class
@@ -466,7 +467,9 @@ void DatabaseManager::addClass(const Class &c) const
     query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES("
                   ":classId,"
                   "(SELECT teacherId FROM teacher WHERE name = :name))");
-    for (auto &t : c.teachers())
+
+    const QStringList teachers = c.teachers();
+    for (auto &t : qAsConst(teachers))
     {
         query.bindValue(":classId", classId);
         query.bindValue(":name", t);
@@ -474,6 +477,7 @@ void DatabaseManager::addClass(const Class &c) const
         if (!query.exec())
         {
             qDebug() << "Unable to insert teacher in the teacher-class table";
+            qDebug() << query.lastError().text();
         }
     }
 
@@ -481,7 +485,9 @@ void DatabaseManager::addClass(const Class &c) const
     query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
                   ":classId,"
                   "(SELECT studentId FROM student WHERE name = :name))");
-    for (auto &s : c.students())
+
+    const QStringList students = c.students();
+    for (auto &s : qAsConst(students))
     {
         query.bindValue(":classId", classId);
         query.bindValue(":name", s);
@@ -489,9 +495,10 @@ void DatabaseManager::addClass(const Class &c) const
         if (!query.exec())
         {
             qDebug() << "Unable to insert student into the class_student table";
+            qDebug() << query.lastError().text();
         }
     }
-
+    mDatabase->commit();
 }
 
 void DatabaseManager::addClassoom(const QString &name, const QString &comment)
@@ -1040,6 +1047,7 @@ void DatabaseManager::saveSchoolData(const School &school)
 
 void DatabaseManager::saveClassData(const Class &c)
 {
+    mDatabase->transaction();
     QSqlQuery query;
 
     // first update the class table
@@ -1073,7 +1081,9 @@ void DatabaseManager::saveClassData(const Class &c)
     query.prepare("INSERT INTO teacher_class(classId, teacherId) VALUES( "
                   ":classId,"
                   "(SELECT teacherId FROM teacher WHERE name = :teacherName))");
-    for (auto &t : c.teachers())
+
+    const QStringList teachers = c.teachers();
+    for (auto &t : qAsConst(teachers))
     {
         query.bindValue(":classId", c.classId());
         query.bindValue(":teacherName", t);
@@ -1081,6 +1091,7 @@ void DatabaseManager::saveClassData(const Class &c)
         if (!query.exec())
         {
             qDebug() << "Unable to insert teacher into teacher_class table";
+            qDebug() << query.lastError().text();
         }
     }
 
@@ -1095,7 +1106,9 @@ void DatabaseManager::saveClassData(const Class &c)
     query.prepare("INSERT INTO class_student(classId, studentId) VALUES("
                   ":classId,"
                   "(SELECT studentId FROM student WHERE name = :studentName))");
-    for (auto &s : c.students())
+
+    const QStringList students = c.students();
+    for (auto &s : qAsConst(students))
     {
         query.bindValue(":classId", c.classId());
         query.bindValue(":studentName", s);
@@ -1106,6 +1119,7 @@ void DatabaseManager::saveClassData(const Class &c)
             qDebug() << query.lastError().text();
         }
     }
+    mDatabase->commit();
 }
 
 void DatabaseManager::saveClassRecord(const ClassRecord &record)
