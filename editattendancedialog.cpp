@@ -35,6 +35,9 @@ EditAttendanceDialog::EditAttendanceDialog(QWidget *parent, bool isEditMode) :
     // set the date edit to todays date
     ui->deClassTime->setDate(QDate::currentDate());
 
+    // enable calendar widget
+    ui->deClassTime->setCalendarPopup(true);
+
     // set the attendance possibilities
     QStringList headerLabels;
     headerLabels << tr("Students") << tr("Present") << tr("Absent") << tr("Tardy") <<
