@@ -598,6 +598,7 @@ void DatabaseManager::addUser(const User &user)
 
 void DatabaseManager::addClassRecord(const ClassRecord &record)
 {
+    mDatabase->transaction();
     QSqlQuery query;
     query.prepare("INSERT INTO class_record(date, classId, teacherId) VALUES("
                   ":date,"
@@ -617,17 +618,18 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
     int id = query.lastInsertId().toInt();
 
     // add the attendance
-    const QMap<QString, int> &att = record.getAttendance();
     query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type) "
                   "VALUES(:recordId,"
                   "(SELECT studentId FROM student WHERE name = :name),"
                   ":attendanceId)");
 
-    for (auto &student : qAsConst(att))
+    const QMap<QString, int> &att = record.getAttendance();
+    const QList<QString> &keys = att.keys();
+    for (auto &student : qAsConst(keys))
     {
         query.bindValue(":recordId", id);
-        query.bindValue(":name", att.key(student));
-        query.bindValue(":attendanceId", student);
+        query.bindValue(":name", student);
+        query.bindValue(":attendanceId", att.value(student));
 
         if (!query.exec())
         {
@@ -635,6 +637,7 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
             qDebug() << query.lastError().text();
         }
     }
+    mDatabase->commit();
 }
 
 void DatabaseManager::addActivity(const Activity &activity)
@@ -1124,6 +1127,7 @@ void DatabaseManager::saveClassData(const Class &c)
 
 void DatabaseManager::saveClassRecord(const ClassRecord &record)
 {
+    mDatabase->transaction();
     QSqlQuery query;
     query.prepare("UPDATE class_record SET "
                   "date = :date, "
@@ -1144,20 +1148,22 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
     // update the existing attendance records
 
     const QMap<QString, int> &att = record.getAttendance();
-    for (auto &student : qAsConst(att))
+    const QList<QString> &keys = att.keys();
+    for (auto &student : qAsConst(keys))
     {
         query.prepare(QString("UPDATE attendance_record SET "
                       "attendance_type = %1 "
                       "WHERE class_record_id = %2 AND "
-                      "studentId = (SELECT studentId FROM student WHERE name = '%3')").arg(QString::number(student),
+                      "studentId = (SELECT studentId FROM student WHERE name = '%3')").arg(QString::number(att.value(student)),
                                                                                            record.getRecordId(),
-                                                                                           att.key(student)));
+                                                                                           student));
         if (!query.exec())
         {
             qDebug() << "Unable to update an attendance record";
             qDebug() << query.lastError().text();
         }
     }
+    mDatabase->commit();
 }
 
 void DatabaseManager::saveActivityData(const Activity &activity)
@@ -1475,11 +1481,14 @@ bool DatabaseManager::removeTableRows(const QString &table, const QString &col, 
 
 bool DatabaseManager::removeClassRecord(const QString &recordId)
 {
+    mDatabase->transaction();
     // remove rows from attendance_record with the recordId
     bool op1 = removeTableRows("attendance_record", "class_record_id", recordId);
 
     // remove row from class_record
     bool op2 = removeTableRows("class_record", "recordId", recordId);
+
+    mDatabase->commit();
 
     return op1 && op2;
 }
