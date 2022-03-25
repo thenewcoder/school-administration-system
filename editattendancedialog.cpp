@@ -7,6 +7,7 @@
 #include <QDate>
 #include <QLocale>
 #include "databasemanager.h"
+#include "attendancetablewidget.h"
 
 #include <QDebug>
 #include <QPushButton>
@@ -130,7 +131,7 @@ ClassRecord EditAttendanceDialog::getClassRecord() const
     record.setClass(getClass());
     record.setDate(getDate());
     record.setTeacher(getTeacher());
-    record.setAttendance(getAttendance());
+    record.setAttendance(ui->twAttendance->getAttendance());
     return record;
 }
 
@@ -144,7 +145,7 @@ void EditAttendanceDialog::setClassRecord(const ClassRecord &record)
     mRecord = record;
 
     // prepare the table widget
-    setAttendance(DatabaseManager::instance().studentsOfClass(getClass()),
+    ui->twAttendance->setAttendance(DatabaseManager::instance().studentsOfClass(getClass()),
                   record.getAttendance());
 
     // set the correct index to the teachers combo box
@@ -165,96 +166,6 @@ QString EditAttendanceDialog::getRecordId() const
 void EditAttendanceDialog::setRecordId(const QString &recordId)
 {
     mRecordId = recordId;
-}
-
-QMap<QString, int> EditAttendanceDialog::getAttendance() const
-{
-    QMap<QString, int> att;
-
-    // get the number of rows in the table
-    int rows = ui->twAttendance->rowCount();
-    int columns = ui->twAttendance->columnCount();
-
-    for (int row = 0; row < rows; ++row)
-    {
-        // check each radio button if it's checked or not
-        for (int col = 1; col < columns; ++col)
-        {
-            QRadioButton *btn = ui->twAttendance->cellWidget(row, col)->findChild<QRadioButton*>();
-            if (btn->isChecked()) // if attendance has been found
-            {
-                // get the student name
-                QString name = ui->twAttendance->item(row, 0)->text();
-
-                // add the key and value
-                att.insert(name, col);
-            }
-        }
-    }
-    return att;
-}
-
-void EditAttendanceDialog::setAttendance(const QStringList &students, const QMap<QString, int> &attendance)
-{
-    bool takeAttendance = !attendance.isEmpty(); // not empty
-
-    // populate the table widget
-    int row = 0;
-    for (auto &student : students)
-    {
-        // insert a new row
-        ui->twAttendance->insertRow(row);
-
-        // add students
-        QTableWidgetItem *item = new QTableWidgetItem(student);
-        ui->twAttendance->setItem(row, 0, item);
-
-        // add a radio button for the remaining columns
-        QButtonGroup *grp = new QButtonGroup(ui->twAttendance);
-        int num_columns = ui->twAttendance->columnCount();
-        for (int col = 1; col < num_columns; ++col)
-        {
-            // create the radio button
-            QRadioButton *rbtn = new QRadioButton;
-            grp->addButton(rbtn);
-
-            // setup connections for the radio buttons
-            connect(rbtn, SIGNAL(toggled(bool)), this, SLOT(onProfileHasChanged()));
-
-            if (takeAttendance) // TODO: clean this up a bit
-            {
-                if (attendance.contains(student))
-                {
-                    int val = attendance.value(student);
-                    if (val == col)
-                        rbtn->setChecked(true);
-                }
-            }
-
-            // Create an empty widget to help with adding the radio button
-            QWidget *wdg = new QWidget;
-
-            // create a layout for the empty widget and add the radio button
-            QHBoxLayout *layout = new QHBoxLayout;
-            layout->addWidget(rbtn);
-            layout->setAlignment(Qt::AlignCenter);
-            layout->setSpacing(0); // needed?
-            layout->setMargin(0);
-
-            // add layout to the empty widget
-            wdg->setLayout(layout);
-
-            // add widget to the cell
-            ui->twAttendance->setCellWidget(row, col, wdg);
-        }
-
-        // go to the next row
-        ++row;
-
-        // fixes memory leak warning
-        if (grp->buttons().count() < 1)
-            delete grp;
-    }
 }
 
 void EditAttendanceDialog::populateTeachersBox(const QString &className)
@@ -290,7 +201,7 @@ void EditAttendanceDialog::setupConnections()
                 ui->twAttendance->setRowCount(0);
 
                 // populate the table widget with the students from the selected class only
-                setAttendance(DatabaseManager::instance().studentsOfClass(text));
+                ui->twAttendance->setAttendance(DatabaseManager::instance().studentsOfClass(text));
 
                 // enable the check box
                 ui->cbShowAllTeachers->setEnabled(true);
@@ -362,6 +273,7 @@ void EditAttendanceDialog::setupDetectEditConnections()
 {
     // additional connections for edit mode
     connect(ui->deClassTime, SIGNAL(dateChanged(QDate)), this, SLOT(onProfileHasChanged()));
+    connect(ui->twAttendance, &AttendanceTableWidget::onRadioButtonToggled, this, &EditAttendanceDialog::onProfileHasChanged);
 }
 
 void EditAttendanceDialog::toggleOKButton(bool state)
@@ -385,7 +297,7 @@ void EditAttendanceDialog::onProfileHasChanged()
             hasChanged = true;
         else if (mRecord.getTeacher() != getTeacher())
             hasChanged = true;
-        else if (mRecord.getAttendance() != getAttendance())
+        else if (mRecord.getAttendance() != ui->twAttendance->getAttendance())
             hasChanged = true;
     }
     toggleOKButton(hasChanged);

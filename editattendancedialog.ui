@@ -122,7 +122,7 @@
     <string>Attendance:</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="twAttendance">
+  <widget class="AttendanceTableWidget" name="twAttendance">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -163,6 +163,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>AttendanceTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header>attendancetablewidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

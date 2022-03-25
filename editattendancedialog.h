@@ -44,7 +44,6 @@ public:
     void setRecordId(const QString &recordId);
 
     QMap<QString, int> getAttendance() const;
-    void setAttendance(const QStringList &students, const QMap<QString, int> &attendance = QMap<QString, int>());
 
     void populateTeachersBox(const QString &className);
 
@@ -53,7 +52,7 @@ private:
     void setupDetectEditConnections();
     void toggleOKButton(bool state);
 
-private slots:
+public slots:
     void onProfileHasChanged();
 
 private:
