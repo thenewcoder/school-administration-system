@@ -302,6 +302,7 @@ void EditAttendanceDialog::setupConnections()
             {
                 ui->cbShowAllTeachers->setEnabled(false);
                 ui->cbTeachers->clear();
+                ui->twAttendance->clearContents(); // make sure the table widget clears as well
             }
         }
         else // edit mode
