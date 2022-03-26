@@ -1,9 +1,10 @@
 ﻿CREATE TABLE IF NOT EXISTS `school` (
-        `name`	TEXT DEFAULT "",
-        `address`	TEXT DEFAULT "",
-        `phone`	TEXT DEFAULT "",
-        `email`	TEXT DEFAULT "",
-        `logo`	BLOB
+        `name`      TEXT DEFAULT "",
+        `address`   TEXT DEFAULT "",
+        `phone`	    TEXT DEFAULT "",
+        `email`	    TEXT DEFAULT "",
+        `principal` TEXT DEFAULT "",
+        `logo`	    BLOB
 );
 
 INSERT INTO `school` (
@@ -303,25 +304,25 @@ CREATE TABLE IF NOT EXISTS `test` (
 );
 
 CREATE TABLE IF NOT EXISTS `student` (
-	`studentId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`name`	TEXT NOT NULL,
-        `nickName`	TEXT,
-	`dateOfBirth`	TEXT,
-        `gender`	INTEGER,
-	`nationalityId`	INTEGER,
-	`passportNumber`	TEXT,
-	`IDNumber`	TEXT,
-	`address`	TEXT,
-	`studentPhoneNumber`	TEXT,
-	`studentEmail`	TEXT,
-	`fathersPhoneNumber`	TEXT,
-	`mothersPhoneNumber`	TEXT,
-	`parentEmail`	TEXT,
-	`gradeId`	INTEGER,
-        `photo`         BLOB,
-	`dormitoryId`	INTEGER,
-	`enrollmentId`	INTEGER,
-	`busstopId`	INTEGER,
+        `studentId`	     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        `name`	             TEXT NOT NULL,
+        `nickName`	     TEXT,
+        `dateOfBirth`	     TEXT,
+        `gender`	     INTEGER,
+        `nationalityId`	     INTEGER,
+        `passportNumber`     TEXT,
+        `IDNumber`	     TEXT,
+        `address`	     TEXT,
+        `studentPhoneNumber` TEXT,
+        `studentEmail`	     TEXT,
+        `fathersPhoneNumber` TEXT,
+        `mothersPhoneNumber` TEXT,
+        `parentEmail`	     TEXT,
+        `gradeId`	     INTEGER,
+        `photo`              BLOB,
+        `dormitoryId`	     INTEGER,
+        `enrollmentId`	     INTEGER,
+        `busstopId`	     INTEGER,
 	FOREIGN KEY(`nationalityId`) REFERENCES nationality(nationalityId),
 	FOREIGN KEY(`gradeId`) REFERENCES grade(gradeId),
 	FOREIGN KEY(`dormitoryId`) REFERENCES dormitory(dormitoryId),
@@ -355,9 +356,9 @@ CREATE TABLE IF NOT EXISTS `test_result` (
 );
 
 CREATE TABLE IF NOT EXISTS `class_record` (
-        `recordId` INTEGER PRIMARY KEY AUTOINCREMENT,
-        `date` TEXT,
-        `classId` INTEGER,
+        `recordId`  INTEGER PRIMARY KEY AUTOINCREMENT,
+        `date`      TEXT,
+        `classId`   INTEGER,
         `teacherId` INTEGER,
         FOREIGN KEY(`teacherId`) REFERENCES `teacher`(`teacherId`),
         FOREIGN KEY(`classId`) REFERENCES `class`(`classId`)
@@ -365,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `class_record` (
 
 CREATE TABLE IF NOT EXISTS `attendance_record` (
         `class_record_id` INTEGER,
-        `studentId` INTEGER,
+        `studentId`       INTEGER,
         `attendance_type` INTEGER,
         FOREIGN KEY(`studentId`) REFERENCES `student`(`studentId`),
         PRIMARY KEY(`class_record_id`,`studentId`),

@@ -9,7 +9,7 @@ class School
 public:
     School();
     School(const QString &name, const QString &address, const QString &phone,
-           const QString &email, const QByteArray &logo = QByteArray());
+           const QString &email, const QString &principal, const QByteArray &logo = QByteArray());
 
     QString schoolName() const;
     void setSchoolName(const QString &schoolName);
@@ -29,6 +29,9 @@ public:
     QPixmap schoolLogoPixmap() const;
     void setSchoolLogoPixmap(const QPixmap &schoolLogoPixmap);
 
+    QString principal() const;
+    void setPrincipal(const QString &principal);
+
 private:
     QString mSchoolName;
     QString mSchoolAddress;
@@ -37,6 +40,8 @@ private:
 
     QByteArray mSchoolLogo;
     QPixmap mSchoolLogoPixmap;
+
+    QString mPrincipal;
 
 };
 

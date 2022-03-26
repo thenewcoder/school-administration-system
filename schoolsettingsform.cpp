@@ -27,6 +27,7 @@ void SchoolSettingsForm::setupConnections()
     connect(ui->teAddress, SIGNAL(textChanged()), this, SLOT(onSettingsHaveChanged()));
     connect(ui->lePhoneNumber, SIGNAL(textEdited(QString)), this, SLOT(onSettingsHaveChanged()));
     connect(ui->leEmail, SIGNAL(textEdited(QString)), this, SLOT(onSettingsHaveChanged()));
+    connect(ui->cbPrincipal, SIGNAL(currentTextChanged(QString)), this, SLOT(onSettingsHaveChanged()));
 
     connect(ui->btnAddLogo, &QPushButton::clicked, this, [this] () {
         QString filename = QFileDialog::getOpenFileName(this,
@@ -58,6 +59,7 @@ void SchoolSettingsForm::setupConnections()
         mSchool.setSchoolPhone(ui->lePhoneNumber->text());
         mSchool.setSchoolEmail(ui->leEmail->text());
         mSchool.setSchoolLogoPixmap(*logo);
+        mSchool.setPrincipal(ui->cbPrincipal->currentText());
 
         // save data to the database
         DatabaseManager::instance().saveSchoolData(mSchool);
@@ -91,6 +93,8 @@ void SchoolSettingsForm::onSettingsHaveChanged()
         hasChanged = true;
     else if(mSchool.schoolLogoPixmap().cacheKey() != ui->lblSchoolLogo->pixmap()->cacheKey())
         hasChanged = true;
+    else if (mSchool.principal() != ui->cbPrincipal->currentText())
+        hasChanged = true;
 
     toggleSaveButton(hasChanged);
 }
@@ -104,12 +108,17 @@ void SchoolSettingsForm::changeEvent(QEvent *e)
 
 void SchoolSettingsForm::loadDatabaseSettings()
 {
+    QStringList teachers = {""};
+    teachers << DatabaseManager::instance().teachers(); // NOTE: just add teachers for now
+    ui->cbPrincipal->addItems(teachers);
+
     mSchool = DatabaseManager::instance().getSchoolInfo();
 
     ui->leSchoolName->setText(mSchool.schoolName());
     ui->teAddress->setPlainText(mSchool.schoolAddress());
     ui->lePhoneNumber->setText(mSchool.schoolPhone());
     ui->leEmail->setText(mSchool.schoolEmail());
+    ui->cbPrincipal->setCurrentText(mSchool.principal());
 
     QPixmap logo = mSchool.schoolLogoPixmap();
     if (!logo.isNull())

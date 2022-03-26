@@ -694,6 +694,7 @@ School DatabaseManager::getSchoolInfo() const
         school.setSchoolPhone(query.value("phone").toString());
         school.setSchoolEmail(query.value("email").toString());
         school.setSchoolLogo(query.value("logo").toByteArray());
+        school.setPrincipal(query.value("principal").toString());
 
         return school;
     }
@@ -1032,13 +1033,14 @@ void DatabaseManager::saveSchoolData(const School &school)
     QSqlQuery query;
     query.prepare("UPDATE school SET "
                   "name = :name, address = :address, phone = :phone, "
-                  "email = :email, logo = :logo");
+                  "email = :email, logo = :logo, principal = :principal");
 
     query.bindValue(":name", school.schoolName());
     query.bindValue(":address", school.schoolAddress());
     query.bindValue(":phone", school.schoolPhone());
     query.bindValue(":email", school.schoolEmail());
     query.bindValue(":logo", school.schoolLogo());
+    query.bindValue(":principal", school.principal());
 
     if (!query.exec())
     {

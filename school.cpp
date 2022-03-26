@@ -7,13 +7,16 @@ School::School()
     , mSchoolPhone(""), mSchoolEmail("")
     , mSchoolLogo(QByteArray())
     , mSchoolLogoPixmap(QPixmap())
+    , mPrincipal("")
 {
 
 }
 
-School::School(const QString &name, const QString &address, const QString &phone, const QString &email, const QByteArray &logo)
+School::School(const QString &name, const QString &address, const QString &phone, const QString &email,
+               const QString &principal, const QByteArray &logo)
     : mSchoolName(name), mSchoolAddress(address)
     , mSchoolPhone(phone), mSchoolEmail(email)
+    , mPrincipal(principal)
 {
     setSchoolLogo(logo);
 }
@@ -84,4 +87,14 @@ void School::setSchoolLogoPixmap(const QPixmap &schoolLogoPixmap)
     QBuffer buffer(&mSchoolLogo);
     buffer.open(QIODevice::WriteOnly);
     schoolLogoPixmap.save(&buffer, "PNG");
+}
+
+QString School::principal() const
+{
+    return mPrincipal;
+}
+
+void School::setPrincipal(const QString &principal)
+{
+    mPrincipal = principal;
 }
