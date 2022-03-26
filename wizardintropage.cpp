@@ -70,7 +70,7 @@ WizardIntroPage::WizardIntroPage(QWidget *parent)
 void WizardIntroPage::changeLanguage(int index)
 {
     // disonnect the combobox signal so it won't be called when translating
-    disconnect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
+    cbLanguage->blockSignals(true);
     if (index == Settings::ENGLISH)
     {
         translator->load("translations/trans_en_US");
@@ -89,7 +89,7 @@ void WizardIntroPage::resetComboBox()
     cbLanguage->setCurrentIndex(mLangIndex);
 
     // activate the connection again
-    connect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
+    cbLanguage->blockSignals(false);
 }
 
 void WizardIntroPage::changeEvent(QEvent *e)
