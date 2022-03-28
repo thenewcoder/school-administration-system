@@ -1,4 +1,5 @@
 ﻿#include "classrecord.h"
+#include "attendance.h"
 
 ClassRecord::ClassRecord()
     : mId()
@@ -17,7 +18,57 @@ ClassRecord::ClassRecord(const QString &id, const QString &theClass, const QStri
     , mTeacher(teacher)
     , mAttendance()
 {
+}
 
+ClassRecord::~ClassRecord()
+{
+}
+
+ClassRecord::ClassRecord(const ClassRecord &cr)
+    : mId(cr.mId)
+    , mClass(cr.mClass)
+    , mDate(cr.mDate)
+    , mTeacher(cr.mTeacher)
+    , mAttendance(cr.mAttendance)
+{
+}
+
+ClassRecord::ClassRecord(ClassRecord &&cr) noexcept
+    : mId(std::move(cr.mId))
+    , mClass(std::move(cr.mClass))
+    , mDate(std::move(cr.mDate))
+    , mTeacher(std::move(cr.mTeacher))
+    , mAttendance(std::move(cr.mAttendance))
+{
+}
+
+ClassRecord &ClassRecord::operator=(const ClassRecord &other)
+{
+    mId = other.mId;
+    mClass = other.mClass;
+    mDate = other.mDate;
+    mTeacher = other.mTeacher;
+    mAttendance = other.mAttendance;
+    return *this;
+}
+
+ClassRecord &ClassRecord::operator=(ClassRecord &&other) noexcept
+{
+    if (this != &other)
+    {
+        mId = std::move(other.mId);
+        mClass = std::move(other.mClass);
+        mDate = std::move(other.mDate);
+        mTeacher = std::move(other.mTeacher);
+        mAttendance = std::move(other.mAttendance);
+
+        other.mId = -1;
+        other.mClass.clear();
+        other.mDate.clear();
+        other.mTeacher.clear();
+        mAttendance.clear();
+    }
+    return *this;
 }
 
 QString ClassRecord::getRecordId() const
@@ -50,19 +101,19 @@ void ClassRecord::setTeacher(const QString &teacher)
     mTeacher = teacher;
 }
 
-QMap<QString, int> ClassRecord::getAttendance() const
+QVector<Attendance> ClassRecord::getAttendance() const
 {
     return mAttendance;
 }
 
-void ClassRecord::setAttendance(const QMap<QString, int> &attendance)
+void ClassRecord::setAttendance(const QVector<Attendance> &records)
 {
-    mAttendance = attendance;
+    mAttendance = records;
 }
 
-void ClassRecord::addAttendanceRecord(const QString &name, const int status)
+void ClassRecord::addAttendanceRecord(const Attendance &attendance)
 {
-    mAttendance.insert(name, status);
+    mAttendance.append(attendance);
 }
 
 QString ClassRecord::getClass() const

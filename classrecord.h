@@ -2,13 +2,22 @@
 #define CLASSRECORD_H
 
 #include <QString>
-#include <QMap>
+#include <QVector>
+
+class Attendance;
 
 class ClassRecord
 {
 public:
     ClassRecord();
     ClassRecord(const QString &id, const QString &theClass, const QString &date, const QString &teacher);
+    ~ClassRecord();
+
+    ClassRecord(const ClassRecord &cr);
+    ClassRecord& operator=(const ClassRecord &other);
+
+    ClassRecord(ClassRecord &&other) noexcept;
+    ClassRecord& operator=(ClassRecord &&other) noexcept;
 
     QString getRecordId() const;
     void setRecordId(const QString &id);
@@ -22,10 +31,10 @@ public:
     QString getTeacher() const;
     void setTeacher(const QString &teacher);
 
-    QMap<QString, int> getAttendance() const;
-    void setAttendance(const QMap<QString, int> &attendance);
+    QVector<Attendance> getAttendance() const;
+    void setAttendance(const QVector<Attendance> &records);
 
-    void addAttendanceRecord(const QString &name, const int status);
+    void addAttendanceRecord(const Attendance& attendance);
 
 private:
     QString mId;
@@ -33,7 +42,7 @@ private:
     QString mDate;
     QString mTeacher;
 
-    QMap<QString, int> mAttendance;
+    QVector<Attendance> mAttendance;
 };
 
 #endif // CLASSRECORD_H

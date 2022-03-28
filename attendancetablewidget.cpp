@@ -4,13 +4,15 @@
 #include <QButtonGroup>
 #include <QHBoxLayout>
 
+#include "attendance.h"
+
 
 AttendanceTableWidget::AttendanceTableWidget(QWidget *parent)
     : QTableWidget(parent)
 {
     QStringList headerLabels;
     headerLabels << tr("Students") << tr("Present") << tr("Absent") << tr("Tardy") <<
-                    tr("Absent W/ Excuse") << tr("Tardy W/ Excuse");
+                    tr("Absent W/ Excuse") << tr("Tardy W/ Excuse") << tr("Remarks");
 
     // setup the attendance table widget
     setColumnCount(headerLabels.length());
@@ -22,47 +24,48 @@ AttendanceTableWidget::AttendanceTableWidget(QWidget *parent)
     setColumnWidth(0, 220);
 }
 
-QMap<QString, int> AttendanceTableWidget::getAttendance() const
+QVector<Attendance> AttendanceTableWidget::getAttendance() const
 {
-    QMap<QString, int> att;
+    QVector<Attendance> records;
 
     for (int row = 0; row < rowCount(); ++row)
     {
-        // check each radio button if it's checked or not
-        for (int col = 1; col < columnCount(); ++col)
+        Attendance attendance(item(row, 0)->text());
+
+        // check each radio button if it's checked or not - don't check the remarks column
+        for (int col = 1; col < columnCount() - 1; ++col)
         {
             QRadioButton *btn = cellWidget(row, col)->findChild<QRadioButton*>();
             if (btn->isChecked()) // if attendance has been found
             {
-                // get the student name
-                QString name = item(row, 0)->text();
-
-                // add the key and value
-                att.insert(name, col);
+                attendance.setAttendanceType(col);
+                break;
             }
         }
+        attendance.setRemarks(item(row, columnCount()-1)->text());
+
+        records.append(attendance);
     }
-    return att;
+    return records;
 }
 
-void AttendanceTableWidget::setAttendance(const QStringList &students, const QMap<QString, int> &attendance)
+void AttendanceTableWidget::setAttendance(const QVector<Attendance> &records)
 {
-    bool takeAttendance = !attendance.isEmpty(); // not empty
-
     // populate the table widget
-    for (int row = 0; row < students.size(); ++row)
+    for (int row = 0; row < records.size(); ++row)
     {
         // insert a new row
         insertRow(row);
 
         // add students
-        QString student = students.at(row);
-        QTableWidgetItem *item = new QTableWidgetItem(student);
+        Attendance att = records.at(row);
+        QTableWidgetItem *item = new QTableWidgetItem(att.student());
+        item->setFlags(item->flags() & ~Qt::ItemIsEditable); // non editable
         setItem(row, 0, item);
 
         // add a radio button for the remaining columns
         QButtonGroup *grp = new QButtonGroup(this);
-        int num_columns = columnCount();
+        int num_columns = columnCount() - 1;  // don't go through the remarks column
         for (int col = 1; col < num_columns; ++col)
         {
             // create the radio button
@@ -74,14 +77,10 @@ void AttendanceTableWidget::setAttendance(const QStringList &students, const QMa
                         emit onRadioButtonToggled();
                     });
 
-            if (takeAttendance) // TODO: clean this up a bit
+            if (att.attendanceType() != -1) // TODO: clean this up a bit
             {
-                if (attendance.contains(student))
-                {
-                    int val = attendance.value(student);
-                    if (val == col)
-                        rbtn->setChecked(true);
-                }
+                if (att.attendanceType() == col)
+                    rbtn->setChecked(true);
             }
 
             // Create an empty widget to help with adding the radio button
@@ -96,6 +95,10 @@ void AttendanceTableWidget::setAttendance(const QStringList &students, const QMa
             // add widget to the cell
             setCellWidget(row, col, wdg);
         }
+
+        // add remarks
+        item = new QTableWidgetItem(att.remarks());
+        setItem(row, columnCount()-1, item);
 
         // fixes memory leak warning
         if (grp->buttons().count() < 1)

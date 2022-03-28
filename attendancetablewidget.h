@@ -3,6 +3,8 @@
 
 #include <QTableWidget>
 
+class Attendance;
+
 class AttendanceTableWidget : public QTableWidget
 {
     Q_OBJECT
@@ -13,8 +15,8 @@ signals:
     void onRadioButtonToggled();
 
 public:
-    QMap<QString, int> getAttendance() const;
-    void setAttendance(const QStringList &students, const QMap<QString, int> &attendance = QMap<QString, int>());
+    QVector<Attendance> getAttendance() const;
+    void setAttendance(const QVector<Attendance> &records);
 };
 
 #endif // ATTENDANCETABLEWIDGET_H

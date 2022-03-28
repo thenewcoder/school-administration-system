@@ -6,6 +6,7 @@
 
 #include "classrecord.h"
 
+
 namespace Ui {
 class EditAttendanceDialog;
 }
@@ -43,14 +44,13 @@ public:
     QString getRecordId() const;
     void setRecordId(const QString &recordId);
 
-    QMap<QString, int> getAttendance() const;
-
     void populateTeachersBox(const QString &className);
 
 private:
     void setupConnections();
     void setupDetectEditConnections();
     void toggleOKButton(bool state);
+    bool attendanceRecordsAreSame(const QVector<Attendance>& first, const QVector<Attendance>& second) const;
 
 public slots:
     void onProfileHasChanged();

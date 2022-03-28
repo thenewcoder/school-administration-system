@@ -18,6 +18,8 @@
 #include "class.h"
 #include "classrecord.h"
 #include "activity.h"
+#include "attendance.h"
+
 
 DatabaseManager &DatabaseManager::instance()
 {
@@ -278,9 +280,9 @@ QStringList DatabaseManager::grades() const
     return list;
 }
 
-QStringList DatabaseManager::studentsOfClass(const QString &className)
+QVector<Attendance> DatabaseManager::studentsOfClass(const QString &className)
 {
-    QStringList students;
+    QVector<Attendance> students;
 
     QSqlQuery query;
     query.prepare("SELECT S.name FROM class_student CS "
@@ -294,7 +296,7 @@ QStringList DatabaseManager::studentsOfClass(const QString &className)
     {
         while (query.next())
         {
-            students.append(query.value(0).toString());
+            students.append(Attendance(query.value(0).toString()));
         }
     }
     else
@@ -618,18 +620,19 @@ void DatabaseManager::addClassRecord(const ClassRecord &record)
     int id = query.lastInsertId().toInt();
 
     // add the attendance
-    query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type) "
+    query.prepare("INSERT INTO attendance_record(class_record_id, studentId, attendance_type, remarks) "
                   "VALUES(:recordId,"
                   "(SELECT studentId FROM student WHERE name = :name),"
-                  ":attendanceId)");
+                  ":attendanceId,"
+                  ":remarks)");
 
-    const QMap<QString, int> &att = record.getAttendance();
-    const QList<QString> &keys = att.keys();
-    for (auto &student : qAsConst(keys))
+    const QVector<Attendance> &rec = record.getAttendance();
+    for (auto &attendance : qAsConst(rec))
     {
         query.bindValue(":recordId", id);
-        query.bindValue(":name", student);
-        query.bindValue(":attendanceId", att.value(student));
+        query.bindValue(":name", attendance.student());
+        query.bindValue(":attendanceId", attendance.attendanceType());
+        query.bindValue(":remarks", attendance.remarks());
 
         if (!query.exec())
         {
@@ -860,7 +863,7 @@ ClassRecord DatabaseManager::getClassRecord(const QString &recordId)
     }
 
     // get the attendance records
-    query.prepare("SELECT S.name, attendance_type "
+    query.prepare("SELECT S.name, attendance_type, remarks "
                   "FROM attendance_record AR "
                   "LEFT OUTER JOIN student S ON S.studentId = AR.studentId "
                   "WHERE class_record_id = :recordId");
@@ -870,8 +873,11 @@ ClassRecord DatabaseManager::getClassRecord(const QString &recordId)
     {
         while (query.next())
         {
-            record.addAttendanceRecord(query.value(0).toString(),  // name
-                                       query.value(1).toInt());    //  attendance type
+            Attendance attendance(query.value(0).toString(),  // student name
+                                  query.value(1).toInt(),     // attendance_type
+                                  query.value(2).toString()); // remarks
+
+            record.addAttendanceRecord(attendance);
         }
     }
     else
@@ -881,6 +887,40 @@ ClassRecord DatabaseManager::getClassRecord(const QString &recordId)
     }
 
     return record;
+}
+
+QVector<Attendance> DatabaseManager::attendanceOfClass(const QString &className)
+{
+    mDatabase->transaction();
+
+    QVector<Attendance> records;
+
+    QSqlQuery query;
+    query.prepare("SELECT Student, Status, Remarks "
+                  "FROM attendance_summary "
+                  "WHERE Class = :className");
+    query.bindValue(":className", className);
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            Attendance attendance;
+            attendance.setStudent(query.value("Student").toString());
+            attendance.setAttendanceType(query.value("Status").toInt());
+            attendance.setRemarks(query.value("Remarks").toString());
+            records.append(attendance);
+        }
+    }
+    else
+    {
+        qDebug() << "Unable to get a class record";
+        qDebug() << query.lastError().text();
+    }
+
+    mDatabase->commit();
+
+    return records;
 }
 
 Activity DatabaseManager::getActivity(const QString &activityId)
@@ -1149,16 +1189,18 @@ void DatabaseManager::saveClassRecord(const ClassRecord &record)
 
     // update the existing attendance records
 
-    const QMap<QString, int> &att = record.getAttendance();
-    const QList<QString> &keys = att.keys();
-    for (auto &student : qAsConst(keys))
+    const QVector<Attendance> &rec = record.getAttendance();
+    for (auto &attendance : qAsConst(rec))
     {
         query.prepare(QString("UPDATE attendance_record SET "
-                      "attendance_type = %1 "
-                      "WHERE class_record_id = %2 AND "
-                      "studentId = (SELECT studentId FROM student WHERE name = '%3')").arg(QString::number(att.value(student)),
+                      "attendance_type = %1, "
+                      "remarks = '%2' "
+                      "WHERE class_record_id = %3 AND "
+                      "studentId = (SELECT studentId FROM student WHERE name = '%4')").arg(QString::number(attendance.attendanceType()),
+                                                                                           attendance.remarks(),
                                                                                            record.getRecordId(),
-                                                                                           student));
+                                                                                           attendance.student()));
+
         if (!query.exec())
         {
             qDebug() << "Unable to update an attendance record";

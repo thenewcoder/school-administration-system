@@ -6,13 +6,13 @@
 #include <QHBoxLayout>
 #include <QDate>
 #include <QLocale>
+
 #include "databasemanager.h"
 #include "attendancetablewidget.h"
+#include "attendance.h"
 
 #include <QDebug>
 #include <QPushButton>
-#include <QButtonGroup>
-#include <QRadioButton>
 
 EditAttendanceDialog::EditAttendanceDialog(QWidget *parent, bool isEditMode) :
     QDialog(parent),
@@ -38,20 +38,6 @@ EditAttendanceDialog::EditAttendanceDialog(QWidget *parent, bool isEditMode) :
 
     // enable calendar widget
     ui->deClassTime->setCalendarPopup(true);
-
-    // set the attendance possibilities
-    QStringList headerLabels;
-    headerLabels << tr("Students") << tr("Present") << tr("Absent") << tr("Tardy") <<
-                    tr("Absent W/ Excuse") << tr("Tardy W/ Excuse");
-
-    // setup the attendance table widget
-    ui->twAttendance->setColumnCount(headerLabels.length());
-    ui->twAttendance->setSelectionMode(QAbstractItemView::NoSelection);
-    ui->twAttendance->setFocusPolicy(Qt::NoFocus);
-
-    // set headers
-    ui->twAttendance->setHorizontalHeaderLabels(headerLabels);
-    ui->twAttendance->setColumnWidth(0, 220);
 
     setupConnections();
 
@@ -145,8 +131,7 @@ void EditAttendanceDialog::setClassRecord(const ClassRecord &record)
     mRecord = record;
 
     // prepare the table widget
-    ui->twAttendance->setAttendance(DatabaseManager::instance().studentsOfClass(getClass()),
-                  record.getAttendance());
+    ui->twAttendance->setAttendance(record.getAttendance());
 
     // set the correct index to the teachers combo box
     setTeacher(record.getTeacher());
@@ -189,6 +174,8 @@ void EditAttendanceDialog::setupConnections()
     // setup connections to check if enough data has been entered to enable the OK button
     connect(ui->cbClasses, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
     connect(ui->cbTeachers, SIGNAL(currentTextChanged(QString)), this, SLOT(onProfileHasChanged()));
+    connect(ui->twAttendance, SIGNAL(cellChanged(int,int)), this, SLOT(onProfileHasChanged()));
+
 
     // classes combo box has changed
     connect(ui->cbClasses, &QComboBox::currentTextChanged, this, [this] (const QString &text) {
@@ -201,7 +188,10 @@ void EditAttendanceDialog::setupConnections()
                 ui->twAttendance->setRowCount(0);
 
                 // populate the table widget with the students from the selected class only
-                ui->twAttendance->setAttendance(DatabaseManager::instance().studentsOfClass(text));
+                if (mEditMode)
+                    ui->twAttendance->setAttendance(DatabaseManager::instance().attendanceOfClass(text));
+                else
+                    ui->twAttendance->setAttendance(DatabaseManager::instance().studentsOfClass(text));
 
                 // enable the check box
                 ui->cbShowAllTeachers->setEnabled(true);
@@ -214,6 +204,7 @@ void EditAttendanceDialog::setupConnections()
                 ui->cbShowAllTeachers->setEnabled(false);
                 ui->cbTeachers->clear();
                 ui->twAttendance->clearContents(); // make sure the table widget clears as well
+                ui->twAttendance->setRowCount(0);
             }
         }
         else // edit mode
@@ -281,6 +272,16 @@ void EditAttendanceDialog::toggleOKButton(bool state)
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(state);
 }
 
+bool EditAttendanceDialog::attendanceRecordsAreSame(const QVector<Attendance> &first, const QVector<Attendance> &second) const
+{
+    for (int i = 0; i < first.size(); ++i)
+    {
+        if (first.at(i) != second.at(i))
+            return false;
+    }
+    return true;
+}
+
 void EditAttendanceDialog::onProfileHasChanged()
 {
     bool hasChanged = false;
@@ -297,7 +298,7 @@ void EditAttendanceDialog::onProfileHasChanged()
             hasChanged = true;
         else if (mRecord.getTeacher() != getTeacher())
             hasChanged = true;
-        else if (mRecord.getAttendance() != ui->twAttendance->getAttendance())
+        else if (!attendanceRecordsAreSame(mRecord.getAttendance(), ui->twAttendance->getAttendance()))
             hasChanged = true;
     }
     toggleOKButton(hasChanged);

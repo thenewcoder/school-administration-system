@@ -14,6 +14,7 @@ class User;
 class Class;
 class ClassRecord;
 class Activity;
+class Attendance;
 
 // temporary name
 static const QString DATABASE_FILENAME = "database.db";
@@ -40,7 +41,7 @@ public:
     QStringList students() const;
     QStringList classes() const;
     QStringList grades() const;
-    QStringList studentsOfClass(const QString &className);
+    QVector<Attendance> studentsOfClass(const QString &className);
     QStringList teachersOfClass(const QString &className);
 
     void addTeacher(const Teacher &teacher) const;
@@ -62,6 +63,7 @@ public:
     Student getStudent(const QString &studentId);
     Class getClass(const QString &classId);
     ClassRecord getClassRecord(const QString &recordId);
+    QVector<Attendance> attendanceOfClass(const QString &className);
     Activity getActivity(const QString &activityId);
 
     void saveTeacherData(const Teacher &teacher, const QString &teacherId);
