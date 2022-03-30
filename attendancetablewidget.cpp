@@ -3,6 +3,7 @@
 #include <QRadioButton>
 #include <QButtonGroup>
 #include <QHBoxLayout>
+#include <QHeaderView>
 
 #include "attendance.h"
 
@@ -21,7 +22,15 @@ AttendanceTableWidget::AttendanceTableWidget(QWidget *parent)
 
     // set headers
     setHorizontalHeaderLabels(headerLabels);
-    setColumnWidth(0, 220);
+    resizeColumnsToContents();
+    setColumnWidth(0, 200);
+    const int widthSmallColumns = columnWidth(1)+2;
+    setColumnWidth(1, widthSmallColumns);
+    setColumnWidth(2, widthSmallColumns);
+    setColumnWidth(3, widthSmallColumns);
+    setColumnWidth(4, columnWidth(4)+2);
+    setColumnWidth(5, columnWidth(4)+2); // same as previous column width
+    horizontalHeader()->setStretchLastSection(true);
 }
 
 QVector<Attendance> AttendanceTableWidget::getAttendance() const
