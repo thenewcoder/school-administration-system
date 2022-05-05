@@ -35,6 +35,8 @@ SOURCES += main.cpp\
     selectordialog.cpp \
     pageotherform.cpp \
     editotherdialog.cpp \
+    useritemdelegate.cpp \
+    usermanagerform.cpp \
     wizarddatabasesetup.cpp \
     wizardintropage.cpp \
     wizardsetup.cpp \
@@ -74,6 +76,8 @@ HEADERS  += mainwindow.h \
     selectordialog.h \
     pageotherform.h \
     editotherdialog.h \
+    useritemdelegate.h \
+    usermanagerform.h \
     wizarddatabasesetup.h \
     wizardintropage.h \
     wizardsetup.h \
@@ -106,7 +110,8 @@ FORMS    += mainwindow.ui \
     editattendancedialog.ui \
     pageactivitiesform.ui \
     editactivitydialog.ui \
-    systemsettingsform.ui
+    systemsettingsform.ui \
+    usermanagerform.ui
 
 RESOURCES += \
     resources.qrc

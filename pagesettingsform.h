@@ -11,6 +11,7 @@ class SchoolSettingsForm;
 class PersonalProfileForm;
 class SystemSettingsForm;
 class PageHomeForm;
+class UserManagerForm;
 
 class PageSettingsForm : public QWidget
 {
@@ -33,6 +34,7 @@ private:
     SchoolSettingsForm *mSchoolSettingsForm;
     PersonalProfileForm *mPersonalProfileForm;
     SystemSettingsForm *mSystemSettingsForm;
+    UserManagerForm *mUserManagerForm;
 
     // QWidget interface
 protected:

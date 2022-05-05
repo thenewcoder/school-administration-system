@@ -7,6 +7,7 @@
 #include "adminmenuform.h"
 #include "personalprofileform.h"
 #include "pagehomeform.h"
+#include "usermanagerform.h"
 
 PageSettingsForm::PageSettingsForm(PageHomeForm *pageHomeForm, QWidget *parent) :
     QWidget(parent),
@@ -14,7 +15,8 @@ PageSettingsForm::PageSettingsForm(PageHomeForm *pageHomeForm, QWidget *parent) 
     mPageHomeForm(pageHomeForm),
     mSchoolSettingsForm(new SchoolSettingsForm(this)),
     mPersonalProfileForm(new PersonalProfileForm(this)),
-    mSystemSettingsForm(new SystemSettingsForm(this))
+    mSystemSettingsForm(new SystemSettingsForm(this)),
+    mUserManagerForm(new UserManagerForm(this))
 {
     ui->setupUi(this);
 
@@ -22,6 +24,7 @@ PageSettingsForm::PageSettingsForm(PageHomeForm *pageHomeForm, QWidget *parent) 
     ui->twSettingsPages->addTab(mSchoolSettingsForm, tr("School Settings"));
     ui->twSettingsPages->addTab(mPersonalProfileForm, tr("Personal Info"));
     ui->twSettingsPages->addTab(mSystemSettingsForm, tr("System Settings"));
+    ui->twSettingsPages->addTab(mUserManagerForm, tr("Users"));
 
     setupConnections();
 
@@ -58,6 +61,7 @@ void PageSettingsForm::changeEvent(QEvent *e)
         ui->twSettingsPages->setTabText(0, tr("School Settings"));
         ui->twSettingsPages->setTabText(1, tr("Personal Info"));
         ui->twSettingsPages->setTabText(2, tr("System Settings"));
+        ui->twSettingsPages->setTabText(3, tr("Users"));
     }
     QWidget::changeEvent(e);
 }
