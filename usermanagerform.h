@@ -17,9 +17,10 @@ class UserManagerForm : public QWidget
     {
         ID,
         USERNAME,
-        PASSWORD,
+        //PASSWORD,
         FULLNAME,
-        USERTYPE
+        USERTYPE,
+        CONNECTED
     };
 
 public:
@@ -28,6 +29,7 @@ public:
 
 private:
     void addTableHeaders();
+    void setupConnections();
 
 private:
     Ui::UserManagerForm *ui;

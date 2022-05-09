@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += main.cpp\
     attendance.cpp \
     attendancetablewidget.cpp \
+    edituserdialog.cpp \
     genderitemdelegate.cpp \
         mainwindow.cpp \
     databasemanager.cpp \
@@ -55,6 +56,7 @@ HEADERS  += mainwindow.h \
     attendancetablewidget.h \
     databasemanager.h \
     adminmenuform.h \
+    edituserdialog.h \
     genderitemdelegate.h \
     settings.h \
     login.h \
@@ -93,6 +95,7 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     adminmenuform.ui \
+    edituserdialog.ui \
     pagehomeform.ui \
     pagesettingsform.ui \
     pageteachersform.ui \

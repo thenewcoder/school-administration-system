@@ -103,6 +103,23 @@ int DatabaseManager::numStudents() const
     return 0;
 }
 
+QStringList DatabaseManager::users() const
+{
+    QStringList list;
+
+    QSqlQuery query;
+    query.prepare("SELECT username FROM user");
+
+    if (query.exec())
+    {
+        while (query.next())
+        {
+            list << query.value(0).toString();
+        }
+    }
+    return list;
+}
+
 QStringList DatabaseManager::nationalities() const
 {
     QStringList list;
@@ -337,6 +354,8 @@ QStringList DatabaseManager::teachersOfClass(const QString &className)
 
 void DatabaseManager::addTeacher(const Teacher &teacher) const
 {
+    mDatabase->transaction();
+
     QSqlQuery query;
     query.prepare(QString("INSERT INTO teacher "
                           "('name', 'preferredName', gender, nationalityId, 'address', 'phoneNumber', 'photo') "
@@ -375,10 +394,14 @@ void DatabaseManager::addTeacher(const Teacher &teacher) const
             qDebug() << query.lastError().text();
         }
     }
+
+    mDatabase->commit();
 }
 
 void DatabaseManager::addStudent(const Student &student) const
 {
+    mDatabase->transaction();
+
     QSqlQuery query;
     query.prepare(QString("INSERT INTO student "
                           "('name', 'nickName', 'dateOfBirth', gender, nationalityId, "
@@ -436,6 +459,7 @@ void DatabaseManager::addStudent(const Student &student) const
             qDebug() << query.lastError().text();
         }
     }
+    mDatabase->commit();
 }
 
 void DatabaseManager::addClass(const Class &c) const
@@ -667,7 +691,9 @@ void DatabaseManager::addActivity(const Activity &activity)
 User DatabaseManager::getUser(const QString &username)
 {
     QSqlQuery query;
-    query.prepare("SELECT userId, password, fullname FROM user WHERE username = :username");
+    query.prepare("SELECT userId, password, fullname, userTypeId, connectedUserId "
+                  "FROM user "
+                  "WHERE username = :username");
     query.bindValue(":username", username);
 
     if (query.exec())
@@ -676,7 +702,9 @@ User DatabaseManager::getUser(const QString &username)
         return User(query.value("userId").toString(),
                     username,
                     query.value("password").toString(),
-                    query.value("fullname").toString());
+                    query.value("fullname").toString(),
+                    query.value("userTypeId").toInt(),
+                    query.value("connectedUserId").toInt());
     }
     qDebug() << "Unable to get the user data";
     return User();

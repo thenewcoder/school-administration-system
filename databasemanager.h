@@ -32,6 +32,7 @@ public:
     int numTeachers() const;
     int numStudents() const;
 
+    QStringList users() const;
     QStringList nationalities() const;
     QStringList dormitories() const;
     QStringList busstops() const;
