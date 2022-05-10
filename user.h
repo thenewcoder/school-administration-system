@@ -8,7 +8,7 @@ class User
 public:
     User();
     User(const QString &userid, const QString &username, const QString &password,
-         const QString &fullname, const int userType = -1, const int connectedUser = 0);
+         const QString &fullname, const int userType = -1, const int connectedTeacher = 0);
 
     QString username() const;
     void setUsername(const QString &username);
@@ -25,8 +25,8 @@ public:
     int userType() const;
     void setUserType(int newUserType);
 
-    int connectedUser() const;
-    void setConnectedUser(int newConnectedUser);
+    int connectedTeacher() const;
+    void setConnectedTeacher(int newConnectedTeacher);
 
 private:
     QString mUserId;
@@ -34,7 +34,7 @@ private:
     QString mPassword;
     QString mFullName;
     int mUserType;
-    int mConnectedUser;
+    int mConnectedTeacher;
 };
 
 #endif // USER_H

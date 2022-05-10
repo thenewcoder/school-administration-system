@@ -6,19 +6,19 @@ User::User()
     , mPassword()
     , mFullName()
     , mUserType(-1)
-    , mConnectedUser(0)
+    , mConnectedTeacher(0)
 {
 
 }
 
 User::User(const QString &userid, const QString &username, const QString &password,
-           const QString &fullname, const int userType, const int connectedUser)
+           const QString &fullname, const int userType, const int connectedTeacher)
     : mUserId(userid)
     , mUsername(username)
     , mPassword(password)
     , mFullName(fullname)
     , mUserType(userType)
-    , mConnectedUser(connectedUser)
+    , mConnectedTeacher(connectedTeacher)
 {
 
 }
@@ -73,12 +73,12 @@ void User::setUserType(int newUserType)
     mUserType = newUserType;
 }
 
-int User::connectedUser() const
+int User::connectedTeacher() const
 {
-    return mConnectedUser;
+    return mConnectedTeacher;
 }
 
-void User::setConnectedUser(int newConnectedUser)
+void User::setConnectedTeacher(int newConnectedTeacher)
 {
-    mConnectedUser = newConnectedUser;
+    mConnectedTeacher = newConnectedTeacher;
 }

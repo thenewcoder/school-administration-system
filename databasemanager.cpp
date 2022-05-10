@@ -710,6 +710,24 @@ User DatabaseManager::getUser(const QString &username)
     return User();
 }
 
+int DatabaseManager::getTeacherId(const QString &teacherName)
+{
+    QSqlQuery query;
+    query.prepare("SELECT teacherId FROM teacher WHERE name = :teacherName");
+    query.bindValue(":teacherName", teacherName);
+    if (query.exec())
+    {
+        query.next();
+        return query.value(0).toInt();
+    }
+    else
+    {
+        qDebug() << "Unable to get teacher ID";
+        qDebug() << query.lastError().text();
+    }
+    return 0;
+}
+
 School DatabaseManager::getSchoolInfo() const
 {
     School school;
@@ -760,6 +778,26 @@ Teacher DatabaseManager::getTeacher(const QString &teacherId)
     }
 
     return teacher;
+}
+
+QString DatabaseManager::getTeacherName(const int teacherId)
+{
+    QSqlQuery query;
+    query.prepare("SELECT name FROM teacher WHERE teacherId = :teacherId");
+    query.bindValue(":teacherId", teacherId);
+
+    if (query.exec())
+    {
+        query.next();
+
+        return query.value(0).toString();
+    }
+    else
+    {
+        qDebug() << "Unable to get teacher name";
+        qDebug() << query.lastError().text();
+    }
+    return QString("");
 }
 
 Student DatabaseManager::getStudent(const QString &studentId)
@@ -1276,6 +1314,32 @@ bool DatabaseManager::updateUserData(const User &user)
     query.bindValue(":username", user.username());
     query.bindValue(":password", user.password());
     query.bindValue(":fullname", user.fullName());
+    query.bindValue(":userid", user.userId());
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update the user data";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::updateUserDataInfo(const User &user)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE user SET "
+                  "username = :username,"
+                  "password = :password,"
+                  "fullname = :fullname,"
+                  "userTypeId = :userTypeId,"
+                  "connectedUserId = :connectedUserId "
+                  "WHERE userId = :userid");
+    query.bindValue(":username", user.username());
+    query.bindValue(":password", user.password());
+    query.bindValue(":fullname", user.fullName());
+    query.bindValue(":userTypeId", user.userType());
+    query.bindValue(":connectedUserId", user.connectedTeacher());
     query.bindValue(":userid", user.userId());
 
     if (!query.exec())

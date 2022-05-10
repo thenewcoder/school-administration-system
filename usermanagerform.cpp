@@ -64,12 +64,14 @@ void UserManagerForm::setupConnections()
         if (!index.isValid())
             return;
 
-        QString user = mModel->data(mModel->index(index.row(), FIELDS::USERNAME)).toString();
-        editUser.setUser(DatabaseManager::instance().getUser(user));
+        QString username = mModel->data(mModel->index(index.row(), FIELDS::USERNAME)).toString();
+        User user = DatabaseManager::instance().getUser(username);
+        editUser.setUserData(user);
 
         if (editUser.exec() == QDialog::Accepted)
         {
-
+            DatabaseManager::instance().updateUserDataInfo(user);
+            mModel->select();
         }
     });
 }

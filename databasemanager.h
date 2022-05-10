@@ -61,6 +61,8 @@ public:
     User getUser(const QString &username);
     School getSchoolInfo() const;
     Teacher getTeacher(const QString &teacherId);
+    int getTeacherId(const QString &teacherName);
+    QString getTeacherName(const int teacherId);
     Student getStudent(const QString &studentId);
     Class getClass(const QString &classId);
     ClassRecord getClassRecord(const QString &recordId);
@@ -75,6 +77,7 @@ public:
     void saveActivityData(const Activity &activity);
 
     bool updateUserData(const User &user);
+    bool updateUserDataInfo(const User &user);
     bool updateClassroom(const QString &id, const QString &name, const QString &comment);
     bool updateDormitory(const QString &id, const QString &name, const QString &comment);
     bool updateBusstop(const QString &id, const QString &name, const QString &comment);
