@@ -3,6 +3,7 @@
 
 #include "user.h"
 #include "databasemanager.h"
+#include "login.h"
 
 #include <QDebug>
 
@@ -31,6 +32,9 @@ EditUserDialog::~EditUserDialog()
 
 void EditUserDialog::setUserData(User &user)
 {
+    // change the default behaviour
+    connect(ui->btnAddUpdateUser, &QPushButton::clicked, this, &EditUserDialog::updateUserData);
+
     mUser = &user;
     ui->leUsername->setText(user.username());
     ui->leFullname->setText(user.fullName());
@@ -41,6 +45,28 @@ void EditUserDialog::setUserData(User &user)
         QString connectedTeacherName  = DatabaseManager::instance().getTeacherName(user.connectedTeacher());
         ui->cbConnectedTeacher->setCurrentText(connectedTeacherName);
     }
+
+    // set the accept button text to indicate we are editing/updating
+    ui->btnAddUpdateUser->setText(tr("Update User"));
+}
+
+User& EditUserDialog::getNewUserData()
+{
+    mUser = new User;
+    mUser->setUsername(ui->leUsername->text());
+    mUser->setFullName(ui->leFullname->text());
+    mUser->setUserType(ui->cbUserType->currentIndex() + 1);
+
+    if (ui->cbConnectedTeacher->currentIndex() != 0)
+    {
+        int teacherId  = DatabaseManager::instance().getTeacherId(ui->cbConnectedTeacher->currentText());
+        mUser->setConnectedTeacher(teacherId);
+    }
+
+    // NOTE: need to set value to indicate that the user needs to update the password later!
+    mUser->setPassword(Login::instance().generateRandomPassword());
+
+    return *mUser;
 }
 
 void EditUserDialog::updateUserData()
@@ -61,10 +87,17 @@ void EditUserDialog::updateUserData()
 void EditUserDialog::setupConnections()
 {
     connect(ui->btnCancel, &QPushButton::clicked, this, &QDialog::reject);
-    connect(ui->btnAddUpdateUser, &QPushButton::clicked, this, &EditUserDialog::updateUserData);
+    connect(ui->btnAddUpdateUser, &QPushButton::clicked, this, &EditUserDialog::accept); // default behaviour
 
     connect(ui->leUsername, &QLineEdit::textChanged, this, [this] (const QString &change) {
-        if (mUser->username() != change)
+        if (mUser != nullptr && mUser->username() != change)  // TODO: optimize logic
+        {
+            if (DatabaseManager::instance().isUsernameTaken(change))
+                ui->btnAddUpdateUser->setDisabled(true);
+            else
+                ui->btnAddUpdateUser->setDisabled(false);
+        }
+        else if (mUser == nullptr)
         {
             if (DatabaseManager::instance().isUsernameTaken(change))
                 ui->btnAddUpdateUser->setDisabled(true);

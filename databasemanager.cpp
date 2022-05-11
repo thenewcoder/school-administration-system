@@ -600,15 +600,18 @@ void DatabaseManager::addSubject(const QString &name)
     }
 }
 
-void DatabaseManager::addUser(const QString &username, const QString &password, const QString &fullname)
+void DatabaseManager::addUser(const QString &username, const QString &password, const QString &fullname,
+                              const int userTypeId, const int connectedTeacherId)
 {
     QSqlQuery query;
     // for now don't deal with the userTypeId
-    query.prepare("INSERT INTO user (username, password, fullname) VALUES("
-                  ":username, :password, :fullname)");
+    query.prepare("INSERT INTO user (username, password, 'fullname', userTypeId, connectedUserId) VALUES("
+                  ":username, :password, :fullname, :userTypeId, :connectedTeacherId)");
     query.bindValue(":username", username);
     query.bindValue(":password", password);
     query.bindValue(":fullname", fullname);
+    query.bindValue(":userTypeId", QString::number(userTypeId));
+    query.bindValue(":connectedTeacherId", QString::number(connectedTeacherId));
 
     if (!query.exec())
     {
@@ -619,7 +622,7 @@ void DatabaseManager::addUser(const QString &username, const QString &password, 
 
 void DatabaseManager::addUser(const User &user)
 {
-    addUser(user.username(), user.password(), user.fullName());
+    addUser(user.username(), user.password(), user.fullName(), user.userType(), user.connectedTeacher());
 }
 
 void DatabaseManager::addClassRecord(const ClassRecord &record)

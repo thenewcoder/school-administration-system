@@ -18,6 +18,7 @@ public:
     ~EditUserDialog();
 
     void setUserData(User &user);
+    User &getNewUserData();
 
 private slots:
     void updateUserData();

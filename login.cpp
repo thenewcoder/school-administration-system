@@ -1,6 +1,7 @@
 ﻿#include "login.h"
 
 #include <QCryptographicHash>
+#include <QRandomGenerator>
 #include "databasemanager.h"
 
 Login &Login::instance()
@@ -95,4 +96,17 @@ QString Login::encryptString(const QString &text)
     c.addData(text.toStdString().c_str(), text.length());
     QString result = QString::fromStdString(c.result().toBase64().toStdString());
     return result;
+}
+
+QString Login::generateRandomPassword()
+{
+    QString characters{"abcdefgheijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&"};
+    QString randomString;
+
+    for (int i = 0; i < 6; i++)
+    {
+        randomString.append(characters.at(QRandomGenerator::global()->bounded(0, characters.size())));
+    }
+
+    return encryptString(randomString);
 }

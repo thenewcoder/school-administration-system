@@ -47,10 +47,11 @@ void WizardSetup::accept()
         QString username = field("username").toString();
         QString password = field("password").toString();
         QString fullname = field("fullname").toString();
+        int userType = 1; // NOTE: change this later to get data from combobox
 
-        // encrypt password before sending it off
+        // encrypt password before sending it off  NOTE: add usertype id to add user as well
         QString encryptedPassword = Login::instance().encryptString(password);
-        DatabaseManager::instance().addUser(username, encryptedPassword, fullname);
+        DatabaseManager::instance().addUser(username, encryptedPassword, fullname, userType);
     }
 
     QWizard::accept();

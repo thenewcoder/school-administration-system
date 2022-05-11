@@ -53,7 +53,8 @@ public:
     void addBusstop(const QString &name, const QString &comment);
     void addGrade(const QString &name);
     void addSubject(const QString &name);
-    void addUser(const QString &username, const QString &password, const QString &fullname);
+    void addUser(const QString &username, const QString &password, const QString &fullname,
+                 const int userTypeId, const int connectedTeacherId=0);
     void addUser(const User &user);
     void addClassRecord(const ClassRecord &record);
     void addActivity(const Activity &activity);

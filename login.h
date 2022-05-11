@@ -26,6 +26,7 @@ public:
     void setFullname(const QString &fullname);
 
     QString encryptString(const QString &text);
+    QString generateRandomPassword();
 
 private:
     Login();

@@ -54,6 +54,13 @@ void UserManagerForm::setupConnections()
         if (addUser.exec() == QDialog::Accepted)
         {
             qDebug() << "working";
+
+            // insert new user into database
+            //User test = addUser.getNewUserData();
+            //qDebug() << test.username() << test.password();
+            DatabaseManager::instance().addUser(addUser.getNewUserData());
+
+            mModel->select();
         }
     });
 
