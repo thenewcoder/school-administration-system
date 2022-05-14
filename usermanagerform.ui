@@ -63,6 +63,12 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>tvUsers</tabstop>
+  <tabstop>btnAdd</tabstop>
+  <tabstop>btnEdit</tabstop>
+  <tabstop>btnDelete</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

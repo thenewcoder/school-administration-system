@@ -5,8 +5,11 @@
 #include "edituserdialog.h"
 #include "databasemanager.h"
 #include "user.h"
+#include "login.h"
+#include "passworddialog.h"
 
 #include <QSqlTableModel>
+#include <QMessageBox>
 #include <QDebug>
 
 UserManagerForm::UserManagerForm(QWidget *parent) :
@@ -24,9 +27,9 @@ UserManagerForm::UserManagerForm(QWidget *parent) :
 
     ui->tvUsers->setModel(mModel);
     ui->tvUsers->setItemDelegateForColumn(FIELDS::USERTYPE, new UserItemDelegate);
-    //ui->tvUsers->hideColumn(FIELDS::PASSWORD);
     ui->tvUsers->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tvUsers->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tvUsers->setEditTriggers(QTableView::NoEditTriggers);
     ui->tvUsers->resizeRowsToContents();
 
     setupConnections();
@@ -53,11 +56,7 @@ void UserManagerForm::setupConnections()
 
         if (addUser.exec() == QDialog::Accepted)
         {
-            qDebug() << "working";
-
             // insert new user into database
-            //User test = addUser.getNewUserData();
-            //qDebug() << test.username() << test.password();
             DatabaseManager::instance().addUser(addUser.getNewUserData());
 
             mModel->select();
@@ -79,6 +78,40 @@ void UserManagerForm::setupConnections()
         {
             DatabaseManager::instance().updateUserDataInfo(user);
             mModel->select();
+        }
+    });
+
+    connect(ui->btnDelete, &QPushButton::clicked, this, [this] () {
+
+        // validate the selected row
+        QModelIndex index = ui->tvUsers->currentIndex();
+
+        if (!index.isValid())
+            return;
+
+        auto reply = QMessageBox::warning(this, tr("Delete User"), tr("You're about to delete a user! This can't be undone!\n"
+                                                         "Are you sure you want to proceed?"),
+                             QMessageBox::Yes | QMessageBox::No);
+
+        if (reply == QMessageBox::Yes)
+        {
+            // force user to enter password before processing delete of user
+            PasswordDialog passDialog(this);
+
+            if (passDialog.exec() == QDialog::Rejected)
+                return;
+
+            // validate password
+            if (!Login::instance().validLogin(Login::instance().username(), passDialog.getPasswordString()))
+            {
+                QMessageBox::critical(this, tr("Wrong Password"), tr("You entered the wrong password!"));
+                return;
+            }
+
+            QString userId = mModel->data(mModel->index(index.row(), FIELDS::ID)).toString();
+
+            if (DatabaseManager::instance().removeUser(userId))
+                mModel->select();
         }
     });
 }

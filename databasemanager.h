@@ -85,6 +85,7 @@ public:
     bool updateGrade(const QString &oldName, const QString &newName);
     bool updateSubject(const QString &oldName, const QString &newName);
 
+    bool removeUser(const QString &userId);
     bool removeStudent(const QString &studentId);
     bool removeTeacher(const QString &teacherId);
     bool removeClass(const QString &classId);

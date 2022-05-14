@@ -16,6 +16,7 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     databasemanager.cpp \
     adminmenuform.cpp \
+    passworddialog.cpp \
     settings.cpp \
     login.cpp \
     pagehomeform.cpp \
@@ -58,6 +59,7 @@ HEADERS  += mainwindow.h \
     adminmenuform.h \
     edituserdialog.h \
     genderitemdelegate.h \
+    passworddialog.h \
     settings.h \
     login.h \
     pagehomeform.h \
@@ -103,6 +105,7 @@ FORMS    += mainwindow.ui \
     pageclassesform.ui \
     editteacherdialog.ui \
     editstudentdialog.ui \
+    passworddialog.ui \
     schoolsettingsform.ui \
     personalprofileform.ui \
     editclassdialog.ui \

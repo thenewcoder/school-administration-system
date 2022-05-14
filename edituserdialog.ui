@@ -90,7 +90,7 @@
   <widget class="QPushButton" name="btnAddUpdateUser">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>180</x>
      <y>270</y>
      <width>101</width>
      <height>24</height>
@@ -103,7 +103,7 @@
   <widget class="QPushButton" name="btnCancel">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>290</x>
      <y>270</y>
      <width>75</width>
      <height>24</height>
@@ -137,6 +137,14 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leUsername</tabstop>
+  <tabstop>leFullname</tabstop>
+  <tabstop>cbUserType</tabstop>
+  <tabstop>cbConnectedTeacher</tabstop>
+  <tabstop>btnAddUpdateUser</tabstop>
+  <tabstop>btnCancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

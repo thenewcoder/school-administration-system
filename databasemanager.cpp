@@ -1450,6 +1450,17 @@ bool DatabaseManager::updateSubject(const QString &oldName, const QString &newNa
     return true;
 }
 
+bool DatabaseManager::removeUser(const QString &userId)
+{
+    if (!removeTableRows("user", "userId", userId))
+    {
+        qDebug() << "Unable to delete user";
+        return false;
+    }
+
+    return true;
+}
+
 bool DatabaseManager::removeStudent(const QString &studentId)
 {
     // remove student from the class attendance_record
