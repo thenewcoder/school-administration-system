@@ -5,6 +5,7 @@
 #include "databasemanager.h"
 #include "login.h"
 
+#include <QRegExpValidator>
 #include <QDebug>
 
 EditUserDialog::EditUserDialog(QWidget *parent) :
@@ -21,6 +22,13 @@ EditUserDialog::EditUserDialog(QWidget *parent) :
     QStringList teachers{tr("No")};
     teachers << DatabaseManager::instance().teachers();
     ui->cbConnectedTeacher->addItems(teachers);
+
+    ui->leUsername->setFocus();
+
+    // add validator to username lineedit - no spaces allowed
+    QRegExpValidator *validator = new QRegExpValidator(QRegExp("[a-zA-Z0-9_\\-@!#\\$]{3,16}"), this);
+    ui->leUsername->setValidator(validator);
+    ui->leUsername->setPlaceholderText(tr("3-16 characters"));
 
     setupConnections();
 }
@@ -89,17 +97,17 @@ void EditUserDialog::setupConnections()
     connect(ui->btnCancel, &QPushButton::clicked, this, &QDialog::reject);
     connect(ui->btnAddUpdateUser, &QPushButton::clicked, this, &EditUserDialog::accept); // default behaviour
 
-    connect(ui->leUsername, &QLineEdit::textChanged, this, [this] (const QString &change) {
-        if (mUser != nullptr && mUser->username() != change)  // TODO: optimize logic
+    connect(ui->leUsername, &QLineEdit::textChanged, this, [this] (const QString &newText) {
+        if (mUser != nullptr && mUser->username() != newText)  // TODO: optimize logic
         {
-            if (DatabaseManager::instance().isUsernameTaken(change))
+            if (DatabaseManager::instance().isUsernameTaken(newText))
                 ui->btnAddUpdateUser->setDisabled(true);
             else
                 ui->btnAddUpdateUser->setDisabled(false);
         }
         else if (mUser == nullptr)
         {
-            if (DatabaseManager::instance().isUsernameTaken(change))
+            if (DatabaseManager::instance().isUsernameTaken(newText))
                 ui->btnAddUpdateUser->setDisabled(true);
             else
                 ui->btnAddUpdateUser->setDisabled(false);

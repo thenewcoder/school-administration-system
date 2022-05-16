@@ -30,7 +30,7 @@ WizardUserSetupPage::WizardUserSetupPage(QWidget *parent)
     gbGroupBox->setLayout(groupboxlayout);
 
     // create a validator for the username - 3 to 16 characters long
-    QValidator *userValidator = new QRegExpValidator(QRegExp(".{3,16}"), this);
+    QValidator *userValidator = new QRegExpValidator(QRegExp("[a-zA-Z0-9_\\-@!#\\$]{3,16}"), this);
 
     // setup the username section
     lblName = new QLabel(tr("&Username:"));
