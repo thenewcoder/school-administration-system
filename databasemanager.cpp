@@ -1354,6 +1354,24 @@ bool DatabaseManager::updateUserDataInfo(const User &user)
     return true;
 }
 
+bool DatabaseManager::updateUserPassword(const QString &newPassword, const QString &userId)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE user SET "
+                  "password = :password "
+                  "WHERE userId = :userId");
+    query.bindValue(":password", newPassword);
+    query.bindValue(":userId", userId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update the user password";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
 bool DatabaseManager::updateClassroom(const QString &id, const QString &name, const QString &comment)
 {
     QSqlQuery query;

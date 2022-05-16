@@ -114,6 +114,22 @@ void UserManagerForm::setupConnections()
                 mModel->select();
         }
     });
+
+    connect(ui->btnResetPassword, &QPushButton::clicked, this, [this] () {
+
+        QModelIndex index = ui->tvUsers->currentIndex();
+        if (index.isValid())
+        {
+            QString userId = mModel->data(mModel->index(index.row(), FIELDS::ID)).toString();
+            QString randomPassword = Login::instance().generateRandomPasswordPlainText();
+            if (DatabaseManager::instance().updateUserPassword(Login::instance().encryptString(randomPassword), userId))
+            {
+                QMessageBox::information(this, "Password Reset", "The password for has been successfully reset!\n"
+                                                                 "The new temporary password is: " + randomPassword + "\n"
+                                                                 "Make sure you write it down!");
+            }
+        }
+    });
 }
 
 void UserManagerForm::changeEvent(QEvent *e)

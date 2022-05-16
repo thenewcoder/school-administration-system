@@ -27,6 +27,7 @@ public:
 
     QString encryptString(const QString &text);
     QString generateRandomPassword();
+    QString generateRandomPasswordPlainText();
 
 private:
     Login();

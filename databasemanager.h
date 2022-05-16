@@ -79,6 +79,7 @@ public:
 
     bool updateUserData(const User &user);
     bool updateUserDataInfo(const User &user);
+    bool updateUserPassword(const QString &newPassword, const QString &userId);
     bool updateClassroom(const QString &id, const QString &name, const QString &comment);
     bool updateDormitory(const QString &id, const QString &name, const QString &comment);
     bool updateBusstop(const QString &id, const QString &name, const QString &comment);

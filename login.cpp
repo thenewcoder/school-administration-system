@@ -110,3 +110,16 @@ QString Login::generateRandomPassword()
 
     return encryptString(randomString);
 }
+
+QString Login::generateRandomPasswordPlainText()
+{
+    QString characters{"abcdefgheijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&"};
+    QString randomString;
+
+    for (int i = 0; i < 6; i++)
+    {
+        randomString.append(characters.at(QRandomGenerator::global()->bounded(0, characters.size())));
+    }
+
+    return randomString;
+}
