@@ -13,14 +13,69 @@ User::User()
 
 User::User(const QString &userid, const QString &username, const QString &password,
            const QString &fullname, const int userType, const int connectedTeacher)
-    : mUserId(userid)
-    , mUsername(username)
-    , mPassword(password)
-    , mFullName(fullname)
-    , mUserType(userType)
-    , mConnectedTeacher(connectedTeacher)
+    : mUserId{userid}
+    , mUsername{username}
+    , mPassword{password}
+    , mFullName{fullname}
+    , mUserType{userType}
+    , mConnectedTeacher{connectedTeacher}
 {
+}
 
+User::~User()
+{
+}
+
+User::User(const User &other)
+    : mUserId{other.mUserId}
+    , mUsername{other.mUsername}
+    , mPassword{other.mPassword}
+    , mFullName{other.mFullName}
+    , mUserType{other.mUserType}
+    , mConnectedTeacher{other.mConnectedTeacher}
+{
+}
+
+User &User::operator=(const User &other)
+{
+    mUserId = other.mUserId;
+    mUsername = other.mUsername;
+    mPassword = other.mPassword;
+    mFullName = other.mFullName;
+    mUserType = other.mUserType;
+    mConnectedTeacher = other.mConnectedTeacher;
+    return *this;
+}
+
+User::User(User &&other) noexcept
+    : mUserId{std::move(other.mUserId)}
+    , mUsername{std::move(other.mUsername)}
+    , mPassword{std::move(other.mPassword)}
+    , mFullName{std::move(other.mFullName)}
+    , mUserType{std::move(other.mUserType)}
+    , mConnectedTeacher{std::move(other.mConnectedTeacher)}
+{
+}
+
+User &User::operator=(User &&other) noexcept
+{
+    if (this != &other)
+    {
+        mUserId = std::move(other.mUserId);
+        mUsername = std::move(other.mUsername);
+        mPassword = std::move(other.mPassword);
+        mFullName = std::move(other.mFullName);
+        mUserType = std::move(other.mUserType);
+        mConnectedTeacher = std::move(other.mConnectedTeacher);
+
+        other.mUserId = -1;
+        other.mUsername.clear();
+        other.mPassword.clear();
+        other.mFullName.clear();
+        other.mUserType = -1;
+        other.mConnectedTeacher = 0;
+    }
+    return *this;
 }
 
 QString User::username() const

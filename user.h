@@ -9,6 +9,13 @@ public:
     User();
     User(const QString &userid, const QString &username, const QString &password,
          const QString &fullname, const int userType = -1, const int connectedTeacher = 0);
+    ~User();
+
+    User(const User &other);
+    User& operator=(const User &other);
+
+    User(User &&other) noexcept;
+    User& operator=(User &&other) noexcept;
 
     QString username() const;
     void setUsername(const QString &username);
