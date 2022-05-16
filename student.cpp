@@ -24,6 +24,129 @@ Student::Student(const QString &id, const QString &name, const QString &nickName
 
 }
 
+Student::~Student()
+{
+}
+
+Student::Student(const Student &other)
+    : mId{other.mId}
+    , mName{other.mName}
+    , mNickName{other.mNickName}
+    , mDateOfBirth{other.mDateOfBirth}
+    , mGender{other.mGender}
+    , mNationality{other.mNationality}
+    , mGrade{other.mGrade}
+    , mPassportNumber{other.mPassportNumber}
+    , mIDNumber{other.mIDNumber}
+    , mAddress{other.mAddress}
+    , mStudentPhoneNumber{other.mStudentPhoneNumber}
+    , mStudentEmail{other.mStudentEmail}
+    , mFathersPhoneNumber{other.mFathersPhoneNumber}
+    , mMothersPhoneNumber{other.mMothersPhoneNumber}
+    , mParentsEmail{other.mParentsEmail}
+    , mPhoto{other.mPhoto}
+    , mDormitory{other.mDormitory}
+    , mBusstop{other.mBusstop}
+    , mClassesTaken{other.mClassesTaken}
+{
+}
+
+Student &Student::operator=(const Student &other)
+{
+    mId = other.mId;
+    mName = other.mName;
+    mNickName = other.mNickName;
+    mDateOfBirth = other.mDateOfBirth;
+    mGender = other.mGender;
+    mNationality = other.mNationality;
+    mGrade = other.mGrade;
+    mPassportNumber = other.mPassportNumber;
+    mIDNumber = other.mIDNumber;
+    mAddress = other.mAddress;
+    mStudentPhoneNumber = other.mStudentPhoneNumber;
+    mStudentEmail = other.mStudentEmail;
+    mFathersPhoneNumber = other.mFathersPhoneNumber;
+    mMothersPhoneNumber = other.mMothersPhoneNumber;
+    mParentsEmail = other.mParentsEmail;
+    mPhoto = other.mPhoto;
+    mDormitory = other.mDormitory;
+    mBusstop = other.mBusstop;
+    mClassesTaken = other.mClassesTaken;
+
+    return *this;
+}
+
+Student::Student(Student &&other) noexcept
+    : mId{std::move(other.mId)}
+    , mName{std::move(other.mName)}
+    , mNickName{std::move(other.mNickName)}
+    , mDateOfBirth{std::move(other.mDateOfBirth)}
+    , mGender{std::move(other.mGender)}
+    , mNationality{std::move(other.mNationality)}
+    , mGrade{std::move(other.mGrade)}
+    , mPassportNumber{std::move(other.mPassportNumber)}
+    , mIDNumber{std::move(other.mIDNumber)}
+    , mAddress{std::move(other.mAddress)}
+    , mStudentPhoneNumber{std::move(other.mStudentPhoneNumber)}
+    , mStudentEmail{std::move(other.mStudentEmail)}
+    , mFathersPhoneNumber{std::move(other.mFathersPhoneNumber)}
+    , mMothersPhoneNumber{std::move(other.mMothersPhoneNumber)}
+    , mParentsEmail{std::move(other.mParentsEmail)}
+    , mPhoto{std::move(other.mPhoto)}
+    , mDormitory{std::move(other.mDormitory)}
+    , mBusstop{std::move(other.mBusstop)}
+    , mClassesTaken{std::move(other.mClassesTaken)}
+{
+}
+
+Student &Student::operator=(Student &&other) noexcept
+{
+    if (this != &other)
+    {
+        mId = std::move(other.mId);
+        mName = std::move(other.mName);
+        mNickName = std::move(other.mNickName);
+        mDateOfBirth = std::move(other.mDateOfBirth);
+        mGender = std::move(other.mGender);
+        mNationality = std::move(other.mNationality);
+        mGrade = std::move(other.mGrade);
+        mPassportNumber = std::move(other.mPassportNumber);
+        mIDNumber = std::move(other.mIDNumber);
+        mAddress = std::move(other.mAddress);
+        mStudentPhoneNumber = std::move(other.mStudentPhoneNumber);
+        mStudentEmail = std::move(other.mStudentEmail);
+        mFathersPhoneNumber = std::move(other.mFathersPhoneNumber);
+        mMothersPhoneNumber = std::move(other.mMothersPhoneNumber);
+        mParentsEmail = std::move(other.mParentsEmail);
+        mPhoto = std::move(other.mPhoto);
+        mDormitory = std::move(other.mDormitory);
+        mBusstop = std::move(other.mBusstop);
+        mClassesTaken = std::move(other.mClassesTaken);
+
+        other.mId = "";
+        other.mName = "";
+        other.mNickName = "";
+        other.mDateOfBirth = "";
+        other.mGender = "";
+        other.mNationality = "";
+        other.mGrade = "";
+        other.mPassportNumber = "";
+        other.mIDNumber = "";
+        other.mAddress = "";
+        other.mStudentPhoneNumber = "";
+        other.mStudentEmail = "";
+        other.mFathersPhoneNumber = "";
+        other.mMothersPhoneNumber = "";
+        other.mParentsEmail = "";
+        other.mPhoto.clear();
+        other.mDormitory = "";
+        other.mBusstop = "";
+        other.mClassesTaken.clear();
+    }
+
+    return *this;
+}
+
 QString Student::name() const
 {
     return mName;

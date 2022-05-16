@@ -13,7 +13,13 @@ public:
             const QString &studentPhoneNumber, const QString &studentEmail, const QString &fathersPhoneNumber,
             const QString &mothersPhoneNumber, const QString &parentsEmail, const QByteArray &photo,
             const QString &dormitory, const QString &busstop);
+    ~Student();
 
+    Student(const Student &other);
+    Student& operator=(const Student &other);
+
+    Student(Student &&other) noexcept;
+    Student& operator=(Student &&other) noexcept;
 
     QString getId() const;
     void setId(const QString &id);
