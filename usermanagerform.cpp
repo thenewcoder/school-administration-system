@@ -102,7 +102,7 @@ void UserManagerForm::setupConnections()
                 return;
 
             // validate password
-            if (!Login::instance().validLogin(Login::instance().username(), passDialog.getPasswordString()))
+            if (!passDialog.isAuthenticated())
             {
                 QMessageBox::critical(this, tr("Wrong Password"), tr("You entered the wrong password!"));
                 return;

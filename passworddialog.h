@@ -15,6 +15,7 @@ public:
     explicit PasswordDialog(QWidget *parent = nullptr);
     ~PasswordDialog();
 
+    bool isAuthenticated() const;
     QString getPasswordString() const;
 
 private:
