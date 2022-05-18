@@ -8,6 +8,7 @@
 #include "databasemanager.h"
 #include "editclassdialog.h"
 #include "class.h"
+#include "passworddialog.h"
 
 PageClassesForm::PageClassesForm(QWidget *parent) :
     QWidget(parent),
@@ -100,6 +101,19 @@ void PageClassesForm::setupConnections()
                                               QMessageBox::Ok, QMessageBox::Cancel);
             if (result == QMessageBox::Ok)
             {
+                // force user to enter password before processing delete of user
+                PasswordDialog passDialog(this);
+
+                if (passDialog.exec() == QDialog::Rejected)
+                    return;
+
+                // validate password
+                if (!passDialog.isAuthenticated())
+                {
+                    QMessageBox::critical(this, tr("Wrong Password"), tr("You entered the wrong password!"));
+                    return;
+                }
+
                 // get the selected id and delete the class
                 QString id = mModel->data(mModel->index(index.row(), 0)).toString();
                 DatabaseManager::instance().removeClass(id);

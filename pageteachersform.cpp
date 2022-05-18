@@ -5,6 +5,7 @@
 #include "editteacherdialog.h"
 #include "teacher.h"
 #include "genderitemdelegate.h"
+#include "passworddialog.h"
 
 #include <QSqlTableModel>
 #include <QMessageBox>
@@ -101,6 +102,19 @@ void PageTeachersForm::deleteTeacher()
 
         if (reply == QMessageBox::Ok)
         {
+            // force user to enter password before processing delete of user
+            PasswordDialog passDialog(this);
+
+            if (passDialog.exec() == QDialog::Rejected)
+                return;
+
+            // validate password
+            if (!passDialog.isAuthenticated())
+            {
+                QMessageBox::critical(this, tr("Wrong Password"), tr("You entered the wrong password!"));
+                return;
+            }
+
             QString teacherId = mModel->data(mModel->index(index.row(), 0)).toString();
 
             // remove the teacher
