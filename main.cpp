@@ -1,6 +1,10 @@
 ﻿#include "mainwindow.h"
 #include <QApplication>
 #include <QTranslator>
+#include <QSplashScreen>
+#include <QTimer>
+#include <QThread>
+#include <QDebug>
 
 #include "wizardsetup.h"
 #include "settings.h"
@@ -12,7 +16,18 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setStyle("fusion");  // the docs suggested using the fusion style for DPI scaling issues
+
+    QPixmap pixmap("splashscreen.jpg");
+    QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
+    splash.show();
+    splash.showMessage("Loading files...", Qt::AlignBottom | Qt::AlignCenter);
+
     MainWindow w;
+
+    QTimer::singleShot(2500, &splash, [&] () {
+        w.show();
+        splash.finish(&w);
+    });
 
     // prepare the translator
     QTranslator *translator = Settings::instance().getTranslator();
@@ -38,6 +53,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    w.show();
+    //splash.finish(&w);
+    //w.show();
+
     return a.exec();
 }
