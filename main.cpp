@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    QPixmap pixmap("splashscreen.jpg");
+    QPixmap pixmap("://images/splashscreen.jpg");
     QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
     splash.show();
     splash.showMessage("Loading files...", Qt::AlignBottom | Qt::AlignCenter);

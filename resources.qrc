@@ -13,6 +13,7 @@
         <file>images/attendance.png</file>
         <file>images/setup.png</file>
         <file>images/activities.png</file>
+        <file>images/splashscreen.jpg</file>
     </qresource>
     <qresource prefix="/sql">
         <file>sql/databaseCreationScript.sql</file>
