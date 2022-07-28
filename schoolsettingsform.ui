@@ -18,19 +18,6 @@
   <property name="windowTitle">
    <string notr="true">School Settings</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>296</x>
-     <y>9</y>
-     <width>88</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>School Settings</string>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
