@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `user` (
         `password`	TEXT NOT NULL,
         `fullname`      TEXT,
 	`userTypeId`	INTEGER NOT NULL DEFAULT 1,
+        `connectedUserId` INTEGER,
 	FOREIGN KEY(`userTypeId`) REFERENCES `user_type`(`userTypeId`)
 );
 
@@ -452,3 +453,8 @@ SELECT activityId, code, A.name, T.name, membership_limit
 FROM activity A
 LEFT OUTER JOIN teacher T ON T.teacherId = A.teacherId
 WHERE A.type = 2;
+
+CREATE VIEW edituser_summary AS
+SELECT userId, username, fullname, userTypeId, T.name
+FROM user U
+LEFT OUTER JOIN teacher T ON T.teacherId = U.connectedUserId;
