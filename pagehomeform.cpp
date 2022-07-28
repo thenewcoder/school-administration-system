@@ -2,9 +2,8 @@
 #include "ui_pagehomeform.h"
 
 #include "databasemanager.h"
-#include "teacher.h"
-#include "student.h"
 #include "school.h"
+
 
 PageHomeForm::PageHomeForm(QWidget *parent) :
     QWidget(parent),
