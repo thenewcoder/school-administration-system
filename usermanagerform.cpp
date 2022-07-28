@@ -124,8 +124,8 @@ void UserManagerForm::setupConnections()
             QString randomPassword = Login::instance().generateRandomPasswordPlainText();
             if (DatabaseManager::instance().updateUserPassword(Login::instance().encryptString(randomPassword), userId))
             {
-                QMessageBox::information(this, "Password Reset", "The password for has been successfully reset!\n"
-                                                                 "The new temporary password is: " + randomPassword + "\n"
+                QMessageBox::information(this, "Password Reset", "The password for has <font>been</> successfully reset!<br>"
+                                                                 "The new temporary password is: <strong>" + randomPassword + "</strong><br>"
                                                                  "Make sure you write it down!");
             }
         }
