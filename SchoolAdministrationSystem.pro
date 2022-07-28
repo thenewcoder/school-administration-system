@@ -31,6 +31,7 @@ SOURCES += main.cpp\
     schoolsettingsform.cpp \
     personalprofileform.cpp \
     school.cpp \
+    teachermenuform.cpp \
     user.cpp \
     editclassdialog.cpp \
     class.cpp \
@@ -74,6 +75,7 @@ HEADERS  += mainwindow.h \
     schoolsettingsform.h \
     personalprofileform.h \
     school.h \
+    teachermenuform.h \
     user.h \
     editclassdialog.h \
     class.h \
@@ -117,6 +119,7 @@ FORMS    += mainwindow.ui \
     pageactivitiesform.ui \
     editactivitydialog.ui \
     systemsettingsform.ui \
+    teachermenuform.ui \
     usermanagerform.ui
 
 RESOURCES += \
