@@ -2,12 +2,14 @@
 #include "ui_mainwindow.h"
 
 #include "adminmenuform.h"
+#include "teachermenuform.h"
 #include "login.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    adminMenuForm(nullptr)
+    adminMenuForm(nullptr),
+    teacherMenuForm(nullptr)
 {
     ui->setupUi(this);
 
@@ -35,7 +37,12 @@ void MainWindow::setupConnections()
     connect(ui->loginButton, &QPushButton::clicked, this, [this] () {
         if (Login::instance().validLogin(username(), password()))
         {
-            setupNewAdminForm();
+            int usertype = Login::instance().getUserType();
+            if (usertype == Login::UserType::Admin)
+                setupNewAdminForm();
+            else if (usertype == Login::UserType::Teacher)
+                setupNewTeacherForm();
+
             emit notifyUserLogin();
         }
         else
@@ -70,6 +77,38 @@ void MainWindow::setupNewAdminForm()
         // delete the adminMenuForm on logout
         delete adminMenuForm;
         adminMenuForm = nullptr;
+
+        // delete the previous login information
+        ui->passwordEdit->setText("");
+        ui->usernameEdit->setText("");
+        ui->usernameEdit->setFocus();
+
+        // make the label invisible just in case
+        ui->lblInvalidUserPass->setVisible(false);
+    });
+}
+
+void MainWindow::setupNewTeacherForm()
+{
+    // create a new teacher form
+    teacherMenuForm = new TeacherMenuForm(this);
+
+    // add admin form widget to the stackedwidget
+    ui->memberBoxLayout->addWidget(teacherMenuForm);
+
+    // show logged in pages
+    ui->stackedWidget->setCurrentWidget(ui->memberPage);
+
+    // set up the connections
+    connect(this, &MainWindow::notifyUserLogin, teacherMenuForm, &TeacherMenuForm::handleUserLogin);
+
+    // log out user
+    connect(teacherMenuForm, &TeacherMenuForm::notifyLoggingOut, this, [this] () {
+        ui->stackedWidget->setCurrentWidget(ui->loginPage);
+
+        // delete the adminMenuForm on logout
+        delete teacherMenuForm;
+        teacherMenuForm = nullptr;
 
         // delete the previous login information
         ui->passwordEdit->setText("");

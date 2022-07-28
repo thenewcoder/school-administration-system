@@ -43,6 +43,11 @@ User Login::getUserData()
     return mUser;
 }
 
+int Login::getUserType() const
+{
+    return mUser.userType();
+}
+
 bool Login::isUsernameTaken(const QString &name)
 {
     return DatabaseManager::instance().isUsernameTaken(name);

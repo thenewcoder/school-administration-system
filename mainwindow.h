@@ -8,6 +8,7 @@ class MainWindow;
 }
 
 class AdminMenuForm;
+class TeacherMenuForm;
 
 class MainWindow : public QMainWindow
 {
@@ -21,6 +22,7 @@ private:
     void setupConnections();
 
     void setupNewAdminForm();
+    void setupNewTeacherForm();
 
     QString username() const;
     QString password() const;
@@ -32,6 +34,7 @@ private:
     Ui::MainWindow *ui;
 
     AdminMenuForm *adminMenuForm;
+    TeacherMenuForm *teacherMenuForm;
 
     // QWidget interface
 protected:

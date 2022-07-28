@@ -7,6 +7,13 @@
 class Login
 {
 public:
+    enum UserType
+    {
+        Admin = 1,
+        Teacher
+    };
+
+public:
     static Login& instance();
     ~Login() {}
 
@@ -16,6 +23,7 @@ public:
 
     bool validLogin(const QString &username, const QString &password);
     User getUserData();
+    int getUserType() const;
 
     bool isUsernameTaken(const QString &name);
     bool isValidPassword(const QString &newPassword);
