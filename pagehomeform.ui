@@ -16,7 +16,6 @@
   <property name="styleSheet">
    <string notr="true">#frClasses {
 	background-color: rgb(68, 136, 204);
-	
 }
 
 #frStudents {
@@ -27,10 +26,15 @@
 	background-color: rgb(58, 116, 0);
 }
 
+QFrame {
+		border-radius: 7px;
+}
+
 #frClasses QLabel,
 #frStudents QLabel,
 #frTeachers QLabel {
 	color: white;
+	font-weight:bold;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -44,8 +48,7 @@
     <widget class="QLabel" name="lblTitle">
      <property name="font">
       <font>
-       <pointsize>20</pointsize>
-       <weight>75</weight>
+       <pointsize>22</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -104,6 +107,7 @@
           <property name="font">
            <font>
             <pointsize>22</pointsize>
+            <bold>true</bold>
            </font>
           </property>
           <property name="text">
@@ -119,6 +123,7 @@
           <property name="font">
            <font>
             <pointsize>12</pointsize>
+            <bold>true</bold>
            </font>
           </property>
           <property name="text">
@@ -164,6 +169,7 @@
           <property name="font">
            <font>
             <pointsize>22</pointsize>
+            <bold>true</bold>
            </font>
           </property>
           <property name="text">
@@ -179,6 +185,7 @@
           <property name="font">
            <font>
             <pointsize>12</pointsize>
+            <bold>true</bold>
            </font>
           </property>
           <property name="text">
@@ -224,6 +231,7 @@
           <property name="font">
            <font>
             <pointsize>22</pointsize>
+            <bold>true</bold>
            </font>
           </property>
           <property name="text">
@@ -239,6 +247,7 @@
           <property name="font">
            <font>
             <pointsize>12</pointsize>
+            <bold>true</bold>
            </font>
           </property>
           <property name="text">
