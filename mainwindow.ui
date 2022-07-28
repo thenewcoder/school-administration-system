@@ -192,7 +192,6 @@
              <property name="font">
               <font>
                <pointsize>11</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -226,6 +225,18 @@
       </widget>
       <widget class="QWidget" name="memberPage">
        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <layout class="QVBoxLayout" name="memberBoxLayout"/>
         </item>
@@ -241,7 +252,7 @@
      <x>0</x>
      <y>0</y>
      <width>1052</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
