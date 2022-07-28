@@ -130,3 +130,37 @@ void SchoolSettingsForm::loadDatabaseSettings()
     // start with save buttons disabled
     toggleSaveButton(false);
 }
+
+void SchoolSettingsForm::loadDatabaseSettingsRestricted()
+{
+    QStringList teachers = {""};
+    teachers << DatabaseManager::instance().teachers(); // NOTE: just add teachers for now
+    ui->cbPrincipal->addItems(teachers);
+
+    mSchool = DatabaseManager::instance().getSchoolInfo();
+
+    ui->leSchoolName->setText(mSchool.schoolName());
+    ui->teAddress->setPlainText(mSchool.schoolAddress());
+    ui->lePhoneNumber->setText(mSchool.schoolPhone());
+    ui->leEmail->setText(mSchool.schoolEmail());
+    ui->cbPrincipal->setCurrentText(mSchool.principal());
+
+    QPixmap logo = mSchool.schoolLogoPixmap();
+    if (!logo.isNull())
+    {
+        ui->lblSchoolLogo->setPixmap(mSchool.schoolLogoPixmap());
+        emit notifySchoolLogoUpdate(mSchool.schoolLogoPixmap());
+    }
+
+    // start with save buttons disabled
+    toggleSaveButton(false);
+
+    // disable editing for everything - restriction
+    ui->leSchoolName->setEnabled(false);
+    ui->teAddress->setEnabled(false);
+    ui->lePhoneNumber->setEnabled(false);
+    ui->leEmail->setEnabled(false);
+    ui->cbPrincipal->setEnabled(false);
+    ui->btnAddLogo->setEnabled(false);
+    ui->btnRemoveLogo->setEnabled(false);
+}

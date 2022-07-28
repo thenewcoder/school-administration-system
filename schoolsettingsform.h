@@ -17,6 +17,7 @@ public:
     ~SchoolSettingsForm();
 
     void loadDatabaseSettings();
+    void loadDatabaseSettingsRestricted();
 
 signals:
     void notifySchoolLogoUpdate(const QPixmap &logo);

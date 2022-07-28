@@ -36,6 +36,8 @@ private:
     SystemSettingsForm *mSystemSettingsForm;
     UserManagerForm *mUserManagerForm;
 
+    int loggedInUserType;
+
     // QWidget interface
 protected:
     void changeEvent(QEvent *e) override;
