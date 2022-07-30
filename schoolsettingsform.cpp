@@ -108,9 +108,16 @@ void SchoolSettingsForm::changeEvent(QEvent *e)
 
 void SchoolSettingsForm::loadDatabaseSettings()
 {
-    QStringList teachers = {""};
-    teachers << DatabaseManager::instance().teachers(); // NOTE: just add teachers for now
-    ui->cbPrincipal->addItems(teachers);
+//    QStringList teachers = {""};
+//    teachers << DatabaseManager::instance().teachers();
+//    teachers << DatabaseManager::instance().users();
+//    teachers.sort(Qt::CaseInsensitive);
+
+    QSet<QString> users = DatabaseManager::instance().teachers().toSet();
+    users += DatabaseManager::instance().users().toSet();
+    QList<QString> users_sorted = users.toList();
+    users_sorted.sort(Qt::CaseInsensitive);
+    ui->cbPrincipal->addItems(users_sorted);
 
     mSchool = DatabaseManager::instance().getSchoolInfo();
 
