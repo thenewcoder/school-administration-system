@@ -12,6 +12,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QApplication>
+#include <QDir>
 #include <QDebug>
 #include "settings.h"
 
@@ -78,6 +79,9 @@ WizardDatabaseSetup::WizardDatabaseSetup(QWidget *parent)
     // disable the line edit and button on startup
     leLocation->setEnabled(false);
     btnChangeLocation->setEnabled(false);
+
+    // show the user what the default location is
+    leLocation->setText(QDir::currentPath());
 }
 
 void WizardDatabaseSetup::setupConnections()
@@ -92,11 +96,13 @@ void WizardDatabaseSetup::setupConnections()
         {
             leLocation->setEnabled(false);
             btnChangeLocation->setEnabled(false);
+            leLocation->setText(QDir::currentPath());
         }
         else
         {
             leLocation->setEnabled(true);
             btnChangeLocation->setEnabled(true);
+            leLocation->setText(QFileDialog(this).directory().absolutePath());
         }
     });
 
@@ -106,7 +112,6 @@ void WizardDatabaseSetup::setupConnections()
         {
             chbDefaultLocation->setChecked(false);
             chbDefaultLocation->setEnabled(false);
-
         }
     });
 
