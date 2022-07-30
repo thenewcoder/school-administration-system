@@ -80,6 +80,18 @@ void SchoolSettingsForm::toggleSaveButton(bool state)
     ui->btnSaveSettings->setEnabled(state);
 }
 
+void SchoolSettingsForm::onTeachersOrUsersChanged()
+{
+    QSet<QString> users = DatabaseManager::instance().teachers().toSet();
+    users += DatabaseManager::instance().users().toSet();
+    QList<QString> users_sorted = users.toList();
+    users_sorted.sort(Qt::CaseInsensitive);
+
+    ui->cbPrincipal->clear(); // make sure it's empty before adding or will get duplicates
+    ui->cbPrincipal->addItems(users_sorted);
+    ui->cbPrincipal->setCurrentText(mSchool.principal());
+}
+
 void SchoolSettingsForm::onSettingsHaveChanged()
 {
     bool hasChanged = false;
@@ -139,10 +151,12 @@ void SchoolSettingsForm::loadDatabaseSettings()
 }
 
 void SchoolSettingsForm::loadDatabaseSettingsRestricted()
-{
-    QStringList teachers = {""};
-    teachers << DatabaseManager::instance().teachers(); // NOTE: just add teachers for now
-    ui->cbPrincipal->addItems(teachers);
+{  
+    QSet<QString> users = DatabaseManager::instance().teachers().toSet();
+    users += DatabaseManager::instance().users().toSet();
+    QList<QString> users_sorted = users.toList();
+    users_sorted.sort(Qt::CaseInsensitive);
+    ui->cbPrincipal->addItems(users_sorted);
 
     mSchool = DatabaseManager::instance().getSchoolInfo();
 
