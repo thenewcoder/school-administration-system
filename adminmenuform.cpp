@@ -11,6 +11,7 @@
 #include "pageactivitiesform.h"
 #include "login.h"
 
+
 AdminMenuForm::AdminMenuForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AdminMenuForm),
@@ -72,6 +73,9 @@ void AdminMenuForm::setupConnections()
     connect(mPageOtherForm, &PageOtherForm::notifyGradesChanged, mPageStudentsForm, &PageStudentsForm::updateStudentsTable);
     connect(mPageOtherForm, &PageOtherForm::notifyDormsChanged, mPageStudentsForm, &PageStudentsForm::updateStudentsTable);
     connect(mPageOtherForm, &PageOtherForm::notifySubjectsChanged, mPageTeachersForm, &PageTeachersForm::updateTeacherTable);
+
+    // pass along the signal - NOTE: any better way?
+    connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, this,  &AdminMenuForm::notifyTeachersUpdated);
 }
 
 void AdminMenuForm::setWelcomeMessage(const QString &name)

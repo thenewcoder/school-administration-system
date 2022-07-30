@@ -27,6 +27,9 @@ public:
     explicit UserManagerForm(QWidget *parent = nullptr);
     ~UserManagerForm();
 
+signals:
+    void notifyUsersChanged();
+
 private:
     void addTableHeaders();
     void setupConnections();

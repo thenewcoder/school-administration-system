@@ -39,6 +39,7 @@ private:
 signals:
     void notifyLoggingOut();
     void notifyUserLogon();
+    void notifyTeachersUpdated();
 
 public slots:
     void updateSchoolLogo(const QPixmap &logo);

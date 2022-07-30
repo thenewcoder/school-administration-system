@@ -27,6 +27,9 @@ private:
     void setupConnections();
     void toggleSaveButton(bool state);
 
+public slots:
+    void onTeachersOrUsersChanged();
+
 private slots:
     void onSettingsHaveChanged();
 

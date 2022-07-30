@@ -60,6 +60,8 @@ void UserManagerForm::setupConnections()
             DatabaseManager::instance().addUser(addUser.getNewUserData());
 
             mModel->select();
+
+            emit notifyUsersChanged();
         }
     });
 
@@ -78,6 +80,8 @@ void UserManagerForm::setupConnections()
         {
             DatabaseManager::instance().updateUserDataInfo(user);
             mModel->select();
+
+            emit notifyUsersChanged();
         }
     });
 
@@ -112,6 +116,8 @@ void UserManagerForm::setupConnections()
 
             if (DatabaseManager::instance().removeUser(userId))
                 mModel->select();
+
+            emit notifyUsersChanged();
         }
     });
 

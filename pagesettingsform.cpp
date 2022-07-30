@@ -32,7 +32,8 @@ PageSettingsForm::PageSettingsForm(PageHomeForm *pageHomeForm, QWidget *parent) 
 
     if (loggedInUserType == Login::UserType::Admin)
     {
-        ui->twSettingsPages->addTab(new UserManagerForm(this), tr("Users"));
+        mUserManagerForm = new UserManagerForm(this);
+        ui->twSettingsPages->addTab(mUserManagerForm, tr("Users"));
     }
 
     setupConnections();
@@ -62,6 +63,9 @@ void PageSettingsForm::setupConnections()
         // connect signal from personal settings when user changes his/her username
         connect(mPersonalProfileForm, &PersonalProfileForm::notifyFullnameChanged,
                 qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::onFullnameChanged);
+
+        connect(qobject_cast<AdminMenuForm*>(this->parent()), &AdminMenuForm::notifyTeachersUpdated,
+                mSchoolSettingsForm, &SchoolSettingsForm::onTeachersOrUsersChanged);
     }
     else if (loggedInUserType == Login::UserType::Teacher)
     {
@@ -75,7 +79,12 @@ void PageSettingsForm::setupConnections()
         // connect signal from personal settings when user changes his/her username
         connect(mPersonalProfileForm, &PersonalProfileForm::notifyFullnameChanged,
                 qobject_cast<TeacherMenuForm*>(this->parent()), &TeacherMenuForm::onFullnameChanged);
+
+        connect(qobject_cast<TeacherMenuForm*>(this->parent()), &TeacherMenuForm::notifyTeachersUpdated,
+                mSchoolSettingsForm, &SchoolSettingsForm::onTeachersOrUsersChanged);
     }
+
+    connect(mUserManagerForm, &UserManagerForm::notifyUsersChanged, mSchoolSettingsForm, &SchoolSettingsForm::onTeachersOrUsersChanged);
 
     // to let the school name update...TODO: find a better way, too hackish
     connect(mSchoolSettingsForm, &SchoolSettingsForm::notifySchoolNameChanged, mPageHomeForm, &PageHomeForm::onSchoolNameChanged);

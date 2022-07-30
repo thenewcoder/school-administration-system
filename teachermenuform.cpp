@@ -72,6 +72,9 @@ void TeacherMenuForm::setupConnections()
     connect(mPageOtherForm, &PageOtherForm::notifyGradesChanged, mPageStudentsForm, &PageStudentsForm::updateStudentsTable);
     connect(mPageOtherForm, &PageOtherForm::notifyDormsChanged, mPageStudentsForm, &PageStudentsForm::updateStudentsTable);
     connect(mPageOtherForm, &PageOtherForm::notifySubjectsChanged, mPageTeachersForm, &PageTeachersForm::updateTeacherTable);
+
+    // passing along the signal - NOTE: any better way?
+    connect(mPageTeachersForm, &PageTeachersForm::notifyTeacherChanged, this, &TeacherMenuForm::notifyTeachersUpdated);
 }
 
 void TeacherMenuForm::setWelcomeMessage(const QString &name)
