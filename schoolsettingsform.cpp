@@ -12,6 +12,11 @@ SchoolSettingsForm::SchoolSettingsForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // limit characters for phone number
+    QRegExp phoneRegx("[-+() 0-9]{14}");
+    QRegExpValidator *phoneValidator = new QRegExpValidator(phoneRegx, this);
+    ui->lePhoneNumber->setValidator(phoneValidator);
+
     setupConnections();
 }
 

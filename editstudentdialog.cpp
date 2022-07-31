@@ -52,6 +52,14 @@ EditStudentDialog::EditStudentDialog(QWidget *parent) :
     // set up the model for the list view of classes
     ui->lvClassesTaken->setModel(mModelClasses);
 
+    // limit the characters for phone numbers
+    QRegExp phoneRegx("[-+() 0-9]{14}");
+    QRegExpValidator *phoneValidator = new QRegExpValidator(phoneRegx, this);
+
+    ui->leFathersPhone->setValidator(phoneValidator);
+    ui->leMothersPhone->setValidator(phoneValidator);
+    ui->leStudentPhone->setValidator(phoneValidator);
+
     setupConnections();
 
     // disable the save button on start

@@ -36,6 +36,11 @@ EditTeacherDialog::EditTeacherDialog(QWidget *parent) :
     // prepare the list view classes model
     ui->lvClasses->setModel(mModelClasses);
 
+    // limit characters for the phone number
+    QRegExp phoneRegx("[-+() 0-9]{14}");
+    QRegExpValidator *phoneValidator = new QRegExpValidator(phoneRegx, this);
+    ui->lePhone->setValidator(phoneValidator);
+
     setupConnections();
 
     // disable the OK button
