@@ -419,11 +419,12 @@ FROM teacher
 LEFT OUTER JOIN nationality ON nationality.nationalityId = teacher.nationalityId;
 
 CREATE VIEW teacher_summary2 AS
-SELECT TS.teacherId, TS.name, TS.gender, TS.country, TS.address, TS.phoneNumber, group_concat(S.subjectName, ', ') AS classes
-FROM teacher_summary TS
+SELECT TS.teacherId, TS.name, T.preferredName, TS.gender, TS.country, TS.phoneNumber, group_concat(S.subjectName, ', ') AS classes
+FROM teacher_summary TS, teacher T
 LEFT OUTER JOIN teacher_class TC ON TC.teacherId = TS.teacherId
 LEFT OUTER JOIN class C ON C.classId = TC.classId
 LEFT OUTER JOIN subject S ON C.subjectId = S.subjectId
+where t.teacherid = ts.teacherid
 GROUP BY TS.teacherId
 ORDER BY TS.name;
 

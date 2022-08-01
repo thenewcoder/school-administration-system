@@ -147,7 +147,7 @@ void PageTeachersForm::addTableHeaders()
     mModel->setHeaderData(FIELDS::NAME, Qt::Horizontal, tr("Name"));
     mModel->setHeaderData(FIELDS::GENDER, Qt::Horizontal, tr("Gender"));
     mModel->setHeaderData(FIELDS::NATIONALITY, Qt::Horizontal, tr("Nationality"));
-    mModel->setHeaderData(FIELDS::ADDRESS, Qt::Horizontal, tr("Address"));
+    mModel->setHeaderData(FIELDS::PREFERRED_NAME, Qt::Horizontal, tr("Preferred Name"));
     mModel->setHeaderData(FIELDS::PHONE, Qt::Horizontal, tr("Phone Number"));
     mModel->setHeaderData(FIELDS::CLASSES, Qt::Horizontal, tr("Classes"));  // maybe temporary
 }

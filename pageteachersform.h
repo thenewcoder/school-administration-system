@@ -18,9 +18,9 @@ public:
     {
         ID,
         NAME,
+        PREFERRED_NAME,
         GENDER,
         NATIONALITY,
-        ADDRESS,
         PHONE,
         CLASSES
     };
