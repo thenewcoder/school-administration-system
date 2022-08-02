@@ -38,6 +38,9 @@ TeacherMenuForm::TeacherMenuForm(QWidget *parent) :
     ui->loOther->addWidget(mPageOtherForm);
     ui->loActivities->addWidget(mPageActivitiesForm);
 
+    // update the app version label
+    ui->lblAppVersion->setText(QString("v.%1").arg(qApp->applicationVersion()));
+
     setupConnections();
 }
 

@@ -10,12 +10,6 @@
     <height>715</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
    <string/>
   </property>
@@ -26,18 +20,25 @@
 	icon-size: 32px  32px;
 	border-top: 2px solid white;
 }
+
 #menuListWidget::item { 
 	border-bottom: 2px solid white; 
 	padding: 2px 0px 2px 2px;
 }
+
 #menuListWidget::item::selected { background-color:  rgb(153, 153, 153); }
 
-#topPanel {
+#topPanel, #AppVersionFrame {
 	background-color: rgb(76, 76, 76);
 }
 
 #lblConnectedTo, #lblWelcomeText {
 	color: white;
+}
+
+#lblAppVersion {
+	color: white;
+	font-weight: bold;
 }
 
 #lblMenuSchoolLogo {
@@ -68,7 +69,7 @@ QTableView {
     <number>0</number>
    </property>
    <item>
-    <layout class="QVBoxLayout" name="LeftSideLayout" stretch="0,0">
+    <layout class="QVBoxLayout" name="LeftSideLayout" stretch="0,0,0">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -259,6 +260,64 @@ QTableView {
           <normaloff>:/images/activities.png</normaloff>:/images/activities.png</iconset>
         </property>
        </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="AppVersionFrame">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>2</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="lblAppVersion">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>v.0.2.0</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::PlainText</enum>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
