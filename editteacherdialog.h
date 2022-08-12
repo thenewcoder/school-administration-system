@@ -49,6 +49,7 @@ public:
     void setClassesTaught(const QStringList &classes);
 
     void setEditMode(bool state);
+    void setWidgetsEnabled(bool state);
 
 private slots:
     void on_buttonBox_accepted();

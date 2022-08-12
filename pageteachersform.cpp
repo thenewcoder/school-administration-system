@@ -134,8 +134,30 @@ void PageTeachersForm::updateTeacherTable()
     ui->tvTeachers->resizeRowsToContents(); // not sure if needed
 }
 
+void PageTeachersForm::viewTeacher()
+{
+    // check if the list view index is valid
+    QModelIndex index = ui->tvTeachers->currentIndex();
+    if (index.isValid())
+    {
+        // fetch teacher data from the database
+        QString teacherId = mModel->data(mModel->index(index.row(), 0)).toString();
+        Teacher teacher = DatabaseManager::instance().getTeacher(teacherId);
+        teacher.setId(teacherId);
+
+        // set the dialog data
+        EditTeacherDialog edit(this);
+        edit.setId(teacherId);
+        edit.setTeacher(teacher);
+        edit.setWidgetsEnabled(false); // make sure we get view mode behaviour
+
+        edit.exec();
+    }
+}
+
 void PageTeachersForm::setupConnections()
 {
+    connect(ui->btnViewTeacher, &QPushButton::clicked, this, &PageTeachersForm::viewTeacher);
     connect(ui->btnEdit, &QPushButton::clicked, this, &PageTeachersForm::editTeacher);
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageTeachersForm::addTeacher);
     connect(ui->btnDelete, &QPushButton::clicked, this, &PageTeachersForm::deleteTeacher);

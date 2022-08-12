@@ -49,6 +49,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="btnViewTeacher">
+       <property name="text">
+        <string>View</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="btnAdd">
        <property name="toolTip">
         <string>Add a new Teacher</string>

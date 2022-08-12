@@ -36,6 +36,7 @@ public slots:
     void updateTeacherTable();
 
 private slots:
+    void viewTeacher();
     void editTeacher();
     void addTeacher();
     void deleteTeacher();

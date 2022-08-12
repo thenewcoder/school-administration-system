@@ -218,6 +218,25 @@ void EditTeacherDialog::setEditMode(bool state)
     mEditMode = state;
 }
 
+void EditTeacherDialog::setWidgetsEnabled(bool state)
+{
+    ui->btnEditClasses->setEnabled(state);
+    ui->btnAddPhoto->setEnabled(state);
+    ui->btnRemove->setEnabled(state);
+    ui->cbGender->setEnabled(state);
+    ui->cbNationality->setEnabled(state);
+    ui->leName->setEnabled(state);
+    ui->lePreferredName->setEnabled(state);
+    ui->lePhone->setEnabled(state);
+    ui->teAddress->setEnabled(state);
+
+    // toggle some elements visibility when in view mode
+    ui->buttonBox->button(QDialogButtonBox::Save)->setVisible(state);
+    ui->btnAddPhoto->setVisible(state);
+    ui->btnRemove->setVisible(state);
+    ui->btnEditClasses->setVisible(state);
+}
+
 void EditTeacherDialog::setupConnections()
 {
     // add connection to check if the save button should be enabled or disabled
