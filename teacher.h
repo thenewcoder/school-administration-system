@@ -10,6 +10,13 @@ public:
     Teacher();
     Teacher(const QString &id, const QString &name, const QString &preferredName, const QString &gender, const QString &nationality,
             const QString &address, const QString &phoneNumber, const QByteArray &photo);
+    ~Teacher();
+
+    Teacher(const Teacher &other);
+    Teacher& operator=(const Teacher &other);
+
+    Teacher(Teacher &&other) noexcept;
+    Teacher& operator=(Teacher &&other) noexcept;
 
     QString id() const;
     void setId(const QString &id);
