@@ -41,6 +41,7 @@ public slots:
     void updateStudentsTable();
 
 private slots:
+    void viewStudent();
     void editStudent();
     void addStudent();
     void deleteStudent();

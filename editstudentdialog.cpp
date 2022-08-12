@@ -243,6 +243,35 @@ void EditStudentDialog::setEditMode(bool state)
     mEditMode = state;
 }
 
+void EditStudentDialog::setWidgetsEnabled(bool state)
+{
+    ui->btnEditClasses->setEnabled(state);
+    ui->btnAddPhoto->setEnabled(state);
+    ui->btnRemove->setEnabled(state);
+    ui->cbGender->setEnabled(state);
+    ui->cbNationality->setEnabled(state);
+    ui->leName->setEnabled(state);
+    ui->deBirthDate->setEnabled(state);
+    ui->leNickName->setEnabled(state);
+    ui->cbGrade->setEnabled(state);
+    ui->leStudentPhone->setEnabled(state);
+    ui->leMothersPhone->setEnabled(state);
+    ui->leFathersPhone->setEnabled(state);
+    ui->leStudentEmail->setEnabled(state);
+    ui->leParentEmail->setEnabled(state);
+    ui->teAddress->setEnabled(state);
+    ui->leIDNumber->setEnabled(state);
+    ui->lePassportNumber->setEnabled(state);
+    ui->cbDormitory->setEnabled(state);
+    ui->cbBusStop->setEnabled(state);
+
+    // toggle some elements visibility when in view mode
+    ui->buttonBox->button(QDialogButtonBox::Save)->setVisible(state);
+    ui->btnAddPhoto->setVisible(state);
+    ui->btnRemove->setVisible(state);
+    ui->btnEditClasses->setVisible(state);
+}
+
 QString EditStudentDialog::name() const
 {
     return ui->leName->text();

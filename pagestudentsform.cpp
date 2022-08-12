@@ -41,6 +41,7 @@ PageStudentsForm::~PageStudentsForm()
 
 void PageStudentsForm::setupConnections()
 {
+    connect(ui->btnViewStudent, &QPushButton::clicked, this, &PageStudentsForm::viewStudent);
     connect(ui->btnEdit, &QPushButton::clicked, this, &PageStudentsForm::editStudent);
     connect(ui->btnAdd, &QPushButton::clicked, this, &PageStudentsForm::addStudent);
     connect(ui->btnDelete, &QPushButton::clicked, this, &PageStudentsForm::deleteStudent);
@@ -61,6 +62,26 @@ void PageStudentsForm::addTableHeaders()
 void PageStudentsForm::updateStudentsTable()
 {
     mModel->select();
+}
+
+void PageStudentsForm::viewStudent()
+{
+    // check if the index of the table view is valid
+    QModelIndex index = ui->tvStudents->currentIndex();
+    if (index.isValid())
+    {
+        // get the data of the selected student
+        QString studentId = mModel->data(mModel->index(index.row(), 0)).toString();
+        Student student = DatabaseManager::instance().getStudent(studentId);
+        student.setId(studentId); // temporary idea
+
+        EditStudentDialog edit(this);
+        edit.setId(studentId);
+        edit.setStudent(student);
+        edit.setWidgetsEnabled(false); // we want view mode only
+
+        edit.exec();
+    }
 }
 
 void PageStudentsForm::editStudent()

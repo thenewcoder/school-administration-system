@@ -76,6 +76,7 @@ public:
     void setBusstop(const QString &busstop);
 
     void setEditMode(bool state);
+    void setWidgetsEnabled(bool state);
 
 private:
     void setupConnections();

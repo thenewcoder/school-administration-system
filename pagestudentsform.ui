@@ -52,6 +52,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="btnViewStudent">
+       <property name="text">
+        <string>View</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="btnAdd">
        <property name="toolTip">
         <string>Add a new student</string>
