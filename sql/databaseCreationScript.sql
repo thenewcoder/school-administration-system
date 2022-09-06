@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `user` (
         `fullname`      TEXT,
 	`userTypeId`	INTEGER NOT NULL DEFAULT 1,
         `connectedUserId` INTEGER,
+        `languagePref`	 INTEGER DEFAULT 0,
 	FOREIGN KEY(`userTypeId`) REFERENCES `user_type`(`userTypeId`)
 );
 
