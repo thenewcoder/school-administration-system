@@ -8,7 +8,8 @@ class User
 public:
     User();
     User(const QString &userid, const QString &username, const QString &password,
-         const QString &fullname, const int userType = -1, const int connectedTeacher = 0);
+         const QString &fullname, const int userType = -1, const int connectedTeacher = 0,
+         const int languagePref = 0);
     ~User();
 
     User(const User &other);
@@ -35,6 +36,9 @@ public:
     int connectedTeacher() const;
     void setConnectedTeacher(int newConnectedTeacher);
 
+    int languagePreference() const;
+    void setLanguagePreference(int languagePref);
+
 private:
     QString mUserId;
     QString mUsername;
@@ -42,6 +46,7 @@ private:
     QString mFullName;
     int mUserType;
     int mConnectedTeacher;
+    int mLanguagePref;
 };
 
 #endif // USER_H

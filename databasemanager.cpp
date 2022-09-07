@@ -694,7 +694,7 @@ void DatabaseManager::addActivity(const Activity &activity)
 User DatabaseManager::getUser(const QString &username)
 {
     QSqlQuery query;
-    query.prepare("SELECT userId, password, fullname, userTypeId, connectedUserId "
+    query.prepare("SELECT userId, password, fullname, userTypeId, connectedUserId, languagePref "
                   "FROM user "
                   "WHERE username = :username");
     query.bindValue(":username", username);
@@ -707,7 +707,8 @@ User DatabaseManager::getUser(const QString &username)
                     query.value("password").toString(),
                     query.value("fullname").toString(),
                     query.value("userTypeId").toInt(),
-                    query.value("connectedUserId").toInt());
+                    query.value("connectedUserId").toInt(),
+                    query.value("languagePref").toInt());
     }
     qDebug() << "Unable to get the user data";
     return User();
@@ -1366,6 +1367,24 @@ bool DatabaseManager::updateUserPassword(const QString &newPassword, const QStri
     if (!query.exec())
     {
         qDebug() << "Unable to update the user password";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::updateUserLanguagePreference(const int languagePref, const QString &userId)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE user SET "
+                  "languagePref = :langPref "
+                  "WHERE userId = :id");
+    query.bindValue(":langPref", languagePref);
+    query.bindValue(":id", userId);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update user language preference data";
         qDebug() << query.lastError().text();
         return false;
     }

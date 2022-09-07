@@ -7,18 +7,21 @@ User::User()
     , mFullName()
     , mUserType(-1)
     , mConnectedTeacher(0)
+    , mLanguagePref(0)
 {
 
 }
 
 User::User(const QString &userid, const QString &username, const QString &password,
-           const QString &fullname, const int userType, const int connectedTeacher)
+           const QString &fullname, const int userType, const int connectedTeacher,
+           const int languagePref)
     : mUserId{userid}
     , mUsername{username}
     , mPassword{password}
     , mFullName{fullname}
     , mUserType{userType}
     , mConnectedTeacher{connectedTeacher}
+    , mLanguagePref{languagePref}
 {
 }
 
@@ -33,6 +36,7 @@ User::User(const User &other)
     , mFullName{other.mFullName}
     , mUserType{other.mUserType}
     , mConnectedTeacher{other.mConnectedTeacher}
+    , mLanguagePref{other.mLanguagePref}
 {
 }
 
@@ -44,6 +48,7 @@ User &User::operator=(const User &other)
     mFullName = other.mFullName;
     mUserType = other.mUserType;
     mConnectedTeacher = other.mConnectedTeacher;
+    mLanguagePref = other.mLanguagePref;
     return *this;
 }
 
@@ -54,6 +59,7 @@ User::User(User &&other) noexcept
     , mFullName{std::move(other.mFullName)}
     , mUserType{std::move(other.mUserType)}
     , mConnectedTeacher{std::move(other.mConnectedTeacher)}
+    , mLanguagePref{std::move(other.mLanguagePref)}
 {
 }
 
@@ -67,6 +73,7 @@ User &User::operator=(User &&other) noexcept
         mFullName = std::move(other.mFullName);
         mUserType = std::move(other.mUserType);
         mConnectedTeacher = std::move(other.mConnectedTeacher);
+        mLanguagePref = std::move(other.mLanguagePref);
 
         other.mUserId = -1;
         other.mUsername.clear();
@@ -74,6 +81,7 @@ User &User::operator=(User &&other) noexcept
         other.mFullName.clear();
         other.mUserType = -1;
         other.mConnectedTeacher = 0;
+        other.mLanguagePref = 0;
     }
     return *this;
 }
@@ -136,4 +144,14 @@ int User::connectedTeacher() const
 void User::setConnectedTeacher(int newConnectedTeacher)
 {
     mConnectedTeacher = newConnectedTeacher;
+}
+
+int User::languagePreference() const
+{
+    return mLanguagePref;
+}
+
+void User::setLanguagePreference(int languagePref)
+{
+    mLanguagePref = languagePref;
 }

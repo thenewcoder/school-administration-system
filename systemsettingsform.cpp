@@ -4,6 +4,9 @@
 #include <QTranslator>
 #include <QMessageBox>
 #include "settings.h"
+#include "databasemanager.h"
+#include "login.h"
+
 
 SystemSettingsForm::SystemSettingsForm(QWidget *parent) :
     QWidget(parent),
@@ -29,6 +32,14 @@ void SystemSettingsForm::setLanguage(const QString &locale)
     if (locale == "zh_CN")
         index = 1;
 
+    int userLangPref = Login::instance().getUserData().languagePreference();
+
+    if (userLangPref != index)
+    {
+        index = userLangPref;
+        onLanguageChanged(userLangPref);
+    }
+
     ui->cbLanguages->setCurrentIndex(index);
 }
 
@@ -48,6 +59,13 @@ void SystemSettingsForm::onLanguageChanged(int index)
     {
         Settings::instance().setLanguage("zh_CN");
         Settings::instance().getTranslator()->load("translations/trans_zh_CN");
+    }
+
+    // don't do anything if nothing was changed
+    if (Login::instance().getUserData().languagePreference() != index)
+    {
+        // update user language preference
+        DatabaseManager::instance().updateUserLanguagePreference(index, Login::instance().getUserData().userId());
     }
 }
 
