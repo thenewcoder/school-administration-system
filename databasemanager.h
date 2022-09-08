@@ -53,9 +53,9 @@ public:
     void addBusstop(const QString &name, const QString &comment);
     void addGrade(const QString &name);
     void addSubject(const QString &name);
-    void addUser(const QString &username, const QString &password, const QString &fullname,
+    bool addUser(const QString &username, const QString &password, const QString &fullname,
                  const int userTypeId, const int connectedTeacherId=0);
-    void addUser(const User &user);
+    bool addUser(const User &user);
     void addClassRecord(const ClassRecord &record);
     void addActivity(const Activity &activity);
 
@@ -81,6 +81,7 @@ public:
     bool updateUserDataInfo(const User &user);
     bool updateUserPassword(const QString &newPassword, const QString &userId);
     bool updateUserLanguagePreference(const int languagePref, const QString &userId);
+    bool updateUserLanguagePreferenceByUsername(const int languagePref, const QString &username);
     bool updateClassroom(const QString &id, const QString &name, const QString &comment);
     bool updateDormitory(const QString &id, const QString &name, const QString &comment);
     bool updateBusstop(const QString &id, const QString &name, const QString &comment);

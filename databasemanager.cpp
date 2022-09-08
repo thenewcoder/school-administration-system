@@ -600,7 +600,7 @@ void DatabaseManager::addSubject(const QString &name)
     }
 }
 
-void DatabaseManager::addUser(const QString &username, const QString &password, const QString &fullname,
+bool DatabaseManager::addUser(const QString &username, const QString &password, const QString &fullname,
                               const int userTypeId, const int connectedTeacherId)
 {
     QSqlQuery query;
@@ -617,12 +617,14 @@ void DatabaseManager::addUser(const QString &username, const QString &password, 
     {
         qDebug() << "Unable to insert new user";
         qDebug() << query.lastError().text();
+        return false;
     }
+    return true;
 }
 
-void DatabaseManager::addUser(const User &user)
+bool DatabaseManager::addUser(const User &user)
 {
-    addUser(user.username(), user.password(), user.fullName(), user.userType(), user.connectedTeacher());
+    return addUser(user.username(), user.password(), user.fullName(), user.userType(), user.connectedTeacher());
 }
 
 void DatabaseManager::addClassRecord(const ClassRecord &record)
@@ -1385,6 +1387,24 @@ bool DatabaseManager::updateUserLanguagePreference(const int languagePref, const
     if (!query.exec())
     {
         qDebug() << "Unable to update user language preference data";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::updateUserLanguagePreferenceByUsername(const int languagePref, const QString &username)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE user SET "
+                  "languagePref = :langPref "
+                  "WHERE username = :username");
+    query.bindValue(":langPref", languagePref);
+    query.bindValue(":username", username);
+
+    if (!query.exec())
+    {
+        qDebug() << "Unable to update user language preference data by username";
         qDebug() << query.lastError().text();
         return false;
     }

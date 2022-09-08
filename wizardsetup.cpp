@@ -51,7 +51,12 @@ void WizardSetup::accept()
 
         // encrypt password before sending it off  NOTE: add usertype id to add user as well
         QString encryptedPassword = Login::instance().encryptString(password);
-        DatabaseManager::instance().addUser(username, encryptedPassword, fullname, userType);
+        if (DatabaseManager::instance().addUser(username, encryptedPassword, fullname, userType))
+        {
+            // if new user successfully added - update preferred language
+            int languagePref = field("language").toInt();
+            DatabaseManager::instance().updateUserLanguagePreferenceByUsername(languagePref, username);
+        }
     }
 
     QWizard::accept();

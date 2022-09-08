@@ -51,7 +51,7 @@ WizardIntroPage::WizardIntroPage(QWidget *parent)
     setLayout(layout);
 
     // register fields
-    registerField("language", cbLanguage, "currentText");
+    registerField("language", cbLanguage, "currentIndex");
 
     // setup connection for the combo box
     //connect(cbLanguage, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
